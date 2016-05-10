@@ -1,53 +1,53 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+'use strict';
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+var Main = require('./components/main/main');
+
+ import React from 'react';
+ import {
+     Text,
+     AppRegistry,
+     View,
+     Component,
+     NavigatorIOS,
+     Image,
+     StyleSheet,
+ } from 'react-native';
+
 
 class caradviseui extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          title: 'CarAdvise',
+          component: Main,
+        }}
+        barTintColor='#11325F'
+        translucent={false}
+        titleTextColor='white'
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
+  text: {
+    color: 'black',
+    backgroundColor: 'white',
+    fontSize: 30,
+    margin: 80,
+    fontFamily: 'Roboto',
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  homeContainer: {
+    flex: 1,
+    backgroundColor: 'white',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
 });
 
 AppRegistry.registerComponent('caradviseui', () => caradviseui);
