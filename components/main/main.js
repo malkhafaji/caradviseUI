@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   Component,
+  TouchableHighlight,
 } from 'react-native';
 
 class Main extends Component {
@@ -36,6 +37,19 @@ class Main extends Component {
                 <Text style={styles.servicePrice}>$45</Text>
               </View>
               <View style={styles.totalPrice}><Text style={styles.totalPriceText}>Total Price: $130</Text></View>
+
+              <View style={styles.bookitRow}>
+                <TouchableHighlight>
+                  <Image
+                    source={require('../../images/btn-bookit.png')}
+                    style={styles.btnBookIt} />
+                </TouchableHighlight>
+                <TouchableHighlight>
+                  <Image
+                    source={require('../../images/btn-details.png')}
+                    style={styles.btnDetails} />
+                </TouchableHighlight>
+              </View>
 
             </View>
           </View>
@@ -116,6 +130,21 @@ var styles = StyleSheet.create({
   },
   servicePrice: {
     fontWeight: 'bold',
+  },
+  bookitRow: {
+    flexDirection: 'row',
+    marginTop: 15,
+    marginLeft: 25,
+  },
+  btnBookIt: {
+    width: 158,
+    height: 35,
+    marginRight: 3,
+  },
+  btnDetails: {
+    width: 158,
+    height: 35,
+    marginLeft: 3,
   },
 });
 

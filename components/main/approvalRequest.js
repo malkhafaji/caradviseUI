@@ -24,8 +24,13 @@ class approvalRequest extends Component {
           <Image
             style={styles.alertImg}
             source={require('../../images/icon-alert.png')} />
-
-          <Text style={styles.approvalHd}>Approval Request</Text>
+          <View>
+            <Text style={styles.approvalHd}>Approval Request</Text>
+            <Text>Tire Rotation, Brake Pads, Air Filter...</Text>
+          </View>
+          <Image
+            style={styles.arrowRed}
+            source={require('../../images/arrow-red.png')} />
         </View>
       </TouchableHighlight>
     );
@@ -37,7 +42,10 @@ var styles = StyleSheet.create({
   approvalRequest: {
     flex: 1,
     flexDirection: 'row',
-    margin: 15,
+    marginTop: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 5,
     borderWidth: 2,
     borderColor: '#E0483E',
     backgroundColor: '#FFF',
@@ -52,6 +60,12 @@ var styles = StyleSheet.create({
     color: '#E0483E',
     fontWeight: 'bold',
     marginTop: 10,
+  },
+  arrowRed: {
+    width: 8,
+    height: 13,
+    marginTop: 20,
+    marginLeft: 30,
   },
 });
 
