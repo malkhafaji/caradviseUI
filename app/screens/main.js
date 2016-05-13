@@ -1,6 +1,7 @@
 'use strict';
-var CarBar = require('../../components/main/carBar');
-var ApprovalRequest = require('../../components/main/approvalRequest');
+var CarBar = require('../components/main/carBar');
+var ApprovalRequest = require('../components/main/approvalRequest');
+
 
 import React from 'react';
 import {
@@ -9,10 +10,40 @@ import {
   Image,
   StyleSheet,
   Component,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 class Main extends Component {
+
+    _renderScene(route, navigator) {
+      var globalNavigatorProps = {navigator}
+
+      switch(route.indent) {
+        case 'Main':
+          return (
+            <Main {...globalNavigatorProps} />
+          )
+        case 'Approvals':
+          return (
+            <Approvals {...globalNavigatorProps} />
+          )
+        default:
+          return (
+            <Text>EPIC FAIL</Text>
+          )
+      }
+    }
+
+    constructor(props){
+      super(props);
+    }
+
+    _navigateToApprovals(){
+      this.props.navigator.push({
+        ident: 'Approvals',
+      })
+    }
+
     render() {
         return (
           <View>
@@ -39,16 +70,16 @@ class Main extends Component {
               <View style={styles.totalPrice}><Text style={styles.totalPriceText}>Total Price: $130</Text></View>
 
               <View style={styles.bookitRow}>
-                <TouchableHighlight>
+                <TouchableOpacity>
                   <Image
                     source={require('../../images/btn-bookit.png')}
                     style={styles.btnBookIt} />
-                </TouchableHighlight>
-                <TouchableHighlight>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={(event) => this._navigateToApprovals()}>
                   <Image
                     source={require('../../images/btn-details.png')}
                     style={styles.btnDetails} />
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
 
             </View>

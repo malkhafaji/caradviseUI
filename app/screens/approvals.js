@@ -1,5 +1,5 @@
 'use strict';
-var CarBar = require('../../components/main/carBar');
+var CarBar = require('../components/main/carBar');
 
 import React from 'react';
 import {
@@ -8,10 +8,22 @@ import {
   Image,
   StyleSheet,
   Component,
-  TouchableHighlight,
+  Navigator,
+  TouchableOpacity,
 } from 'react-native';
 
 class Approvals extends Component {
+
+    constructor(props){
+      super(props);
+    }
+
+    _navigateToApprovals(){
+      this.props.navigator.push({
+        ident: 'Approvals',
+      })
+    }
+
     render() {
         return (
           <View>
@@ -36,7 +48,7 @@ class Approvals extends Component {
 
               <View style={styles.newServicesList}>
 
-                <TouchableHighlight
+                <TouchableOpacity
                   underlayColor='#dddddd'>
                   <View style={styles.newServicesRow}>
                     <Image
@@ -60,9 +72,9 @@ class Approvals extends Component {
                       <Text style={styles.newServicePrice}>$45</Text>
                     </View>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
-                <TouchableHighlight
+                <TouchableOpacity
                   underlayColor='#dddddd'>
                   <View style={styles.newServicesRow}>
                     <Image
@@ -86,16 +98,16 @@ class Approvals extends Component {
                       <Text style={styles.newServicePrice}>$45</Text>
                     </View>
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
               </View>
 
               <View>
-                <TouchableHighlight>
+                <TouchableOpacity>
                   <Image
                     source={require('../../images/btn-add-service.png')}
                     style={styles.btnAddService} />
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
 
               <View style={styles.newTotal}>
@@ -103,16 +115,16 @@ class Approvals extends Component {
               </View>
 
               <View style={styles.approveDecline}>
-                <TouchableHighlight>
+                <TouchableOpacity>
                   <Image
                     source={require('../../images/btn-approve.png')}
                     style={styles.btnApprove} />
-                </TouchableHighlight>
-                <TouchableHighlight>
+                </TouchableOpacity>
+                <TouchableOpacity>
                   <Image
                     source={require('../../images/btn-decline.png')}
                     style={styles.btnDecline} />
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
 
             </View>

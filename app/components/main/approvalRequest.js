@@ -1,5 +1,5 @@
 'use strict';
-var Approvals = require('../../components/approvals/approvals');
+var Approvals = require('../../../app/screens/approvals');
 
 import React from 'react';
 import {
@@ -7,32 +7,43 @@ import {
     AppRegistry,
     View,
     Component,
-    NavigatorIOS,
+    Navigator,
     Image,
     StyleSheet,
-    TouchableHighlight,
+    TouchableOpacity,
 } from 'react-native';
 
 
 class approvalRequest extends Component {
 
+  constructor(props){
+    super(props);
+  }
+
+  _navigateToApprovals(){
+    this.props.navigator.push({
+      ident: 'Approvals',
+    })
+  }
+
   render() {
     return (
-      <TouchableHighlight
-        underlayColor='#dddddd'>
+      <TouchableOpacity
+        underlayColor='#dddddd'
+        onPress={(event) => this._navigateToApprovals()}>
         <View style={styles.approvalRequest}>
           <Image
             style={styles.alertImg}
-            source={require('../../images/icon-alert.png')} />
+            source={require('../../../images/icon-alert.png')} />
           <View>
             <Text style={styles.approvalHd}>Approval Request</Text>
             <Text>Tire Rotation, Brake Pads, Air Filter...</Text>
           </View>
           <Image
             style={styles.arrowRed}
-            source={require('../../images/arrow-red.png')} />
+            source={require('../../../images/arrow-red.png')} />
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 
