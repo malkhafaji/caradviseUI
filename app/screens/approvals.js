@@ -1,4 +1,5 @@
 'use strict';
+var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
 
 import React from 'react';
@@ -27,34 +28,16 @@ class Approvals extends Component {
     render() {
         return (
           <View>
+            <TopBar />
             <CarBar />
             <View style={styles.approvalsContainer}>
-              <Text style={styles.textHd}>Approved Services</Text>
 
-              <View style={styles.approvedServicesList}>
-                <Text style={styles.approvedServiceItem}>Tire Rotation</Text>
-                <Text style={styles.approvedServicePrice}>$45</Text>
-              </View>
-              <View style={styles.approvedServicesList}>
-                <Text style={styles.approvedServiceItem}>Brake Pads</Text>
-                <Text style={styles.approvedServicePrice}>$50</Text>
-              </View>
-              <View style={styles.approvedServicesList}>
-                <Text style={styles.approvedServiceItem}>Air Filter</Text>
-                <Text style={styles.approvedServicePrice}>$35</Text>
-              </View>
-
-              <Text style={styles.textHd}>New Services To Approve</Text>
+              <Text style={styles.textHd}>Services To Approve</Text>
 
               <View style={styles.newServicesList}>
 
-                <TouchableOpacity
-                  underlayColor='#dddddd'>
                   <View style={styles.newServicesRow}>
-                    <Image
-                      source={require('../../images/icon-question.png')}
-                      style={styles.iconQuestion} />
-                    <Text style={styles.newServiceItem}>Oil Change</Text>
+                    <Text style={styles.newServiceItem}>Tire Rotation</Text>
 
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -71,16 +54,25 @@ class Approvals extends Component {
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
                       <Text style={styles.newServicePrice}>$45</Text>
                     </View>
-                  </View>
-                </TouchableOpacity>
 
-                <TouchableOpacity
-                  underlayColor='#dddddd'>
+                    <TouchableOpacity
+                      underlayColor='#dddddd'>
+                      <Image
+                        source={require('../../images/btn-save.png')}
+                        style={styles.btnSave} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      underlayColor='#dddddd'>
+                      <Image
+                        source={require('../../images/icon-checked.png')}
+                        style={styles.checkbox} />
+                    </TouchableOpacity>
+                  </View>
+
+
                   <View style={styles.newServicesRow}>
-                    <Image
-                      source={require('../../images/icon-question.png')}
-                      style={styles.iconQuestion} />
-                    <Text style={styles.newServiceItem}>Wheel Alignment</Text>
+                    <Text style={styles.newServiceItem}>Brake Pads</Text>
 
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -95,10 +87,58 @@ class Approvals extends Component {
 
                     <View style={styles.newServicePriceContainer}>
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
-                      <Text style={styles.newServicePrice}>$45</Text>
+                      <Text style={styles.newServicePrice}>$50</Text>
                     </View>
+
+                    <TouchableOpacity
+                      underlayColor='#dddddd'>
+                      <Image
+                        source={require('../../images/btn-save.png')}
+                        style={styles.btnSave} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      underlayColor='#dddddd'>
+                      <Image
+                        source={require('../../images/icon-checked.png')}
+                        style={styles.checkbox} />
+                    </TouchableOpacity>
                   </View>
-                </TouchableOpacity>
+
+                  <View style={styles.newServicesRow}>
+                    <Text style={styles.newServiceItem}>Air Filter</Text>
+
+                    <View style={styles.fairPriceContainer}>
+                      <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                      <View style={styles.fairPriceRange}>
+                        <Text>$30</Text>
+                        <Image
+                          source={require('../../images/arrow-range.png')}
+                          style={styles.fairPriceArrow} />
+                        <Text>$50</Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.newServicePriceContainer}>
+                      <Text style={styles.newServicePriceHd}>PRICE</Text>
+                      <Text style={styles.newServicePrice}>$35</Text>
+                    </View>
+
+                    <TouchableOpacity
+                      underlayColor='#dddddd'>
+                      <Image
+                        source={require('../../images/btn-save.png')}
+                        style={styles.btnSave} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      underlayColor='#dddddd'>
+                      <Image
+                        source={require('../../images/icon-checked.png')}
+                        style={styles.checkbox} />
+                    </TouchableOpacity>
+                  </View>
+
 
               </View>
 
@@ -117,14 +157,10 @@ class Approvals extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity>
                   <Image
-                    source={require('../../images/btn-approve.png')}
+                    source={require('../../images/btn-approve-big.png')}
                     style={styles.btnApprove} />
                 </TouchableOpacity>
-                <TouchableOpacity>
-                  <Image
-                    source={require('../../images/btn-decline.png')}
-                    style={styles.btnDecline} />
-                </TouchableOpacity>
+
               </View>
 
             </View>
@@ -169,27 +205,27 @@ var styles = StyleSheet.create({
     width: 360,
     marginBottom: 2,
   },
-  iconQuestion: {
-    width: 16,
-    height: 16,
-    marginLeft: 10,
-    marginTop: 18,
-    marginRight: 10,
-  },
   newServiceItem: {
-    width: 140,
-    marginTop: 18,
+    width: 115,
+    marginTop: 17,
+    marginBottom: 15,
+    marginLeft: 10,
     fontWeight: 'bold',
     color: '#11325F',
+    alignItems: 'center',
   },
   fairPriceContainer: {
     width: 100,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 3,
     alignItems: 'center',
   },
   newServicePriceContainer: {
-    width: 55,
+    width: 45,
     marginTop: 10,
+    marginRight: 5,
   },
   newServicePrice: {
     textAlign: 'right',
@@ -216,10 +252,20 @@ var styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 2,
   },
+  btnSave: {
+    width: 40,
+    height: 52,
+  },
   newServicePriceHd: {
     fontSize: 12,
     textAlign: 'right',
     fontWeight: 'bold',
+  },
+  checkbox: {
+    width: 28,
+    height: 28,
+    marginTop: 13,
+    marginLeft: 5,
   },
   btnAddService: {
     width: 110,
@@ -244,14 +290,8 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btnApprove: {
-    width: 158,
-    height: 35,
-    marginRight: 3,
-  },
-  btnDecline: {
-    width: 158,
-    height: 35,
-    marginLeft: 3,
+    width: 350,
+    height: 46,
   },
 });
 
