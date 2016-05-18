@@ -179,23 +179,6 @@ var styles = StyleSheet.create({
     marginBottom: 5,
     color: '#666666',
   },
-  approvedServicesList: {
-    flexDirection: 'row',
-    backgroundColor: '#F4F4F4',
-    width: 360,
-    padding: 10,
-    marginBottom: 2,
-  },
-  approvedServiceItem: {
-    width: 280,
-    color: '#11325F',
-  },
-  approvedServicePrice: {
-    fontWeight: 'bold',
-    width: 60,
-    textAlign: 'right',
-    color: '#11325F',
-  },
   newServicesList: {
     flexDirection: 'column',
   },
@@ -262,10 +245,10 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   checkbox: {
-    width: 28,
-    height: 28,
-    marginTop: 13,
-    marginLeft: 5,
+    width: 34,
+    height: 30,
+    marginTop: 10,
+    marginLeft: 6,
   },
   btnAddService: {
     width: 110,
