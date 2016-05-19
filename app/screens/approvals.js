@@ -54,7 +54,9 @@ class Approvals extends Component {
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
                       <Text style={styles.newServicePrice}>$45</Text>
                     </View>
+                  </View>
 
+                  <View style={styles.btnRow}>
                     <TouchableOpacity
                       underlayColor='#dddddd'>
                       <Image
@@ -65,11 +67,10 @@ class Approvals extends Component {
                     <TouchableOpacity
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/icon-checked.png')}
-                        style={styles.checkbox} />
+                        source={require('../../images/btn-remove.png')}
+                        style={styles.btnRemove} />
                     </TouchableOpacity>
                   </View>
-
 
                   <View style={styles.newServicesRow}>
                     <Text style={styles.newServiceItem}>Brake Pads</Text>
@@ -89,7 +90,9 @@ class Approvals extends Component {
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
                       <Text style={styles.newServicePrice}>$50</Text>
                     </View>
+                  </View>
 
+                  <View style={styles.btnRow}>
                     <TouchableOpacity
                       underlayColor='#dddddd'>
                       <Image
@@ -100,8 +103,8 @@ class Approvals extends Component {
                     <TouchableOpacity
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/icon-checked.png')}
-                        style={styles.checkbox} />
+                        source={require('../../images/btn-remove.png')}
+                        style={styles.btnRemove} />
                     </TouchableOpacity>
                   </View>
 
@@ -123,7 +126,9 @@ class Approvals extends Component {
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
                       <Text style={styles.newServicePrice}>$35</Text>
                     </View>
+                  </View>
 
+                  <View style={styles.btnRow}>
                     <TouchableOpacity
                       underlayColor='#dddddd'>
                       <Image
@@ -134,11 +139,10 @@ class Approvals extends Component {
                     <TouchableOpacity
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/icon-checked.png')}
-                        style={styles.checkbox} />
+                        source={require('../../images/btn-remove.png')}
+                        style={styles.btnRemove} />
                     </TouchableOpacity>
                   </View>
-
 
               </View>
 
@@ -186,10 +190,9 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: 360,
-    marginBottom: 2,
   },
   newServiceItem: {
-    width: 115,
+    width: 190,
     marginTop: 17,
     marginBottom: 15,
     marginLeft: 10,
@@ -235,20 +238,27 @@ var styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 2,
   },
-  btnSave: {
-    width: 40,
-    height: 52,
-  },
   newServicePriceHd: {
     fontSize: 12,
     textAlign: 'right',
     fontWeight: 'bold',
   },
-  checkbox: {
-    width: 34,
-    height: 30,
-    marginTop: 10,
-    marginLeft: 6,
+  btnRow: {
+    flexDirection: 'row',
+    backgroundColor: '#EFEFEF',
+    alignItems: 'center',
+    paddingBottom: 10,
+    marginBottom: 3,
+  },
+  btnSave: {
+    width: 169,
+    height: 34,
+    marginLeft: 8,
+    marginRight: 6,
+  },
+  btnRemove: {
+    width: 169,
+    height: 34,
   },
   btnAddService: {
     width: 110,
@@ -268,9 +278,6 @@ var styles = StyleSheet.create({
     margin: 15,
     color: '#11325F',
     textAlign: 'center',
-  },
-  approveDecline: {
-    flexDirection: 'row',
   },
   btnApprove: {
     width: 350,
