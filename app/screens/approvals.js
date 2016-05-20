@@ -160,9 +160,9 @@ var styles = StyleSheet.create({
     marginBottom: 200,
   },
   textHd: {
-    fontSize: 16,
+    fontSize: 17,
     marginTop: 15,
-    marginBottom: 5,
+    marginBottom: 8,
     color: '#666666',
   },
   newServicesList: {
