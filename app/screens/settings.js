@@ -25,29 +25,33 @@ class Settings extends Component {
                 <Text style={styles.fldName}>FIRST NAME</Text>
                 <TextInput
                   style={styles.textFld}
+                  selectTextOnFocus={true}
                   placeholderTextColor={'#11325F'}
-                  placeholder={'Jane'} />
+                  value={'Jane'} />
               </View>
               <View style={styles.settingsRow}>
                 <Text style={styles.fldName}>LAST NAME</Text>
                 <TextInput
                   style={styles.textFld}
+                  selectTextOnFocus={true}
                   placeholderTextColor={'#11325F'}
-                  placeholder={'Doe'} />
+                  value={'Doe'} />
               </View>
               <View style={styles.settingsRow}>
                 <Text style={styles.fldName}>EMAIL</Text>
                 <TextInput
                   style={styles.textFld}
+                  selectTextOnFocus={true}
                   placeholderTextColor={'#11325F'}
-                  placeholder={'jane.doe@gmail.com'} />
+                  value={'jane.doe@gmail.com'} />
               </View>
               <View style={styles.settingsRow}>
                 <Text style={styles.fldName}>PASSWORD</Text>
                 <TextInput
                   style={styles.textFld}
+                  selectTextOnFocus={true}
                   placeholderTextColor={'#11325F'}
-                  placeholder={'XXXXXX'} />
+                  value={'XXXXXX'} />
               </View>
 
               <View>

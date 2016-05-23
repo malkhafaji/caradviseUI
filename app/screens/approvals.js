@@ -62,6 +62,7 @@ class Approvals extends Component {
 
                   <View style={styles.btnRow}>
                     <TouchableOpacity
+                      style={styles.btnLeft}
                       underlayColor='#dddddd'>
                       <Image
                         source={require('../../images/btn-approve-blue.png')}
@@ -69,6 +70,7 @@ class Approvals extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
+                      style={styles.btnRight}
                       underlayColor='#dddddd'>
                       <Image
                         source={require('../../images/btn-save.png')}
@@ -98,6 +100,7 @@ class Approvals extends Component {
 
                   <View style={styles.btnRow}>
                     <TouchableOpacity
+                      style={styles.btnLeft}
                       underlayColor='#dddddd'>
                       <Image
                         source={require('../../images/btn-approve-blue.png')}
@@ -105,6 +108,7 @@ class Approvals extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
+                      style={styles.btnRight}
                       underlayColor='#dddddd'>
                       <Image
                         source={require('../../images/btn-save.png')}
@@ -167,14 +171,16 @@ var styles = StyleSheet.create({
   },
   newServicesList: {
     flexDirection: 'column',
+    width: Dimensions.get('window').width,
   },
   newServicesRow: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
-    width: 360,
+    width: Dimensions.get('window').width,
   },
   newServiceItem: {
-    width: 190,
+    flex: 2,
     marginTop: 17,
     marginBottom: 15,
     marginLeft: 10,
@@ -183,7 +189,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   fairPriceContainer: {
-    width: 100,
+    flex: 1,
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 3,
@@ -191,9 +197,9 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   newServicePriceContainer: {
-    width: 45,
+    flex: 1,
     marginTop: 10,
-    marginRight: 5,
+    marginRight: 10,
   },
   newServicePrice: {
     textAlign: 'right',
@@ -226,21 +232,28 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   btnRow: {
+    flex: 1,
     flexDirection: 'row',
+    width: Dimensions.get('window').width,
     backgroundColor: '#EFEFEF',
-    alignItems: 'center',
     paddingBottom: 10,
     marginBottom: 3,
   },
+  btnLeft: {
+    flex: 2,
+    alignItems: 'center',
+  },
+  btnRight: {
+    flex: 2,
+    alignItems: 'center',
+  },
   btnApprove: {
-    width: 169,
-    height: 34,
-    marginLeft: 8,
-    marginRight: 6,
+    width: 150,
+    height: 30,
   },
   btnSave: {
-    width: 169,
-    height: 34,
+    width: 150,
+    height: 30,
   },
   btnAddService: {
     width: 110,
@@ -248,41 +261,45 @@ var styles = StyleSheet.create({
     marginBottom: 20,
   },
   approvedRow: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
-    width: 360,
+    width: Dimensions.get('window').width,
     padding: 10,
+    marginBottom: 1,
   },
   approvedItem: {
-    width: 280,
+    flex: 3,
     color: '#11325F',
   },
   approvedPrice: {
-    width: 60,
+    flex: 1,
     textAlign: 'right',
     color: '#11325F',
   },
   newTotal: {
+    flex: 1,
     flexDirection: 'row',
+    width: Dimensions.get('window').width,
     backgroundColor: '#FEF1DC',
     alignItems: 'center',
     padding: 10,
     marginBottom: 20,
   },
   newTotalText: {
-    width: 280,
+    flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#11325F',
   },
   newTotalPrice: {
-    width: 60,
+    flex: 1,
     fontWeight: 'bold',
     textAlign: 'right',
   },
   btnCheckout: {
-    width: 350,
-    height: 46,
+    width: 300,
+    height: 40,
   },
 });
 

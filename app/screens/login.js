@@ -7,8 +7,11 @@ import {
   StyleSheet,
   Component,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Dimensions,
 } from 'react-native';
+
+var fldWidth = Dimensions.get('window').width - 40;
 
 class Login extends Component {
 
@@ -27,18 +30,22 @@ class Login extends Component {
             </View>
             <View style={styles.loginContainer}>
               <TextInput
-                style={styles.textFld}
+                style={styles.fldEmail}
+                placeholderTextColor={'#666'}
                 placeholder={'Email'} />
-              <TextInput
-                style={styles.textFld}
-                placeholder={'Password'} />
-              <TouchableOpacity>
-                <Image
-                  resizeMode='contain'
-                  source={require('../../images/btn-submit-login.png')}
-                  style={styles.btnLogin} />
-              </TouchableOpacity>
             </View>
+            <View style={styles.loginContainer}>
+              <TextInput
+                style={styles.fldPwd}
+                placeholderTextColor={'#666'}
+                placeholder={'Password'} />
+            </View>
+            <TouchableOpacity>
+              <Image
+                resizeMode='stretch'
+                source={require('../../images/btn-submit-login.png')}
+                style={styles.btnLogin} />
+            </TouchableOpacity>
 
           </View>
         );
@@ -57,33 +64,41 @@ var styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    width: 375,
+    width: Dimensions.get('window').width,
     height: 750,
   },
   logo: {
-    width: 168,
-    height: 150,
-    marginTop: 60,
-    marginBottom: 125,
+    width: 180,
+    height: 35,
+    marginTop: 130,
+    marginBottom: 150,
   },
   loginContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: 375,
-    backgroundColor: '#FFF'
-
+    width: Dimensions.get('window').width,
+    backgroundColor: '#FFF',
   },
-  textFld: {
+  fldEmail: {
     height: 40,
     marginTop: 30,
-    marginLeft: 30,
-    width: 300,
+    marginLeft: 20,
+    width: fldWidth,
     padding: 5,
     borderWidth: 1,
-    borderColor: '#AAA',
+    borderColor: '#CCC',
+  },
+  fldPwd: {
+    height: 40,
+    marginTop: 20,
+    marginBottom: 30,
+    marginLeft: 20,
+    width: fldWidth,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#CCC',
   },
   btnLogin: {
-    width: 375,
+    width: Dimensions.get('window').width,
+    height: 60,
   },
 });
 

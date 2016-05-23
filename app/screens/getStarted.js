@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Component,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Dimensions,
 } from 'react-native';
 
 class GetStarted extends Component {
@@ -57,14 +58,14 @@ var styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    width: 375,
+    width: Dimensions.get('window').width,
     height: 750,
   },
   logo: {
-    width: 168,
-    height: 150,
-    marginTop: 100,
-    marginBottom: 180,
+    width: 180,
+    height: 35,
+    marginTop: 130,
+    marginBottom: 200,
   },
   btnGetStarted: {
     width: 200,

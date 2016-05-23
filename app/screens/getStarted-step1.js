@@ -4,11 +4,15 @@ import React from 'react';
 import {
   View,
   Image,
+  Text,
   StyleSheet,
   Component,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Dimensions,
 } from 'react-native';
+
+var fldWidth = Dimensions.get('window').width - 40;
 
 class GetStarted extends Component {
 
@@ -17,14 +21,29 @@ class GetStarted extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/img-step-email.png')}
-              style={styles.imgStepEmail} />
+              source={require('../../images/bg-login.png')}
+              style={styles.bgSteps} />
+
+            <View>
+              <Image
+                resizeMode="contain"
+                source={require('../../images/logo.png')}
+                style={styles.logo} />
+            </View>
+
+            <View>
+              <Text style={styles.textStep}>Enter your email and create a password to get started.</Text>
+            </View>
+
             <View style={styles.fields}>
               <TextInput
                 style={styles.textFld}
+                keyboardType={'email-address'}
+                placeholderTextColor={'#666'}
                 placeholder={'Email'} />
               <TextInput
                 style={styles.textFld}
+                placeholderTextColor={'#666'}
                 placeholder={'Password'} />
               <TouchableOpacity>
               <Image
@@ -45,27 +64,45 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  imgStepEmail: {
-    width: 375,
-    height: 345,
+  bgSteps: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    width: Dimensions.get('window').width,
+    height: 750,
+  },
+  logo: {
+    width: 80,
+    marginTop: 30,
+  },
+  textStep: {
+    marginTop: 50,
+    color: '#FFF',
+    fontSize: 21,
+    paddingLeft: 20,
+    paddingRight: 20,
+    textAlign: 'center'
   },
   fields: {
-    marginTop: 50,
+    marginTop: 30,
     marginLeft: 15,
     marginRight: 15,
+    alignItems: 'center',
   },
   textFld: {
     height: 40,
     marginTop: 15,
-    width: 300,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#AAA',
+    width: fldWidth,
+    padding: 10,
+    backgroundColor: '#FFF',
+    color: '#666',
+    fontSize: 21,
   },
   btnNext: {
-    width: 100,
+    width: 120,
     marginTop: 10,
-    marginLeft: 100,
   },
 });
 

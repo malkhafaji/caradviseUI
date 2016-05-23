@@ -7,6 +7,9 @@ var Login = require('./app/screens/login');
 var Step1 = require('./app/screens/getStarted-step1');
 var Step2 = require('./app/screens/getStarted-step2');
 var Step3 = require('./app/screens/getStarted-step3');
+var AddServices = require('./app/screens/addServices');
+var Maintenance = require('./app/screens/maintenance');
+var Settings = require('./app/screens/settings');
 
  import React from 'react';
  import {
@@ -53,6 +56,18 @@ class caradviseui extends Component {
       case 'Approvals':
         return (
           <Approvals {...globalNavigatorProps} />
+        )
+      case 'AddServices':
+        return (
+          <AddServices {...globalNavigatorProps} />
+        )
+      case 'Maintenance':
+        return (
+          <Maintenance {...globalNavigatorProps} />
+        )
+      case 'Settings':
+        return (
+          <Settings {...globalNavigatorProps} />
         )
       default:
         return (
