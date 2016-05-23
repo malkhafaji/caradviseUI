@@ -27,18 +27,9 @@ class Main extends Component {
                 source={require('../../images/img-vehicle.png')}
                 style={styles.vehicle} />
 
-
               <TouchableOpacity>
                 <View style={styles.btnRow}>
-                  <Text style={styles.btnText}>Choose Services</Text>
-                  <Image
-                    source={require('../../images/arrow-blue.png')}
-                    style={styles.arrowBlue} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <View style={styles.btnRow}>
-                  <Text style={styles.btnText}>Maintenance Schedule</Text>
+                  <Text style={styles.btnText}>Schedule Maintenance</Text>
                   <Image
                     source={require('../../images/arrow-blue.png')}
                     style={styles.arrowBlue} />
