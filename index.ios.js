@@ -89,7 +89,7 @@ class caradviseui extends Component {
           ref='appNavigator'
           style={styles.container}
           renderScene={this._renderScene}
-          initialRoute={{indent: 'Step1'}}
+          initialRoute={{indent: 'Main'}}
           barTintColor='#11325F'
           translucent={false}
           titleTextColor='white'
