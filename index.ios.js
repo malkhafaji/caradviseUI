@@ -10,6 +10,7 @@ var Step3 = require('./app/screens/getStarted-step3');
 var AddServices = require('./app/screens/addServices');
 var Maintenance = require('./app/screens/maintenance');
 var Settings = require('./app/screens/settings');
+var Saved = require('./app/screens/saved');
 
  import React from 'react';
  import {
@@ -69,6 +70,10 @@ class caradviseui extends Component {
         return (
           <Settings {...globalNavigatorProps} />
         )
+      case 'Saved':
+        return (
+          <Saved {...globalNavigatorProps} />
+        )
       default:
         return (
           <Text>EPIC FAIL</Text>
@@ -84,7 +89,7 @@ class caradviseui extends Component {
           ref='appNavigator'
           style={styles.container}
           renderScene={this._renderScene}
-          initialRoute={{indent: 'Main'}}
+          initialRoute={{indent: 'Step1'}}
           barTintColor='#11325F'
           translucent={false}
           titleTextColor='white'

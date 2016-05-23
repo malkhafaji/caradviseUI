@@ -32,7 +32,7 @@ class GetStarted extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your email and create a password to get started.</Text>
+              <Text style={styles.textStep}>Enter your email, phone number and password to get started.</Text>
             </View>
 
             <View style={styles.fields}>
@@ -44,7 +44,15 @@ class GetStarted extends Component {
               <TextInput
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
+                placeholder={'Phone Number'} />
+              <TextInput
+                style={styles.textFld}
+                placeholderTextColor={'#666'}
                 placeholder={'Password'} />
+              <TextInput
+                style={styles.textFld}
+                placeholderTextColor={'#666'}
+                placeholder={'Confirm Password'} />
               <TouchableOpacity>
               <Image
                 resizeMode='contain'
