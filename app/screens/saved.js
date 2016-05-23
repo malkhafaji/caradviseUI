@@ -24,52 +24,14 @@ class Saved extends Component {
             <CarBar />
             <ScrollView
               style={styles.scrollView}>
-            <View style={styles.approvalsContainer}>
+            <View style={styles.savedContainer}>
 
-              <Text style={styles.textHd}>Services To Approve</Text>
+              <Text style={styles.textHd}>Saved Maintenance</Text>
 
-              <View style={styles.newServicesList}>
+              <View style={styles.savedList}>
 
-                  <View style={styles.newServicesRow}>
-                    <Text style={styles.newServiceItem}>Brake Pads</Text>
-
-                    <View style={styles.fairPriceContainer}>
-                      <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                      <View style={styles.fairPriceRange}>
-                        <Text>$30</Text>
-                        <Image
-                          source={require('../../images/arrow-range.png')}
-                          style={styles.fairPriceArrow} />
-                        <Text>$50</Text>
-                      </View>
-                    </View>
-
-                    <View style={styles.newServicePriceContainer}>
-                      <Text style={styles.newServicePriceHd}>PRICE</Text>
-                      <Text style={styles.newServicePrice}>$50</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.btnRow}>
-                    <TouchableOpacity
-                      style={styles.btnLeft}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-approve-blue.png')}
-                        style={styles.btnApprove} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={styles.btnRight}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-save.png')}
-                        style={styles.btnSave} />
-                    </TouchableOpacity>
-                  </View>
-
-                  <View style={styles.newServicesRow}>
-                    <Text style={styles.newServiceItem}>Air Filter</Text>
+                  <View style={styles.savedRow}>
+                    <Text style={styles.savedItem}>Brake Pads</Text>
 
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -82,42 +44,32 @@ class Saved extends Component {
                       </View>
                     </View>
 
-                    <View style={styles.newServicePriceContainer}>
-                      <Text style={styles.newServicePriceHd}>PRICE</Text>
-                      <Text style={styles.newServicePrice}>$35</Text>
+                    <View style={styles.savedPriceContainer}>
+                      <Text style={styles.savedPriceHd}>PRICE</Text>
+                      <Text style={styles.savedPrice}>$50</Text>
                     </View>
                   </View>
 
-                  <View style={styles.btnRow}>
-                    <TouchableOpacity
-                      style={styles.btnLeft}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-approve-blue.png')}
-                        style={styles.btnApprove} />
-                    </TouchableOpacity>
+                  <View style={styles.savedRow}>
+                    <Text style={styles.savedItem}>Air Filter</Text>
 
-                    <TouchableOpacity
-                      style={styles.btnRight}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-save.png')}
-                        style={styles.btnSave} />
-                    </TouchableOpacity>
+                    <View style={styles.fairPriceContainer}>
+                      <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                      <View style={styles.fairPriceRange}>
+                        <Text>$30</Text>
+                        <Image
+                          source={require('../../images/arrow-range.png')}
+                          style={styles.fairPriceArrow} />
+                        <Text>$50</Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.savedPriceContainer}>
+                      <Text style={styles.savedPriceHd}>PRICE</Text>
+                      <Text style={styles.savedPrice}>$35</Text>
+                    </View>
                   </View>
 
-              </View>
-
-              <Text style={styles.textHd}>Approved Services</Text>
-
-              <View style={styles.approvedRow}>
-                <Text style={styles.approvedItem}>Oil Change</Text>
-                <Text style={styles.approvedPrice}>$45</Text>
-              </View>
-
-              <View style={styles.newTotal}>
-                <Text style={styles.newTotalText}>Total:</Text>
-                <Text style={styles.newTotalPrice}>$45</Text>
               </View>
 
               <View>
@@ -149,7 +101,7 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  approvalsContainer: {
+  savedContainer: {
     alignItems: 'center',
     marginBottom: 200,
   },
@@ -159,17 +111,18 @@ var styles = StyleSheet.create({
     marginBottom: 8,
     color: '#666666',
   },
-  newServicesList: {
+  savedList: {
     flexDirection: 'column',
     width: Dimensions.get('window').width,
   },
-  newServicesRow: {
+  savedRow: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: Dimensions.get('window').width,
+    marginBottom: 3,
   },
-  newServiceItem: {
+  savedItem: {
     flex: 2,
     marginTop: 17,
     marginBottom: 15,
@@ -186,17 +139,22 @@ var styles = StyleSheet.create({
     marginRight: 3,
     alignItems: 'center',
   },
-  newServicePriceContainer: {
+  savedPriceContainer: {
     flex: 1,
     marginTop: 10,
     marginRight: 10,
   },
-  newServicePrice: {
+  savedPriceHd: {
+    fontSize: 12,
+    textAlign: 'right',
+    fontWeight: 'bold',
+  },
+  savedPrice: {
     textAlign: 'right',
     color: '#11325F',
     fontWeight: 'bold',
   },
-  newServiceRange: {
+  savedRange: {
     flexDirection: 'column',
     marginTop: 10,
     marginBottom: 10,
@@ -215,11 +173,6 @@ var styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 2,
     marginRight: 2,
-  },
-  newServicePriceHd: {
-    fontSize: 12,
-    textAlign: 'right',
-    fontWeight: 'bold',
   },
   btnRow: {
     flex: 1,
@@ -248,24 +201,8 @@ var styles = StyleSheet.create({
   btnAddService: {
     width: 110,
     height: 10,
+    marginTop: 18,
     marginBottom: 20,
-  },
-  approvedRow: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#EFEFEF',
-    width: Dimensions.get('window').width,
-    padding: 10,
-    marginBottom: 1,
-  },
-  approvedItem: {
-    flex: 3,
-    color: '#11325F',
-  },
-  approvedPrice: {
-    flex: 1,
-    textAlign: 'right',
-    color: '#11325F',
   },
   newTotal: {
     flex: 1,
