@@ -27,20 +27,28 @@ class Main extends Component {
                 source={require('../../images/img-vehicle.png')}
                 style={styles.vehicle} />
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Maintenance' })}>
                 <View style={styles.btnRow}>
                   <Text style={styles.btnText}>Schedule Maintenance</Text>
-                  <Image
-                    source={require('../../images/arrow-blue.png')}
-                    style={styles.arrowBlue} />
+                  <View style={styles.arrowContainer}>
+                    <Text style={styles.arrow}>
+                      <Image
+                        source={require('../../images/arrow-blue.png')}
+                        style={styles.arrowBlue} />
+                    </Text>
+                  </View>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Approvals' })}>
                 <View style={styles.btnRow}>
                   <Text style={styles.btnText}>Services To Approve</Text>
-                  <Image
-                    source={require('../../images/arrow-blue.png')}
-                    style={styles.arrowBlue} />
+                  <View style={styles.arrowContainer}>
+                    <Text style={styles.arrow}>
+                      <Image
+                        source={require('../../images/arrow-blue.png')}
+                        style={styles.arrowBlue} />
+                    </Text>
+                  </View>
                 </View>
               </TouchableOpacity>
 
@@ -59,7 +67,7 @@ var styles = StyleSheet.create({
     height: 250,
     width: Dimensions.get('window').width,
     marginTop: 1,
-    marginBottom: 10,
+    marginBottom: 12,
   },
   btnRow: {
     flex: 1,
@@ -70,20 +78,26 @@ var styles = StyleSheet.create({
     borderColor: '#E0483E',
     backgroundColor: '#EFEFEF',
     paddingLeft: 15,
+    paddingRight: 15,
     paddingTop: 20,
     paddingBottom: 20,
   },
   btnText: {
-    width: 285,
+    flex: 3,
     color: '#11325F',
     fontWeight: 'bold',
     fontSize: 16,
   },
+  arrowContainer: {
+    flex: 1,
+    paddingTop: 4,
+  },
+  arrow: {
+    textAlign: 'right',
+  },
   arrowBlue: {
     width: 8,
     height: 13,
-    marginTop: 2,
-    marginLeft: 30,
   },
 });
 
