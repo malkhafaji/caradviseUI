@@ -15,6 +15,8 @@ import {
   Dimensions,
 } from 'react-native';
 
+var width = Dimensions.get('window').width - 20;
+
 class Saved extends Component {
 
     render() {
@@ -102,8 +104,10 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: Dimensions.get('window').width,
+    width: width,
     height: Dimensions.get('window').height,
+    marginLeft: 10,
+    marginRight: 10,
   },
   savedContainer: {
     alignItems: 'center',
@@ -125,6 +129,8 @@ var styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
     width: Dimensions.get('window').width,
     marginBottom: 3,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   savedItem: {
     flex: 2,
