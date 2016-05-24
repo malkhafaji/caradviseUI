@@ -11,6 +11,7 @@ var AddServices = require('./app/screens/addServices');
 var Maintenance = require('./app/screens/maintenance');
 var Settings = require('./app/screens/settings');
 var Saved = require('./app/screens/saved');
+var SideMenu = require('./app/screens/sideMenu');
 
  import React from 'react';
  import {
@@ -74,11 +75,22 @@ class caradviseui extends Component {
         return (
           <Saved {...globalNavigatorProps} />
         )
+      case 'SideMenu':
+        return (
+          <SideMenu {...globalNavigatorProps} />
+        )
       default:
         return (
           <Text>EPIC FAIL</Text>
         )
     }
+  }
+
+  _configureScene(route) {
+    if (route.indent === 'SideMenu')
+      return Navigator.SceneConfigs.FloatFromLeft;
+    else
+      return Navigator.SceneConfigs.PushFromRight;
   }
 
   render() {
@@ -89,6 +101,7 @@ class caradviseui extends Component {
           ref='appNavigator'
           style={styles.container}
           renderScene={this._renderScene}
+          configureScene={this._configureScene}
           initialRoute={{indent: 'Main'}}
           barTintColor='#11325F'
           translucent={false}

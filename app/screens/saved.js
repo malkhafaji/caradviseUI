@@ -19,8 +19,8 @@ class Saved extends Component {
 
     render() {
         return (
-          <View>
-            <TopBar />
+          <View style={styles.base}>
+            <TopBar navigator={this.props.navigator} />
             <CarBar />
             <ScrollView
               style={styles.scrollView}>
@@ -96,6 +96,10 @@ class Saved extends Component {
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   scrollView: {
     flex: 1,
     width: Dimensions.get('window').width,

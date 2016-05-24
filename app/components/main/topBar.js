@@ -8,6 +8,7 @@ import {
     Image,
     StyleSheet,
     Dimensions,
+    TouchableOpacity
 } from 'react-native';
 
 class topBar extends Component {
@@ -16,10 +17,12 @@ class topBar extends Component {
       <View style={styles.topContainer}>
         <View style={styles.topBar}>
           <View style={styles.topBarLeft}>
-            <Image
-              resizeMode="contain"
-              source={require('../../../images/icon-burger.png')}
-              style={styles.burger} />
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'SideMenu' })}>
+              <Image
+                resizeMode="contain"
+                source={require('../../../images/icon-burger.png')}
+                style={styles.burger} />
+            </TouchableOpacity>
           </View>
           <View style={styles.topBarMid}>
             <Image

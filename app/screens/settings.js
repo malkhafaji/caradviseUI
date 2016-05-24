@@ -16,8 +16,8 @@ class Settings extends Component {
 
     render() {
         return (
-          <View>
-            <TopBar />
+          <View style={styles.base}>
+            <TopBar navigator={this.props.navigator} />
             <View style={styles.settingsContainer}>
               <Text style={styles.textHd}>Settings</Text>
 
@@ -69,6 +69,10 @@ class Settings extends Component {
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   settingsContainer: {
     alignItems: 'center',
     marginBottom: 200,

@@ -47,8 +47,8 @@ class Maintenance extends Component {
 
     render() {
         return (
-          <View>
-            <TopBar />
+          <View style={styles.base}>
+            <TopBar navigator={this.props.navigator} />
             <CarBar />
             <View>
               <Image
@@ -101,6 +101,10 @@ class Maintenance extends Component {
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   canvas: {
     position: 'absolute',
     top: 0,

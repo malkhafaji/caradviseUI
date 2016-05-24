@@ -19,8 +19,8 @@ class Main extends Component {
 
     render() {
         return (
-          <View>
-            <TopBar />
+          <View style={styles.base}>
+            <TopBar navigator={this.props.navigator} />
             <CarBar />
             <View>
               <Image
@@ -51,6 +51,10 @@ class Main extends Component {
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   vehicle: {
     height: 250,
     width: Dimensions.get('window').width,

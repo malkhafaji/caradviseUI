@@ -17,8 +17,8 @@ class AddServices extends Component {
 
     render() {
         return (
-          <View>
-            <TopBar />
+          <View style={styles.base}>
+            <TopBar navigator={this.props.navigator} />
             <CarBar />
             <View style={styles.servicesContainer}>
               <Text style={styles.textHd}>Select Maintenance</Text>
@@ -66,6 +66,10 @@ class AddServices extends Component {
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   servicesContainer: {
     alignItems: 'center',
   },
