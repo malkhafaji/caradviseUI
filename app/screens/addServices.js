@@ -11,7 +11,10 @@ import {
   Component,
   Navigator,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
+
+var width = Dimensions.get('window').width - 20;
 
 class AddServices extends Component {
 
@@ -23,41 +26,61 @@ class AddServices extends Component {
             <View style={styles.servicesContainer}>
               <Text style={styles.textHd}>Select Maintenance</Text>
 
-              <View style={styles.servicesList}>
+              <TouchableOpacity style={styles.servicesList}>
                 <Text style={styles.servicesItem}>Oil Change Services</Text>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../images/arrow-blue.png')}
-                  style={styles.arrow} />
-              </View>
-              <View style={styles.servicesList}>
+                <View style={styles.arrowContainer}>
+                  <Text style={styles.arrow}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../images/arrow-blue.png')}
+                      style={styles.arrowBlue} />
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.servicesList}>
                 <Text style={styles.servicesItem}>Tire Services</Text>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../images/arrow-blue.png')}
-                  style={styles.arrow} />
-              </View>
-              <View style={styles.servicesList}>
+                <View style={styles.arrowContainer}>
+                  <Text style={styles.arrow}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../images/arrow-blue.png')}
+                      style={styles.arrowBlue} />
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.servicesList}>
                 <Text style={styles.servicesItem}>Brake Services</Text>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../images/arrow-blue.png')}
-                  style={styles.arrow} />
-              </View>
-              <View style={styles.servicesList}>
+                <View style={styles.arrowContainer}>
+                  <Text style={styles.arrow}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../images/arrow-blue.png')}
+                      style={styles.arrowBlue} />
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.servicesList}>
                 <Text style={styles.servicesItem}>Battery Services</Text>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../images/arrow-blue.png')}
-                  style={styles.arrow} />
-              </View>
-              <View style={styles.servicesList}>
+                <View style={styles.arrowContainer}>
+                  <Text style={styles.arrow}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../images/arrow-blue.png')}
+                      style={styles.arrowBlue} />
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.servicesList}>
                 <Text style={styles.servicesItem}>Diagnostic Services</Text>
-                <Image
-                  resizeMode="contain"
-                  source={require('../../images/arrow-blue.png')}
-                  style={styles.arrow} />
-              </View>
+                <View style={styles.arrowContainer}>
+                  <Text style={styles.arrow}>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../../images/arrow-blue.png')}
+                      style={styles.arrowBlue} />
+                  </Text>
+                </View>
+              </TouchableOpacity>
 
             </View>
           </View>
@@ -80,22 +103,29 @@ var styles = StyleSheet.create({
     color: '#666666',
   },
   servicesList: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#F4F4F4',
-    width: 360,
+    width: width,
     padding: 15,
     marginBottom: 2,
   },
   servicesItem: {
-    width: 325,
+    flex: 3,
     color: '#666666',
     fontSize: 18,
     fontWeight: 'bold',
   },
+  arrowContainer: {
+    flex: 1,
+  },
   arrow: {
+    textAlign: 'right',
+    paddingTop: 5,
+  },
+  arrowBlue: {
     width: 8,
     height: 13,
-    marginTop: 5,
   },
 });
 
