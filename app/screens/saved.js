@@ -75,7 +75,7 @@ class Saved extends Component {
               </View>
 
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
                   <Image
                     source={require('../../images/btn-add-service.png')}
                     style={styles.btnAddService} />
