@@ -10,7 +10,10 @@ import {
   Component,
   TouchableOpacity,
   TextInput,
+  Dimensions,
 } from 'react-native';
+
+var width = Dimensions.get('window').width - 20;
 
 class Settings extends Component {
 
@@ -84,23 +87,25 @@ var styles = StyleSheet.create({
     color: '#666666',
   },
   settingsRow: {
+    flex: 1,
     flexDirection: 'row',
-    width: 360,
+    width: Dimensions.get('window').width,
     marginBottom: 3,
     marginLeft: 10,
     marginRight: 10,
-    paddingLeft: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
     paddingTop: 20,
     paddingBottom: 20,
     backgroundColor: '#F4F4F4',
   },
   fldName: {
-    width: 100,
+    flex: 1,
     color: '#11325F',
     fontSize: 12,
   },
   textFld: {
-    width: 230,
+    flex: 3,
     height: 16,
     textAlign: 'right',
     color: '#11325F',
