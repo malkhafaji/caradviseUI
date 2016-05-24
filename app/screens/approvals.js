@@ -15,17 +15,9 @@ import {
   Dimensions,
 } from 'react-native';
 
+var width = Dimensions.get('window').width - 20;
+
 class Approvals extends Component {
-
-    constructor(props){
-      super(props);
-    }
-
-    _navigateToApprovals(){
-      this.props.navigator.push({
-        ident: 'Approvals',
-      })
-    }
 
     render() {
         return (
@@ -160,8 +152,10 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: Dimensions.get('window').width,
+    width: width,
     height: Dimensions.get('window').height,
+    marginLeft: 10,
+    marginRight: 10,
   },
   approvalsContainer: {
     alignItems: 'center',
@@ -175,13 +169,13 @@ var styles = StyleSheet.create({
   },
   newServicesList: {
     flexDirection: 'column',
-    width: Dimensions.get('window').width,
+    width: width,
   },
   newServicesRow: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
-    width: Dimensions.get('window').width,
+    width: width,
   },
   newServiceItem: {
     flex: 2,
@@ -238,7 +232,7 @@ var styles = StyleSheet.create({
   btnRow: {
     flex: 1,
     flexDirection: 'row',
-    width: Dimensions.get('window').width,
+    width: width,
     backgroundColor: '#EFEFEF',
     paddingBottom: 10,
     marginBottom: 3,
@@ -252,12 +246,12 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnApprove: {
-    width: 150,
-    height: 30,
+    width: 145,
+    height: 29,
   },
   btnSave: {
-    width: 150,
-    height: 30,
+    width: 145,
+    height: 29,
   },
   btnAddService: {
     width: 110,
@@ -268,7 +262,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
-    width: Dimensions.get('window').width,
+    width: width,
     padding: 10,
     marginBottom: 1,
   },
@@ -284,7 +278,7 @@ var styles = StyleSheet.create({
   newTotal: {
     flex: 1,
     flexDirection: 'row',
-    width: Dimensions.get('window').width,
+    width: width,
     backgroundColor: '#FEF1DC',
     alignItems: 'center',
     padding: 10,
