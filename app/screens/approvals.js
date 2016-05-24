@@ -57,7 +57,7 @@ class Approvals extends Component {
                       style={styles.btnLeft}
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/btn-approve-blue.png')}
+                        source={require('../../images/btn-approve-orange.png')}
                         style={styles.btnApprove} />
                     </TouchableOpacity>
 
@@ -95,7 +95,7 @@ class Approvals extends Component {
                       style={styles.btnLeft}
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/btn-approve-blue.png')}
+                        source={require('../../images/btn-approve-orange.png')}
                         style={styles.btnApprove} />
                     </TouchableOpacity>
 
