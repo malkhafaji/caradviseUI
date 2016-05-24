@@ -79,6 +79,8 @@ var styles = StyleSheet.create({
   settingsContainer: {
     alignItems: 'center',
     marginBottom: 200,
+    marginLeft: 10,
+    marginRight: 10,
   },
   textHd: {
     fontSize: 17,
@@ -89,7 +91,7 @@ var styles = StyleSheet.create({
   settingsRow: {
     flex: 1,
     flexDirection: 'row',
-    width: Dimensions.get('window').width,
+    width: width,
     marginBottom: 3,
     marginLeft: 10,
     marginRight: 10,
