@@ -20,7 +20,7 @@ class Main extends Component {
     render() {
         return (
           <View style={styles.base}>
-            <TopBar navigator={this.props.navigator} />
+            <TopBar navigator={this.props.navigator} showMenu />
             <CarBar />
             <View>
               <Image

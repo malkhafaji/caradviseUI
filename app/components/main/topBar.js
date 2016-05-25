@@ -17,12 +17,7 @@ class topBar extends Component {
       <View style={styles.topContainer}>
         <View style={styles.topBar}>
           <View style={styles.topBarLeft}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'SideMenu' })}>
-              <Image
-                resizeMode="contain"
-                source={require('../../../images/icon-burger.png')}
-                style={styles.burger} />
-            </TouchableOpacity>
+            {this.props.showMenu ? this._renderBurger() : this._renderBack()}
           </View>
           <View style={styles.topBarMid}>
             <Image
@@ -34,6 +29,32 @@ class topBar extends Component {
         </View>
       </View>
       );
+  }
+
+  _renderBack() {
+    return (
+      <TouchableOpacity onPress={() => {
+        var routes = this.props.navigator.getCurrentRoutes().reverse();
+        var main = routes.find(({ indent }) => indent === 'Main');
+        main ? this.props.navigator.popToRoute(main) : this.props.navigator.pop();
+      }}>
+        <Image
+          resizeMode="contain"
+          source={require('../../../images/btn-back.png')}
+          style={styles.burger} />
+      </TouchableOpacity>
+    );
+  }
+
+  _renderBurger() {
+    return (
+      <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'SideMenu' })}>
+        <Image
+          resizeMode="contain"
+          source={require('../../../images/icon-burger.png')}
+          style={styles.burger} />
+      </TouchableOpacity>
+    );
   }
 }
 
