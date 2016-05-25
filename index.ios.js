@@ -12,6 +12,8 @@ var Maintenance = require('./app/screens/maintenance');
 var Settings = require('./app/screens/settings');
 var Saved = require('./app/screens/saved');
 var SideMenu = require('./app/screens/sideMenu');
+var Billing = require('./app/screens/payment-billing');
+var CreditCard = require('./app/screens/payment-cc');
 
  import React from 'react';
  import {
@@ -74,6 +76,14 @@ class caradviseui extends Component {
       case 'Saved':
         return (
           <Saved {...globalNavigatorProps} />
+        )
+      case 'Billing':
+        return (
+          <Billing {...globalNavigatorProps} />
+        )
+      case 'CreditCard':
+        return (
+          <CreditCard {...globalNavigatorProps} />
         )
       case 'SideMenu':
         return (
