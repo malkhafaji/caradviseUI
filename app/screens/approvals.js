@@ -57,16 +57,16 @@ class Approvals extends Component {
                       style={styles.btnLeft}
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/btn-approve-orange.png')}
-                        style={styles.btnApprove} />
+                        source={require('../../images/btn-save.png')}
+                        style={styles.btnSave} />
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.btnRight}
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/btn-save.png')}
-                        style={styles.btnSave} />
+                        source={require('../../images/btn-approve-orange.png')}
+                        style={styles.btnApprove} />
                     </TouchableOpacity>
                   </View>
 
@@ -95,16 +95,16 @@ class Approvals extends Component {
                       style={styles.btnLeft}
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/btn-approve-orange.png')}
-                        style={styles.btnApprove} />
+                        source={require('../../images/btn-save.png')}
+                        style={styles.btnSave} />
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.btnRight}
                       underlayColor='#dddddd'>
                       <Image
-                        source={require('../../images/btn-save.png')}
-                        style={styles.btnSave} />
+                        source={require('../../images/btn-approve-orange.png')}
+                        style={styles.btnApprove} />
                     </TouchableOpacity>
                   </View>
 
