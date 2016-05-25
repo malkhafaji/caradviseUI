@@ -65,7 +65,7 @@ class Billing extends Component {
               </View>
 
               <View style={styles.approveDecline}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
                   <Image
                     source={require('../../images/btn-next-big.png')}
                     style={styles.btnCheckout} />
