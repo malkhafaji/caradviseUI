@@ -40,7 +40,7 @@ class CreditCard extends Component {
   processCreditCard()
   {
     var amount = this.state.amount;
-    fetch('http://localhost:3000/get_token', {method: "GET"})
+    fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
     .then((response) => response.json())
     .then((responseData) => {
       var clientToken = responseData.clientToken;
@@ -48,7 +48,7 @@ class CreditCard extends Component {
 
       BTClient.getCardNonce(this.state.cardNumber, this.state.expMonth, this.state.expYear, this.state.cvv)
       .then(function(nonce) {
-        fetch('http://localhost:3000/pay',
+        fetch('https://caradvise.herokuapp.com/pay',
           {
             method: 'POST',
             headers: {
