@@ -1,0 +1,61 @@
+PODS:
+  - Braintree (4.3.1):
+    - Braintree/Card (= 4.3.1)
+    - Braintree/Core (= 4.3.1)
+    - Braintree/PayPal (= 4.3.1)
+    - Braintree/UI (= 4.3.1)
+  - Braintree/Card (4.3.1):
+    - Braintree/Core
+  - Braintree/Core (4.3.1)
+  - Braintree/PayPal (4.3.1):
+    - Braintree/Core
+    - Braintree/PayPalOneTouch
+  - Braintree/PayPalDataCollector (4.3.1):
+    - Braintree/Core
+    - Braintree/PayPalUtils
+  - Braintree/PayPalOneTouch (4.3.1):
+    - Braintree/Core
+    - Braintree/PayPalDataCollector
+    - Braintree/PayPalUtils
+  - Braintree/PayPalUtils (4.3.1)
+  - Braintree/UI (4.3.1):
+    - Braintree/Card
+    - Braintree/Core
+  - React (0.25.1):
+    - React/Core (= 0.25.1)
+  - react-native-braintree (0.5.0):
+    - Braintree
+    - React
+  - React/Core (0.25.1)
+  - React/RCTImage (0.25.1):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTNetwork (0.25.1):
+    - React/Core
+  - React/RCTText (0.25.1):
+    - React/Core
+  - React/RCTWebSocket (0.25.1):
+    - React/Core
+
+DEPENDENCIES:
+  - react-native-braintree (from `../node_modules/react-native-braintree`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+
+EXTERNAL SOURCES:
+  React:
+    :path: ../node_modules/react-native
+  react-native-braintree:
+    :path: ../node_modules/react-native-braintree
+
+SPEC CHECKSUMS:
+  Braintree: 817c38f759315a6aaa0c5884dc9f1969a61f802f
+  React: b35b2b2e07273da1f7266ab2975e0d1033bd913d
+  react-native-braintree: 982b6f10d5ad436a4dc18bfc17a640d54fa0a324
+
+PODFILE CHECKSUM: d8328f2626641150c82719b6dc6e72aac9efead4
+
+COCOAPODS: 1.0.0
