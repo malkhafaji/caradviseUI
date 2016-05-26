@@ -1,6 +1,7 @@
 'use strict';
 var StatusBarBackground = require('./app/components/statusBarBackground');
 var Main = require('./app/screens/main');
+var Intro = require('./app/screens/intro');
 var Approvals = require('./app/screens/approvals');
 var GetStarted = require('./app/screens/getStarted');
 var Login = require('./app/screens/login');
@@ -33,6 +34,10 @@ class caradviseui extends Component {
     var globalNavigatorProps = {navigator}
 
     switch(route.indent) {
+      case 'Intro':
+        return (
+          <Intro {...globalNavigatorProps} />
+        )
       case 'GetStarted':
         return (
           <GetStarted {...globalNavigatorProps} />
@@ -97,10 +102,11 @@ class caradviseui extends Component {
   }
 
   _configureScene(route) {
-    if (route.indent === 'SideMenu')
-      return Navigator.SceneConfigs.FloatFromLeft;
-    else
-      return Navigator.SceneConfigs.PushFromRight;
+    switch(route.indent) {
+      case 'SideMenu': return Navigator.SceneConfigs.FloatFromLeft;
+      case 'Intro': return Navigator.SceneConfigs.FloatFromBottom;
+      default: return Navigator.SceneConfigs.PushFromRight;
+    }
   }
 
   render() {

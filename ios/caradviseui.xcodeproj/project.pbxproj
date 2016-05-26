@@ -24,6 +24,8 @@
 		17942417AB2049708E1F51EA /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 494C27025DC4492DAABDE740 /* libCodePush.a */; };
 		29DD34271CF4B7D5005662E9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 29DD34261CF4B7D5005662E9 /* libz.tbd */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		B022C3A71CF7474200A87895 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */; };
+		B022C3A81CF7474200A87895 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +140,8 @@
 		494C27025DC4492DAABDE740 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoCondensed-Bold.ttf"; path = "fonts/RobotoCondensed-Bold.ttf"; sourceTree = "<group>"; };
+		B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoCondensed-Light.ttf"; path = "fonts/RobotoCondensed-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +314,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				B022C3A41CF7470D00A87895 /* fonts */,
 				29DD34261CF4B7D5005662E9 /* libz.tbd */,
 				13B07FAE1A68108700A75B9A /* caradviseui */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -327,6 +332,15 @@
 				00E356EE1AD99517003FC87E /* caradviseuiTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B022C3A41CF7470D00A87895 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */,
+				B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */,
+			);
+			name = fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -540,8 +554,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B022C3A71CF7474200A87895 /* RobotoCondensed-Bold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				B022C3A81CF7474200A87895 /* RobotoCondensed-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
