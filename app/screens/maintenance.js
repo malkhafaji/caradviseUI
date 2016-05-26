@@ -12,7 +12,10 @@ import {
   StyleSheet,
   Component,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
+
+var width = Dimensions.get('window').width - 20;
 
 class Maintenance extends Component {
 
@@ -35,62 +38,42 @@ class Maintenance extends Component {
       }
     }
 
-    constructor(props){
-      super(props);
-    }
-
-    _navigateToApprovals(){
-      this.props.navigator.push({
-        ident: 'Approvals',
-      })
-    }
-
     render() {
         return (
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
             <CarBar />
-            <View>
-              <Image
-                resizeMode="contain"
-                source={require('../../images/bg-home.png')}
-                style={styles.canvas} />
+            <View style={styles.maintenanceContainer}>
 
-              <ApprovalRequest />
+              <Text style={styles.textHd}>Maintenance</Text>
 
-              <View style={styles.nextService}><Text style={styles.nextServiceText}>NEXT SERVICE 65K MILES</Text></View>
-              <View style={styles.serviceListHd}>
-                <Text style={styles.serviceItemHd}>SERVICE</Text>
-                <Text style={styles.serviceRangeHd}>FAIR PRICE RANGE</Text>
-                <Text style={styles.servicePriceHd}>PRICE</Text>
+              <View style={styles.maintenanceRow}>
+                <Text style={styles.maintenanceItem}>Oil Change</Text>
+                <Text style={styles.maintenancePrice}>$45</Text>
               </View>
-              <View style={styles.nextServiceList}>
-                <Text style={styles.serviceItem}>Tire Rotation</Text>
-                <Text style={styles.serviceRange}>$30-$50</Text>
-                <Text style={styles.servicePrice}>$45</Text>
+              <View style={styles.maintenanceRow}>
+                <Text style={styles.maintenanceItem}>Tire Rotation</Text>
+                <Text style={styles.maintenancePrice}>$30</Text>
               </View>
-              <View style={styles.nextServiceList}>
-                <Text style={styles.serviceItem}>Brake Pads</Text>
-                <Text style={styles.serviceRange}>$40-$60</Text>
-                <Text style={styles.servicePrice}>$50</Text>
-              </View>
-              <View style={styles.nextServiceList}>
-                <Text style={styles.serviceItem}>Air Filter</Text>
-                <Text style={styles.serviceRange}>$30-$50</Text>
-                <Text style={styles.servicePrice}>$35</Text>
-              </View>
-              <View style={styles.totalPrice}><Text style={styles.totalPriceText}>Total Price: $130</Text></View>
 
-              <View style={styles.bookitRow}>
-                <TouchableOpacity>
+              <View style={styles.total}>
+                <Text style={styles.totalText}>Total:</Text>
+                <Text style={styles.totalPrice}>$45</Text>
+              </View>
+
+              <View>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
                   <Image
-                    source={require('../../images/btn-bookit.png')}
-                    style={styles.btnBookIt} />
+                    source={require('../../images/btn-add-service.png')}
+                    style={styles.btnAddService} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={(event) => this._navigateToApprovals()}>
+              </View>
+
+              <View style={styles.approveDecline}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Billing' })}>
                   <Image
-                    source={require('../../images/btn-details.png')}
-                    style={styles.btnDetails} />
+                    source={require('../../images/btn-bookit-big.png')}
+                    style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
 
@@ -105,97 +88,60 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  canvas: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  nextService: {
-    backgroundColor: '#F49D11',
+  maintenanceContainer: {
     alignItems: 'center',
+  },
+  textHd: {
+    fontSize: 17,
     marginTop: 15,
-    marginLeft: 15,
-    marginRight: 15,
+    marginBottom: 8,
+    color: '#666666',
   },
-  nextServiceText: {
-    color: 'white',
-    padding: 15,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  totalPrice: {
+  maintenanceRow: {
+    flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#EFEFEF',
-    alignItems: 'center',
-    marginLeft: 15,
-    marginRight: 15,
-  },
-  totalPriceText: {
-    color: '#11325F',
+    width: width,
     padding: 10,
+    marginBottom: 1,
+  },
+  maintenanceItem: {
+    flex: 3,
+    color: '#11325F',
+  },
+  maintenancePrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#11325F',
+  },
+  total: {
+    flex: 1,
+    flexDirection: 'row',
+    width: width,
+    backgroundColor: '#FEF1DC',
+    alignItems: 'center',
+    padding: 10,
+    marginBottom: 20,
+  },
+  totalText: {
+    flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#11325F',
   },
-  serviceListHd: {
+  totalPrice: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    marginLeft: 15,
-    marginRight: 15,
-    padding: 10,
-    backgroundColor: '#FFFFFF',
-  },
-  serviceItemHd: {
-    color: '#F49D11',
-    fontSize: 12,
-    width: 85,
-  },
-  serviceRangeHd: {
-    color: '#F49D11',
-    fontSize: 12,
-    paddingLeft: 40,
-    paddingRight: 40,
-  },
-  servicePriceHd: {
-    color: '#F49D11',
-    fontSize: 12,
-  },
-  nextServiceList: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    marginLeft: 15,
-    marginRight: 15,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    backgroundColor: '#FFFFFF',
-  },
-  serviceItem: {
-    width: 120,
-  },
-  serviceRange: {
-    paddingLeft: 50,
-    paddingRight: 50,
-  },
-  servicePrice: {
     fontWeight: 'bold',
+    textAlign: 'right',
   },
-  bookitRow: {
-    flexDirection: 'row',
-    marginTop: 15,
-    marginLeft: 25,
+  btnAddService: {
+    width: 110,
+    height: 10,
+    marginBottom: 20,
   },
-  btnBookIt: {
-    width: 158,
-    height: 35,
-    marginRight: 3,
-  },
-  btnDetails: {
-    width: 158,
-    height: 35,
-    marginLeft: 3,
+  btnCheckout: {
+    width: 300,
+    height: 40,
   },
 });
 
