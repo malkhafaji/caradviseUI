@@ -25,10 +25,19 @@ var CreditCard = require('./app/screens/payment-cc');
      Navigator,
      Image,
      StyleSheet,
+     AsyncStorage
  } from 'react-native';
 
 
 class caradviseui extends Component {
+  componentDidMount() {
+    AsyncStorage.getItem('caradvise:opened').then(value => {
+      if (!value) {
+        AsyncStorage.setItem('caradvise:opened', 'true');
+        this.refs.appNavigator.push({ indent: 'Intro' });
+      }
+    });
+  }
 
   _renderScene(route, navigator) {
     var globalNavigatorProps = {navigator}
