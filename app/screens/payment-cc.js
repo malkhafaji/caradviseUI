@@ -27,7 +27,7 @@ class CreditCard extends Component {
 
   constructor() {
       super()
-
+      //TODO: remove hard coded test numbers
       this.state = {
         amount: 45,
         cardNumber: "378282246310005",
@@ -37,8 +37,9 @@ class CreditCard extends Component {
       };
   }
 
-  processCreditCard()
+  processCreditCard=()=>
   {
+    var nav = this.props.navigator;
     var amount = this.state.amount;
     fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
     .then((response) => response.json())
@@ -64,10 +65,7 @@ class CreditCard extends Component {
           .then((responseData) => {
             if(responseData.success == true)
             {
-              Alert.alert(
-                  'Success!',
-                  "Your payment was successful.",
-                );
+              nav.push({ indent:'PaymentThanks' });
             } else {
               Alert.alert(
                   'Error',
@@ -84,12 +82,12 @@ class CreditCard extends Component {
       });
     })
     .done();
-  }
+    }
 
     render() {
         return (
           <View style={styles.base}>
-            <TopBar navigator={this.props.navigator} />
+            <TopBar navigator={this.props.navigator}/>
             <CarBar />
             <ScrollView
               style={styles.scrollView}>
