@@ -53,11 +53,11 @@ class GetStarted extends Component {
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
                 placeholder={'Confirm Password'} />
-              <TouchableOpacity>
-              <Image
-                resizeMode='contain'
-                source={require('../../images/btn-next.png')}
-                style={styles.btnNext} />
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step2' })}>
+                <Image
+                  resizeMode='contain'
+                  source={require('../../images/btn-next.png')}
+                  style={styles.btnNext} />
               </TouchableOpacity>
             </View>
 

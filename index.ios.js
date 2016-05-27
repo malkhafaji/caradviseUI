@@ -15,6 +15,7 @@ var Saved = require('./app/screens/saved');
 var SideMenu = require('./app/screens/sideMenu');
 var Billing = require('./app/screens/payment-billing');
 var CreditCard = require('./app/screens/payment-cc');
+var PaymentThanks = require('./app/screens/payment-thanks');
 
  import React from 'react';
  import {
@@ -89,6 +90,10 @@ class caradviseui extends Component {
       case 'CreditCard':
         return (
           <CreditCard {...globalNavigatorProps} />
+        )
+      case 'PaymentThanks':
+        return (
+          <PaymentThanks {...globalNavigatorProps} />
         )
       case 'SideMenu':
         return (

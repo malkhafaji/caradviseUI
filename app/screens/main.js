@@ -1,7 +1,6 @@
 'use strict';
 var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
-var ApprovalRequest = require('../components/main/approvalRequest');
 
 
 import React from 'react';
@@ -29,6 +28,9 @@ class Main extends Component {
 
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Maintenance' })}>
                 <View style={styles.btnRow}>
+                  <Image
+                    source={require('../../images/icon-schedule.png')}
+                    style={styles.icon} />
                   <Text style={styles.btnText}>Schedule Maintenance</Text>
                   <View style={styles.arrowContainer}>
                     <Text style={styles.arrow}>
@@ -41,6 +43,9 @@ class Main extends Component {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Approvals' })}>
                 <View style={styles.btnRow}>
+                  <Image
+                    source={require('../../images/icon-check.png')}
+                    style={styles.icon} />
                   <Text style={styles.btnText}>Services To Approve</Text>
                   <View style={styles.arrowContainer}>
                     <Text style={styles.arrow}>
@@ -87,10 +92,16 @@ var styles = StyleSheet.create({
     color: '#11325F',
     fontWeight: 'bold',
     fontSize: 16,
+    marginTop: 2,
   },
   arrowContainer: {
     flex: 1,
-    paddingTop: 4,
+    paddingTop: 6,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
   arrow: {
     textAlign: 'right',

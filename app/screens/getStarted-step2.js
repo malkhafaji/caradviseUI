@@ -52,11 +52,11 @@ class Step2 extends Component {
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
                 placeholder={'Trim'} />
-              <TouchableOpacity>
-              <Image
-                resizeMode='contain'
-                source={require('../../images/btn-next.png')}
-                style={styles.btnNext} />
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step3' })}>
+                <Image
+                  resizeMode='contain'
+                  source={require('../../images/btn-next.png')}
+                  style={styles.btnNext} />
               </TouchableOpacity>
             </View>
 

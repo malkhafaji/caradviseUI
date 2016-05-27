@@ -40,7 +40,7 @@ class GetStarted extends Component {
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
                 placeholder={'Mileage'} />
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Main' })}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}

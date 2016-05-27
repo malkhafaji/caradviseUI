@@ -159,7 +159,7 @@ var styles = StyleSheet.create({
   },
   approvalsContainer: {
     alignItems: 'center',
-    marginBottom: 200,
+    marginBottom: 20,
   },
   textHd: {
     fontSize: 17,
@@ -235,7 +235,7 @@ var styles = StyleSheet.create({
     width: width,
     backgroundColor: '#EFEFEF',
     paddingBottom: 10,
-    marginBottom: 3,
+    marginBottom: 5,
   },
   btnLeft: {
     flex: 2,

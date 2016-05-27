@@ -27,7 +27,7 @@ class GetStarted extends Component {
                 style={styles.logo} />
             </View>
             <View style={styles.fields}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step1' })}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-getstarted.png')}
