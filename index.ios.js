@@ -26,10 +26,19 @@ var PaymentThanks = require('./app/screens/payment-thanks');
      Navigator,
      Image,
      StyleSheet,
+     AsyncStorage
  } from 'react-native';
 
 
 class caradviseui extends Component {
+  componentDidMount() {
+    AsyncStorage.getItem('caradvise:opened').then(value => {
+      if (!value) {
+        AsyncStorage.setItem('caradvise:opened', 'true');
+        this.refs.appNavigator.push({ indent: 'Intro' });
+      }
+    });
+  }
 
   _renderScene(route, navigator) {
     var globalNavigatorProps = {navigator}
