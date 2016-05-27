@@ -33,7 +33,7 @@ class GetStarted extends Component {
                   source={require('../../images/btn-getstarted.png')}
                   style={styles.btnGetStarted} />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Login' })}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-login.png')}
