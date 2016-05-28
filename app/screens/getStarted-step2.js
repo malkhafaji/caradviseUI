@@ -32,7 +32,7 @@ class Step2 extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your customer number or VIN below. If you dont have either then skip this step.</Text>
+              <Text style={styles.textStep}>Enter your customer number or VIN below. If you don't have them then proceed to the next step.</Text>
             </View>
 
             <View style={styles.fields}>
