@@ -8,6 +8,7 @@ var Login = require('./app/screens/login');
 var Step1 = require('./app/screens/getStarted-step1');
 var Step2 = require('./app/screens/getStarted-step2');
 var Step3 = require('./app/screens/getStarted-step3');
+var Step4 = require('./app/screens/getStarted-step4');
 var AddServices = require('./app/screens/addServices');
 var Maintenance = require('./app/screens/maintenance');
 var Settings = require('./app/screens/settings');
@@ -67,6 +68,10 @@ class caradviseui extends Component {
       case 'Step3':
         return (
           <Step3 {...globalNavigatorProps} />
+        )
+      case 'Step4':
+        return (
+          <Step4 {...globalNavigatorProps} />
         )
       case 'Main':
         return (
@@ -132,7 +137,7 @@ class caradviseui extends Component {
           style={styles.container}
           renderScene={this._renderScene}
           configureScene={this._configureScene}
-          initialRoute={{indent: 'Main'}}
+          initialRoute={{indent: 'GetStarted'}}
           barTintColor='#11325F'
           translucent={false}
           titleTextColor='white'
