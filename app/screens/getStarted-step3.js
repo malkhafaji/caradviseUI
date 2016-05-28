@@ -14,7 +14,7 @@ import {
 
 var fldWidth = Dimensions.get('window').width - 40;
 
-class GetStarted extends Component {
+class Step3 extends Component {
 
     render() {
         return (
@@ -32,15 +32,27 @@ class GetStarted extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>To complete your car profile, we need the current mileage.</Text>
+              <Text style={styles.textStep}>Please select your vehicle info below to get started.</Text>
             </View>
 
             <View style={styles.fields}>
               <TextInput
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
-                placeholder={'Mileage'} />
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Main' })}>
+                placeholder={'Year'} />
+              <TextInput
+                style={styles.textFld}
+                placeholderTextColor={'#666'}
+                placeholder={'Make'} />
+              <TextInput
+                style={styles.textFld}
+                placeholderTextColor={'#666'}
+                placeholder={'Model'} />
+              <TextInput
+                style={styles.textFld}
+                placeholderTextColor={'#666'}
+                placeholder={'Trim'} />
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step4' })}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}
@@ -81,7 +93,7 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   },
   fields: {
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 15,
     marginRight: 15,
     alignItems: 'center',
@@ -101,4 +113,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = GetStarted;
+module.exports = Step3;

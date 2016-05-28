@@ -14,7 +14,7 @@ import {
 
 var fldWidth = Dimensions.get('window').width - 40;
 
-class Step2 extends Component {
+class Step4 extends Component {
 
     render() {
         return (
@@ -32,20 +32,15 @@ class Step2 extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your customer number or VIN below. If you dont have either then skip this step.</Text>
+              <Text style={styles.textStep}>To complete your car profile, we need the current mileage.</Text>
             </View>
 
             <View style={styles.fields}>
               <TextInput
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
-                placeholder={'Customer Number'} />
-              <Text style={styles.textOr}>OR</Text>
-              <TextInput
-                style={styles.textFld}
-                placeholderTextColor={'#666'}
-                placeholder={'VIN'} />
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step3' })}>
+                placeholder={'Mileage'} />
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Main' })}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}
@@ -85,13 +80,8 @@ var styles = StyleSheet.create({
     paddingRight: 20,
     textAlign: 'center'
   },
-  textOr: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    marginTop: 15,
-  },
   fields: {
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: 15,
     marginRight: 15,
     alignItems: 'center',
@@ -111,4 +101,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Step2;
+module.exports = Step4;
