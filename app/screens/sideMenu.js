@@ -67,7 +67,7 @@ var styles = StyleSheet.create({
   burger: {
     width: 15,
     margin: 20,
-    marginTop: 32
+    marginTop: 15
   }
 });
 

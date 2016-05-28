@@ -70,15 +70,13 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: Dimensions.get('window').width,
-    height: 65,
+    height: 45,
   },
   logoTop: {
     width: 80,
-    marginTop: 20,
   },
   burger: {
     width: 15,
-    marginTop: 20,
     marginLeft: 20,
   },
   topBarLeft: {
