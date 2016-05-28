@@ -21,6 +21,8 @@ PODS:
   - Braintree/UI (4.3.1):
     - Braintree/Card
     - Braintree/Core
+  - CodePush (1.11.0):
+    - React
   - React (0.25.1):
     - React/Core (= 0.25.1)
   - react-native-braintree (0.5.0):
@@ -38,6 +40,7 @@ PODS:
     - React/Core
 
 DEPENDENCIES:
+  - CodePush (from `../node_modules/react-native-code-push`)
   - react-native-braintree (from `../node_modules/react-native-braintree`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
@@ -46,6 +49,8 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: ../node_modules/react-native-code-push
   React:
     :path: ../node_modules/react-native
   react-native-braintree:
@@ -53,9 +58,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Braintree: 817c38f759315a6aaa0c5884dc9f1969a61f802f
+  CodePush: 10e12c2c7dd68866cda4a38dce32605a7bff5408
   React: b35b2b2e07273da1f7266ab2975e0d1033bd913d
   react-native-braintree: 982b6f10d5ad436a4dc18bfc17a640d54fa0a324
 
-PODFILE CHECKSUM: d8328f2626641150c82719b6dc6e72aac9efead4
+PODFILE CHECKSUM: 8416454f8264c705e467fb4e68f35b8a3e9046a3
 
 COCOAPODS: 1.0.0
