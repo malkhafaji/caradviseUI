@@ -18,6 +18,8 @@ import {
   TextInput,
 } from 'react-native';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 var width = Dimensions.get('window').width - 20;
 var fldWidth = Dimensions.get('window').width - 40;
 
@@ -33,12 +35,16 @@ class CreditCard extends Component {
         cardNumber: "378282246310005",
         expMonth:"11",
         expYear:"17",
-        cvv:"5554"
+        cvv:"5554",
+        visible: false
       };
   }
 
   processCreditCard=()=>
   {
+    this.setState({
+        visible: true
+      });
     var nav = this.props.navigator;
     var amount = this.state.amount;
     fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
@@ -80,6 +86,7 @@ class CreditCard extends Component {
             "An error occurred, please try again.",
           )
       });
+      this.state = {visible: false};
     })
     .done();
     }
@@ -132,6 +139,9 @@ class CreditCard extends Component {
 
             </View>
             </ScrollView>
+            <View>
+              <Spinner visible={this.state.visible} />
+            </View>
           </View>
         );
     }
