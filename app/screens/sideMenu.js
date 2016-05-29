@@ -17,8 +17,6 @@ class SideMenu extends Component {
   componentDidUpdate() {
     if (this.props.isLoggedOut)
       this.props.navigator.resetTo({ indent: 'GetStarted' });
-    else if (this.props.error)
-      Alert.alert('Error', this.props.error);
   }
 
   render() {

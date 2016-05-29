@@ -25,8 +25,6 @@ class Login extends Component {
     componentDidUpdate() {
       if (this.props.isLoggedIn)
         this.props.navigator.resetTo({ indent: 'Main' });
-      else if (this.props.error)
-        Alert.alert('Error', this.props.error);
     }
 
     render() {
