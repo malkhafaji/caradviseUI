@@ -28,6 +28,7 @@ var PaymentThanks = require('./app/screens/payment-thanks');
      Image,
      StyleSheet
  } from 'react-native';
+ import codePush from 'react-native-code-push';
  import { Provider } from 'react-redux';
  import configureStore from './app/utils/configureStore';
  import { loadState } from './app/actions';
@@ -37,6 +38,7 @@ const store = configureStore();
 
 class caradviseui extends Component {
   componentDidMount() {
+    codePush.sync();
     storage.get('caradvise:state').then(state => {
       if (state) {
         store.dispatch(loadState(state));
