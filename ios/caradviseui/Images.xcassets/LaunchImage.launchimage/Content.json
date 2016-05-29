@@ -3,6 +3,15 @@
     {
       "extent": "full-screen",
       "idiom": "iphone",
+      "filename": "Default.png",
+      "minimum-system-version": "7.0",
+      "orientation": "portrait",
+      "scale": "1x",
+      "subtype": "retina4"
+    },
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
       "filename": "Default-568h@2x.png",
       "minimum-system-version": "7.0",
       "orientation": "portrait",
