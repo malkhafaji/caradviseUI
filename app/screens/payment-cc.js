@@ -100,7 +100,7 @@ class CreditCard extends Component {
               style={styles.scrollView}>
             <View style={styles.billingContainer}>
 
-              <Text style={styles.textHd}>Credit Card Info</Text>
+              <Text style={styles.textHd}>Payment Info</Text>
 
               <View style={styles.billingCol}>
                 <TextInput
