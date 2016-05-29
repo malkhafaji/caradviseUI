@@ -33,12 +33,7 @@ class topBar extends Component {
 
   _renderBack() {
     return (
-      <TouchableOpacity onPress={() => {
-        var [_, second, third] = this.props.navigator.getCurrentRoutes().reverse();
-        // skip sidemenu when navigating back
-        second && third && second.indent === 'SideMenu' ?
-          this.props.navigator.popToRoute(third) : this.props.navigator.pop();
-      }}>
+      <TouchableOpacity onPress={() => this.props.navigator.pop()}>
         <Image
           resizeMode="contain"
           source={require('../../../images/btn-back.png')}

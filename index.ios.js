@@ -26,16 +26,29 @@ var PaymentThanks = require('./app/screens/payment-thanks');
      Component,
      Navigator,
      Image,
-     StyleSheet,
-     AsyncStorage
+     StyleSheet
  } from 'react-native';
+ import { Provider } from 'react-redux';
+ import configureStore from './app/utils/configureStore';
+ import { loadState } from './app/actions';
+ import storage from './app/utils/storage';
 
+const store = configureStore();
 
 class caradviseui extends Component {
   componentDidMount() {
-    AsyncStorage.getItem('caradvise:opened').then(value => {
+    storage.get('caradvise:state').then(state => {
+      if (state) {
+        store.dispatch(loadState(state));
+        if (state.user && state.user.authentication_token) {
+          this.refs.appNavigator.resetTo({ indent: 'Main' });
+        }
+      }
+    });
+
+    storage.get('caradvise:opened').then(value => {
       if (!value) {
-        AsyncStorage.setItem('caradvise:opened', 'true');
+        storage.set('caradvise:opened', true);
         this.refs.appNavigator.push({ indent: 'Intro' });
       }
     });
@@ -130,19 +143,21 @@ class caradviseui extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBarBackground />
-        <Navigator
-          ref='appNavigator'
-          style={styles.container}
-          renderScene={this._renderScene}
-          configureScene={this._configureScene}
-          initialRoute={{indent: 'GetStarted'}}
-          barTintColor='#11325F'
-          translucent={false}
-          titleTextColor='white'
-          />
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <StatusBarBackground />
+          <Navigator
+            ref='appNavigator'
+            style={styles.container}
+            renderScene={this._renderScene}
+            configureScene={this._configureScene}
+            initialRoute={{indent: 'GetStarted'}}
+            barTintColor='#11325F'
+            translucent={false}
+            titleTextColor='white'
+            />
+        </View>
+      </Provider>
     );
   }
 }

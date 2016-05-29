@@ -7,10 +7,20 @@ import {
   TouchableOpacity,
   Text,
   Image,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from 'react-native';
+import { connect } from 'react-redux';
+import { signOut } from '../actions/user';
 
 class SideMenu extends Component {
+  componentDidUpdate() {
+    if (this.props.isLoggedOut)
+      this.props.navigator.resetTo({ indent: 'GetStarted' });
+    else if (this.props.error)
+      Alert.alert('Error', this.props.error);
+  }
+
   render() {
     return (
       <View style={styles.base}>
@@ -18,6 +28,13 @@ class SideMenu extends Component {
           {this._renderItem({ text: 'SETTINGS', indent: 'Settings' })}
           {this._renderItem({ text: 'SAVED MAINTENANCE', indent:  'Saved' })}
           {this._renderItem({ text: 'VIEW INTRO', indent: 'Intro' })}
+          <TouchableOpacity
+            style={styles.item}
+            disabled={this.props.isLoading}
+            onPress={this.props.signOut}
+          >
+            <Text style={styles.text}>LOG OUT</Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.toggle} onPress={() => this.props.navigator.pop()}>
           <Image
@@ -31,7 +48,12 @@ class SideMenu extends Component {
 
   _renderItem({ text, indent }) {
     return (
-      <TouchableOpacity style={styles.item} onPress={() => this.props.navigator.push({ indent })}>
+      <TouchableOpacity style={styles.item} onPress={() => {
+        var routes = this.props.navigator.getCurrentRoutes();
+        routes.splice(-1, 1); // remove current route
+        this.props.navigator.immediatelyResetRouteStack(routes);
+        this.props.navigator.push({ indent });
+      }}>
         <Text style={styles.text}>{text}</Text>
       </TouchableOpacity>
     );
@@ -71,4 +93,13 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = SideMenu;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedOut: !user.authentication_token,
+    isLoading: !!user.loading,
+    error: user.error
+  };
+}
+
+module.exports = connect(mapStateToProps, { signOut })(SideMenu);

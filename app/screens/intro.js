@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
+import { connect } from 'react-redux';
 
 class Intro extends Component {
   render() {
@@ -36,7 +37,9 @@ class Intro extends Component {
           {this._renderTopSection()}
           <View style={styles.section}>
             <Text style={[styles.text, styles.text2]}><Text style={styles.bold}>APPROVE</Text> maintenance/repair work <Text style={styles.bold}>WITH CONFIDENCE</Text></Text>
-            <TouchableOpacity onPress={() => this.props.navigator.replacePreviousAndPop({ indent: 'Step1' })}>
+            <TouchableOpacity onPress={() => {
+              this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'Step1' });
+            }}>
               <Image source={require('../../images/btn-intro-getstarted.png')} style={styles.getStarted} />
             </TouchableOpacity>
             <Image source={require('../../images/icon-step2.png')} style={styles.step} />
@@ -49,7 +52,7 @@ class Intro extends Component {
   _renderTopSection() {
     return (
       <View style={styles.section}>
-        <TouchableOpacity onPress={() => this.props.navigator.replacePreviousAndPop({ indent: 'GetStarted' })} style={styles.closeButton}>
+        <TouchableOpacity onPress={() => this.props.navigator.pop()} style={styles.closeButton}>
           <Image source={require('../../images/icon-close.png')} style={styles.close} />
         </TouchableOpacity>
         <Image source={require('../../images/logo-intro.png')} style={styles.logo} />
@@ -122,4 +125,9 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Intro;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return { isLoggedIn: !!user.authentication_token };
+}
+
+module.exports = connect(mapStateToProps)(Intro);

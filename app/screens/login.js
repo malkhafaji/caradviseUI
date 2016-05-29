@@ -9,11 +9,25 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  Alert
 } from 'react-native';
+import { connect } from 'react-redux';
+import { signIn } from '../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
 class Login extends Component {
+    constructor(props) {
+      super(props);
+      this.state = { email: '', password: '' };
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn)
+        this.props.navigator.resetTo({ indent: 'Main' });
+      else if (this.props.error)
+        Alert.alert('Error', this.props.error);
+    }
 
     render() {
         return (
@@ -32,15 +46,32 @@ class Login extends Component {
               <TextInput
                 style={styles.fldEmail}
                 placeholderTextColor={'#666'}
-                placeholder={'Email'} />
+                placeholder={'Email'}
+                keyboardType='email-address'
+                autoCapitalize='none'
+                autoCorrect={false}
+                autoFocus
+                value={this.state.email}
+                onChangeText={email => this.setState({ email })} />
             </View>
             <View style={styles.loginContainer}>
               <TextInput
                 style={styles.fldPwd}
                 placeholderTextColor={'#666'}
-                placeholder={'Password'} />
+                placeholder={'Password'}
+                secureTextEntry
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })} />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              disabled={this.props.isLoading || !this.state.email || !this.state.password}
+              onPress={() => {
+                this.props.signIn({
+                  email: this.state.email,
+                  password: this.state.password
+                });
+              }}
+            >
               <Image
                 resizeMode='stretch'
                 source={require('../../images/btn-submit-login.png')}
@@ -102,4 +133,13 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Login;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading,
+    error: user.error
+  };
+}
+
+module.exports = connect(mapStateToProps, { signIn })(Login);

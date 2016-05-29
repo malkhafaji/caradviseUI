@@ -10,11 +10,25 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  Alert
 } from 'react-native';
+import { connect } from 'react-redux';
+import { signUp } from '../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
 class GetStarted extends Component {
+    constructor(props) {
+      super(props);
+      this.state = { email: '', password: '', confirmPassword: '' };
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn)
+        this.props.navigator.resetTo({ indent: 'Step2' });
+      else if (this.props.error)
+        Alert.alert('Error', this.props.error);
+    }
 
     render() {
         return (
@@ -40,20 +54,40 @@ class GetStarted extends Component {
                 style={styles.textFld}
                 keyboardType={'email-address'}
                 placeholderTextColor={'#666'}
-                placeholder={'Email'} />
+                placeholder={'Email'}
+                autoCapitalize='none'
+                autoCorrect={false}
+                autoFocus
+                value={this.state.email}
+                onChangeText={email => this.setState({ email })} />
               <TextInput
                 style={styles.textFld}
+                keyboardType={'phone-pad'}
                 placeholderTextColor={'#666'}
                 placeholder={'Phone Number'} />
               <TextInput
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
-                placeholder={'Password'} />
+                placeholder={'Password'}
+                secureTextEntry
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })} />
               <TextInput
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
-                placeholder={'Confirm Password'} />
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step2' })}>
+                placeholder={'Confirm Password'}
+                secureTextEntry
+                value={this.state.confirmPassword}
+                onChangeText={confirmPassword => this.setState({ confirmPassword })} />
+              <TouchableOpacity
+                disabled={this.props.isLoading}
+                onPress={() => {
+                  this.props.signUp({
+                    email: this.state.email,
+                    password: this.state.password
+                  });
+                }}
+              >
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}
@@ -114,4 +148,13 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = GetStarted;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading,
+    error: user.error
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(GetStarted);
