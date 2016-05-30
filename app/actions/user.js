@@ -1,4 +1,4 @@
-import { postJSON } from '../utils/fetch';
+import { postJSON, deleteJSON } from '../utils/fetch';
 
 const SIGN_UP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/users';
 const SIGN_IN_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/sessions/';
@@ -55,7 +55,7 @@ export function signOut() {
     dispatch(setUserLoading());
 
     let { authentication_token } = getState().user || {};
-    let response = await postJSON(SIGN_OUT_URL, { authentication_token });
+    let response = await deleteJSON(SIGN_OUT_URL, { authentication_token });
 
     if (response.error) {
       dispatch(setUserError(response.error));

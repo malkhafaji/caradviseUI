@@ -81,7 +81,8 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
     paddingVertical: 40,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    backgroundColor: '#fff'
   },
   section: {
     flexDirection: 'column',
