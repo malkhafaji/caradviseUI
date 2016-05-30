@@ -24,11 +24,11 @@ function removeUser() {
   return { type: REMOVE_USER };
 }
 
-export function signUp({ email, password }) {
+export function signUp(data) {
   return async function(dispatch) {
     dispatch(setUserLoading());
 
-    let response = await postJSON(SIGN_UP_URL, { email, password });
+    let response = await postJSON(SIGN_UP_URL, data);
     if (response.result) {
       dispatch(setUserData(response.result.user));
     } else {

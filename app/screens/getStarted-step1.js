@@ -23,12 +23,19 @@ var lastNameWidth = fldWidth / 2;
 class GetStarted extends Component {
     constructor(props) {
       super(props);
-      this.state = { email: '', password: '', confirmPassword: '' };
+      this.state = {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        cellPhone: ''
+      };
     }
 
     componentDidUpdate() {
       if (this.props.isLoggedIn)
-        this.props.navigator.resetTo({ indent: 'Step2' });
+        this.props.navigator.push({ indent: 'Step2' });
     }
 
     render() {
@@ -57,7 +64,6 @@ class GetStarted extends Component {
                   style={styles.firstNameFld}
                   placeholderTextColor={'#666'}
                   placeholder={'First Name'}
-                  autoCapitalize='none'
                   autoCorrect={false}
                   autoFocus
                   value={this.state.firstName}
@@ -66,7 +72,6 @@ class GetStarted extends Component {
                   style={styles.lastNameFld}
                   placeholderTextColor={'#666'}
                   placeholder={'Last Name'}
-                  autoCapitalize='none'
                   autoCorrect={false}
                   value={this.state.lastName}
                   onChangeText={lastName => this.setState({ lastName })} />
@@ -84,7 +89,9 @@ class GetStarted extends Component {
                 style={styles.textFld}
                 keyboardType={'phone-pad'}
                 placeholderTextColor={'#666'}
-                placeholder={'Phone Number'} />
+                placeholder={'Phone Number'}
+                value={this.state.cellPhone}
+                onChangeText={cellPhone => this.setState({ cellPhone })} />
               <TextInput
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
@@ -104,7 +111,10 @@ class GetStarted extends Component {
                 onPress={() => {
                   this.props.signUp({
                     email: this.state.email,
-                    password: this.state.password
+                    password: this.state.password,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    cellPhone: this.state.cellPhone
                   });
                 }}
               >
