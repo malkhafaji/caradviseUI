@@ -31,7 +31,7 @@ class PaymentThanks extends Component {
 
 
               <Text style={styles.textHd}>Thank you for your purchase!</Text>
-              <Text style={styles.textHd}>Please rate your experience from 1 to 5 stars.</Text>
+              <Text style={styles.textHd}>Your feedback is very important to us. Please rate your experience from 1 to 5 stars.</Text>
 
               <View style={styles.starRow}>
                 <TouchableOpacity>
@@ -64,7 +64,7 @@ class PaymentThanks extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Main' })}>
                   <Image
-                    source={require('../../images/btn-save-blue.png')}
+                    source={require('../../images/btn-done.png')}
                     style={styles.btnDone} />
                 </TouchableOpacity>
               </View>
