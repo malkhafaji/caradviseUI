@@ -10,12 +10,15 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signUp } from '../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
+var firstNameWidth = fldWidth / 2 - 15;
+var lastNameWidth = fldWidth / 2;
 
 class GetStarted extends Component {
     constructor(props) {
@@ -30,6 +33,7 @@ class GetStarted extends Component {
 
     render() {
         return (
+          <ScrollView>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -44,10 +48,29 @@ class GetStarted extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your email, phone number and password to get started.</Text>
+              <Text style={styles.textStep}>Enter your account details to get started.</Text>
             </View>
 
             <View style={styles.fields}>
+              <View style={styles.nameRow}>
+                <TextInput
+                  style={styles.firstNameFld}
+                  placeholderTextColor={'#666'}
+                  placeholder={'First Name'}
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  autoFocus
+                  value={this.state.firstName}
+                  onChangeText={firstName => this.setState({ firstName })} />
+                <TextInput
+                  style={styles.lastNameFld}
+                  placeholderTextColor={'#666'}
+                  placeholder={'Last Name'}
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  value={this.state.lastName}
+                  onChangeText={lastName => this.setState({ lastName })} />
+              </View>
               <TextInput
                 style={styles.textFld}
                 keyboardType={'email-address'}
@@ -55,7 +78,6 @@ class GetStarted extends Component {
                 placeholder={'Email'}
                 autoCapitalize='none'
                 autoCorrect={false}
-                autoFocus
                 value={this.state.email}
                 onChangeText={email => this.setState({ email })} />
               <TextInput
@@ -94,6 +116,7 @@ class GetStarted extends Component {
             </View>
 
           </View>
+          </ScrollView>
         );
     }
 }
@@ -140,9 +163,31 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
   },
+  firstNameFld: {
+    height: 40,
+    marginTop: 15,
+    width: firstNameWidth,
+    padding: 10,
+    backgroundColor: '#FFF',
+    color: '#666',
+    fontSize: 21,
+    marginRight: 15,
+  },
+  lastNameFld: {
+    height: 40,
+    marginTop: 15,
+    width: lastNameWidth,
+    padding: 10,
+    backgroundColor: '#FFF',
+    color: '#666',
+    fontSize: 21,
+  },
   btnNext: {
     width: 120,
     marginTop: 10,
+  },
+  nameRow: {
+    flexDirection: 'row',
   },
 });
 
