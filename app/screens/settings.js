@@ -49,6 +49,14 @@ class Settings extends Component {
                   value={'jane.doe@gmail.com'} />
               </View>
               <View style={styles.settingsRow}>
+                <Text style={styles.fldName}>PHONE #</Text>
+                <TextInput
+                  style={styles.textFld}
+                  selectTextOnFocus={true}
+                  placeholderTextColor={'#11325F'}
+                  value={'555-555-1212'} />
+              </View>
+              <View style={styles.settingsRow}>
                 <Text style={styles.fldName}>PASSWORD</Text>
                 <TextInput
                   style={styles.textFld}
