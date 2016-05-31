@@ -1,6 +1,7 @@
 package com.caradviseui;
 
 import com.facebook.react.ReactActivity;
+import io.branch.rnbranch.RNBranchPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +37,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RNBranchPackage(),
             new CodePush(null, this, BuildConfig.DEBUG)
         );
     }

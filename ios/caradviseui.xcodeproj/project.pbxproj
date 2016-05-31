@@ -12,10 +12,13 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2900CC7F1CFCC7710093F46B /* libBranch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2900CC6B1CFCC7490093F46B /* libBranch.a */; };
+		29D88AFD1CFCCD7B008F3DB7 /* CarAdvise.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 2900CC801CFCCBBE0093F46B /* CarAdvise.entitlements */; };
 		29DEBCAF1CFA3FC7009973E0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 29DD34261CF4B7D5005662E9 /* libz.tbd */; };
 		88EF7FEC7DEA7E02C2D49AD7 /* libPods-caradviseui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4F99ACFCC337A9E26B8A0 /* libPods-caradviseui.a */; };
 		B022C3A71CF7474200A87895 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */; };
 		B022C3A81CF7474200A87895 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */; };
+		D6DB64285A544213B01493FB /* libRNBranch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F62634BE84F4050B2601277 /* libRNBranch.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +85,69 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		2900CC4A1CFCC5440093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 007EAC523EC142EB8B0945BD /* RNBranch.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B3A3CC361C5B0A070016AC52;
+			remoteInfo = RNBranch;
+		};
+		2900CC641CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AD4AC27BE39062E8FF2A433F37D580D0;
+			remoteInfo = Braintree;
+		};
+		2900CC661CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EC36E5DE0E3F0ABEDB3BB331363C0784;
+			remoteInfo = "Braintree-Braintree-Drop-In-Localization";
+		};
+		2900CC681CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2C46461BD1BA044F631E93F4ED4FB5E3;
+			remoteInfo = "Braintree-Braintree-UI-Localization";
+		};
+		2900CC6A1CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCF87F3699A200F4F30CF09ACE97B2EA;
+			remoteInfo = Branch;
+		};
+		2900CC6C1CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBCDAA05D848C2FF9E6DA4F2F587E77A;
+			remoteInfo = CodePush;
+		};
+		2900CC6E1CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB751245446DDC8FF8449CB1EA5F77A;
+			remoteInfo = "Pods-caradviseui";
+		};
+		2900CC701CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E07295AE8FF7EC312A080156492DE70D;
+			remoteInfo = React;
+		};
+		2900CC721CFCC7490093F46B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 658CE7C1AD15A40F50D9E342BAB841BD;
+			remoteInfo = "react-native-braintree";
+		};
 		29DD341A1CF4B772005662E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */;
@@ -106,6 +172,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		007EAC523EC142EB8B0945BD /* RNBranch.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBranch.xcodeproj; path = "../node_modules/react-native-branch/RNBranch/RNBranch.xcodeproj"; sourceTree = "<group>"; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
@@ -127,8 +194,11 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		18745B684BF52E70BEC04717 /* Pods-caradviseui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caradviseui.debug.xcconfig"; path = "Pods/Target Support Files/Pods-caradviseui/Pods-caradviseui.debug.xcconfig"; sourceTree = "<group>"; };
 		18D4F99ACFCC337A9E26B8A0 /* libPods-caradviseui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-caradviseui.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2900CC581CFCC7480093F46B /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		2900CC801CFCCBBE0093F46B /* CarAdvise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = CarAdvise.entitlements; path = caradviseui/CarAdvise.entitlements; sourceTree = "<group>"; };
 		29DD34261CF4B7D5005662E9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		6F62634BE84F4050B2601277 /* libRNBranch.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBranch.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7F1A7737AACDDE1B98F54BCE /* Pods-caradviseui.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caradviseui.release.xcconfig"; path = "Pods/Target Support Files/Pods-caradviseui/Pods-caradviseui.release.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -148,8 +218,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2900CC7F1CFCC7710093F46B /* libBranch.a in Frameworks */,
 				29DEBCAF1CFA3FC7009973E0 /* libz.tbd in Frameworks */,
 				88EF7FEC7DEA7E02C2D49AD7 /* libPods-caradviseui.a in Frameworks */,
+				D6DB64285A544213B01493FB /* libRNBranch.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +304,7 @@
 		13B07FAE1A68108700A75B9A /* caradviseui */ = {
 			isa = PBXGroup;
 			children = (
+				2900CC801CFCCBBE0093F46B /* CarAdvise.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -268,6 +341,29 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		2900CC3C1CFCC5440093F46B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2900CC4B1CFCC5440093F46B /* libRNBranch.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2900CC591CFCC7480093F46B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2900CC651CFCC7490093F46B /* libBraintree.a */,
+				2900CC671CFCC7490093F46B /* Braintree-Drop-In-Localization.bundle */,
+				2900CC691CFCC7490093F46B /* Braintree-UI-Localization.bundle */,
+				2900CC6B1CFCC7490093F46B /* libBranch.a */,
+				2900CC6D1CFCC7490093F46B /* libCodePush.a */,
+				2900CC6F1CFCC7490093F46B /* libPods-caradviseui.a */,
+				2900CC711CFCC7490093F46B /* libReact.a */,
+				2900CC731CFCC7490093F46B /* libreact-native-braintree.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		29DD34171CF4B771005662E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +383,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				2900CC581CFCC7480093F46B /* Pods.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -298,6 +395,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */,
+				007EAC523EC142EB8B0945BD /* RNBranch.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -399,6 +497,14 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 6Z5NN6R4T3;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+						};
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "caradviseui" */;
@@ -416,6 +522,10 @@
 				{
 					ProductGroup = 29DD34171CF4B771005662E9 /* Products */;
 					ProjectRef = 3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */;
+				},
+				{
+					ProductGroup = 2900CC591CFCC7480093F46B /* Products */;
+					ProjectRef = 2900CC581CFCC7480093F46B /* Pods.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -456,6 +566,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 2900CC3C1CFCC5440093F46B /* Products */;
+					ProjectRef = 007EAC523EC142EB8B0945BD /* RNBranch.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -523,6 +637,69 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		2900CC4B1CFCC5440093F46B /* libRNBranch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBranch.a;
+			remoteRef = 2900CC4A1CFCC5440093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC651CFCC7490093F46B /* libBraintree.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBraintree.a;
+			remoteRef = 2900CC641CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC671CFCC7490093F46B /* Braintree-Drop-In-Localization.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Braintree-Drop-In-Localization.bundle";
+			remoteRef = 2900CC661CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC691CFCC7490093F46B /* Braintree-UI-Localization.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Braintree-UI-Localization.bundle";
+			remoteRef = 2900CC681CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC6B1CFCC7490093F46B /* libBranch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBranch.a;
+			remoteRef = 2900CC6A1CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC6D1CFCC7490093F46B /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 2900CC6C1CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC6F1CFCC7490093F46B /* libPods-caradviseui.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-caradviseui.a";
+			remoteRef = 2900CC6E1CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC711CFCC7490093F46B /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 2900CC701CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2900CC731CFCC7490093F46B /* libreact-native-braintree.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libreact-native-braintree.a";
+			remoteRef = 2900CC721CFCC7490093F46B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		29DD341B1CF4B772005662E9 /* libCodePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -558,6 +735,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29D88AFD1CFCCD7B008F3DB7 /* CarAdvise.entitlements in Resources */,
 				B022C3A71CF7474200A87895 /* RobotoCondensed-Bold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
@@ -688,6 +866,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarAdvise.app/CarAdvise";
@@ -709,6 +888,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarAdvise.app/CarAdvise";
@@ -721,8 +901,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
+				CODE_SIGN_ENTITLEMENTS = caradviseui/CarAdvise.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -730,6 +911,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
+					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
 				);
 				INFOPLIST_FILE = caradviseui/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -740,7 +922,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = CarAdvise;
-				PROVISIONING_PROFILE = "8d4f6a74-fe04-4773-b607-09a459a8d0ac";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -751,14 +933,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
+				CODE_SIGN_ENTITLEMENTS = caradviseui/CarAdvise.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
+					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
 				);
 				INFOPLIST_FILE = caradviseui/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -769,7 +953,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = CarAdvise;
-				PROVISIONING_PROFILE = "8d4f6a74-fe04-4773-b607-09a459a8d0ac";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
@@ -813,6 +997,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
+					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -854,6 +1039,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
+					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

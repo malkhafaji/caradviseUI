@@ -9,4 +9,5 @@ target 'caradviseui' do
   ]
   pod 'react-native-braintree', :path => '../node_modules/react-native-braintree'
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
+  pod 'Branch'
 end
