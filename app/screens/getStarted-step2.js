@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 var fldWidth = Dimensions.get('window').width - 40;
@@ -18,6 +19,7 @@ class Step2 extends Component {
 
     render() {
         return (
+          <ScrollView>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -54,6 +56,7 @@ class Step2 extends Component {
             </View>
 
           </View>
+          </ScrollView>
         );
     }
 }
@@ -63,6 +66,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 50,
   },
   bgSteps: {
     position: 'absolute',
