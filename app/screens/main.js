@@ -12,6 +12,7 @@ import {
   Component,
   TouchableOpacity,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 class Main extends Component {
@@ -21,6 +22,7 @@ class Main extends Component {
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} showMenu />
             <CarBar />
+            <ScrollView>
             <View>
               <Image
                 source={require('../../images/img-vehicle.png')}
@@ -58,6 +60,7 @@ class Main extends Component {
               </TouchableOpacity>
 
             </View>
+            </ScrollView>
           </View>
         );
     }

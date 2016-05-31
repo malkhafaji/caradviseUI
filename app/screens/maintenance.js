@@ -41,12 +41,13 @@ class Maintenance extends Component {
 
     render() {
         return (
-          <ScrollView>
+
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
             <CarBar />
             <View style={styles.maintenanceContainer}>
 
+              <ScrollView style={styles.scrollView}>
               <Text style={styles.textHd}>Maintenance</Text>
 
               <View style={styles.maintenanceRow}>
@@ -63,7 +64,7 @@ class Maintenance extends Component {
                 <Text style={styles.totalPrice}>$45</Text>
               </View>
 
-              <View>
+              <View style={styles.rowAddService}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
                   <Image
                     source={require('../../images/btn-add-service.png')}
@@ -78,10 +79,11 @@ class Maintenance extends Component {
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
+              </ScrollView>
 
             </View>
           </View>
-          </ScrollView>
+
         );
     }
 }
@@ -91,6 +93,9 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  scrollView: {
+    height: Dimensions.get('window').height,
+  },
   maintenanceContainer: {
     alignItems: 'center',
   },
@@ -99,6 +104,7 @@ var styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 8,
     color: '#666666',
+    textAlign: 'center',
   },
   maintenanceRow: {
     flex: 1,
@@ -136,6 +142,9 @@ var styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'right',
+  },
+  rowAddService: {
+    alignItems: 'center',
   },
   btnAddService: {
     width: 110,

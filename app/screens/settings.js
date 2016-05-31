@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 var width = Dimensions.get('window').width - 20;
@@ -19,9 +20,9 @@ class Settings extends Component {
 
     render() {
         return (
-          <ScrollView>
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
+            <ScrollView>
             <View style={styles.settingsContainer}>
               <Text style={styles.textHd}>Settings</Text>
 
@@ -75,8 +76,8 @@ class Settings extends Component {
               </View>
 
             </View>
-          </View>
           </ScrollView>
+          </View>
         );
     }
 }
