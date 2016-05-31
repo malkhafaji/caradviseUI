@@ -4,6 +4,8 @@
 <dict>
 	<key>branch_app_domain</key>
 	<string>caradvise.app.link</string>
+	<key>branch_key</key>
+	<string>key_live_pej4S6kmUT4wMtxksMnh8lclBwhMMGMl</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
