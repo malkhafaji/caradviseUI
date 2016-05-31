@@ -97,6 +97,8 @@ var styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 15,
     marginBottom: 8,
+    marginLeft: 20,
+    marginRight: 20,
     color: '#666666',
   },
   starRow: {
@@ -109,7 +111,7 @@ var styles = StyleSheet.create({
     height: 37,
   },
   btnDone: {
-    width: 150,
+    width: 135,
     height: 30,
     marginTop: 20,
   },
