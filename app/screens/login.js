@@ -19,7 +19,17 @@ var fldWidth = Dimensions.get('window').width - 40;
 class Login extends Component {
     constructor(props) {
       super(props);
-      this.state = { email: '', password: '' };
+      this.state = {
+        fields: {
+          email: { name: 'Email', value: '', invalid: false, validators:['_isPresent'] },
+          password: { name: 'Password', value: '', invalid: false, validators:['_isPresent'] }
+        }
+      };
+    }
+
+    componentWillReceiveProps({ error }) {
+      if (error)
+        Alert.alert('Error', error);
     }
 
     componentDidUpdate() {
@@ -42,31 +52,35 @@ class Login extends Component {
             </View>
             <View style={styles.loginContainer}>
               <TextInput
-                style={styles.fldEmail}
+                ref='email'
+                style={[styles.fldEmail, this.state.fields.email.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'Email'}
+                placeholder={this.state.fields.email.name}
                 keyboardType='email-address'
                 autoCapitalize='none'
                 autoCorrect={false}
                 autoFocus
-                value={this.state.email}
-                onChangeText={email => this.setState({ email })} />
+                value={this.state.fields.email.value}
+                onChangeText={value => this._onFieldChange('email', value)} />
             </View>
             <View style={styles.loginContainer}>
               <TextInput
-                style={styles.fldPwd}
+                ref='password'
+                style={[styles.fldPwd, this.state.fields.password.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'Password'}
+                placeholder={this.state.fields.password.name}
                 secureTextEntry
-                value={this.state.password}
-                onChangeText={password => this.setState({ password })} />
+                value={this.state.fields.password.value}
+                onChangeText={value => this._onFieldChange('password', value)} />
             </View>
             <TouchableOpacity
-              disabled={this.props.isLoading || !this.state.email || !this.state.password}
+              disabled={this.props.isLoading}
               onPress={() => {
-                this.props.signIn({
-                  email: this.state.email,
-                  password: this.state.password
+                this._validateFields(() => {
+                  this.props.signIn({
+                    email: this.state.fields.email.value,
+                    password: this.state.fields.password.value
+                  })
                 });
               }}
             >
@@ -78,6 +92,46 @@ class Login extends Component {
 
           </View>
         );
+    }
+
+    _isPresent(value) {
+      return !!value;
+    }
+
+    _setAndValidateField(key, value) {
+      let field = this.state.fields[key];
+      let validators = field.validators || [];
+      let invalid = validators.some(validator => !this[validator](value));
+
+      return { ...field, value, invalid };
+    }
+
+    _onFieldChange(key, value) {
+      this.setState({
+        fields: {
+          ...(this.state.fields),
+          [key]: this._setAndValidateField(key, value.trim())
+        }
+      });
+    }
+
+    _validateFields(callback) {
+      let fields = {};
+      let firstInvalidKey = null;
+
+      Object.keys(this.state.fields).forEach(key => {
+        let field = this.state.fields[key];
+        fields[key] = field = this._setAndValidateField(key, field.value);
+        if (!firstInvalidKey && field.invalid)
+          firstInvalidKey = key;
+      });
+
+      this.setState({ fields }, () => {
+        if (firstInvalidKey)
+          this.refs[firstInvalidKey].focus();
+        else if (callback)
+          callback();
+      });
     }
 }
 
@@ -129,6 +183,10 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: 60,
   },
+  invalidFld: {
+    borderWidth: 1,
+    borderColor: 'red'
+  }
 });
 
 function mapStateToProps(state) {

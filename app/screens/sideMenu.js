@@ -14,6 +14,11 @@ import { connect } from 'react-redux';
 import { signOut } from '../actions/user';
 
 class SideMenu extends Component {
+  componentWillReceiveProps({ error }) {
+    if (error)
+      Alert.alert('Error', error);
+  }
+
   componentDidUpdate() {
     if (this.props.isLoggedOut)
       this.props.navigator.resetTo({ indent: 'GetStarted' });

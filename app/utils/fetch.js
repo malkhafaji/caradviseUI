@@ -14,7 +14,7 @@ export async function postJSON(url, data={}) {
       return { result };
     } else if (response.status >= 400 && response.status < 500) {
       let result = await response.json();
-      throw new Error(result.errors || result.error);
+      return { error: result.errors || result.error };
     } else {
       throw new Error(`Error with status ${response.status}`);
     }
@@ -39,7 +39,7 @@ export async function deleteJSON(url, data={}) {
       return { result: true };
     } else if (response.status >= 400 && response.status < 500) {
       let result = await response.json();
-      throw new Error(result.errors || result.error);
+      return { error: result.errors || result.error };
     } else {
       throw new Error(`Error with status ${response.status}`);
     }

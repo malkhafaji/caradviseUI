@@ -24,13 +24,38 @@ class GetStarted extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        email: '',
-        password: '',
-        confirmPassword: '',
-        firstName: '',
-        lastName: '',
-        cellPhone: ''
+        fields: {
+          firstName: { name: 'First Name', value: '', invalid: false, validators:['_isPresent'] },
+          lastName: { name: 'Last Name', value: '', invalid: false, validators:['_isPresent'] },
+          email: { name: 'Email', value: '', invalid: false, validators:['_isPresent'] },
+          cellPhone: { name: 'Phone Number', value: '', invalid: false, validators:['_isPresent'] },
+          password: { name: 'Password', value: '', invalid: false, validators:['_isPresent'] },
+          confirmPassword: { name: 'Confirm Password', value: '', invalid: false, validators:['_isPasswordMatched'] }
+        }
       };
+    }
+
+    componentWillReceiveProps({ error }) {
+      if (error) {
+        if (typeof error === 'string') {
+          Alert.alert('Error', error);
+        } else {
+          let errorKeys = Object.keys(error);
+          let errorMessages = [];
+          let errorFields = {};
+
+          errorKeys.forEach(key => {
+            let field = this.state.fields[key];
+            if (!field) return;
+
+            errorMessages.push(field.name + ' ' + error[key]);
+            errorFields[key] = { ...field, invalid: true };
+          });
+
+          Alert.alert('Error', errorMessages.join('\n'));
+          this.setState({ fields: { ...this.state.fields, ...errorFields } });
+        }
+      }
     }
 
     componentDidUpdate() {
@@ -61,60 +86,68 @@ class GetStarted extends Component {
             <View style={styles.fields}>
               <View style={styles.nameRow}>
                 <TextInput
-                  style={styles.firstNameFld}
+                  ref='firstName'
+                  style={[styles.firstNameFld, this.state.fields.firstName.invalid && styles.invalidFld]}
                   placeholderTextColor={'#666'}
-                  placeholder={'First Name'}
+                  placeholder={this.state.fields.firstName.name}
                   autoCorrect={false}
                   autoFocus
-                  value={this.state.firstName}
-                  onChangeText={firstName => this.setState({ firstName })} />
+                  value={this.state.fields.firstName.value}
+                  onChangeText={value => this._onFieldChange('firstName', value)} />
                 <TextInput
-                  style={styles.lastNameFld}
+                  ref='lastName'
+                  style={[styles.lastNameFld, this.state.fields.lastName.invalid && styles.invalidFld]}
                   placeholderTextColor={'#666'}
-                  placeholder={'Last Name'}
+                  placeholder={this.state.fields.lastName.name}
                   autoCorrect={false}
-                  value={this.state.lastName}
-                  onChangeText={lastName => this.setState({ lastName })} />
+                  value={this.state.fields.lastName.value}
+                  onChangeText={value => this._onFieldChange('lastName', value)} />
               </View>
               <TextInput
-                style={styles.textFld}
+                ref='email'
+                style={[styles.textFld, this.state.fields.email.invalid && styles.invalidFld]}
                 keyboardType={'email-address'}
                 placeholderTextColor={'#666'}
-                placeholder={'Email'}
+                placeholder={this.state.fields.email.name}
                 autoCapitalize='none'
                 autoCorrect={false}
-                value={this.state.email}
-                onChangeText={email => this.setState({ email })} />
+                value={this.state.fields.email.value}
+                onChangeText={value => this._onFieldChange('email', value)} />
               <TextInput
-                style={styles.textFld}
+                ref='cellPhone'
+                style={[styles.textFld, this.state.fields.cellPhone.invalid && styles.invalidFld]}
                 keyboardType={'phone-pad'}
                 placeholderTextColor={'#666'}
-                placeholder={'Phone Number'}
-                value={this.state.cellPhone}
-                onChangeText={cellPhone => this.setState({ cellPhone })} />
+                placeholder={this.state.fields.cellPhone.name}
+                value={this.state.fields.cellPhone.value}
+                onChangeText={value => this._onFieldChange('cellPhone', value)} />
               <TextInput
-                style={styles.textFld}
+                ref='password'
+                style={[styles.textFld, this.state.fields.password.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'Password'}
+                placeholder={this.state.fields.password.name}
                 secureTextEntry
-                value={this.state.password}
-                onChangeText={password => this.setState({ password })} />
+                value={this.state.fields.password.value}
+                onChangeText={value => this._onFieldChange('password', value)} />
               <TextInput
-                style={styles.textFld}
+                ref='confirmPassword'
+                style={[styles.textFld, this.state.fields.confirmPassword.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'Confirm Password'}
+                placeholder={this.state.fields.confirmPassword.name}
                 secureTextEntry
-                value={this.state.confirmPassword}
-                onChangeText={confirmPassword => this.setState({ confirmPassword })} />
+                value={this.state.fields.confirmPassword.value}
+                onChangeText={value => this._onFieldChange('confirmPassword', value)} />
               <TouchableOpacity
                 disabled={this.props.isLoading}
                 onPress={() => {
-                  this.props.signUp({
-                    email: this.state.email,
-                    password: this.state.password,
-                    firstName: this.state.firstName,
-                    lastName: this.state.lastName,
-                    cellPhone: this.state.cellPhone
+                  this._validateFields(() => {
+                    this.props.signUp({
+                      email: this.state.fields.email.value,
+                      password: this.state.fields.password.value,
+                      firstName: this.state.fields.firstName.value,
+                      lastName: this.state.fields.lastName.value,
+                      cellPhone: this.state.fields.cellPhone.value
+                    });
                   });
                 }}
               >
@@ -128,6 +161,50 @@ class GetStarted extends Component {
           </View>
           </ScrollView>
         );
+    }
+
+    _isPresent(value) {
+      return !!value;
+    }
+
+    _isPasswordMatched(value) {
+      return value === this.state.fields.password.value;
+    }
+
+    _setAndValidateField(key, value) {
+      let field = this.state.fields[key];
+      let validators = field.validators || [];
+      let invalid = validators.some(validator => !this[validator](value));
+
+      return { ...field, value, invalid };
+    }
+
+    _onFieldChange(key, value) {
+      this.setState({
+        fields: {
+          ...(this.state.fields),
+          [key]: this._setAndValidateField(key, value.trim())
+        }
+      });
+    }
+
+    _validateFields(callback) {
+      let fields = {};
+      let firstInvalidKey = null;
+
+      Object.keys(this.state.fields).forEach(key => {
+        let field = this.state.fields[key];
+        fields[key] = field = this._setAndValidateField(key, field.value);
+        if (!firstInvalidKey && field.invalid)
+          firstInvalidKey = key;
+      });
+
+      this.setState({ fields }, () => {
+        if (firstInvalidKey)
+          this.refs[firstInvalidKey].focus();
+        else if (callback)
+          callback();
+      });
     }
 }
 
@@ -199,6 +276,10 @@ var styles = StyleSheet.create({
   nameRow: {
     flexDirection: 'row',
   },
+  invalidFld: {
+    borderWidth: 1,
+    borderColor: 'red'
+  }
 });
 
 function mapStateToProps(state) {
