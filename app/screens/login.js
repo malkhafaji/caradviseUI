@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signIn } from '../actions/user';
@@ -39,6 +40,7 @@ class Login extends Component {
 
     render() {
         return (
+          <ScrollView>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -91,6 +93,7 @@ class Login extends Component {
             </TouchableOpacity>
 
           </View>
+          </ScrollView>
         );
     }
 

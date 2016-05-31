@@ -19,6 +19,7 @@ class Settings extends Component {
 
     render() {
         return (
+          <ScrollView>
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
             <View style={styles.settingsContainer}>
@@ -75,6 +76,7 @@ class Settings extends Component {
 
             </View>
           </View>
+          </ScrollView>
         );
     }
 }

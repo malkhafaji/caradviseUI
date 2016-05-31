@@ -13,6 +13,7 @@ import {
   Component,
   TouchableOpacity,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 var width = Dimensions.get('window').width - 20;
@@ -40,6 +41,7 @@ class Maintenance extends Component {
 
     render() {
         return (
+          <ScrollView>
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
             <CarBar />
@@ -79,6 +81,7 @@ class Maintenance extends Component {
 
             </View>
           </View>
+          </ScrollView>
         );
     }
 }

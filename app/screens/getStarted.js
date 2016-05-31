@@ -9,12 +9,14 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 class GetStarted extends Component {
 
     render() {
         return (
+          <ScrollView>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -42,6 +44,7 @@ class GetStarted extends Component {
             </View>
 
           </View>
+          </ScrollView>
         );
     }
 }
