@@ -40,7 +40,7 @@ class Login extends Component {
 
     render() {
         return (
-          <ScrollView>
+          <ScrollView style={styles.scrollView}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -139,11 +139,14 @@ class Login extends Component {
 }
 
 var styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#000',
+  },
   formContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 50
+    marginBottom: 300,
   },
   bgLogin: {
     position: 'absolute',
