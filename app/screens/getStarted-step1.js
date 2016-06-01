@@ -65,7 +65,7 @@ class GetStarted extends Component {
 
     render() {
         return (
-          <ScrollView>
+          <ScrollView style={styles.scrollView}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -209,10 +209,14 @@ class GetStarted extends Component {
 }
 
 var styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#000',
+  },
   formContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 400,
   },
   bgSteps: {
     position: 'absolute',
@@ -233,7 +237,8 @@ var styles = StyleSheet.create({
     fontSize: 21,
     paddingLeft: 20,
     paddingRight: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   fields: {
     marginTop: 30,
