@@ -12,6 +12,7 @@ import {
   Navigator,
   TouchableOpacity,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 var width = Dimensions.get('window').width - 20;
@@ -23,6 +24,7 @@ class AddServices extends Component {
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
             <CarBar />
+            <ScrollView>
             <View style={styles.servicesContainer}>
               <Text style={styles.textHd}>Select Maintenance</Text>
 
@@ -83,6 +85,7 @@ class AddServices extends Component {
               </TouchableOpacity>
 
             </View>
+            </ScrollView>
           </View>
         );
     }
