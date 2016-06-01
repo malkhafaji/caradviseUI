@@ -72,7 +72,7 @@ class Maintenance extends Component {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.approveDecline}>
+              <View style={styles.bookIt}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Billing' })}>
                   <Image
                     source={require('../../images/btn-bookit-big.png')}
@@ -150,6 +150,9 @@ var styles = StyleSheet.create({
     width: 110,
     height: 10,
     marginBottom: 20,
+  },
+  bookIt: {
+    alignItems: 'center',
   },
   btnCheckout: {
     width: 300,
