@@ -143,6 +143,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 50
   },
   bgLogin: {
     position: 'absolute',
