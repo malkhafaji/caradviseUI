@@ -27,6 +27,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  self.oneSignal = [[OneSignal alloc] initWithLaunchOptions:launchOptions
+                                                      appId:@"9e8b5f57-6c0f-4584-ab0c-0e54e95b1a23"
+                                         handleNotification:nil];
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
   NSURL *jsCodeLocation;

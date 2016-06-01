@@ -24,6 +24,7 @@ PODS:
   - Branch (0.12.1)
   - CodePush (1.11.0):
     - React
+  - OneSignal (1.13.2)
   - React (0.25.1):
     - React/Core (= 0.25.1)
   - react-native-braintree (0.5.0):
@@ -43,6 +44,7 @@ PODS:
 DEPENDENCIES:
   - Branch
   - CodePush (from `../node_modules/react-native-code-push`)
+  - OneSignal
   - react-native-braintree (from `../node_modules/react-native-braintree`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
@@ -62,9 +64,10 @@ SPEC CHECKSUMS:
   Braintree: 817c38f759315a6aaa0c5884dc9f1969a61f802f
   Branch: 32fb6e2048118a7ff23be984e731569517fbc5f3
   CodePush: 10e12c2c7dd68866cda4a38dce32605a7bff5408
+  OneSignal: 15b94fa760a6754908f11ef92da6ec945923fa2c
   React: b35b2b2e07273da1f7266ab2975e0d1033bd913d
   react-native-braintree: 982b6f10d5ad436a4dc18bfc17a640d54fa0a324
 
-PODFILE CHECKSUM: 53aa6751ae61e4ca728bc659fec18742a0db8d79
+PODFILE CHECKSUM: 5cfce04a5e58109fdd00539d1354960630653d23
 
 COCOAPODS: 1.0.0
