@@ -73,7 +73,7 @@ class Maintenance extends Component {
               </View>
 
               <View style={styles.bookIt}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Billing' })}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
                   <Image
                     source={require('../../images/btn-bookit-big.png')}
                     style={styles.btnCheckout} />
