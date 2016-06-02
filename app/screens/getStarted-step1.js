@@ -14,7 +14,7 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signUp } from '../actions/user';
+import cache from '../utils/cache';
 
 var fldWidth = Dimensions.get('window').width - 40;
 var firstNameWidth = fldWidth / 2 - 15;
@@ -56,11 +56,6 @@ class GetStarted extends Component {
           this.setState({ fields: { ...this.state.fields, ...errorFields } });
         }
       }
-    }
-
-    componentDidUpdate() {
-      if (this.props.isLoggedIn)
-        this.props.navigator.push({ indent: 'Step2' });
     }
 
     render() {
@@ -138,16 +133,10 @@ class GetStarted extends Component {
                 value={this.state.fields.confirmPassword.value}
                 onChangeText={value => this._onFieldChange('confirmPassword', value)} />
               <TouchableOpacity
-                disabled={this.props.isLoading}
                 onPress={() => {
                   this._validateFields(() => {
-                    this.props.signUp({
-                      email: this.state.fields.email.value,
-                      password: this.state.fields.password.value,
-                      firstName: this.state.fields.firstName.value,
-                      lastName: this.state.fields.lastName.value,
-                      cellPhone: this.state.fields.cellPhone.value
-                    });
+                    cache.set('step1-fields', this.state.fields);
+                    this.props.navigator.push({ indent: 'Step2' });
                   });
                 }}
               >
@@ -290,10 +279,8 @@ var styles = StyleSheet.create({
 function mapStateToProps(state) {
   let user = state.user || {};
   return {
-    isLoggedIn: !!user.authentication_token,
-    isLoading: !!user.loading,
     error: user.error
   };
 }
 
-module.exports = connect(mapStateToProps, { signUp })(GetStarted);
+module.exports = connect(mapStateToProps)(GetStarted);

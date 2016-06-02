@@ -12,10 +12,30 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
+import { connect } from 'react-redux';
+import { signUp } from '../actions/user';
+import cache from '../utils/cache';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
 class Step2 extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        fields: Object.assign({
+          vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false },
+          vin: { name: 'VIN', value: '', invalid: false }
+        }, cache.get('step2-fields') || {})
+      };
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn) {
+        cache.remove('step1-fields');
+        cache.remove('step2-fields');
+        this.props.navigator.resetTo({ indent: 'Main' });
+      }
+    }
 
     render() {
         return (
@@ -34,20 +54,24 @@ class Step2 extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your customer number or VIN below. If you don't have them then proceed to the next step.</Text>
+              <Text style={styles.textStep}>Enter your vehicle number or VIN below. If you don{"'"}t have them then proceed to the next step.</Text>
             </View>
 
             <View style={styles.fields}>
               <TextInput
-                style={styles.textFld}
+                style={[styles.textFld, this.state.fields.vehicleNumber.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'Customer Number'} />
+                placeholder={this.state.fields.vehicleNumber.name}
+                value={this.state.fields.vehicleNumber.value}
+                onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <Text style={styles.textOr}>OR</Text>
               <TextInput
-                style={styles.textFld}
+                style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'VIN'} />
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step3' })}>
+                placeholder={this.state.fields.vin.name}
+                value={this.state.fields.vin.value}
+                onChangeText={value => this._onFieldChange('vin', value)} />
+              <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}
@@ -58,6 +82,34 @@ class Step2 extends Component {
           </View>
           </ScrollView>
         );
+    }
+
+    _onFieldChange(key, value) {
+      let field = this.state.fields[key];
+      this.setState({
+        fields: {
+          ...(this.state.fields),
+          [key]: { ...field, value: value.trim(), invalid: false }
+        }
+      }, () => cache.set('step2-fields', this.state.fields));
+    }
+
+    _onClickNext() {
+      if (this.state.fields.vehicleNumber.value) {
+        let step1Fields = cache.get('step1-fields');
+        this.props.signUp({
+          firstName: step1Fields.firstName.value,
+          lastName: step1Fields.lastName.value,
+          email: step1Fields.email.value,
+          cellPhone: step1Fields.cellPhone.value,
+          password: step1Fields.password.value,
+          vehicleNumber: this.state.fields.vehicleNumber.value
+        });
+      } else if (this.state.fields.vin.value) {
+        this.props.navigator.push({ indent: 'Step4' });
+      } else {
+        this.props.navigator.push({ indent: 'Step3' });
+      }
     }
 }
 
@@ -113,6 +165,18 @@ var styles = StyleSheet.create({
     width: 120,
     marginTop: 10,
   },
+  invalidFld: {
+    borderWidth: 1,
+    borderColor: 'red'
+  }
 });
 
-module.exports = Step2;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(Step2);
