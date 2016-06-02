@@ -30,7 +30,7 @@ export function signUp(data) {
 
     let response = await postJSON(SIGN_UP_URL, data);
     if (response.result) {
-      dispatch(setUserData(response.result.user));
+      dispatch(setUserData(response.result));
     } else {
       dispatch(setUserError(response.error));
     }
@@ -43,7 +43,7 @@ export function signIn({ email, password }) {
 
     let response = await postJSON(SIGN_IN_URL, { email, password });
     if (response.result) {
-      dispatch(setUserData(response.result.user));
+      dispatch(setUserData(response.result));
     } else {
       dispatch(setUserError(response.error));
     }
