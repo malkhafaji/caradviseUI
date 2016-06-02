@@ -15,10 +15,48 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
+import { connect } from 'react-redux';
 
 var width = Dimensions.get('window').width - 20;
 
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/maintenance';
+
 class Maintenance extends Component {
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        services:null,
+        total:0,
+      };
+    }
+
+    componentDidMount() {
+      this.getMaintenance();
+    }
+
+    getMaintenance() {
+      if(this.props.isLoggedIn && this.props.vehicleId)
+      {
+        fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
+          .then((response) => response.json())
+          .then((responseData) => {
+            var total = 0;
+            for (var i = 0; i < responseData.Maintenance_Services.length; i++) {
+              var cost = responseData.Maintenance_Services[i].Service.TotalPartCost;
+              if(typeof cost !== "undefined")
+              {
+                total += Number(cost.replace("$", ""));
+              }
+            }
+            this.setState({
+              services: responseData.Maintenance_Services,
+              total: "$" + total.toFixed(2)
+            });
+          })
+          .done();
+      }
+    }
 
     _renderScene(route, navigator) {
       var globalNavigatorProps = {navigator}
@@ -40,6 +78,25 @@ class Maintenance extends Component {
     }
 
     render() {
+
+      if (!this.state.services) {
+        return this.renderLoadingView();
+      }
+      var services = this.state.services;
+      return this.renderServices(services);
+    }
+
+    renderLoadingView() {
+      return (
+        <View style={styles.base}>
+          <Text>
+            Loading services...
+          </Text>
+        </View>
+      );
+    }
+
+    renderServices(services) {
         return (
 
           <View style={styles.base}>
@@ -50,18 +107,11 @@ class Maintenance extends Component {
               <ScrollView style={styles.scrollView}>
               <Text style={styles.textHd}>Maintenance</Text>
 
-              <View style={styles.maintenanceRow}>
-                <Text style={styles.maintenanceItem}>Oil Change</Text>
-                <Text style={styles.maintenancePrice}>$45</Text>
-              </View>
-              <View style={styles.maintenanceRow}>
-                <Text style={styles.maintenanceItem}>Tire Rotation</Text>
-                <Text style={styles.maintenancePrice}>$30</Text>
-              </View>
+              {services.map(createServiceRow)}
 
               <View style={styles.total}>
                 <Text style={styles.totalText}>Total:</Text>
-                <Text style={styles.totalPrice}>$45</Text>
+                <Text style={styles.totalPrice}>{this.state.total}</Text>
               </View>
 
               <View style={styles.rowAddService}>
@@ -88,13 +138,29 @@ class Maintenance extends Component {
     }
 }
 
+var createServiceRow = (service, i) => <Service key={i} service={service.Service} />;
+
+var Service = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+  render: function() {
+    return (
+      <View style={styles.maintenanceRow}>
+        <Text style={styles.maintenanceItem}>{this.props.service.Name}</Text>
+        <Text style={styles.maintenancePrice}>{this.props.service.TotalPartCost}</Text>
+      </View>
+    );
+  }
+});
+
 var styles = StyleSheet.create({
   base: {
     flex: 1,
     backgroundColor: '#fff',
   },
   scrollView: {
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height - 125,
   },
   maintenanceContainer: {
     alignItems: 'center',
@@ -160,4 +226,13 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Maintenance;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    authentication_token: user.authentication_token,
+    vehicleId : user.vehicles[0].id,
+  };
+}
+
+module.exports = connect(mapStateToProps)(Maintenance);
