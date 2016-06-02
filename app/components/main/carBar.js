@@ -8,14 +8,15 @@ import {
     Image,
     StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 class carBar extends Component {
   render() {
     return (
       <View style={styles.carContainer}>
         <View style={styles.carType}>
-          <Text style={styles.carMake}>2014 </Text>
-          <Text style={styles.carModel}>FORD EXPLORER</Text>
+          <Text style={styles.carMake}>{this.props.vehicleYear} </Text>
+          <Text style={styles.carModel}>{this.props.vehicleMake} {this.props.vehicleModel}</Text>
         </View>
       </View>
       );
@@ -47,4 +48,13 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = carBar;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    vehicleYear: user.vehicles[0].year,
+    vehicleMake: user.vehicles[0].make,
+    vehicleModel : user.vehicles[0].model,
+  };
+}
+
+module.exports = connect(mapStateToProps)(carBar);
