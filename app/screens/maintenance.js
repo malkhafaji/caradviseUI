@@ -16,6 +16,7 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -28,6 +29,7 @@ class Maintenance extends Component {
       this.state = {
         services:null,
         total:0,
+        visible: false,
       };
     }
 
@@ -88,10 +90,8 @@ class Maintenance extends Component {
 
     renderLoadingView() {
       return (
-        <View style={styles.base}>
-          <Text>
-            Loading services...
-          </Text>
+        <View>
+          <Spinner visible={true} />
         </View>
       );
     }
@@ -132,6 +132,7 @@ class Maintenance extends Component {
               </ScrollView>
 
             </View>
+
           </View>
 
         );
