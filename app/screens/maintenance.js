@@ -3,7 +3,6 @@ var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
 var ApprovalRequest = require('../components/main/approvalRequest');
 
-
 import React from 'react';
 import {
   Text,
@@ -107,7 +106,9 @@ class Maintenance extends Component {
               <ScrollView style={styles.scrollView}>
               <Text style={styles.textHd}>Maintenance</Text>
 
+              <View style={styles.maintenanceList}>
               {services.map(createServiceRow)}
+              </View>
 
               <View style={styles.total}>
                 <Text style={styles.totalText}>Total:</Text>
@@ -147,10 +148,26 @@ var Service = React.createClass({
   },
   render: function() {
     return (
-      <View style={styles.maintenanceRow}>
+      <TouchableOpacity style={styles.maintenanceRow}>
         <Text style={styles.maintenanceItem}>{this.props.service.Name}</Text>
-        <Text style={styles.maintenancePrice}>{this.props.service.TotalPartCost}</Text>
-      </View>
+
+        <View style={styles.fairPriceContainer}>
+          <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+          <View style={styles.fairPriceRange}>
+            <Text>$30</Text>
+            <Image
+              source={require('../../images/arrow-range.png')}
+              style={styles.fairPriceArrow} />
+            <Text>$50</Text>
+          </View>
+        </View>
+
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceHd}>PRICE</Text>
+          <Text style={styles.price}>{this.props.service.TotalPartCost}</Text>
+        </View>
+      </TouchableOpacity>
+
     );
   }
 });
@@ -161,7 +178,11 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   scrollView: {
-    height: Dimensions.get('window').height - 125,
+    flex: 1,
+    width: width,
+    height: Dimensions.get('window').height,
+    marginLeft: 10,
+    marginRight: 10,
   },
   maintenanceContainer: {
     alignItems: 'center',
@@ -190,13 +211,79 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     color: '#11325F',
   },
+  maintenanceList: {
+    flexDirection: 'column',
+    width: Dimensions.get('window').width,
+  },
+  maintenanceRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#EFEFEF',
+    width: width,
+    marginBottom: 3,
+  },
+  maintenanceItem: {
+    flex: 3,
+    marginTop: 20,
+    marginBottom: 15,
+    marginLeft: 10,
+    fontWeight: 'bold',
+    color: '#11325F',
+    alignItems: 'center',
+  },
+  fairPriceContainer: {
+    flex: 1,
+    marginTop: 15,
+    marginBottom: 15,
+    marginLeft: 5,
+    marginRight: 3,
+    alignItems: 'center',
+  },
+  priceContainer: {
+    flex: 1,
+    marginTop: 15,
+    marginRight: 10,
+  },
+  priceHd: {
+    fontSize: 12,
+    textAlign: 'right',
+    fontWeight: 'bold',
+  },
+  price: {
+    textAlign: 'right',
+    color: '#11325F',
+    fontWeight: 'bold',
+  },
+  range: {
+    flexDirection: 'column',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  fairPriceRange: {
+    flexDirection: 'row',
+  },
+  fairPriceText: {
+    color: '#F49D11',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  fairPriceArrow: {
+    width: 22,
+    height: 10,
+    marginTop: 4,
+    marginLeft: 2,
+    marginRight: 2,
+  },
   total: {
     flex: 1,
     flexDirection: 'row',
     width: width,
     backgroundColor: '#FEF1DC',
     alignItems: 'center',
-    padding: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
     marginBottom: 20,
   },
   totalText: {
