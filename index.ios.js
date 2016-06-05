@@ -38,7 +38,7 @@ const store = configureStore();
 
 class caradviseui extends Component {
   componentDidMount() {
-    codePush.sync();
+    codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
     storage.get('caradvise:state').then(state => {
       if (state) {
         store.dispatch(loadState(state));
