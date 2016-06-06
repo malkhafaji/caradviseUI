@@ -24,7 +24,7 @@ class ServiceDetail extends Component {
         return (
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
-
+            <CarBar />
             <ScrollView
               style={styles.scrollView}>
             <View style={styles.serviceContainer}>
@@ -52,8 +52,8 @@ class ServiceDetail extends Component {
                       <Text style={styles.servicePrice}>$50</Text>
                     </View>
                   </View>
-                  <View style={styles.serviceDesc}>
-                    <Text>Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles.</Text>
+                  <View style={styles.serviceDescContainer}>
+                    <Text style={styles.serviceDesc}>Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles.</Text>
                   </View>
 
               </View>
@@ -159,12 +159,16 @@ var styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 2,
   },
-  serviceDesc: {
+  serviceDescContainer: {
     backgroundColor: '#EFEFEF',
     width: Dimensions.get('window').width,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 5,
+  },
+  serviceDesc: {
+    backgroundColor: '#FFF',
+    padding: 10,
   },
   btnAdd: {
     width: 300,
