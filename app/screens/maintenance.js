@@ -232,7 +232,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   fairPriceContainer: {
-    flex: 1,
+    flex: 2,
     marginTop: 15,
     marginBottom: 15,
     marginLeft: 5,
