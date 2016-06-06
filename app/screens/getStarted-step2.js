@@ -10,18 +10,22 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { signUp } from '../actions/user';
 import cache from '../utils/cache';
+import { getJSON } from '../utils/fetch';
 
 var fldWidth = Dimensions.get('window').width - 40;
+const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/search_by_vin';
 
 class Step2 extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        isLoading: false,
         fields: Object.assign({
           vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false },
           vin: { name: 'VIN', value: '', invalid: false }
@@ -33,6 +37,7 @@ class Step2 extends Component {
       if (this.props.isLoggedIn) {
         cache.remove('step1-fields');
         cache.remove('step2-fields');
+        cache.remove('step4-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
       }
     }
@@ -59,6 +64,8 @@ class Step2 extends Component {
 
             <View style={styles.fields}>
               <TextInput
+                autoCapitalize='none'
+                autoCorrect={false}
                 style={[styles.textFld, this.state.fields.vehicleNumber.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.vehicleNumber.name}
@@ -66,12 +73,14 @@ class Step2 extends Component {
                 onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <Text style={styles.textOr}>OR</Text>
               <TextInput
+                autoCapitalize='none'
+                autoCorrect={false}
                 style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.vin.name}
                 value={this.state.fields.vin.value}
                 onChangeText={value => this._onFieldChange('vin', value)} />
-              <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
+              <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}
@@ -106,9 +115,21 @@ class Step2 extends Component {
           vehicleNumber: this.state.fields.vehicleNumber.value
         });
       } else if (this.state.fields.vin.value) {
-        this.props.navigator.push({ indent: 'Step4' });
+        this._verifyVIN(() => this.props.navigator.push({ indent: 'Step4' }));
       } else {
         this.props.navigator.push({ indent: 'Step3' });
+      }
+    }
+
+    async _verifyVIN(callback) {
+      this.setState({ isLoading: true });
+      let response = await getJSON(VIN_LOOKUP_URL, { vin: this.state.fields.vin.value });
+      this.setState({ isLoading: false });
+
+      if (response.error) {
+        Alert.alert('Error', response.error);
+      } else if (callback) {
+        callback();
       }
     }
 }

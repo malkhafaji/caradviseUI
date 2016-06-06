@@ -12,10 +12,30 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
+import { connect } from 'react-redux';
+import { signUp } from '../actions/user';
+import cache from '../utils/cache';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
 class Step4 extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        fields: Object.assign({
+          miles: { name: 'Mileage', value: '', invalid: false, validators: ['_isPresent'] }
+        }, cache.get('step4-fields') || {})
+      };
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn) {
+        cache.remove('step1-fields');
+        cache.remove('step2-fields');
+        cache.remove('step4-fields');
+        this.props.navigator.resetTo({ indent: 'Main' });
+      }
+    }
 
     render() {
         return (
@@ -39,10 +59,14 @@ class Step4 extends Component {
 
             <View style={styles.fields}>
               <TextInput
-                style={styles.textFld}
+                ref='miles'
+                keyboardType='numeric'
+                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={'Mileage'} />
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Main' })}>
+                placeholder={this.state.fields.miles.name}
+                value={this.state.fields.miles.value}
+                onChangeText={value => this._onFieldChange('miles', value)} />
+              <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
                 <Image
                   resizeMode='contain'
                   source={require('../../images/btn-next.png')}
@@ -53,6 +77,62 @@ class Step4 extends Component {
           </View>
           </ScrollView>
         );
+    }
+
+    _isPresent(value) {
+      return !!value;
+    }
+
+    _setAndValidateField(key, value) {
+      let field = this.state.fields[key];
+      let validators = field.validators || [];
+      let invalid = validators.some(validator => !this[validator](value));
+
+      return { ...field, value, invalid };
+    }
+
+    _onFieldChange(key, value) {
+      this.setState({
+        fields: {
+          ...(this.state.fields),
+          [key]: this._setAndValidateField(key, value.trim())
+        }
+      }, () => cache.set('step4-fields', this.state.fields));
+    }
+
+    _validateFields(callback) {
+      let fields = {};
+      let firstInvalidKey = null;
+
+      Object.keys(this.state.fields).forEach(key => {
+        let field = this.state.fields[key];
+        fields[key] = field = this._setAndValidateField(key, field.value);
+        if (!firstInvalidKey && field.invalid)
+          firstInvalidKey = key;
+      });
+
+      this.setState({ fields }, () => {
+        if (firstInvalidKey)
+          this.refs[firstInvalidKey].focus();
+        else if (callback)
+          callback();
+      });
+    }
+
+    _onClickNext() {
+      this._validateFields(() => {
+        let step1Fields = cache.get('step1-fields');
+        let step2Fields = cache.get('step2-fields');
+        this.props.signUp({
+          firstName: step1Fields.firstName.value,
+          lastName: step1Fields.lastName.value,
+          email: step1Fields.email.value,
+          cellPhone: step1Fields.cellPhone.value,
+          password: step1Fields.password.value,
+          vin: step2Fields.vin.value,
+          miles: this.state.fields.miles.value
+        });
+      });
     }
 }
 
@@ -102,6 +182,18 @@ var styles = StyleSheet.create({
     width: 120,
     marginTop: 10,
   },
+  invalidFld: {
+    borderWidth: 1,
+    borderColor: 'red'
+  }
 });
 
-module.exports = Step4;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(Step4);
