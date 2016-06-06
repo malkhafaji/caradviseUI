@@ -73,7 +73,7 @@ class Step2 extends Component {
                 onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <Text style={styles.textOr}>OR</Text>
               <TextInput
-                autoCapitalize='none'
+                autoCapitalize='characters'
                 autoCorrect={false}
                 style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
