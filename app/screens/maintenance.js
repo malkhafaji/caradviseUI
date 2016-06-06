@@ -19,7 +19,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/maintenance';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/services';
 
 class Maintenance extends Component {
 
@@ -42,16 +42,17 @@ class Maintenance extends Component {
         fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
+            console.log(responseData);
             var total = 0;
-            for (var i = 0; i < responseData.Maintenance_Services.length; i++) {
-              var cost = responseData.Maintenance_Services[i].Service.TotalPartCost;
+            /*for (var i = 0; i < responseData.vehicles.length; i++) {
+              var cost = responseData.vehicles[i].Service.TotalPartCost;
               if(typeof cost !== "undefined")
               {
                 total += Number(cost.replace("$", ""));
               }
-            }
+            }*/
             this.setState({
-              services: responseData.Maintenance_Services,
+              services: responseData.vehicles,
               total: "$" + total.toFixed(2)
             });
           })
@@ -140,7 +141,7 @@ class Maintenance extends Component {
     }
 }
 
-var createServiceRow = (service, i) => <Service key={i} service={service.Service} />;
+var createServiceRow = (service, i) => <Service key={i} service={service} />;
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
@@ -149,7 +150,7 @@ var Service = React.createClass({
   render: function() {
     return (
       <TouchableOpacity style={styles.maintenanceRow}>
-        <Text style={styles.maintenanceItem}>{this.props.service.Name}</Text>
+        <Text style={styles.maintenanceItem}>{this.props.service.name} - {this.props.service.maintenance.action}</Text>
 
         <View style={styles.fairPriceContainer}>
           <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -164,7 +165,7 @@ var Service = React.createClass({
 
         <View style={styles.priceContainer}>
           <Text style={styles.priceHd}>PRICE</Text>
-          <Text style={styles.price}>{this.props.service.TotalPartCost}</Text>
+          <Text style={styles.price}>$0</Text>
         </View>
       </TouchableOpacity>
 
