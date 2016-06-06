@@ -64,7 +64,7 @@ class Step2 extends Component {
 
             <View style={styles.fields}>
               <TextInput
-                autoCapitalize='none'
+                autoCapitalize='characters'
                 autoCorrect={false}
                 style={[styles.textFld, this.state.fields.vehicleNumber.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
