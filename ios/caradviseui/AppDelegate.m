@@ -32,6 +32,16 @@
                                          handleNotification:nil];
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
+  __block NSMutableString *oneSignalId = nil;
+  __block NSMutableString *oneSignalToken = nil;
+  
+  [self.oneSignal IdsAvailable:^(NSString* userId, NSString* pushToken) {
+    oneSignalId = [NSMutableString stringWithString:userId];
+    if (pushToken != nil) {
+      oneSignalToken = [NSMutableString stringWithString:pushToken];
+    }
+  }];
+  
   NSURL *jsCodeLocation;
 
   /**
@@ -49,6 +59,7 @@
    */
   
   #ifdef DEBUG
+    //jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.101:8081/index.ios.bundle?platform=ios&dev=true"];
     jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
   #else
     jsCodeLocation = [CodePush bundleURL];
@@ -64,9 +75,12 @@
 
 //   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
+  NSDictionary *props = @{@"oneSignalId" : oneSignalId, @"oneSignalToken" : oneSignalToken};
+  NSLog(@"id is %@, token is %@", oneSignalId, oneSignalToken);
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"caradviseui"
-                                               initialProperties:nil
+                                               initialProperties:props
                                                    launchOptions:launchOptions];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
