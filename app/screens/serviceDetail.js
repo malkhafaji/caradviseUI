@@ -47,13 +47,6 @@ class ServiceDetail extends Component {
                       </View>
                     </View>
 
-                    <View style={styles.servicePriceContainer}>
-                      <Text style={styles.servicePriceHd}>PRICE</Text>
-                      <Text style={styles.servicePrice}>$50</Text>
-                    </View>
-                  </View>
-                  <View style={styles.serviceDescContainer}>
-                    <Text style={styles.serviceDesc}>Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles. Tires should be rotated every 6,000 miles.</Text>
                   </View>
 
               </View>
@@ -182,7 +175,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    //vehicleId : user.vehicles[0].id,
+    vehicleId : user.vehicles[0].id,
   };
 }
 
