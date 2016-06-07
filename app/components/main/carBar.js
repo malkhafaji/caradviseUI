@@ -50,10 +50,11 @@ var styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   let user = state.user || {};
+  let vehicle = user.vehicles && user.vehicles[0] || {};
   return {
-    vehicleYear: user.vehicles[0].year,
-    vehicleMake: user.vehicles[0].make,
-    vehicleModel : user.vehicles[0].model,
+    vehicleYear: vehicle.year,
+    vehicleMake: vehicle.make,
+    vehicleModel: vehicle.model,
   };
 }
 
