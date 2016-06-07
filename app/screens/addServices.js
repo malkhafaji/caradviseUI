@@ -134,7 +134,7 @@ var styles = StyleSheet.create({
   },
   servicesItem: {
     flex: 3,
-    color: '#666666',
+    color: '#11325F',
     fontSize: 18,
     fontWeight: 'bold',
   },
