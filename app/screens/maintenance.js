@@ -148,7 +148,7 @@ var Service = React.createClass({
   },
   render: function() {
     return (
-      <TouchableOpacity style={styles.maintenanceRow}>
+      <View style={styles.maintenanceRow}>
         <Text style={styles.maintenanceItem}>{this.props.service.name} - {this.props.service.maintenance.action}</Text>
 
         <View style={styles.fairPriceContainer}>
@@ -166,7 +166,7 @@ var Service = React.createClass({
           <Text style={styles.priceHd}>PRICE</Text>
           <Text style={styles.price}>$0</Text>
         </View>
-      </TouchableOpacity>
+      </View>
 
     );
   }
