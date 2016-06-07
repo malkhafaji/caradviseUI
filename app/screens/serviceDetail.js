@@ -20,6 +20,17 @@ var width = Dimensions.get('window').width - 20;
 
 class ServiceDetail extends Component {
 
+    constructor(props) {
+      super(props);
+      var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
+      this.state = {
+        id: passProps.category,
+        name:passProps.name,
+        lowCost:Number(passProps.lowCost).toFixed(0),
+        highCost:Number(passProps.highCost).toFixed(0)
+      };
+    }
+
     render() {
         return (
           <View style={styles.base}>
@@ -34,16 +45,16 @@ class ServiceDetail extends Component {
               <View style={styles.serviceList}>
 
                   <View style={styles.serviceRow}>
-                    <Text style={styles.serviceItem}>Brake Pads</Text>
+                    <Text style={styles.serviceItem}>{this.state.name}</Text>
 
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                       <View style={styles.fairPriceRange}>
-                        <Text>$30</Text>
+                        <Text>${this.state.lowCost}</Text>
                         <Image
                           source={require('../../images/arrow-range.png')}
                           style={styles.fairPriceArrow} />
-                        <Text>$50</Text>
+                        <Text>${this.state.highCost}</Text>
                       </View>
                     </View>
 
