@@ -32,8 +32,8 @@
                                          handleNotification:nil];
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
-  __block NSMutableString *oneSignalId = nil;
-  __block NSMutableString *oneSignalToken = nil;
+  __block NSMutableString *oneSignalId = [NSMutableString stringWithString:@""];
+  __block NSMutableString *oneSignalToken = [NSMutableString stringWithString:@""];
   
   [self.oneSignal IdsAvailable:^(NSString* userId, NSString* pushToken) {
     oneSignalId = [NSMutableString stringWithString:userId];
