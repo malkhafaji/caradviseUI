@@ -31,7 +31,7 @@ class PaymentThanks extends Component {
 
 
               <Text style={styles.textHd}>Thank you for your purchase!</Text>
-              <Text style={styles.textHd}>Your feedback is very important to us. Please rate your experience from 1 to 5 stars.</Text>
+              <Text style={styles.textHd}>Your feedback is very important to us. After you have picked up your vehicle, please rate the shop.</Text>
 
               <View style={styles.starRow}>
                 <TouchableOpacity>
