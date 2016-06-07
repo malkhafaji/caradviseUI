@@ -42,7 +42,6 @@ class Maintenance extends Component {
         fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
-            console.log(responseData);
             var total = 0;
             /*for (var i = 0; i < responseData.vehicles.length; i++) {
               var cost = responseData.vehicles[i].Service.TotalPartCost;
