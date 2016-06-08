@@ -15,16 +15,25 @@ import {
 import { connect } from 'react-redux';
 import { signUp } from '../actions/user';
 import cache from '../utils/cache';
+import storage from '../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
 class Step4 extends Component {
     constructor(props) {
       super(props);
+
+      storage.get('caradvise:pushid').then(value => {
+        if (value) {
+          this.state.pushid = value;
+        }
+      });
+
       this.state = {
         fields: Object.assign({
           miles: { name: 'Mileage', value: '', invalid: false, validators: ['_isPresent'] }
-        }, cache.get('step4-fields') || {})
+        }, cache.get('step4-fields') || {}),
+        pushid: ""
       };
     }
 
@@ -141,7 +150,8 @@ class Step4 extends Component {
           cellPhone: step1Fields.cellPhone.value,
           password: step1Fields.password.value,
           vin: step2Fields.vin.value,
-          miles: this.state.fields.miles.value
+          miles: this.state.fields.miles.value,
+          pushid: this.state.pushid,
         });
       });
     }

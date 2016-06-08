@@ -39,7 +39,6 @@ const store = configureStore();
 
 class caradviseui extends Component {
   componentDidMount() {
-    console.log("from react", this.props.oneSignalId, this.props.oneSignalToken);
     codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
     storage.get('caradvise:state').then(state => {
       if (state) {
@@ -56,6 +55,11 @@ class caradviseui extends Component {
         this.refs.appNavigator.push({ indent: 'Intro' });
       }
     });
+
+    if(this.props.oneSignalId != undefined)
+    {
+      storage.set('caradvise:pushid', this.props.oneSignalId);
+    }
   }
 
   _renderScene(route, navigator) {
