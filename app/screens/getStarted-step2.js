@@ -80,12 +80,23 @@ class Step2 extends Component {
                 placeholder={this.state.fields.vin.name}
                 value={this.state.fields.vin.value}
                 onChangeText={value => this._onFieldChange('vin', value)} />
-              <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
-                <Image
-                  resizeMode='contain'
-                  source={require('../../images/btn-next.png')}
-                  style={styles.btnNext} />
-              </TouchableOpacity>
+              <View style={styles.btnRow}>
+                <TouchableOpacity
+                  onPress={() => {
+                      this.props.navigator.pop();
+                  }}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-back-white.png')}
+                    style={styles.btnBack} />
+                </TouchableOpacity>
+                <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-next.png')}
+                    style={styles.btnNext} />
+                </TouchableOpacity>
+              </View>
             </View>
 
           </View>
@@ -182,13 +193,22 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
   },
+  btnBack: {
+    width: 120,
+    marginTop: 10,
+    marginRight: 5,
+  },
   btnNext: {
     width: 120,
     marginTop: 10,
+    marginLeft: 5,
   },
   invalidFld: {
     borderWidth: 1,
     borderColor: 'red'
+  },
+  btnRow: {
+    flexDirection: 'row',
   }
 });
 

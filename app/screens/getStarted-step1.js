@@ -132,19 +132,29 @@ class GetStarted extends Component {
                 secureTextEntry
                 value={this.state.fields.confirmPassword.value}
                 onChangeText={value => this._onFieldChange('confirmPassword', value)} />
-              <TouchableOpacity
-                onPress={() => {
-                  this._validateFields(() => {
-                    cache.set('step1-fields', this.state.fields);
-                    this.props.navigator.push({ indent: 'Step2' });
-                  });
-                }}
-              >
-                <Image
-                  resizeMode='contain'
-                  source={require('../../images/btn-next.png')}
-                  style={styles.btnNext} />
-              </TouchableOpacity>
+              <View style={styles.btnRow}>
+                <TouchableOpacity
+                  onPress={() => {
+                      this.props.navigator.pop();
+                  }}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-back-white.png')}
+                    style={styles.btnBack} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this._validateFields(() => {
+                      cache.set('step1-fields', this.state.fields);
+                      this.props.navigator.push({ indent: 'Step2' });
+                    });
+                  }}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-next.png')}
+                    style={styles.btnNext} />
+                </TouchableOpacity>
+              </View>
             </View>
 
           </View>
@@ -263,9 +273,15 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
   },
+  btnBack: {
+    width: 120,
+    marginTop: 10,
+    marginRight: 5,
+  },
   btnNext: {
     width: 120,
     marginTop: 10,
+    marginLeft: 5,
   },
   nameRow: {
     flexDirection: 'row',
@@ -273,7 +289,10 @@ var styles = StyleSheet.create({
   invalidFld: {
     borderWidth: 1,
     borderColor: 'red'
-  }
+  },
+  btnRow: {
+    flexDirection: 'row',
+  },
 });
 
 function mapStateToProps(state) {

@@ -54,12 +54,23 @@ class Step3 extends Component {
                 style={styles.textFld}
                 placeholderTextColor={'#666'}
                 placeholder={'Trim'} />
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step4' })}>
-                <Image
-                  resizeMode='contain'
-                  source={require('../../images/btn-next.png')}
-                  style={styles.btnNext} />
-              </TouchableOpacity>
+              <View style={styles.btnRow}>
+                <TouchableOpacity
+                  onPress={() => {
+                      this.props.navigator.pop();
+                  }}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-back-white.png')}
+                    style={styles.btnBack} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step4' })}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-next.png')}
+                    style={styles.btnNext} />
+                </TouchableOpacity>
+              </View>
             </View>
 
           </View>
@@ -111,9 +122,18 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
   },
+  btnRow: {
+    flexDirection: 'row',
+  },
+  btnBack: {
+    width: 120,
+    marginTop: 10,
+    marginRight: 5,
+  },
   btnNext: {
     width: 120,
     marginTop: 10,
+    marginLeft: 5,
   },
 });
 

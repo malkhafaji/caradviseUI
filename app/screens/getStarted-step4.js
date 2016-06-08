@@ -66,12 +66,23 @@ class Step4 extends Component {
                 placeholder={this.state.fields.miles.name}
                 value={this.state.fields.miles.value}
                 onChangeText={value => this._onFieldChange('miles', value)} />
-              <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
-                <Image
-                  resizeMode='contain'
-                  source={require('../../images/btn-next.png')}
-                  style={styles.btnNext} />
-              </TouchableOpacity>
+              <View style={styles.btnRow}>
+                <TouchableOpacity
+                  onPress={() => {
+                      this.props.navigator.pop();
+                  }}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-back-white.png')}
+                    style={styles.btnBack} />
+                </TouchableOpacity>
+                <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../images/btn-next.png')}
+                    style={styles.btnNext} />
+                </TouchableOpacity>
+              </View>
             </View>
 
           </View>
@@ -178,14 +189,23 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
   },
+  btnRow: {
+    flexDirection: 'row',
+  },
+  btnBack: {
+    width: 120,
+    marginTop: 10,
+    marginRight: 5,
+  },
   btnNext: {
     width: 120,
     marginTop: 10,
+    marginLeft: 5,
   },
   invalidFld: {
     borderWidth: 1,
     borderColor: 'red'
-  }
+  },
 });
 
 function mapStateToProps(state) {
