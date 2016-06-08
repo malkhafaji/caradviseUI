@@ -33,7 +33,7 @@ class Main extends Component {
                   <Image
                     source={require('../../images/icon-schedule.png')}
                     style={styles.icon} />
-                  <Text style={styles.btnText}>Schedule Maintenance</Text>
+                  <Text style={styles.btnText}>View Maintenance Schedule</Text>
                   <View style={styles.arrowContainer}>
                     <Text style={styles.arrow}>
                       <Image
@@ -92,7 +92,7 @@ var styles = StyleSheet.create({
     paddingBottom: 20,
   },
   btnText: {
-    flex: 3,
+    flex: 4,
     color: '#11325F',
     fontWeight: 'bold',
     fontSize: 16,

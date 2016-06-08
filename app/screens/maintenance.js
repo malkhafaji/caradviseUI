@@ -104,12 +104,13 @@ class Maintenance extends Component {
             <View style={styles.maintenanceContainer}>
 
               <ScrollView style={styles.scrollView}>
-              <Text style={styles.textHd}>Maintenance</Text>
+              <Text style={styles.textHd}>Maintenance Schedule</Text>
 
               <View style={styles.maintenanceList}>
               {services.map(createServiceRow)}
               </View>
 
+              {/*
               <View style={styles.total}>
                 <Text style={styles.totalText}>Total:</Text>
                 <Text style={styles.totalPrice}>{this.state.total}</Text>
@@ -130,6 +131,8 @@ class Maintenance extends Component {
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
+              */}
+
               </ScrollView>
 
             </View>
@@ -161,11 +164,6 @@ var Service = React.createClass({
             <Text>$50</Text>
           </View>
         </View>
-
-        <View style={styles.priceContainer}>
-          <Text style={styles.priceHd}>PRICE</Text>
-          <Text style={styles.price}>$0</Text>
-        </View>
       </View>
 
     );
@@ -194,23 +192,6 @@ var styles = StyleSheet.create({
     color: '#666666',
     textAlign: 'center',
   },
-  maintenanceRow: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#EFEFEF',
-    width: width,
-    padding: 10,
-    marginBottom: 1,
-  },
-  maintenanceItem: {
-    flex: 3,
-    color: '#11325F',
-  },
-  maintenancePrice: {
-    flex: 1,
-    textAlign: 'right',
-    color: '#11325F',
-  },
   maintenanceList: {
     flexDirection: 'column',
     width: Dimensions.get('window').width,
@@ -223,13 +204,18 @@ var styles = StyleSheet.create({
     marginBottom: 3,
   },
   maintenanceItem: {
-    flex: 3,
+    flex: 4,
     marginTop: 20,
     marginBottom: 15,
     marginLeft: 10,
     fontWeight: 'bold',
     color: '#11325F',
     alignItems: 'center',
+  },
+  maintenancePrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#11325F',
   },
   fairPriceContainer: {
     flex: 2,
