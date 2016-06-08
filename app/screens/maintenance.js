@@ -104,7 +104,7 @@ class Maintenance extends Component {
             <View style={styles.maintenanceContainer}>
 
               <ScrollView style={styles.scrollView}>
-              <Text style={styles.textHd}>Maintenance Schedule</Text>
+              <Text style={styles.textHd}>Maintenance Schedule ({this.props.miles})</Text>
 
               <View style={styles.maintenanceList}>
               {services.map(createServiceRow)}
@@ -306,6 +306,7 @@ function mapStateToProps(state) {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
     vehicleId : user.vehicles[0].id,
+    miles : user.vehicles[0].miles,
   };
 }
 
