@@ -15,6 +15,8 @@ import {
   ScrollView
 } from 'react-native';
 
+var btnWidth = Dimensions.get('window').width - 40;
+
 class Main extends Component {
 
     render() {
@@ -23,7 +25,7 @@ class Main extends Component {
             <TopBar navigator={this.props.navigator} showMenu />
             <CarBar />
             <ScrollView>
-            <View>
+            <View style={styles.btnContainer}>
               <Image
                 source={require('../../images/img-vehicle.png')}
                 style={styles.vehicle} />
@@ -31,31 +33,17 @@ class Main extends Component {
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Maintenance' })}>
                 <View style={styles.btnRow}>
                   <Image
-                    source={require('../../images/icon-schedule.png')}
-                    style={styles.icon} />
-                  <Text style={styles.btnText}>View Maintenance Schedule</Text>
-                  <View style={styles.arrowContainer}>
-                    <Text style={styles.arrow}>
-                      <Image
-                        source={require('../../images/arrow-blue.png')}
-                        style={styles.arrowBlue} />
-                    </Text>
-                  </View>
+                    resizeMode={'contain'}
+                    source={require('../../images/btn-view-maintenance.png')}
+                    style={styles.btnMain} />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Approvals' })}>
                 <View style={styles.btnRow}>
                   <Image
-                    source={require('../../images/icon-check.png')}
-                    style={styles.icon} />
-                  <Text style={styles.btnText}>Services To Approve</Text>
-                  <View style={styles.arrowContainer}>
-                    <Text style={styles.arrow}>
-                      <Image
-                        source={require('../../images/arrow-blue.png')}
-                        style={styles.arrowBlue} />
-                    </Text>
-                  </View>
+                    resizeMode={'contain'}
+                    source={require('../../images/btn-services.png')}
+                    style={styles.btnMain} />
                 </View>
               </TouchableOpacity>
 
@@ -75,7 +63,7 @@ var styles = StyleSheet.create({
     height: 250,
     width: Dimensions.get('window').width,
     marginTop: 1,
-    marginBottom: 12,
+    marginBottom: 20,
   },
   btnRow: {
     flex: 1,
@@ -83,13 +71,6 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10,
     marginRight: 10,
-    borderColor: '#11325F',
-    borderWidth: 1,
-    backgroundColor: '#FFF',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 20,
-    paddingBottom: 20,
   },
   btnText: {
     flex: 4,
@@ -113,6 +94,13 @@ var styles = StyleSheet.create({
   arrowBlue: {
     width: 8,
     height: 13,
+  },
+  btnContainer: {
+    alignItems: 'center',
+  },
+  btnMain: {
+    width: btnWidth,
+    height: 60,
   },
 });
 
