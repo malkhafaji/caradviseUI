@@ -103,8 +103,12 @@ class Maintenance extends Component {
             <CarBar />
             <View style={styles.maintenanceContainer}>
 
-              <ScrollView style={styles.scrollView}>
-              <Text style={styles.textHd}>Maintenance Schedule ({this.props.miles})</Text>
+              <ScrollView
+                onContentSizeChange={(width, height) => {
+                  console.log(width, height);
+                }}
+                style={styles.scrollView}>
+              <Text style={styles.textHd}>Maintenance Schedule ({this.props.miles} miles)</Text>
 
               <View style={styles.maintenanceList}>
               {services.map(createServiceRow)}
@@ -151,21 +155,14 @@ var Service = React.createClass({
   },
   render: function() {
     return (
-      <View style={styles.maintenanceRow}>
-        <Text style={styles.maintenanceItem}>{this.props.service.name} - {this.props.service.maintenance.action}</Text>
-
-        <View style={styles.fairPriceContainer}>
-          <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-          <View style={styles.fairPriceRange}>
-            <Text>$30</Text>
-            <Image
-              source={require('../../images/arrow-range.png')}
-              style={styles.fairPriceArrow} />
-            <Text>$50</Text>
-          </View>
+      <View>
+        <View style={styles.maintenanceRow}>
+          <Text style={styles.maintenanceItem}>{this.props.service.maintenance.action} {this.props.service.name}</Text>
+        </View>
+        <View style={styles.maintenanceDesc}>
+          <Text style={styles.maintenanceDescText}>{this.props.service.maintenance.frequency_message}</Text>
         </View>
       </View>
-
     );
   }
 });
@@ -201,29 +198,30 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
-    marginBottom: 3,
   },
   maintenanceItem: {
-    flex: 4,
-    marginTop: 20,
-    marginBottom: 15,
+    flex: 1,
+    marginTop: 15,
+    marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
     color: '#11325F',
     alignItems: 'center',
   },
+  maintenanceDesc: {
+    width: width,
+    backgroundColor: '#EFEFEF',
+    marginBottom: 10,
+  },
+  maintenanceDescText: {
+    backgroundColor: '#FFF',
+    margin: 5,
+    padding: 5,
+  },
   maintenancePrice: {
     flex: 1,
     textAlign: 'right',
     color: '#11325F',
-  },
-  fairPriceContainer: {
-    flex: 2,
-    marginTop: 15,
-    marginBottom: 15,
-    marginLeft: 5,
-    marginRight: 3,
-    alignItems: 'center',
   },
   priceContainer: {
     flex: 1,
@@ -239,26 +237,6 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     color: '#11325F',
     fontWeight: 'bold',
-  },
-  range: {
-    flexDirection: 'column',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  fairPriceRange: {
-    flexDirection: 'row',
-  },
-  fairPriceText: {
-    color: '#F49D11',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  fairPriceArrow: {
-    width: 22,
-    height: 10,
-    marginTop: 4,
-    marginLeft: 2,
-    marginRight: 2,
   },
   total: {
     flex: 1,
