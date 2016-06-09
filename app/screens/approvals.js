@@ -35,17 +35,6 @@ class Approvals extends Component {
                   <View style={styles.newServicesRow}>
                     <Text style={styles.newServiceItem}>Brake Pads</Text>
 
-                    <View style={styles.fairPriceContainer}>
-                      <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                      <View style={styles.fairPriceRange}>
-                        <Text>$30</Text>
-                        <Image
-                          source={require('../../images/arrow-range.png')}
-                          style={styles.fairPriceArrow} />
-                        <Text>$50</Text>
-                      </View>
-                    </View>
-
                     <View style={styles.newServicePriceContainer}>
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
                       <Text style={styles.newServicePrice}>$50</Text>
@@ -72,17 +61,6 @@ class Approvals extends Component {
 
                   <View style={styles.newServicesRow}>
                     <Text style={styles.newServiceItem}>Air Filter</Text>
-
-                    <View style={styles.fairPriceContainer}>
-                      <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                      <View style={styles.fairPriceRange}>
-                        <Text>$30</Text>
-                        <Image
-                          source={require('../../images/arrow-range.png')}
-                          style={styles.fairPriceArrow} />
-                        <Text>$50</Text>
-                      </View>
-                    </View>
 
                     <View style={styles.newServicePriceContainer}>
                       <Text style={styles.newServicePriceHd}>PRICE</Text>
@@ -178,20 +156,12 @@ var styles = StyleSheet.create({
     width: width,
   },
   newServiceItem: {
-    flex: 2,
+    flex: 3,
     marginTop: 17,
     marginBottom: 15,
     marginLeft: 10,
     fontWeight: 'bold',
     color: '#11325F',
-    alignItems: 'center',
-  },
-  fairPriceContainer: {
-    flex: 1,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 3,
-    marginRight: 3,
     alignItems: 'center',
   },
   newServicePriceContainer: {
@@ -203,26 +173,6 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     color: '#11325F',
     fontWeight: 'bold',
-  },
-  newServiceRange: {
-    flexDirection: 'column',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  fairPriceRange: {
-    flexDirection: 'row',
-  },
-  fairPriceText: {
-    color: '#F49D11',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  fairPriceArrow: {
-    width: 22,
-    height: 10,
-    marginTop: 4,
-    marginLeft: 2,
-    marginRight: 2,
   },
   newServicePriceHd: {
     fontSize: 12,
