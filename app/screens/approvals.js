@@ -42,8 +42,10 @@ class Approvals extends Component {
         fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
+            console.log(responseData);
+            var services = (responseData.order != undefined) ? responseData.order.order_services : [];
             this.setState({
-              services: responseData.order.order_services,
+              services: services,
               //total: "$" + total.toFixed(2)
             });
           })
