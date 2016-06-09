@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../actions/user';
 import cache from '../utils/cache';
 import { getJSON } from '../utils/fetch';
+import storage from '../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
 const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/search_by_vin';
@@ -24,12 +25,20 @@ const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com
 class Step2 extends Component {
     constructor(props) {
       super(props);
+
+      storage.get('caradvise:pushid').then(value => {
+         if (value) {
+           this.state.pushid = value;
+         }
+       });
+
       this.state = {
         isLoading: false,
         fields: Object.assign({
           vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false },
           vin: { name: 'VIN', value: '', invalid: false }
-        }, cache.get('step2-fields') || {})
+        }, cache.get('step2-fields') || {}),
+        pushid: ""
       };
     }
 
@@ -123,7 +132,8 @@ class Step2 extends Component {
           email: step1Fields.email.value,
           cellPhone: step1Fields.cellPhone.value,
           password: step1Fields.password.value,
-          vehicleNumber: this.state.fields.vehicleNumber.value
+          vehicleNumber: this.state.fields.vehicleNumber.value,
+          pushid: this.state.pushid,
         });
       } else if (this.state.fields.vin.value) {
         this._verifyVIN(() => this.props.navigator.push({ indent: 'Step4' }));
