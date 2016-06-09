@@ -46,6 +46,7 @@ class Step2 extends Component {
       if (this.props.isLoggedIn) {
         cache.remove('step1-fields');
         cache.remove('step2-fields');
+        cache.remove('step3-fields');
         cache.remove('step4-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
       }
@@ -136,7 +137,10 @@ class Step2 extends Component {
           pushid: this.state.pushid,
         });
       } else if (this.state.fields.vin.value) {
-        this._verifyVIN(() => this.props.navigator.push({ indent: 'Step4' }));
+        this._verifyVIN(() => {
+          cache.remove('step3-fields');
+          this.props.navigator.push({ indent: 'Step4' });
+        });
       } else {
         this.props.navigator.push({ indent: 'Step3' });
       }

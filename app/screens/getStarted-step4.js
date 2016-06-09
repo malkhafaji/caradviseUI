@@ -41,6 +41,7 @@ class Step4 extends Component {
       if (this.props.isLoggedIn) {
         cache.remove('step1-fields');
         cache.remove('step2-fields');
+        cache.remove('step3-fields');
         cache.remove('step4-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
       }
@@ -142,17 +143,33 @@ class Step4 extends Component {
     _onClickNext() {
       this._validateFields(() => {
         let step1Fields = cache.get('step1-fields');
-        let step2Fields = cache.get('step2-fields');
-        this.props.signUp({
+        let data = {
           firstName: step1Fields.firstName.value,
           lastName: step1Fields.lastName.value,
           email: step1Fields.email.value,
           cellPhone: step1Fields.cellPhone.value,
           password: step1Fields.password.value,
-          vin: step2Fields.vin.value,
           miles: this.state.fields.miles.value,
-          pushid: this.state.pushid,
-        });
+          pushid: this.state.pushid
+        };
+
+        let step2Fields = cache.get('step2-fields');
+        if (step2Fields) {
+          data.vin = step2Fields.vin.value;
+        }
+
+        let step3Fields = cache.get('step3-fields');
+        if (step3Fields) {
+          data.year = step3Fields.year.value;
+          data.make = step3Fields.make.value;
+          data.model = step3Fields.model.value;
+
+          let models = cache.get('step3-models') || [];
+          let model = models.find(({ value }) => value === data.model) || {};
+          data.model_id = model.key;
+        }
+
+        this.props.signUp(data);
       });
     }
 }
