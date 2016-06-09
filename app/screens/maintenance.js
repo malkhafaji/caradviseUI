@@ -102,11 +102,7 @@ class Maintenance extends Component {
             <CarBar />
             <View style={styles.maintenanceContainer}>
 
-              <ScrollView
-                onContentSizeChange={(width, height) => {
-                  console.log(width, height);
-                }}
-                style={styles.scrollView}>
+              <ScrollView style={styles.scrollView}>
               <Text style={styles.textHd}>Maintenance Schedule ({this.props.miles} miles)</Text>
 
               <View style={styles.maintenanceList}>
