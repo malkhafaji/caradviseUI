@@ -14,12 +14,60 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
+import { connect } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/active_orders_by_vehicle_number?vehicleNumber=';
+
 class Approvals extends Component {
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        services:null,
+        total:0,
+        visible: false,
+      };
+    }
+
+    componentDidMount() {
+      this.getApprovals();
+    }
+
+    getApprovals() {
+      if(this.props.isLoggedIn && this.props.vehicleNumber)
+      {
+        fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+          .then((response) => response.json())
+          .then((responseData) => {
+            this.setState({
+              services: responseData.order.order_services,
+              //total: "$" + total.toFixed(2)
+            });
+          })
+          .done();
+      }
+    }
+
     render() {
+      if (!this.state.services) {
+        return this.renderLoadingView();
+      }
+      var services = this.state.services;
+      return this.renderServices(services);
+    }
+
+    renderLoadingView() {
+      return (
+        <View>
+          <Spinner visible={true} />
+        </View>
+      );
+    }
+
+    renderServices(services) {
         return (
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
@@ -31,61 +79,7 @@ class Approvals extends Component {
               <Text style={styles.textHd}>Services To Approve</Text>
 
               <View style={styles.newServicesList}>
-
-                  <View style={styles.newServicesRow}>
-                    <Text style={styles.newServiceItem}>Brake Pads</Text>
-
-                    <View style={styles.newServicePriceContainer}>
-                      <Text style={styles.newServicePriceHd}>PRICE</Text>
-                      <Text style={styles.newServicePrice}>$50</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.btnRow}>
-                    <TouchableOpacity
-                      style={styles.btnLeft}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-save.png')}
-                        style={styles.btnSave} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={styles.btnRight}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-approve-orange.png')}
-                        style={styles.btnApprove} />
-                    </TouchableOpacity>
-                  </View>
-
-                  <View style={styles.newServicesRow}>
-                    <Text style={styles.newServiceItem}>Air Filter</Text>
-
-                    <View style={styles.newServicePriceContainer}>
-                      <Text style={styles.newServicePriceHd}>PRICE</Text>
-                      <Text style={styles.newServicePrice}>$35</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.btnRow}>
-                    <TouchableOpacity
-                      style={styles.btnLeft}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-save.png')}
-                        style={styles.btnSave} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={styles.btnRight}
-                      underlayColor='#dddddd'>
-                      <Image
-                        source={require('../../images/btn-approve-orange.png')}
-                        style={styles.btnApprove} />
-                    </TouchableOpacity>
-                  </View>
-
+              {services.map(createServiceRow)}
               </View>
 
               <Text style={styles.textHd}>Approved Services</Text>
@@ -122,6 +116,46 @@ class Approvals extends Component {
         );
     }
 }
+
+var createServiceRow = (service, i) => <Service key={i} service={service} />;
+
+var Service = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+  render: function() {
+    return (
+      <View>
+      <View style={styles.newServicesRow}>
+        <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+
+        <View style={styles.newServicePriceContainer}>
+          <Text style={styles.newServicePriceHd}>PRICE</Text>
+          <Text style={styles.newServicePrice}>${this.props.service.totalCost}</Text>
+        </View>
+      </View>
+
+      <View style={styles.btnRow}>
+        <TouchableOpacity
+          style={styles.btnLeft}
+          underlayColor='#dddddd'>
+          <Image
+            source={require('../../images/btn-save.png')}
+            style={styles.btnSave} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.btnRight}
+          underlayColor='#dddddd'>
+          <Image
+            source={require('../../images/btn-approve-orange.png')}
+            style={styles.btnApprove} />
+        </TouchableOpacity>
+      </View>
+      </View>
+    );
+  }
+});
 
 var styles = StyleSheet.create({
   base: {
@@ -251,4 +285,13 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Approvals;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    authentication_token: user.authentication_token,
+    vehicleNumber : user.vehicles[0].vehicleNumber,
+  };
+}
+
+module.exports = connect(mapStateToProps)(Approvals);

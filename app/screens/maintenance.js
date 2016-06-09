@@ -79,7 +79,6 @@ class Maintenance extends Component {
     }
 
     render() {
-
       if (!this.state.services) {
         return this.renderLoadingView();
       }
