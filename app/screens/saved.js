@@ -74,7 +74,7 @@ class Saved extends Component {
 
               </View>
 
-              <View>
+              {/*<View>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
                   <Image
                     source={require('../../images/btn-add-service.png')}
@@ -88,7 +88,7 @@ class Saved extends Component {
                     source={require('../../images/btn-checkout.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
-              </View>
+              </View>*/}
 
             </View>
             </ScrollView>
