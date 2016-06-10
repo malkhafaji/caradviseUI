@@ -1,7 +1,6 @@
 'use strict';
 var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
-var BTClient = require('react-native-braintree');
 
 import React from 'react';
 import {
@@ -18,12 +17,8 @@ import {
   TextInput,
 } from 'react-native';
 
-import Spinner from 'react-native-loading-spinner-overlay';
-
 var width = Dimensions.get('window').width - 20;
 var fldWidth = Dimensions.get('window').width - 40;
-
-
 
 class CreditCard extends Component {
 
@@ -35,61 +30,9 @@ class CreditCard extends Component {
         cardNumber: "378282246310005",
         expMonth:"11",
         expYear:"17",
-        cvv:"5554",
-        visible: false
+        cvv:"5554"
       };
   }
-
-  processCreditCard=()=>
-  {
-    this.setState({
-        visible: true
-      });
-    var nav = this.props.navigator;
-    var amount = this.state.amount;
-    fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
-    .then((response) => response.json())
-    .then((responseData) => {
-      var clientToken = responseData.clientToken;
-      BTClient.setup(clientToken);
-
-      BTClient.getCardNonce(this.state.cardNumber, this.state.expMonth, this.state.expYear, this.state.cvv)
-      .then(function(nonce) {
-        fetch('https://caradvise.herokuapp.com/pay',
-          {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              payment_method_nonce: nonce,
-              amount: amount,
-            })
-          })
-          .then((response) => response.json())
-          .then((responseData) => {
-            if(responseData.success == true)
-            {
-              nav.push({ indent:'PaymentThanks' });
-            } else {
-              Alert.alert(
-                  'Error',
-                  responseData.message,
-                );
-            }
-          });
-      })
-      .catch(function(err) {
-        Alert.alert(
-            'Error',
-            "An error occurred, please try again.",
-          )
-      });
-      this.state = {visible: false};
-    })
-    .done();
-    }
 
     render() {
         return (
@@ -130,7 +73,7 @@ class CreditCard extends Component {
               </View>
 
               <View style={styles.approveDecline}>
-                <TouchableOpacity onPress={this.processCreditCard.bind(this)}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'PaymentConfirm', passProps:{amount:this.state.amount, cardNumber:this.state.cardNumber, expMonth:this.state.expMonth, expYear:this.state.expYear, cvv:this.state.cvv} })}>
                   <Image
                     source={require('../../images/btn-checkout.png')}
                     style={styles.btnCheckout} />
@@ -139,9 +82,6 @@ class CreditCard extends Component {
 
             </View>
             </ScrollView>
-            <View>
-              <Spinner visible={this.state.visible} />
-            </View>
           </View>
         );
     }
