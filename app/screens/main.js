@@ -47,6 +47,15 @@ class Main extends Component {
                 </View>
               </TouchableOpacity>
 
+              <TouchableOpacity>
+                <View style={styles.btnRow}>
+                  <Image
+                    resizeMode={'contain'}
+                    source={require('../../images/btn-call.png')}
+                    style={styles.btnMain} />
+                </View>
+              </TouchableOpacity>
+
             </View>
             </ScrollView>
           </View>
