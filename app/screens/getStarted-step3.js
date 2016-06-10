@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import cache from '../utils/cache';
 import { getJSON } from '../utils/fetch';
+import sortBy from 'lodash/sortBy';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
@@ -224,6 +225,7 @@ class Step3 extends Component {
           return { key, label: response.result[key], value: response.result[key] };
         });
 
+        makes = sortBy(makes, ({ label }) => label.toLowerCase());
         makes.unshift({ key: '0', label: 'Select make', value: '' });
         cache.set('step3-makes', makes);
         cache.remove('step3-models');
@@ -260,6 +262,7 @@ class Step3 extends Component {
           return { key: ModelID, label: Model, value: Model };
         });
 
+        models = sortBy(models, ({ label }) => label.toLowerCase());
         models.unshift({ key: '0', label: 'Select model', value: '' });
         cache.set('step3-models', models);
 
