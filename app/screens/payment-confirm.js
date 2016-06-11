@@ -99,17 +99,22 @@ class PaymentConfirm extends Component {
 
               <View style={styles.serviceRow}>
                 <Text style={styles.serviceItem}>Oil Change</Text>
-                <Text style={styles.servicePrice}>$45</Text>
+                <Text style={styles.servicePrice}>$45.00</Text>
               </View>
 
               <View style={styles.serviceRow}>
                 <Text style={styles.serviceItem}>Tire Rotation</Text>
-                <Text style={styles.servicePrice}>$50</Text>
+                <Text style={styles.servicePrice}>$50.00</Text>
+              </View>
+
+              <View style={styles.taxRow}>
+                <Text style={styles.taxItem}>Sales Tax</Text>
+                <Text style={styles.taxPrice}>$5.00</Text>
               </View>
 
               <View style={styles.orderTotal}>
-                <Text style={styles.orderTotalText}>Tax</Text>
-                <Text style={styles.orderTotalPrice}>$5</Text>
+                <Text style={styles.orderTotalText}>Discount</Text>
+                <Text style={styles.orderTotalPrice}>-$5.00</Text>
               </View>
 
               <View style={styles.totalContainer}>
@@ -175,6 +180,23 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     color: '#11325F',
     fontWeight: 'bold',
+  },
+  taxRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#F4F4F4',
+    width: width,
+    padding: 10,
+    marginBottom: 2,
+  },
+  taxItem: {
+    flex: 3,
+    color: '#11325F',
+  },
+  taxPrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#11325F',
   },
   orderTotal: {
     flex: 1,

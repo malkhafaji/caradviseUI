@@ -30,8 +30,10 @@ class PaymentThanks extends Component {
             <View style={styles.thanksContainer}>
 
 
+              <Text style={styles.textHd}>Success!</Text>
               <Text style={styles.textHd}>Thank you for your purchase!</Text>
-              <Text style={styles.textHd}>Your feedback is very important to us. After you have picked up your vehicle, please rate the shop.</Text>
+
+              {/*<Text style={styles.textHd}>Your feedback is very important to us. After you have picked up your vehicle, please rate the shop.</Text>
 
               <View style={styles.starRow}>
                 <TouchableOpacity>
@@ -59,7 +61,7 @@ class PaymentThanks extends Component {
                     source={require('../../images/icon-star-off.png')}
                     style={styles.star} />
                 </TouchableOpacity>
-              </View>
+              </View>*/}
 
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Main' })}>
