@@ -13,6 +13,7 @@ import {
   Alert,
   ScrollView
 } from 'react-native';
+import CheckBox from 'react-native-checkbox';
 import { connect } from 'react-redux';
 import cache from '../utils/cache';
 
@@ -132,6 +133,18 @@ class GetStarted extends Component {
                 secureTextEntry
                 value={this.state.fields.confirmPassword.value}
                 onChangeText={value => this._onFieldChange('confirmPassword', value)} />
+
+              <View style={styles.checkboxContainer}>
+                <CheckBox
+                  label='I Agree to the CarAdvise Terms and Privacy Policy'
+                  checked={true}
+                  checkedImage={require('../../images/icon-checked.png')}
+                  uncheckedImage={require('../../images/icon-unchecked.png')}
+                  labelStyle={styles.check}
+                  onChange={(checked) => console.log('I am checked', checked)}
+                />
+              </View>
+
               <View style={styles.btnRow}>
                 <TouchableOpacity
                   onPress={() => {
@@ -292,6 +305,13 @@ var styles = StyleSheet.create({
   },
   btnRow: {
     flexDirection: 'row',
+  },
+  checkboxContainer: {
+    marginTop: 20,
+  },
+  check: {
+    fontSize: 9,
+    color: '#FFF',
   },
 });
 
