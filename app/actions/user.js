@@ -1,4 +1,4 @@
-import { postJSON, deleteJSON } from '../utils/fetch';
+import { postJSON, putJSON, deleteJSON } from '../utils/fetch';
 
 const SIGN_UP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/users';
 const SIGN_IN_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/sessions/';
@@ -63,4 +63,20 @@ export function signOut() {
       dispatch(removeUser());
     }
   };
+}
+
+export function updateInfo(data) {
+  return async function(dispatch, getState) {
+    dispatch(setUserLoading());
+
+    let { authentication_token, customerNumber } = getState().user || {};
+    let url = `${SIGN_UP_URL}/${customerNumber}`;
+    let response = await putJSON(url, data, { Authorization: authentication_token });
+
+    if (response.result) {
+      dispatch(setUserData(response.result.user));
+    } else {
+      dispatch(setUserError(response.error));
+    }
+  }
 }

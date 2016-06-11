@@ -182,7 +182,7 @@ class GetStarted extends Component {
       this.setState({
         fields: {
           ...(this.state.fields),
-          [key]: this._setAndValidateField(key, value.trim())
+          [key]: this._setAndValidateField(key, value)
         }
       });
     }

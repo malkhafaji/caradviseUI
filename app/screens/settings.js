@@ -11,12 +11,33 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
+import { connect } from 'react-redux';
+import { updateInfo } from '../actions/user';
 
 var width = Dimensions.get('window').width - 20;
 
 class Settings extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        fields: {
+          firstName: { name: 'First Name', value: props.firstName, invalid: false, validators:['_isPresent'] },
+          lastName: { name: 'Last Name', value: props.lastName, invalid: false, validators:['_isPresent'] },
+          cellPhone: { name: 'Phone Number', value: props.cellPhone, invalid: false, validators:['_isPresent'] },
+          password: { name: 'Password', value: '', invalid: false }
+        }
+      };
+    }
+
+    componentWillReceiveProps({ isLoading, error }) {
+      if (error)
+        Alert.alert('Error', error);
+      else if (!isLoading)
+        Alert.alert('Saved');
+    }
 
     render() {
         return (
@@ -26,41 +47,58 @@ class Settings extends Component {
             <View style={styles.settingsContainer}>
               <Text style={styles.textHd}>Settings</Text>
 
-              <View style={styles.settingsRow}>
+              <View style={[styles.settingsRow, this.state.fields.firstName.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>FIRST NAME</Text>
                 <TextInput
+                  ref='firstName'
                   style={styles.textFld}
                   selectTextOnFocus={true}
-                  placeholderTextColor={'#11325F'}
-                  value={'Jane'} />
+                  autoCorrect={false}
+                  value={this.state.fields.firstName.value}
+                  onChangeText={value => this._onFieldChange('firstName', value)} />
               </View>
-              <View style={styles.settingsRow}>
+              <View style={[styles.settingsRow, this.state.fields.lastName.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>LAST NAME</Text>
                 <TextInput
+                  ref='lastName'
                   style={styles.textFld}
                   selectTextOnFocus={true}
-                  placeholderTextColor={'#11325F'}
-                  value={'Doe'} />
+                  autoCorrect={false}
+                  value={this.state.fields.lastName.value}
+                  onChangeText={value => this._onFieldChange('lastName', value)} />
               </View>
-              <View style={styles.settingsRow}>
+              <View style={[styles.settingsRow, this.state.fields.cellPhone.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>PHONE #</Text>
                 <TextInput
+                  ref='cellPhone'
                   style={styles.textFld}
                   selectTextOnFocus={true}
-                  placeholderTextColor={'#11325F'}
-                  value={'555-555-1212'} />
+                  keyboardType={'phone-pad'}
+                  value={this.state.fields.cellPhone.value}
+                  onChangeText={value => this._onFieldChange('cellPhone', value)} />
               </View>
-              <View style={styles.settingsRow}>
+              <View style={[styles.settingsRow, this.state.fields.password.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>PASSWORD</Text>
                 <TextInput
+                  ref='password'
                   style={styles.textFld}
                   selectTextOnFocus={true}
-                  placeholderTextColor={'#11325F'}
-                  value={'XXXXXX'} />
+                  secureTextEntry
+                  value={this.state.fields.password.value}
+                  onChangeText={value => this._onFieldChange('password', value)} />
               </View>
 
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  disabled={this.props.isLoading}
+                  onPress={() => {
+                    this._validateFields(() => this.props.updateInfo({
+                      firstName: this.state.fields.firstName.value,
+                      lastName: this.state.fields.lastName.value,
+                      cellPhone: this.state.fields.cellPhone.value,
+                      password: this.state.fields.password.value || undefined
+                    }));
+                  }}>
                   <Image
                     source={require('../../images/btn-save-blue.png')}
                     style={styles.btnSave} />
@@ -71,6 +109,46 @@ class Settings extends Component {
           </ScrollView>
           </View>
         );
+    }
+
+    _isPresent(value) {
+      return !!value;
+    }
+
+    _setAndValidateField(key, value) {
+      let field = this.state.fields[key];
+      let validators = field.validators || [];
+      let invalid = validators.some(validator => !this[validator](value));
+
+      return { ...field, value, invalid };
+    }
+
+    _onFieldChange(key, value) {
+      this.setState({
+        fields: {
+          ...(this.state.fields),
+          [key]: this._setAndValidateField(key, value)
+        }
+      });
+    }
+
+    _validateFields(callback) {
+      let fields = {};
+      let firstInvalidKey = null;
+
+      Object.keys(this.state.fields).forEach(key => {
+        let field = this.state.fields[key];
+        fields[key] = field = this._setAndValidateField(key, field.value);
+        if (!firstInvalidKey && field.invalid)
+          firstInvalidKey = key;
+      });
+
+      this.setState({ fields }, () => {
+        if (firstInvalidKey)
+          this.refs[firstInvalidKey].focus();
+        else if (callback)
+          callback();
+      });
     }
 }
 
@@ -121,6 +199,21 @@ var styles = StyleSheet.create({
     height: 34,
     marginTop: 15,
   },
+  invalidFld: {
+    borderWidth: 1,
+    borderColor: 'red'
+  }
 });
 
-module.exports = Settings;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    cellPhone: user.cellPhone,
+    isLoading: !!user.loading,
+    error: user.error
+  };
+}
+
+module.exports = connect(mapStateToProps, { updateInfo })(Settings);
