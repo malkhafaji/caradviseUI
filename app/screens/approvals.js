@@ -92,17 +92,17 @@ class Approvals extends Component {
               </View>
 
               <View style={styles.newTotal}>
-                <Text style={styles.newTotalText}>Total:</Text>
+                <Text style={styles.newTotalText}>Total</Text>
                 <Text style={styles.newTotalPrice}>$45</Text>
               </View>
 
-              <View>
+              {/*<View>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
                   <Image
                     source={require('../../images/btn-add-service.png')}
                     style={styles.btnAddService} />
                 </TouchableOpacity>
-              </View>
+              </View>*/}
 
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
@@ -255,11 +255,13 @@ var styles = StyleSheet.create({
   approvedItem: {
     flex: 3,
     color: '#11325F',
+    fontWeight: 'bold',
   },
   approvedPrice: {
     flex: 1,
     textAlign: 'right',
     color: '#11325F',
+    fontWeight: 'bold',
   },
   newTotal: {
     flex: 1,

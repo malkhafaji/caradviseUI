@@ -75,7 +75,7 @@ class CreditCard extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'PaymentConfirm', passProps:{amount:this.state.amount, cardNumber:this.state.cardNumber, expMonth:this.state.expMonth, expYear:this.state.expYear, cvv:this.state.cvv} })}>
                   <Image
-                    source={require('../../images/btn-checkout.png')}
+                    source={require('../../images/btn-next-big.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
