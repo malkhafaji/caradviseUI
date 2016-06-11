@@ -38,7 +38,7 @@ class AddServices extends Component {
 
     filterServices(service)
     {
-      return service.parentID == this.state.category;
+      return service.parent_id == this.state.category;
     }
 
     getServices() {
@@ -92,7 +92,7 @@ var Service = React.createClass({
     return false;
   },
   render: function() {
-    var indent = this.props.service.parentID == null ? 'AddServices' : 'ServiceDetail';
+    var indent = this.props.service.parent_id == null ? 'AddServices' : 'ServiceDetail';
     return (
       <TouchableOpacity style={styles.servicesList} onPress={() => this.props.nav.push({ indent:indent, passProps:{category:this.props.service.id, name:this.props.service.name, lowCost:this.props.service.procedure.lowCost, highCost:this.props.service.procedure.highCost}})}>
         <Text style={styles.servicesItem}>{this.props.service.name}</Text>
