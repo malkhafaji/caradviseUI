@@ -43,14 +43,6 @@ class Settings extends Component {
                   value={'Doe'} />
               </View>
               <View style={styles.settingsRow}>
-                <Text style={styles.fldName}>EMAIL</Text>
-                <TextInput
-                  style={styles.textFld}
-                  selectTextOnFocus={true}
-                  placeholderTextColor={'#11325F'}
-                  value={'jane.doe@gmail.com'} />
-              </View>
-              <View style={styles.settingsRow}>
                 <Text style={styles.fldName}>PHONE #</Text>
                 <TextInput
                   style={styles.textFld}
