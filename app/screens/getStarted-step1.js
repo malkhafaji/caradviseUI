@@ -136,13 +136,13 @@ class GetStarted extends Component {
 
               <View style={styles.checkboxContainer}>
                 <CheckBox
-                  label='I Agree to the CarAdvise Terms and Privacy Policy'
+                  label=''
                   checked={true}
                   checkedImage={require('../../images/icon-checked.png')}
                   uncheckedImage={require('../../images/icon-unchecked.png')}
-                  labelStyle={styles.check}
                   onChange={(checked) => console.log('I am checked', checked)}
                 />
+                <Text style={styles.check}>I agree to the CarAdvise </Text><Text style={styles.privacy} onPress={() => this.props.navigator.push({ indent:'Terms' })}>Terms</Text><Text style={styles.check}> and </Text><Text style={styles.privacy} onPress={() => this.props.navigator.push({ indent:'Privacy' })}>Privacy Policy</Text>
               </View>
 
               <View style={styles.btnRow}>
@@ -265,7 +265,7 @@ var styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFF',
     color: '#666',
-    fontSize: 21,
+    fontSize: 18,
   },
   firstNameFld: {
     height: 40,
@@ -274,7 +274,7 @@ var styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFF',
     color: '#666',
-    fontSize: 21,
+    fontSize: 18,
     marginRight: 15,
   },
   lastNameFld: {
@@ -284,7 +284,7 @@ var styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFF',
     color: '#666',
-    fontSize: 21,
+    fontSize: 18,
   },
   btnBack: {
     width: 120,
@@ -307,11 +307,21 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   checkboxContainer: {
+    flexDirection: 'row',
     marginTop: 20,
   },
   check: {
-    fontSize: 9,
+    fontSize: 10,
     color: '#FFF',
+    marginTop: 7,
+    backgroundColor: 'transparent',
+  },
+  privacy: {
+    fontSize: 10,
+    color: '#FFF',
+    marginTop: 7,
+    textDecorationLine: 'underline',
+    backgroundColor: 'transparent',
   },
 });
 
