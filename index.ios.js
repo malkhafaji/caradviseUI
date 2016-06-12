@@ -14,6 +14,8 @@ var ServiceDetail = require('./app/screens/serviceDetail');
 var Maintenance = require('./app/screens/maintenance');
 var Settings = require('./app/screens/settings');
 var Saved = require('./app/screens/saved');
+var Privacy = require('./app/screens/privacy');
+var Terms = require('./app/screens/terms');
 var SideMenu = require('./app/screens/sideMenu');
 var Billing = require('./app/screens/payment-billing');
 var CreditCard = require('./app/screens/payment-cc');
@@ -122,6 +124,14 @@ class caradviseui extends Component {
       case 'Saved':
         return (
           <Saved {...globalNavigatorProps} />
+        )
+      case 'Privacy':
+        return (
+          <Privacy {...globalNavigatorProps} />
+        )
+      case 'Terms':
+        return (
+          <Terms {...globalNavigatorProps} />
         )
       case 'Billing':
         return (
