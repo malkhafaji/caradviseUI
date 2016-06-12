@@ -186,6 +186,7 @@ var styles = StyleSheet.create({
   maintenanceList: {
     flexDirection: 'column',
     width: Dimensions.get('window').width,
+    alignItems: 'center',
   },
   maintenanceRow: {
     flex: 1,
