@@ -169,12 +169,11 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: width,
-    height: Dimensions.get('window').height,
     marginLeft: 10,
     marginRight: 10,
   },
   maintenanceContainer: {
+    flex: 1,
     alignItems: 'center',
   },
   textHd: {

@@ -12,7 +12,9 @@ import {
   Component,
   TouchableOpacity,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Linking,
+  Alert
 } from 'react-native';
 
 var btnWidth = Dimensions.get('window').width - 40;
@@ -47,7 +49,7 @@ class Main extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this._callPhone('3124986920')}>
                 <View style={styles.btnRow}>
                   <Image
                     resizeMode={'contain'}
@@ -60,6 +62,17 @@ class Main extends Component {
             </ScrollView>
           </View>
         );
+    }
+
+    _callPhone(number) {
+      let url = `tel:${number}`;
+
+      Linking.canOpenURL(url).then(supported => {
+        if (supported)
+          Linking.openURL(url);
+        else
+          Alert.alert(`Call ${number}`);
+      });
     }
 }
 

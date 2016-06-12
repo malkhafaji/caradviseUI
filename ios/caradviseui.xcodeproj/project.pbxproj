@@ -18,6 +18,7 @@
 		88EF7FEC7DEA7E02C2D49AD7 /* libPods-caradviseui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4F99ACFCC337A9E26B8A0 /* libPods-caradviseui.a */; };
 		B022C3A71CF7474200A87895 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */; };
 		B022C3A81CF7474200A87895 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */; };
+		B0B62E661D0D99C800472F72 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		D6DB64285A544213B01493FB /* libRNBranch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F62634BE84F4050B2601277 /* libRNBranch.a */; };
 /* End PBXBuildFile section */
 
@@ -226,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B62E661D0D99C800472F72 /* libRCTLinking.a in Frameworks */,
 				2900CC7F1CFCC7710093F46B /* libBranch.a in Frameworks */,
 				29DEBCAF1CFA3FC7009973E0 /* libz.tbd in Frameworks */,
 				88EF7FEC7DEA7E02C2D49AD7 /* libPods-caradviseui.a in Frameworks */,
