@@ -356,6 +356,7 @@ var styles = StyleSheet.create({
   btnCheckout: {
     width: 300,
     height: 40,
+    marginTop: 20,
   },
 });
 
