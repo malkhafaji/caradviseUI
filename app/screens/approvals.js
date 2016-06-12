@@ -19,7 +19,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/active_orders_by_vehicle_number?vehicleNumber=';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
+var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/update_order_service';
 
 class Approvals extends Component {
 
@@ -29,6 +30,7 @@ class Approvals extends Component {
         services:null,
         total:0,
         visible: false,
+        showCheckout: false,
       };
     }
 
@@ -42,11 +44,28 @@ class Approvals extends Component {
         fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
-            console.log(responseData);
             var services = (responseData.order != undefined) ? responseData.order.order_services : [];
+            var total = 0;
+            var showCheckout = false;
+            if(responseData.order != undefined)
+            {
+               var approved = services.filter(this.filterApprovedServices.bind(this));
+               for (var i = 0; i < approved.length; i++) {
+                 var cost = approved[i].TotalCost;
+                 if(typeof cost !== "undefined")
+                 {
+                   total += Number(cost.replace("$", ""));
+                 }
+                 if(approved[i].status == 5)
+                 {
+                   showCheckout = true;
+                 }
+               }
+            }
             this.setState({
               services: services,
-              //total: "$" + total.toFixed(2)
+              total: "$" + total.toFixed(2),
+              showCheckout: showCheckout
             });
           })
           .done();
@@ -69,6 +88,33 @@ class Approvals extends Component {
       );
     }
 
+    filterUnapprovedServices(service)
+    {
+      return service.status == 0;
+    }
+
+    filterApprovedServices(service)
+    {
+      return (service.status == 2 || service.status == 5);
+    }
+
+    renderCheckout()
+    {
+        if (this.state.showCheckout) {
+            return (
+              <View style={styles.approveDecline}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
+                  <Image
+                    source={require('../../images/btn-checkout.png')}
+                    style={styles.btnCheckout} />
+                </TouchableOpacity>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     renderServices(services) {
         return (
           <View style={styles.base}>
@@ -81,20 +127,11 @@ class Approvals extends Component {
               <Text style={styles.textHd}>Services To Approve</Text>
 
               <View style={styles.newServicesList}>
-              {services.map(createServiceRow)}
+              {services.filter(this.filterUnapprovedServices.bind(this)).map(this.createServiceRow)}
               </View>
 
               <Text style={styles.textHd}>Approved Services</Text>
-
-              <View style={styles.approvedRow}>
-                <Text style={styles.approvedItem}>Oil Change</Text>
-                <Text style={styles.approvedPrice}>$45</Text>
-              </View>
-
-              <View style={styles.newTotal}>
-                <Text style={styles.newTotalText}>Total</Text>
-                <Text style={styles.newTotalPrice}>$45</Text>
-              </View>
+             {services.filter(this.filterApprovedServices.bind(this)).map(this.createServiceRow)}
 
               {/*<View>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
@@ -104,58 +141,91 @@ class Approvals extends Component {
                 </TouchableOpacity>
               </View>*/}
 
-              <View style={styles.approveDecline}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
-                  <Image
-                    source={require('../../images/btn-checkout.png')}
-                    style={styles.btnCheckout} />
-                </TouchableOpacity>
-              </View>
+              {this.renderCheckout()}
 
             </View>
             </ScrollView>
           </View>
         );
     }
-}
 
-var createServiceRow = (service, i) => <Service key={i} service={service} />;
+    createServiceRow = (service, i) => <Service key={i} service={service} isLoggedIn={this.props.isLoggedIn} authentication_token={this.props.authentication_token} approvals={this}/>;
+}
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
     return false;
   },
+
+  updateStatus:function(status)
+  {
+    if(this.props.isLoggedIn)
+    {
+        fetch(UPDATE_URL + '?order_service_id='+ this.props.service.id +'&status=' + status,
+          {
+            method:"PUT",
+            headers: {'Authorization': this.props.authentication_token},
+          }
+        )
+        .then((response) => response.json())
+        .then((responseData) => {
+          if(responseData.order_service != undefined)
+          {
+            this.props.approvals.getApprovals();
+          }
+        })
+        .done();
+    }
+
+  },
+
   render: function() {
-    return (
-      <View>
-      <View style={styles.newServicesRow}>
-        <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+    if(this.props.service.status == 0)
+    {
+      return (
+        <View>
+        <View style={styles.newServicesRow}>
+          <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
 
-        <View style={styles.newServicePriceContainer}>
-          <Text style={styles.newServicePriceHd}>PRICE</Text>
-          <Text style={styles.newServicePrice}>${this.props.service.totalCost}</Text>
+          <View style={styles.newServicePriceContainer}>
+            <Text style={styles.newServicePriceHd}>PRICE</Text>
+            <Text style={styles.newServicePrice}>${this.props.service.totalCost}</Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.btnRow}>
-        <TouchableOpacity
-          style={styles.btnLeft}
-          underlayColor='#dddddd'>
-          <Image
-            source={require('../../images/btn-save.png')}
-            style={styles.btnSave} />
-        </TouchableOpacity>
+        <View style={styles.btnRow}>
+          <TouchableOpacity
+            style={styles.btnLeft}
+            underlayColor='#dddddd'
+            onPress={() => { this.updateStatus(3) }}>
+            <Image
+              source={require('../../images/btn-save.png')}
+              style={styles.btnSave} />
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.btnRight}
-          underlayColor='#dddddd'>
-          <Image
-            source={require('../../images/btn-approve-orange.png')}
-            style={styles.btnApprove} />
-        </TouchableOpacity>
-      </View>
-      </View>
-    );
+          <TouchableOpacity
+            style={styles.btnRight}
+            underlayColor='#dddddd'
+            onPress={() => { this.updateStatus(2) }}>
+            <Image
+              source={require('../../images/btn-approve-orange.png')}
+              style={styles.btnApprove} />
+          </TouchableOpacity>
+        </View>
+        </View>
+      );
+    }
+    else if (this.props.service.status == 2 || this.props.service.status == 5) {
+      return(
+        <View style={styles.approvedRow}>
+          <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
+          <Text style={styles.approvedPrice}>${this.props.service.totalCost}</Text>
+        </View>
+      );
+    }
+    else {
+      return null;
+    }
   }
 });
 
