@@ -36,7 +36,7 @@ class Settings extends Component {
       if (error)
         Alert.alert('Error', error);
       else if (!isLoading)
-        Alert.alert('Saved');
+        this.props.navigator.pop();
     }
 
     render() {
