@@ -158,10 +158,10 @@ var styles = StyleSheet.create({
     height: 750,
   },
   logo: {
-    width: 180,
-    height: 35,
-    marginTop: 130,
-    marginBottom: 150,
+    width: 130,
+    height: 25,
+    marginTop: 60,
+    marginBottom: 80,
   },
   loginContainer: {
     width: Dimensions.get('window').width,
