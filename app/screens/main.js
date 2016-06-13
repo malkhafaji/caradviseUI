@@ -49,7 +49,7 @@ class Main extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => this._callPhone('3124986920')}>
+              <TouchableOpacity onPress={() => this._callPhone('18449238473')}>
                 <View style={styles.btnRow}>
                   <Image
                     resizeMode={'contain'}
