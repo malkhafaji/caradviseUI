@@ -63,6 +63,9 @@ class Approvals extends Component {
                }
             }
             this.setState({
+              services:null
+            });
+            this.setState({
               services: services,
               total: "$" + total.toFixed(2),
               showCheckout: showCheckout
