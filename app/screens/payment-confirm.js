@@ -16,10 +16,12 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
-
+import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
+
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
 
 class PaymentConfirm extends Component {
 
@@ -27,7 +29,10 @@ class PaymentConfirm extends Component {
       super(props)
       var props = this.props.navigator._navigationContext._currentRoute.passProps;
       this.state = {
-        amount: props.amount,
+        services:null,
+        total:0,
+        tax:0,
+        finalTotal:0,
         cardNumber: props.cardNumber,
         expMonth:props.expMonth,
         expYear:props.expYear,
@@ -36,13 +41,54 @@ class PaymentConfirm extends Component {
       };
   }
 
+  componentDidMount() {
+    this.getServices();
+  }
+
+  filterCompletedServices(service)
+  {
+    return service.status == 5;
+  }
+
+  getServices() {
+    if(this.props.isLoggedIn && this.props.vehicleNumber)
+    {
+      fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+        .then((response) => response.json())
+        .then((responseData) => {
+          var services = (responseData.order != undefined) ? responseData.order.order_services : [];
+          var total = 0;
+          if(responseData.order != undefined)
+          {
+             services = services.filter(this.filterCompletedServices.bind(this));
+             for (var i = 0; i < services.length; i++) {
+               var cost = services[i].totalCost;
+               if(typeof cost !== "undefined")
+               {
+                 total += Number(cost);
+               }
+             }
+          }
+          var tax = total * .07;
+          var discount = 5;
+          this.setState({
+            services: services,
+            total: total.toFixed(2),
+            tax: tax,
+            finalTotal: total + tax - discount
+          });
+        })
+        .done();
+    }
+  }
+
   processCreditCard=()=>
   {
     this.setState({
         visible: true
       });
     var nav = this.props.navigator;
-    var amount = this.state.amount;
+    var amount = this.state.finalTotal;
     fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
     .then((response) => response.json())
     .then((responseData) => {
@@ -88,6 +134,22 @@ class PaymentConfirm extends Component {
     }
 
     render() {
+      if (!this.state.services) {
+        return this.renderLoadingView();
+      }
+      var services = this.state.services;
+      return this.renderServices(services);
+    }
+
+    renderLoadingView() {
+      return (
+        <View>
+          <Spinner visible={true} />
+        </View>
+      );
+    }
+
+    renderServices(services) {
         return (
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
@@ -97,19 +159,11 @@ class PaymentConfirm extends Component {
             <View style={styles.confirmContainer}>
               <Text style={styles.textHd}>Confirm Order</Text>
 
-              <View style={styles.serviceRow}>
-                <Text style={styles.serviceItem}>Oil Change</Text>
-                <Text style={styles.servicePrice}>$45.00</Text>
-              </View>
-
-              <View style={styles.serviceRow}>
-                <Text style={styles.serviceItem}>Tire Rotation</Text>
-                <Text style={styles.servicePrice}>$50.00</Text>
-              </View>
+              {services.map(this.createServiceRow)}
 
               <View style={styles.taxRow}>
                 <Text style={styles.taxItem}>Sales Tax</Text>
-                <Text style={styles.taxPrice}>$5.00</Text>
+                <Text style={styles.taxPrice}>${this.state.tax}</Text>
               </View>
 
               <View style={styles.orderTotal}>
@@ -119,7 +173,7 @@ class PaymentConfirm extends Component {
 
               <View style={styles.totalContainer}>
                 <Text style={styles.totalHd}>TOTAL</Text>
-                <Text style={styles.totalAmount}>$150.00</Text>
+                <Text style={styles.totalAmount}>${this.state.finalTotal}</Text>
               </View>
 
               <View>
@@ -138,7 +192,24 @@ class PaymentConfirm extends Component {
           </View>
         );
     }
+
+    createServiceRow = (service, i) => <Service key={i} service={service}/>;
 }
+
+var Service = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+
+  render: function() {
+    return(
+      <View style={styles.serviceRow}>
+        <Text style={styles.serviceItem}>{this.props.service.serviceName}</Text>
+        <Text style={styles.servicePrice}>${this.props.service.totalCost}</Text>
+      </View>
+    );
+  }
+});
 
 var styles = StyleSheet.create({
   base: {
@@ -243,4 +314,13 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = PaymentConfirm;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    authentication_token: user.authentication_token,
+    vehicleNumber : user.vehicles[0].vehicleNumber,
+  };
+}
+
+module.exports = connect(mapStateToProps)(PaymentConfirm);
