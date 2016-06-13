@@ -119,6 +119,8 @@ class Approvals extends Component {
     }
 
     renderServices(services) {
+        var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
+        var approvedServices = services.filter(this.filterApprovedServices.bind(this));
         return (
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
@@ -130,11 +132,15 @@ class Approvals extends Component {
               <Text style={styles.textHd}>Services To Approve</Text>
 
               <View style={styles.newServicesList}>
-              {services.filter(this.filterUnapprovedServices.bind(this)).map(this.createServiceRow)}
+              {unapprovedServices.length ?
+                unapprovedServices.map(this.createServiceRow) :
+                <Text style={styles.textHd}>No services to approve</Text>}
               </View>
 
               <Text style={styles.textHd}>Approved Services</Text>
-             {services.filter(this.filterApprovedServices.bind(this)).map(this.createServiceRow)}
+              {approvedServices.length ?
+                approvedServices.map(this.createServiceRow) :
+                <Text style={styles.textHd}>No approved services</Text>}
 
               {/*<View>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
