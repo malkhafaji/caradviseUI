@@ -134,13 +134,14 @@ class Approvals extends Component {
               <View style={styles.newServicesList}>
               {unapprovedServices.length ?
                 unapprovedServices.map(this.createServiceRow) :
-                <Text style={styles.textHd}>No services to approve</Text>}
+                <Text style={styles.noServices}>No services to approve</Text>}
               </View>
 
+              <View style={styles.approvedList}>
               <Text style={styles.textHd}>Approved Services</Text>
-              {approvedServices.length ?
-                approvedServices.map(this.createServiceRow) :
-                <Text style={styles.textHd}>No approved services</Text>}
+                {approvedServices.length ? approvedServices.map(this.createServiceRow) :
+                <Text style={styles.noServices}>No approved services</Text>}
+              </View>
 
               {/*<View>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
@@ -260,9 +261,17 @@ var styles = StyleSheet.create({
     marginBottom: 8,
     color: '#666666',
   },
+  noServices: {
+    color: '#11325F',
+    backgroundColor: '#F4F4F4',
+    width: width,
+    textAlign: 'center',
+    padding: 10,
+  },
   newServicesList: {
     flexDirection: 'column',
     width: width,
+    alignItems: 'center',
   },
   newServicesRow: {
     flex: 1,
@@ -322,6 +331,9 @@ var styles = StyleSheet.create({
     width: 110,
     height: 10,
     marginBottom: 20,
+  },
+  approvedList: {
+    alignItems: 'center',
   },
   approvedRow: {
     flex: 1,
