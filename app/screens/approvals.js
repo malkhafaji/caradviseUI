@@ -179,10 +179,7 @@ var Service = React.createClass({
         )
         .then((response) => response.json())
         .then((responseData) => {
-          if(responseData.order_services != undefined)
-          {
             this.props.approvals.getApprovals();
-          }
         })
         .done();
     }
