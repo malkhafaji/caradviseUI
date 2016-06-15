@@ -74,7 +74,7 @@ class PaymentConfirm extends Component {
           this.setState({
             services: services,
             total: total.toFixed(2),
-            tax: tax,
+            tax: tax.toFixed(2),
             finalTotal: total + tax - discount
           });
         })
