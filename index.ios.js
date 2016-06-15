@@ -37,6 +37,7 @@ var PaymentThanks = require('./app/screens/payment-thanks');
  import configureStore from './app/utils/configureStore';
  import { loadState } from './app/actions';
  import storage from './app/utils/storage';
+ import branch from 'react-native-branch';
 
 const store = configureStore();
 
@@ -50,6 +51,8 @@ class caradviseui extends Component {
           this.refs.appNavigator.resetTo({ indent: 'Main' });
         }
       }
+
+      this._listenForDeepLinks();
     });
 
     storage.get('caradvise:opened').then(value => {
@@ -63,6 +66,23 @@ class caradviseui extends Component {
     {
       storage.set('caradvise:pushid', this.props.oneSignalId);
     }
+  }
+
+  _listenForDeepLinks() {
+    branch.subscribe(({params, error, uri}) => {
+      if (uri === 'caradvise://approvals') {
+        let { user } = store.getState() || {};
+        if (!user || !user.authentication_token)
+          return;
+
+        let routes = this.refs.appNavigator.getCurrentRoutes();
+        let currentRoute = routes[routes.length - 1];
+        if (currentRoute && currentRoute.indent === 'Approvals')
+          return;
+
+        this.refs.appNavigator.push({ indent: 'Approvals' });
+      }
+    });
   }
 
   _renderScene(route, navigator) {
