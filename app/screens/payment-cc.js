@@ -26,11 +26,11 @@ class CreditCard extends Component {
       super()
       //TODO: remove hard coded test numbers
       this.state = {
-        amount: 45,
-        cardNumber: "378282246310005",
-        expMonth:"11",
-        expYear:"17",
-        cvv:"5554"
+        amount:null,
+        cardNumber:null,
+        expMonth:null,
+        expYear:null,
+        cvv:null
       };
   }
 
