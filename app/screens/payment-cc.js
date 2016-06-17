@@ -51,7 +51,6 @@ class CreditCard extends Component {
                   keyboardType="numeric"
                   style={styles.textFld}
                   placeholderTextColor={'#666'}
-                  maxLength={12}
                   placeholder={'Credit Card #'} />
                 <TextInput
                   onChangeText={(expMonth) => this.setState({expMonth})}
