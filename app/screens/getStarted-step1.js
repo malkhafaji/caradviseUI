@@ -59,6 +59,10 @@ class GetStarted extends Component {
       }
     }
 
+    _focusNextField(nextField) {
+        this.refs[nextField].focus()
+    }
+
     render() {
         return (
           <ScrollView style={styles.scrollView}>
@@ -89,6 +93,9 @@ class GetStarted extends Component {
                   autoCorrect={false}
                   autoFocus
                   value={this.state.fields.firstName.value}
+                  returnKeyType='next'
+                  blurOnSubmit={false}
+                  onSubmitEditing={() => this._focusNextField('lastName')}
                   onChangeText={value => this._onFieldChange('firstName', value)} />
                 <TextInput
                   ref='lastName'
@@ -97,6 +104,8 @@ class GetStarted extends Component {
                   placeholder={this.state.fields.lastName.name}
                   autoCorrect={false}
                   value={this.state.fields.lastName.value}
+                  blurOnSubmit={false}
+                  onSubmitEditing={() => this._focusNextField('email')}
                   onChangeText={value => this._onFieldChange('lastName', value)} />
               </View>
               <TextInput
@@ -108,6 +117,9 @@ class GetStarted extends Component {
                 autoCapitalize='none'
                 autoCorrect={false}
                 value={this.state.fields.email.value}
+                returnKeyType='next'
+                blurOnSubmit={false}
+                onSubmitEditing={() => this._focusNextField('cellPhone')}
                 onChangeText={value => this._onFieldChange('email', value)} />
               <TextInput
                 ref='cellPhone'
@@ -116,6 +128,8 @@ class GetStarted extends Component {
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.cellPhone.name}
                 value={this.state.fields.cellPhone.value}
+                blurOnSubmit={false}
+                onSubmitEditing={() => this._focusNextField('password')}
                 onChangeText={value => this._onFieldChange('cellPhone', value)} />
               <TextInput
                 ref='password'
@@ -124,6 +138,9 @@ class GetStarted extends Component {
                 placeholder={this.state.fields.password.name}
                 secureTextEntry
                 value={this.state.fields.password.value}
+                returnKeyType='next'
+                blurOnSubmit={false}
+                onSubmitEditing={() => this._focusNextField('confirmPassword')}
                 onChangeText={value => this._onFieldChange('password', value)} />
               <TextInput
                 ref='confirmPassword'
@@ -132,6 +149,7 @@ class GetStarted extends Component {
                 placeholder={this.state.fields.confirmPassword.name}
                 secureTextEntry
                 value={this.state.fields.confirmPassword.value}
+                returnKeyType='done'
                 onChangeText={value => this._onFieldChange('confirmPassword', value)} />
 
               <View style={styles.checkboxContainer}>
