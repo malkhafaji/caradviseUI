@@ -123,6 +123,9 @@ class PaymentConfirm extends Component {
               Alert.alert(
                   'Error',
                   responseData.message,
+                  [
+                    {text: "OK", onPress: () => nav.pop()},
+                  ]
                 );
             }
           });
