@@ -51,23 +51,27 @@ class CreditCard extends Component {
                   keyboardType="numeric"
                   style={styles.textFld}
                   placeholderTextColor={'#666'}
+                  maxLength={12}
                   placeholder={'Credit Card #'} />
                 <TextInput
                   onChangeText={(expMonth) => this.setState({expMonth})}
                   keyboardType="numeric"
                   style={styles.textFld}
                   placeholderTextColor={'#666'}
+                  maxLength={2}
                   placeholder={'Exp. Month (MM)'} />
                 <TextInput
                   onChangeText={(expYear) => this.setState({expYear})}
                   keyboardType="numeric"
                   style={styles.textFld}
                   placeholderTextColor={'#666'}
+                  maxLength={2}
                   placeholder={'Exp. Year (YY)'} />
                 <TextInput
                   onChangeText={(cvv) => this.setState({cvv})}
                   keyboardType="numeric"
                   style={styles.textFld}
+                  maxLength={4}
                   placeholderTextColor={'#666'}
                   placeholder={'Security Code'} />
               </View>
