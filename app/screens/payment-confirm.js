@@ -5,6 +5,7 @@ var BTClient = require('react-native-braintree');
 
 import React from 'react';
 import {
+  Alert,
   Text,
   View,
   Image,
@@ -87,6 +88,7 @@ class PaymentConfirm extends Component {
     this.setState({
         visible: true
       });
+    var top = this;
     var nav = this.props.navigator;
     var amount = this.state.finalTotal;
     fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
@@ -113,6 +115,9 @@ class PaymentConfirm extends Component {
           .then((responseData) => {
             if(responseData.success == true)
             {
+              top.setState({
+                  visible: false
+                });
               nav.push({ indent:'PaymentThanks' });
             } else {
               Alert.alert(
