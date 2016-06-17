@@ -142,7 +142,7 @@ class Maintenance extends Component {
     }
 }
 
-var createServiceRow = (service, i) => <Service key={i} service={service} />;
+var createServiceRow = (service, i) => <Service key={i} service={service.service} />;
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
