@@ -1,6 +1,7 @@
 'use strict';
 var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
+var ApprovalRequest = require('../components/main/approvalRequest');
 
 import React from 'react';
 import {
@@ -9,18 +10,16 @@ import {
   Image,
   StyleSheet,
   Component,
-  Navigator,
   TouchableOpacity,
-  ScrollView,
   Dimensions,
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
-var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/update_order_service';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/services';
 
 class Saved extends Component {
 
@@ -30,45 +29,52 @@ class Saved extends Component {
         services:null,
         total:0,
         visible: false,
-        showCheckout: false,
       };
     }
 
     componentDidMount() {
-      this.getApprovals();
+      this.getMaintenance();
     }
 
-    getApprovals() {
-      if(this.props.isLoggedIn && this.props.vehicleNumber)
+    getMaintenance() {
+      if(this.props.isLoggedIn && this.props.vehicleId)
       {
-        fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+        fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
-            var services = (responseData.order != undefined) ? responseData.order.order_services : [];
             var total = 0;
-            var showCheckout = false;
-            if(responseData.order != undefined)
-            {
-               var approved = services.filter(this.filterApprovedServices.bind(this));
-               for (var i = 0; i < approved.length; i++) {
-                 var cost = approved[i].TotalCost;
-                 if(typeof cost !== "undefined")
-                 {
-                   total += Number(cost.replace("$", ""));
-                 }
-                 if(approved[i].status == 5)
-                 {
-                   showCheckout = true;
-                 }
-               }
-            }
+            /*for (var i = 0; i < responseData.vehicles.length; i++) {
+              var cost = responseData.vehicles[i].Service.TotalPartCost;
+              if(typeof cost !== "undefined")
+              {
+                total += Number(cost.replace("$", ""));
+              }
+            }*/
             this.setState({
-              services: services,
-              total: "$" + total.toFixed(2),
-              showCheckout: showCheckout
+              services: responseData.vehicles,
+              total: "$" + total.toFixed(2)
             });
           })
           .done();
+      }
+    }
+
+    _renderScene(route, navigator) {
+      var globalNavigatorProps = {navigator}
+
+      switch(route.indent) {
+        case 'Main':
+          return (
+            <Main {...globalNavigatorProps} />
+          )
+        case 'Approvals':
+          return (
+            <Approvals {...globalNavigatorProps} />
+          )
+        default:
+          return (
+            <Text>EPIC FAIL</Text>
+          )
       }
     }
 
@@ -88,87 +94,77 @@ class Saved extends Component {
       );
     }
 
-    filterUnapprovedServices(service)
+    filterSavedServices(service)
     {
-      return service.status == 3;
-    }
-
-    filterApprovedServices(service)
-    {
-      return service.status == 3;
+      return service.status == 2;
     }
 
     renderServices(services) {
+        var savedServices = services.filter(this.filterSavedServices.bind(this));
         return (
+
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
             <CarBar />
-            <ScrollView
-              style={styles.scrollView}>
-            <View style={styles.approvalsContainer}>
+            <View style={styles.maintenanceContainer}>
 
+              <ScrollView style={styles.scrollView}>
               <Text style={styles.textHd}>Saved Maintenance</Text>
 
-              <View style={styles.newServicesList}>
-              {services.filter(this.filterUnapprovedServices.bind(this)).map(this.createServiceRow)}
+              <View style={styles.maintenanceList}>
+              {savedServices.map(createServiceRow)}
               </View>
 
-              {/*<View>
+              {/*
+              <View style={styles.total}>
+                <Text style={styles.totalText}>Total:</Text>
+                <Text style={styles.totalPrice}>{this.state.total}</Text>
+              </View>
+
+              <View style={styles.rowAddService}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
                   <Image
                     source={require('../../images/btn-add-service.png')}
                     style={styles.btnAddService} />
                 </TouchableOpacity>
-              </View>*/}
+              </View>
+
+              <View style={styles.bookIt}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
+                  <Image
+                    source={require('../../images/btn-bookit-big.png')}
+                    style={styles.btnCheckout} />
+                </TouchableOpacity>
+              </View>
+              */}
+
+              </ScrollView>
 
             </View>
-            </ScrollView>
+
           </View>
+
         );
     }
-
-    createServiceRow = (service, i) => <Service key={i} service={service} isLoggedIn={this.props.isLoggedIn} authentication_token={this.props.authentication_token} approvals={this}/>;
 }
+
+var createServiceRow = (service, i) => <Service key={i} service={service.service} />;
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
     return false;
   },
-
-  updateStatus:function(status)
-  {
-    if(this.props.isLoggedIn)
-    {
-        fetch(UPDATE_URL + '?order_service_id='+ this.props.service.id +'&status=' + status,
-          {
-            method:"PUT",
-            headers: {'Authorization': this.props.authentication_token},
-          }
-        )
-        .then((response) => response.json())
-        .then((responseData) => {
-          if(responseData.order_service != undefined)
-          {
-            this.props.approvals.getApprovals();
-          }
-        })
-        .done();
-    }
-
-  },
-
   render: function() {
-    if (this.props.service.status == 3) {
-      return(
-        <View style={styles.approvedRow}>
-          <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
-          <Text style={styles.approvedPrice}>${this.props.service.totalCost}</Text>
+    return (
+      <View>
+        <View style={styles.maintenanceRow}>
+          <Text style={styles.maintenanceItem}>{this.props.service.maintenance.action} {this.props.service.name}</Text>
         </View>
-      );
-    }
-    else {
-      return null;
-    }
+        <View style={styles.maintenanceDesc}>
+          <Text style={styles.maintenanceDescText}>{this.props.service.maintenance.frequency_message}</Text>
+        </View>
+      </View>
+    );
   }
 });
 
@@ -179,64 +175,107 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: width,
-    height: Dimensions.get('window').height,
     marginLeft: 10,
     marginRight: 10,
   },
-  approvalsContainer: {
+  maintenanceContainer: {
+    flex: 1,
     alignItems: 'center',
-    marginBottom: 20,
   },
   textHd: {
     fontSize: 17,
     marginTop: 15,
     marginBottom: 8,
     color: '#666666',
+    textAlign: 'center',
   },
-  approvedRow: {
+  maintenanceList: {
+    flexDirection: 'column',
+    width: Dimensions.get('window').width,
+    alignItems: 'center',
+  },
+  maintenanceRow: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
-    padding: 10,
-    marginBottom: 3,
   },
-  approvedItem: {
-    flex: 3,
+  maintenanceItem: {
+    flex: 1,
+    marginTop: 15,
+    marginBottom: 10,
+    marginLeft: 10,
+    fontWeight: 'bold',
     color: '#11325F',
+    alignItems: 'center',
+  },
+  maintenanceDesc: {
+    width: width,
+    backgroundColor: '#EFEFEF',
+    marginBottom: 10,
+  },
+  maintenanceDescText: {
+    backgroundColor: '#FFF',
+    margin: 5,
+    padding: 5,
+  },
+  maintenancePrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#11325F',
+  },
+  priceContainer: {
+    flex: 1,
+    marginTop: 15,
+    marginRight: 10,
+  },
+  priceHd: {
+    fontSize: 12,
+    textAlign: 'right',
     fontWeight: 'bold',
   },
-  approvedPrice: {
-    flex: 1,
+  price: {
     textAlign: 'right',
     color: '#11325F',
     fontWeight: 'bold',
   },
-  newTotal: {
+  total: {
     flex: 1,
     flexDirection: 'row',
     width: width,
     backgroundColor: '#FEF1DC',
     alignItems: 'center',
-    padding: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 10,
     marginBottom: 20,
   },
-  newTotalText: {
+  totalText: {
     flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#11325F',
   },
-  newTotalPrice: {
+  totalPrice: {
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'right',
   },
+  rowAddService: {
+    alignItems: 'center',
+  },
+  btnAddService: {
+    width: 110,
+    height: 10,
+    marginBottom: 20,
+  },
+  bookIt: {
+    alignItems: 'center',
+  },
   btnCheckout: {
     width: 300,
     height: 40,
-    marginTop: 20,
   },
 });
 
@@ -245,7 +284,8 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    vehicleNumber : user.vehicles[0].vehicleNumber,
+    vehicleId : user.vehicles[0].id,
+    miles : user.vehicles[0].miles,
   };
 }
 
