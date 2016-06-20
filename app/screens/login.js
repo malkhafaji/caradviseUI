@@ -92,6 +92,16 @@ class Login extends Component {
                 style={styles.btnLogin} />
             </TouchableOpacity>
 
+            <TouchableOpacity
+              onPress={() => {
+                  this.props.navigator.pop();
+              }}>
+              <Image
+                resizeMode='contain'
+                source={require('../../images/btn-back-white.png')}
+                style={styles.btnBack} />
+            </TouchableOpacity>
+
           </View>
           </ScrollView>
         );
@@ -193,7 +203,11 @@ var styles = StyleSheet.create({
   invalidFld: {
     borderWidth: 1,
     borderColor: 'red'
-  }
+  },
+  btnBack: {
+    width: 120,
+    marginTop: 10,
+  },
 });
 
 function mapStateToProps(state) {
