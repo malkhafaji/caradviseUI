@@ -129,7 +129,7 @@ class Approvals extends Component {
               style={styles.scrollView}>
             <View style={styles.approvalsContainer}>
 
-              <Text style={styles.textHd}>Services To Approve</Text>
+              <Text style={styles.textHd}>SERVICES TO APPROVE</Text>
 
               <View style={styles.newServicesList}>
               {unapprovedServices.length ?
@@ -138,7 +138,7 @@ class Approvals extends Component {
               </View>
 
               <View style={styles.approvedList}>
-              <Text style={styles.textHd}>Approved Services</Text>
+              <Text style={styles.textHd}>APPROVED SERVICES</Text>
                 {approvedServices.length ? approvedServices.map(this.createServiceRow) :
                 <Text style={styles.noServices}>No approved services</Text>}
               </View>
@@ -250,16 +250,18 @@ var styles = StyleSheet.create({
   },
   approvalsContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 100,
   },
   textHd: {
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#666666',
+    color: '#006699',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light'
   },
   noServices: {
-    color: '#11325F',
+    color: '#006699',
     backgroundColor: '#F4F4F4',
     width: width,
     textAlign: 'center',
@@ -282,7 +284,7 @@ var styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#11325F',
+    color: '#006699',
     alignItems: 'center',
   },
   newServicePriceContainer: {
@@ -292,11 +294,12 @@ var styles = StyleSheet.create({
   },
   newServicePrice: {
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   newServicePriceHd: {
     fontSize: 12,
+    color: '#006699',
     textAlign: 'right',
     fontWeight: 'bold',
   },
@@ -338,24 +341,24 @@ var styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
     width: width,
     padding: 10,
-    marginBottom: 1,
+    marginBottom: 2,
   },
   approvedItem: {
     flex: 3,
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   approvedPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   newTotal: {
     flex: 1,
     flexDirection: 'row',
     width: width,
-    backgroundColor: '#FEF1DC',
+    backgroundColor: '#006699',
     alignItems: 'center',
     padding: 10,
     marginBottom: 20,
@@ -364,7 +367,7 @@ var styles = StyleSheet.create({
     flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#11325F',
+    color: '#006699',
   },
   newTotalPrice: {
     flex: 1,

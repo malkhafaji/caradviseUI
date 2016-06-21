@@ -200,7 +200,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#11325F',
+    color: '#006699',
     alignItems: 'center',
   },
   maintenanceDesc: {
@@ -216,7 +216,7 @@ var styles = StyleSheet.create({
   maintenancePrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
   },
   priceContainer: {
     flex: 1,
@@ -230,14 +230,14 @@ var styles = StyleSheet.create({
   },
   price: {
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   total: {
     flex: 1,
     flexDirection: 'row',
     width: width,
-    backgroundColor: '#FEF1DC',
+    backgroundColor: '#006699',
     alignItems: 'center',
     paddingTop: 15,
     paddingBottom: 15,
@@ -249,7 +249,7 @@ var styles = StyleSheet.create({
     flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#11325F',
+    color: '#006699',
   },
   totalPrice: {
     flex: 1,

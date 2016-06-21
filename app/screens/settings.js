@@ -184,19 +184,20 @@ var styles = StyleSheet.create({
   },
   fldName: {
     flex: 1,
-    color: '#11325F',
+    color: '#006699',
     fontSize: 12,
+    fontWeight: 'bold',
   },
   textFld: {
     flex: 3,
     height: 16,
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   btnSave: {
     width: 169,
-    height: 34,
+    height: 37,
     marginTop: 15,
   },
   invalidFld: {
