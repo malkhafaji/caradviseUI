@@ -97,7 +97,7 @@ var styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   logo: {
-    width: 180,
+    width: 200,
     height: 35,
     resizeMode: 'cover',
     marginTop: 65
