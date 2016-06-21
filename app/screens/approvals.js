@@ -129,7 +129,7 @@ class Approvals extends Component {
               style={styles.scrollView}>
             <View style={styles.approvalsContainer}>
 
-              <Text style={styles.textHd}>SERVICES TO APPROVE</Text>
+              <Text style={styles.textHd}>Services To Approve</Text>
 
               <View style={styles.newServicesList}>
               {unapprovedServices.length ?
@@ -138,7 +138,7 @@ class Approvals extends Component {
               </View>
 
               <View style={styles.approvedList}>
-              <Text style={styles.textHd}>APPROVED SERVICES</Text>
+              <Text style={styles.textHd}>Approved Services</Text>
                 {approvedServices.length ? approvedServices.map(this.createServiceRow) :
                 <Text style={styles.noServices}>No approved services</Text>}
               </View>
