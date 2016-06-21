@@ -168,8 +168,8 @@ var styles = StyleSheet.create({
     height: 750,
   },
   logo: {
-    width: 130,
-    height: 25,
+    width: 135,
+    height: 22,
     marginTop: 60,
     marginBottom: 80,
   },

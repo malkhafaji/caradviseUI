@@ -87,7 +87,7 @@ var styles = StyleSheet.create({
     color: '#555'
   },
   toggle: {
-    backgroundColor: '#11325F'
+    backgroundColor: '#006699'
   },
   burger: {
     width: 15,

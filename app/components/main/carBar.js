@@ -26,7 +26,7 @@ class carBar extends Component {
 var styles = StyleSheet.create({
   carContainer: {
     marginTop: 2,
-    backgroundColor: '#0352A0',
+    backgroundColor: '#0099FF',
     alignItems: 'center',
   },
   carType: {

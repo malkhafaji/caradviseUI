@@ -66,7 +66,7 @@ var styles = StyleSheet.create({
   },
   logo: {
     width: 180,
-    height: 35,
+    height: 29,
     marginTop: 130,
     marginBottom: 200,
   },
