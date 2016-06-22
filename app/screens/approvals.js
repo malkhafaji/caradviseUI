@@ -27,6 +27,7 @@ class Approvals extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        orderStatus:0,
         services:null,
         total:0,
         visible: false,
@@ -38,7 +39,7 @@ class Approvals extends Component {
       this.getApprovals();
     }
 
-    refreshServices(services)
+    refreshServices(services, orderStatus)
     {
       var total = 0;
       var showCheckout = false;
@@ -50,10 +51,10 @@ class Approvals extends Component {
          {
            total += Number(cost.replace("$", ""));
          }
-         if(approved[i].status == 5)
-         {
-           showCheckout = true;
-         }
+       }
+       if(orderStatus == 1)
+       {
+         showCheckout = true;
        }
       this.setState({
         services:null
@@ -74,7 +75,7 @@ class Approvals extends Component {
           .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services);
+            this.refreshServices(services, orderStatus);
           })
           .done();
       }
@@ -184,8 +185,9 @@ var Service = React.createClass({
         )
         .then((response) => response.json())
         .then((responseData) => {
+            var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
             var services = responseData.order.order_services;
-            this.props.approvals.refreshServices(services);
+            this.props.approvals.refreshServices(services, orderStatus);
         })
         .done();
     }
