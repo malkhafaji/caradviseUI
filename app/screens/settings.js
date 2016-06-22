@@ -164,10 +164,13 @@ var styles = StyleSheet.create({
     marginRight: 10,
   },
   textHd: {
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#666666',
+    color: '#006699',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center',
   },
   settingsRow: {
     flex: 1,

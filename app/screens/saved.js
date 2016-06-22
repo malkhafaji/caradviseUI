@@ -183,11 +183,13 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   textHd: {
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#666666',
-    textAlign: 'center',
+    color: '#006699',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center'
   },
   maintenanceList: {
     flexDirection: 'column',
