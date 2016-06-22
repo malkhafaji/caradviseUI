@@ -168,9 +168,9 @@ var styles = StyleSheet.create({
     height: 750,
   },
   logo: {
-    width: 135,
-    height: 22,
-    marginTop: 60,
+    width: 180,
+    height: 29,
+    marginTop: 80,
     marginBottom: 80,
   },
   loginContainer: {
