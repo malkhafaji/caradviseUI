@@ -36,7 +36,7 @@ class SideMenu extends Component {
             disabled={this.props.isLoading}
             onPress={this.props.signOut}
           >
-            <Text style={styles.text}>LOG OUT</Text>
+            <Text style={styles.text}>SIGN OUT</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.toggle} onPress={() => this.props.navigator.pop()}>
