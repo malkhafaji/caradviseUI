@@ -176,8 +176,9 @@ var styles = StyleSheet.create({
     height: 750,
   },
   logo: {
-    width: 80,
-    marginTop: 30,
+    width: 180,
+    height: 29,
+    marginTop: 50,
   },
   textStep: {
     marginTop: 50,
