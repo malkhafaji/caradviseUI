@@ -1,13 +1,18 @@
 package com.caradviseui;
 
 import com.facebook.react.ReactActivity;
-import io.branch.rnbranch.RNBranchPackage;
+import io.branch.rnbranch.*;
 import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import java.util.Arrays;
 import java.util.List;
+
+import com.onesignal.OneSignal;
 
 public class MainActivity extends ReactActivity {
 
@@ -38,7 +43,31 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
             new RNBranchPackage(),
-            new CodePush(null, this, BuildConfig.DEBUG)
+            new CodePush("vBEhXUki5-smzPpDObJHi8EkiOtQ4JbaYvpGb", this, BuildConfig.DEBUG)
         );
+    }
+
+    @Override
+    protected String getJSBundleFile() {
+        return CodePush.getBundleUrl();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        RNBranchModule.initSession(this.getIntent().getData(), this);
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      OneSignal.startInit(this).init();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
     }
 }
