@@ -202,7 +202,7 @@ var Service = React.createClass({
 
           <View style={styles.newServicePriceContainer}>
             <Text style={styles.newServicePriceHd}>PRICE</Text>
-            <Text style={styles.newServicePrice}>${this.props.service.totalCost}</Text>
+            <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
           </View>
         </View>
 
@@ -232,7 +232,7 @@ var Service = React.createClass({
       return(
         <View style={styles.approvedRow}>
           <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
-          <Text style={styles.approvedPrice}>${this.props.service.totalCost}</Text>
+          <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
         </View>
       );
     }
