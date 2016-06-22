@@ -194,7 +194,7 @@ class PaymentConfirm extends Component {
               </View>
 
               <View style={styles.orderTotal}>
-                <Text style={styles.orderTotalText}>Discount</Text>
+                <Text style={styles.orderTotalText}>CarAdvise Promo</Text>
                 <Text style={styles.orderTotalPrice}>-$5.00</Text>
               </View>
 
