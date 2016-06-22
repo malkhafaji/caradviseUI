@@ -73,7 +73,6 @@ var styles = StyleSheet.create({
   },
   page: {
     flex: 1,
-    backgroundColor: 'red',
     width: Dimensions.get('window').width,
     height: null,
     resizeMode: 'cover',
