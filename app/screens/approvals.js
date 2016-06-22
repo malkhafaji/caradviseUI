@@ -38,38 +38,42 @@ class Approvals extends Component {
       this.getApprovals();
     }
 
+    refreshServices(services)
+    {
+      var total = 0;
+      var showCheckout = false;
+
+       var approved = services.filter(this.filterApprovedServices.bind(this));
+       for (var i = 0; i < approved.length; i++) {
+         var cost = approved[i].TotalCost;
+         if(typeof cost !== "undefined")
+         {
+           total += Number(cost.replace("$", ""));
+         }
+         if(approved[i].status == 5)
+         {
+           showCheckout = true;
+         }
+       }
+      this.setState({
+        services:null
+      });
+      this.setState({
+        services: services,
+        total: "$" + total.toFixed(2),
+        showCheckout: showCheckout
+      });
+    }
+
     getApprovals() {
       if(this.props.isLoggedIn && this.props.vehicleNumber)
       {
+        console.log("token is", this.props.authentication_token);
         fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
             var services = (responseData.order != undefined) ? responseData.order.order_services : [];
-            var total = 0;
-            var showCheckout = false;
-            if(responseData.order != undefined)
-            {
-               var approved = services.filter(this.filterApprovedServices.bind(this));
-               for (var i = 0; i < approved.length; i++) {
-                 var cost = approved[i].TotalCost;
-                 if(typeof cost !== "undefined")
-                 {
-                   total += Number(cost.replace("$", ""));
-                 }
-                 if(approved[i].status == 5)
-                 {
-                   showCheckout = true;
-                 }
-               }
-            }
-            this.setState({
-              services:null
-            });
-            this.setState({
-              services: services,
-              total: "$" + total.toFixed(2),
-              showCheckout: showCheckout
-            });
+            this.refreshServices(services);
           })
           .done();
       }
@@ -179,7 +183,8 @@ var Service = React.createClass({
         )
         .then((response) => response.json())
         .then((responseData) => {
-            this.props.approvals.getApprovals();
+            var services = responseData.order.order_services;
+            this.props.approvals.refreshServices(services);
         })
         .done();
     }

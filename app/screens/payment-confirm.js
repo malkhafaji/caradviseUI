@@ -23,6 +23,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 var width = Dimensions.get('window').width - 20;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
+var UPDATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/?/update_order';
 
 class PaymentConfirm extends Component {
 
@@ -30,6 +31,7 @@ class PaymentConfirm extends Component {
       super(props)
       var props = this.props.navigator._navigationContext._currentRoute.passProps;
       this.state = {
+        orderId:0,
         services:null,
         total:0,
         tax:0,
@@ -59,6 +61,7 @@ class PaymentConfirm extends Component {
         .then((responseData) => {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
           var total = 0;
+          var orderId = responseData.order.id;
           if(responseData.order != undefined)
           {
              services = services.filter(this.filterCompletedServices.bind(this));
@@ -73,14 +76,26 @@ class PaymentConfirm extends Component {
           var tax = total * .07;
           var discount = 5;
           this.setState({
+            orderId: orderId,
             services: services,
             total: total.toFixed(2),
             tax: tax.toFixed(2),
-            finalTotal: total + tax - discount
+            finalTotal: (total + tax - discount).toFixed(2)
           });
         })
         .done();
     }
+  }
+
+  updateOrderComplete(orderId)
+  {
+    fetch(UPDATE_ORDER_URL.replace("?", orderId) +'?status=3',
+      {
+        method:"PUT",
+        headers: {'Authorization': this.props.authentication_token},
+      }
+    )
+    .done();
   }
 
   processCreditCard=()=>
@@ -91,14 +106,17 @@ class PaymentConfirm extends Component {
     var top = this;
     var nav = this.props.navigator;
     var amount = this.state.finalTotal;
+    var orderId = this.state.orderId;
     fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
     .then((response) => response.json())
     .then((responseData) => {
       var clientToken = responseData.clientToken;
+      //console.log("token is", clientToken);
       BTClient.setup(clientToken);
 
       BTClient.getCardNonce(this.state.cardNumber, this.state.expMonth, this.state.expYear, this.state.cvv)
       .then(function(nonce) {
+        //console.log("got nonce", nonce);
         fetch('https://caradvise.herokuapp.com/pay',
           {
             method: 'POST',
@@ -115,6 +133,7 @@ class PaymentConfirm extends Component {
           .then((responseData) => {
             if(responseData.success == true)
             {
+              top.updateOrderComplete(orderId);
               top.setState({
                   visible: false
                 });
