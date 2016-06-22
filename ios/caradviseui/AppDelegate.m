@@ -42,6 +42,8 @@
     }
   }];
   
+  [self.oneSignal enableInAppAlertNotification:true];
+  
   NSURL *jsCodeLocation;
 
   /**
