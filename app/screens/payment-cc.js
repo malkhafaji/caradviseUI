@@ -24,7 +24,6 @@ class CreditCard extends Component {
 
   constructor() {
       super()
-      //TODO: remove hard coded test numbers
       this.state = {
         amount:null,
         cardNumber:null,
