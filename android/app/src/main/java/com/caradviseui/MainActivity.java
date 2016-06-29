@@ -64,6 +64,12 @@ public class MainActivity extends ReactActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        RNBranchModule.onStop();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       OneSignal.startInit(this).init();
