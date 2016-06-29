@@ -199,8 +199,8 @@ var styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSave: {
-    width: 169,
-    height: 37,
+    width: 171,
+    height: 38,
     marginTop: 15,
   },
   invalidFld: {
