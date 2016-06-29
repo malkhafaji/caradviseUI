@@ -3,7 +3,8 @@ import React from 'react';
 import {
   Component,
   View,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 
 class StatusBarBackground extends Component {
@@ -16,7 +17,7 @@ class StatusBarBackground extends Component {
 
 var styles = StyleSheet.create({
   statusBarBackground: {
-    height: 20,
+    height: (Platform.OS === 'ios') ? 20 : 0,
     backgroundColor: '#006699',
   },
 });
