@@ -193,10 +193,10 @@ var styles = StyleSheet.create({
   },
   textFld: {
     flex: 3,
-    height: 16,
     textAlign: 'right',
     color: '#006699',
     fontWeight: 'bold',
+    fontSize: 18,
   },
   btnSave: {
     width: 169,
