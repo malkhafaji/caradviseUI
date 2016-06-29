@@ -32,19 +32,17 @@ var styles = StyleSheet.create({
   carType: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 15,
   },
   carMake: {
     color: 'white',
     fontSize: 18,
-    paddingTop: 15,
-    paddingBottom: 15,
   },
   carModel: {
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
-    paddingTop: 15,
-    paddingBottom: 15,
   },
 });
 
