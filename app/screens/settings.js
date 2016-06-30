@@ -47,6 +47,10 @@ class Settings extends Component {
             <View style={styles.settingsContainer}>
               <Text style={styles.textHd}>Settings</Text>
 
+              <View style={styles.vehicleNumber}>
+                <Text style={styles.vehicleNumberText}>VEHICLE NUMBER:  {this.props.vehicleNumber}</Text>
+              </View>
+
               <View style={[styles.settingsRow, this.state.fields.firstName.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>FIRST NAME</Text>
                 <TextInput
@@ -172,6 +176,20 @@ var styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center',
   },
+  vehicleNumber: {
+    width: width,
+    marginBottom: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: '#0099FF',
+  },
+  vehicleNumberText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontWeight: 'bold',
+    margin: 15,
+    fontSize: 16,
+  },
   settingsRow: {
     flex: 1,
     flexDirection: 'row',
@@ -211,12 +229,14 @@ var styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   let user = state.user || {};
+  let vehicle = user.vehicles && user.vehicles[0] || {};
   return {
     firstName: user.firstName,
     lastName: user.lastName,
     cellPhone: user.cellPhone,
     isLoading: !!user.loading,
-    error: user.error
+    error: user.error,
+    vehicleNumber: vehicle.vehicleNumber
   };
 }
 
