@@ -32,6 +32,7 @@ class MaintenanceDetail extends Component {
         timeInterval:passProps.timeInterval,
         intervalMile:passProps.intervalMile,
         intervalMonth:passProps.intervalMonth,
+        position:passProps.position,
         desc:passProps.desc,
         partLowCost:passProps.partLowCost,
         partName:passProps.partName,
@@ -52,7 +53,7 @@ class MaintenanceDetail extends Component {
             <View style={styles.maintenanceList}>
               <View>
                 <View style={styles.maintenanceRow}>
-                  <Text style={styles.maintenanceItem}>{this.state.name}</Text>
+                  <Text style={styles.maintenanceItem}>{this.state.name} {this.state.position}</Text>
 
                   <View style={styles.fairPriceContainer}>
                     <Text style={styles.fairPriceText}>FAIR PRICE</Text>
