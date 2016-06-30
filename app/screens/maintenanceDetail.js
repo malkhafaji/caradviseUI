@@ -67,10 +67,10 @@ class MaintenanceDetail extends Component {
 
                 </View>
                 <View style={styles.maintenanceTime}>
-                  <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  {this.state.time} {this.state.timeInterval}</Text>
+                  <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text></Text>
                 </View>
                 <View style={styles.maintenanceReco}>
-                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY {this.state.intervalMonth} MONTHS OR {this.state.intervalMile} MILES</Text>
+                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.state.intervalMonth} MONTHS</Text> OR <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text></Text>
                 </View>
                 <View style={styles.maintenanceDesc}>
                   <Text style={styles.maintenanceDescText}>{this.state.desc}</Text>
@@ -296,6 +296,9 @@ var styles = StyleSheet.create({
   btnCheckout: {
     width: 300,
     height: 40,
+  },
+  textBold: {
+    fontWeight: 'bold',
   },
 });
 
