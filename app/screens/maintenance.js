@@ -166,11 +166,11 @@ var Service = React.createClass({
           <View style={styles.fairPriceContainer}>
             <Text style={styles.fairPriceText}>FAIR PRICE</Text>
             <View style={styles.fairPriceRange}>
-              <Text style={styles.fairPrice}>${this.props.service.labor_low_cost}</Text>
+              <Text style={styles.fairPrice}>${Number(this.props.service.labor_low_cost).toFixed(0)}</Text>
               <Image
                 source={require('../../images/arrow-range.png')}
                 style={styles.fairPriceArrow} />
-              <Text style={styles.fairPrice}>${this.props.service.labor_high_cost}</Text>
+              <Text style={styles.fairPrice}>${Number(this.props.service.labor_high_cost).toFixed(0)}</Text>
             </View>
           </View>
 
