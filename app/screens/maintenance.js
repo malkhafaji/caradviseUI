@@ -160,7 +160,23 @@ var Service = React.createClass({
   render: function() {
     return (
       <View>
-        <TouchableOpacity style={styles.maintenanceRow} onPress={() => this.props.nav.push({ indent:'MaintenanceDetail', passProps:{category:this.props.service.id, miles:this.props.miles, name:this.props.service.name, lowCost:this.props.service.labor_low_cost, highCost:this.props.service.labor_high_cost, desc:this.props.service.required_skills_description, time:this.props.service.base_labor_time, timeInterval:this.props.service.labor_time_interval, intervalMile:this.props.service.interval_mile, intervalMonth:this.props.service.interval_month, partLowCost:this.props.service.part_low_cost, position:this.props.service.position}})}>
+        <TouchableOpacity
+          style={styles.maintenanceRow}
+          onPress={() => this.props.nav.push({
+            indent:'MaintenanceDetail',
+            passProps:{
+              category:this.props.service.id,
+              miles:this.props.miles,
+              name:this.props.service.name,
+              lowCost:this.props.service.labor_low_cost,
+              highCost:this.props.service.labor_high_cost,
+              desc:this.props.service.required_skills_description,
+              time:this.props.service.base_labor_time,
+              timeInterval:this.props.service.labor_time_interval,
+              intervalMile:this.props.service.interval_mile,
+              intervalMonth:this.props.service.interval_month,
+              partLowCost:this.props.service.part_low_cost,
+              position:this.props.service.position}})}>
           <Text style={styles.maintenanceItem}>{this.props.service.name} {this.props.service.position}</Text>
 
           <View style={styles.fairPriceContainer}>
@@ -222,7 +238,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
-    marginBottom: 5,
+    marginBottom: 3,
   },
   maintenanceItem: {
     flex: 5,
