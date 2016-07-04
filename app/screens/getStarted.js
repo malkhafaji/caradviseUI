@@ -70,6 +70,9 @@ var styles = StyleSheet.create({
     marginTop: 130,
     marginBottom: 200,
   },
+  fields: {
+    marginBottom: 200,
+  },
   btnGetStarted: {
     width: 200,
   },
