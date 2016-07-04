@@ -29,7 +29,7 @@ class Intro extends Component {
         <Image source={require('../../images/bg-step1.png')} style={styles.page}>
           {this._renderTopSection()}
           <View style={styles.section}>
-            <Text style={styles.text}>Bringing <Text style={styles.bold}>TRUST</Text> & <Text style={styles.bold}>CONFIDENCE</Text> to maintain and repair</Text>
+            <Text style={styles.text}>Bringing <Text style={styles.bold}>TRUST</Text> & <Text style={styles.bold}>CONFIDENCE</Text> to maintainance and repair</Text>
             <Image source={require('../../images/icon-step1.png')} style={styles.step} />
           </View>
         </Image>
