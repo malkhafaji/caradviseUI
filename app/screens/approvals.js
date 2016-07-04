@@ -140,13 +140,13 @@ class Approvals extends Component {
               <View style={styles.newServicesList}>
               {unapprovedServices.length ?
                 unapprovedServices.map(this.createServiceRow) :
-                <Text style={styles.noServices}>No services to approve</Text>}
+                <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No services to approve</Text></View></View>}
               </View>
 
               <View style={styles.approvedList}>
               <Text style={styles.textHd}>Approved Services</Text>
                 {approvedServices.length ? approvedServices.map(this.createServiceRow) :
-                <Text style={styles.noServices}>No approved services</Text>}
+                <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No approved services</Text></View></View>}
               </View>
 
               {/*<View>
@@ -268,12 +268,16 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light'
   },
+  noServicesBg: {
+    backgroundColor: '#F4F4F4',
+  },
+  noServicesContainer: {
+    margin: 10,
+  },
   noServices: {
     color: '#006699',
-    backgroundColor: '#F4F4F4',
     width: width,
     textAlign: 'center',
-    padding: 10,
   },
   newServicesList: {
     flexDirection: 'column',
