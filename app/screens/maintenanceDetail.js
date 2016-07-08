@@ -34,7 +34,9 @@ class MaintenanceDetail extends Component {
         intervalMonth:passProps.intervalMonth,
         position:passProps.position,
         desc:passProps.desc,
-        partLowCost:passProps.partLowCost
+        partLowCost:passProps.partLowCost,
+        partName:passProps.partName,
+        partPrice:passProps.partPrice
       };
     }
 
@@ -73,16 +75,6 @@ class MaintenanceDetail extends Component {
                 </View>
                 <View style={styles.maintenanceDesc}>
                   <Text style={styles.maintenanceDescText}>{this.state.desc}</Text>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.partList}>
-              <View>
-                <Text style={styles.textHd}>Part Replacement Estimate</Text>
-                <View style={styles.partRow}>
-                  <Text style={styles.partItem}>Part Name</Text>
-                  <Text style={styles.partPrice}>$0.00</Text>
                 </View>
               </View>
             </View>
