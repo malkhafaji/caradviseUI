@@ -148,7 +148,7 @@ class Saved extends Component {
     }
 }
 
-var createServiceRow = (service, i) => <Service key={i} service={service.service} />;
+var createServiceRow = (service, i) => <Service key={i} service={service} />;
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
@@ -158,10 +158,17 @@ var Service = React.createClass({
     return (
       <View>
         <View style={styles.maintenanceRow}>
-          <Text style={styles.maintenanceItem}>{this.props.service.maintenance.action} {this.props.service.name}</Text>
-        </View>
-        <View style={styles.maintenanceDesc}>
-          <Text style={styles.maintenanceDescText}>{this.props.service.maintenance.frequency_message}</Text>
+          <Text style={styles.maintenanceItem}>{this.props.service.name}</Text>
+          <View style={styles.fairPriceContainer}>
+            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fairPrice}>${Number(this.props.service.labor_low_cost).toFixed(0)}</Text>
+              <Image
+                source={require('../../images/arrow-range.png')}
+                style={styles.fairPriceArrow} />
+              <Text style={styles.fairPrice}>${Number(this.props.service.labor_high_cost).toFixed(0)}</Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -201,15 +208,43 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
+    marginBottom: 3,
   },
   maintenanceItem: {
-    flex: 1,
+    flex: 5,
     marginTop: 15,
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
     color: '#006699',
     alignItems: 'center',
+  },
+  fairPriceContainer: {
+    flex: 3,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 3,
+    alignItems: 'center',
+  },
+  fairPriceRange: {
+    flexDirection: 'row',
+  },
+  fairPriceText: {
+    color: '#FF9900',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  fairPriceArrow: {
+    width: 22,
+    height: 10,
+    marginTop: 4,
+    marginLeft: 2,
+    marginRight: 2,
+  },
+  fairPrice: {
+    color: '#006699',
+    fontWeight: 'bold',
   },
   maintenanceDesc: {
     width: width,
