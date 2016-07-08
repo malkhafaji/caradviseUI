@@ -216,7 +216,7 @@ var styles = StyleSheet.create({
   },
   partItem: {
     flex: 2,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
@@ -225,7 +225,7 @@ var styles = StyleSheet.create({
   },
   partPrice: {
     flex: 1,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
     marginRight: 10,
@@ -319,6 +319,7 @@ var styles = StyleSheet.create({
   },
   noServicesBg: {
     backgroundColor: '#F4F4F4',
+    width: width,
   },
   noServicesContainer: {
     margin: 10,
