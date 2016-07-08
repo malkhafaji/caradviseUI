@@ -201,7 +201,16 @@ var Service = React.createClass({
         <View>
         <View style={styles.newServicesRow}>
           <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
-
+          <View style={styles.fairPriceContainer}>
+            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fairPrice}>${Number(this.props.service.low_labor_cost).toFixed(0)}</Text>
+              <Image
+                source={require('../../images/arrow-range.png')}
+                style={styles.fairPriceArrow} />
+              <Text style={styles.fairPrice}>${Number(this.props.service.high_labor_cost).toFixed(0)}</Text>
+            </View>
+          </View>
           <View style={styles.newServicePriceContainer}>
             <Text style={styles.newServicePriceHd}>PRICE</Text>
             <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
@@ -291,7 +300,7 @@ var styles = StyleSheet.create({
     width: width,
   },
   newServiceItem: {
-    flex: 3,
+    flex: 5,
     marginTop: 17,
     marginBottom: 15,
     marginLeft: 10,
@@ -299,8 +308,35 @@ var styles = StyleSheet.create({
     color: '#006699',
     alignItems: 'center',
   },
+  fairPriceContainer: {
+    flex: 3,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 3,
+    alignItems: 'center',
+  },
+  fairPriceRange: {
+    flexDirection: 'row',
+  },
+  fairPriceText: {
+    color: '#FF9900',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  fairPriceArrow: {
+    width: 22,
+    height: 10,
+    marginTop: 4,
+    marginLeft: 2,
+    marginRight: 2,
+  },
+  fairPrice: {
+    color: '#006699',
+    fontWeight: 'bold',
+  },
   newServicePriceContainer: {
-    flex: 1,
+    flex: 2,
     marginTop: 10,
     marginRight: 10,
   },
