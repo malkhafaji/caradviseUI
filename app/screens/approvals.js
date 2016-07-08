@@ -33,7 +33,7 @@ class Approvals extends Component {
         tax:0,
         discount:0,
         finalTotal:0,
-        visible: false,
+        showSpinner: false,
         showCheckout: false,
       };
     }
@@ -138,6 +138,9 @@ class Approvals extends Component {
         var approvedServices = services.filter(this.filterApprovedServices.bind(this));
         return (
           <View style={styles.base}>
+            <View>
+              <Spinner visible={this.state.showSpinner} />
+            </View>
             <TopBar navigator={this.props.navigator} />
             <CarBar />
             <ScrollView
@@ -198,6 +201,9 @@ var Service = React.createClass({
   {
     if(this.props.isLoggedIn)
     {
+        this.props.approvals.setState({
+          showSpinner:true
+        });
         fetch(UPDATE_URL + '?order_service_id='+ this.props.service.id +'&status=' + status,
           {
             method:"PUT",
@@ -209,6 +215,9 @@ var Service = React.createClass({
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
             var services = responseData.order.order_services;
             this.props.approvals.refreshServices(services, orderStatus);
+            this.props.approvals.setState({
+              showSpinner:false
+            });
         })
         .done();
     }
