@@ -79,6 +79,16 @@ class MaintenanceDetail extends Component {
               </View>
             </View>
 
+            <View style={styles.partList}>
+              <View>
+                <Text style={styles.textHd}>Part Replacement Estimate</Text>
+                <View style={styles.partRow}>
+                  <Text style={styles.partItem}>Part name</Text>
+                  <Text style={styles.partPrice}>$0.00</Text>
+                </View>
+              </View>
+            </View>
+
             </ScrollView>
 
           </View>
