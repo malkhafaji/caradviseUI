@@ -30,6 +30,9 @@ class Approvals extends Component {
         orderStatus:0,
         services:null,
         total:0,
+        tax:0,
+        discount:0,
+        finalTotal:0,
         visible: false,
         showCheckout: false,
       };
@@ -46,12 +49,15 @@ class Approvals extends Component {
 
        var approved = services.filter(this.filterApprovedServices.bind(this));
        for (var i = 0; i < approved.length; i++) {
-         var cost = approved[i].TotalCost;
+         var cost = approved[i].totalCost;
          if(typeof cost !== "undefined")
          {
-           total += Number(cost.replace("$", ""));
+           total += Number(cost);
          }
        }
+       var tax = (total * .07).toFixed(2);
+       var discount = (5).toFixed(2);
+       var finalTotal = Number(total) + Number(tax) - Number(discount);
        if(orderStatus == 1)
        {
          showCheckout = true;
@@ -61,8 +67,11 @@ class Approvals extends Component {
       });
       this.setState({
         services: services,
-        total: "$" + total.toFixed(2),
-        showCheckout: showCheckout
+        showCheckout: showCheckout,
+        total: total.toFixed(2),
+        tax: tax,
+        finalTotal: finalTotal.toFixed(2),
+        discount: discount
       });
     }
 
@@ -147,6 +156,18 @@ class Approvals extends Component {
               <Text style={styles.textHd}>Approved Services</Text>
                 {approvedServices.length ? approvedServices.map(this.createServiceRow) :
                 <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No approved services</Text></View></View>}
+                <View style={styles.extrasRow}>
+                  <Text style={styles.extrasItem}>Sales Tax</Text>
+                  <Text style={styles.extrasPrice}>${this.state.tax}</Text>
+                </View>
+                <View style={styles.extrasRow}>
+                  <Text style={styles.extrasItem}>CarAdvise Promo</Text>
+                  <Text style={styles.extrasPrice}>-${this.state.discount}</Text>
+                </View>
+                <View style={styles.newTotal}>
+                  <Text style={styles.newTotalText}>Sub-Total</Text>
+                  <Text style={styles.newTotalPrice}>${this.state.finalTotal}</Text>
+                </View>
               </View>
 
               {/*<View>
@@ -418,11 +439,28 @@ var styles = StyleSheet.create({
     color: '#006699',
     fontWeight: 'bold',
   },
+  extrasRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#EFEFEF',
+    width: width,
+    padding: 10,
+    marginBottom: 2,
+  },
+  extrasItem: {
+    flex: 3,
+    color: '#006699',
+  },
+  extrasPrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#006699',
+  },
   newTotal: {
     flex: 1,
     flexDirection: 'row',
     width: width,
-    backgroundColor: '#006699',
+    backgroundColor: '#FFF0D9',
     alignItems: 'center',
     padding: 10,
     marginBottom: 20,
@@ -437,6 +475,7 @@ var styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'right',
+    color: '#006699',
   },
   btnCheckout: {
     width: 300,

@@ -177,6 +177,7 @@ var Service = React.createClass({
               intervalMonth:this.props.service.interval_month,
               partLowCost:this.props.service.part_low_cost,
               position:this.props.service.position,
+              parts:this.props.service.motor_vehicle_service_parts
             }})}>
           <Text style={styles.maintenanceItem}>{this.props.service.name} {this.props.service.position}</Text>
 

@@ -36,7 +36,8 @@ class MaintenanceDetail extends Component {
         desc:passProps.desc,
         partLowCost:passProps.partLowCost,
         partName:passProps.partName,
-        partPrice:passProps.partPrice
+        partPrice:passProps.partPrice,
+        parts:passProps.parts
       };
     }
 
@@ -82,10 +83,10 @@ class MaintenanceDetail extends Component {
             <View style={styles.partList}>
               <View>
                 <Text style={styles.textHd}>Part Replacement Estimate</Text>
-                <View style={styles.partRow}>
-                  <Text style={styles.partItem}>Part name</Text>
-                  <Text style={styles.partPrice}>$0.00</Text>
-                </View>
+                {this.state.parts.length ?
+                  this.state.parts.map(this.createPartsRow) :
+                  <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
+
               </View>
             </View>
 
@@ -97,8 +98,23 @@ class MaintenanceDetail extends Component {
       );
     }
 
+    createPartsRow = (part, i) => <Part key={i} part={part}/>;
 }
 
+var Part = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+
+  render: function() {
+      return(
+        <View style={styles.partRow}>
+          <Text style={styles.partItem}>{this.props.part.name}</Text>
+          <Text style={styles.partPrice}>${Number(this.props.part.price).toFixed(2)}</Text>
+        </View>
+      );
+  }
+});
 
 var styles = StyleSheet.create({
   base: {
@@ -301,6 +317,17 @@ var styles = StyleSheet.create({
   textBold: {
     fontWeight: 'bold',
   },
+  noServicesBg: {
+    backgroundColor: '#F4F4F4',
+  },
+  noServicesContainer: {
+    margin: 10,
+  },
+  noServices: {
+    color: '#006699',
+    width: width,
+    textAlign: 'center',
+  }
 });
 
 function mapStateToProps(state) {
