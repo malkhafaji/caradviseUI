@@ -46,7 +46,7 @@ class ApprovalDetail extends Component {
           <View style={styles.maintenanceContainer}>
 
             <ScrollView style={styles.scrollView}>
-            <Text style={styles.textHd}>Maintenance Detail ({this.props.miles} miles)</Text>
+            <Text style={styles.textHd}>Service Detail</Text>
 
             <View style={styles.maintenanceList}>
               <View>
@@ -70,6 +70,9 @@ class ApprovalDetail extends Component {
                 </View>
                 <View style={styles.maintenanceReco}>
                   <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.state.intervalMonth} MONTHS</Text> OR <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text></Text>
+                </View>
+                <View style={styles.maintenanceDesc}>
+                  <Text style={styles.maintenanceDescText}>{this.state.desc}</Text>
                 </View>
               </View>
             </View>

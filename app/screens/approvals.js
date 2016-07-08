@@ -165,7 +165,7 @@ class Approvals extends Component {
         );
     }
 
-    createServiceRow = (service, i) => <Service key={i} service={service} isLoggedIn={this.props.isLoggedIn} authentication_token={this.props.authentication_token} approvals={this}/>;
+    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} authentication_token={this.props.authentication_token} approvals={this}/>;
 }
 
 var Service = React.createClass({
@@ -199,23 +199,39 @@ var Service = React.createClass({
     {
       return (
         <View>
-        <View style={styles.newServicesRow}>
-          <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
-          <View style={styles.fairPriceContainer}>
-            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-            <View style={styles.fairPriceRange}>
-              <Text style={styles.fairPrice}>${Number(this.props.service.low_labor_cost).toFixed(0)}</Text>
-              <Image
-                source={require('../../images/arrow-range.png')}
-                style={styles.fairPriceArrow} />
-              <Text style={styles.fairPrice}>${Number(this.props.service.high_labor_cost).toFixed(0)}</Text>
-            </View>
-          </View>
-          <View style={styles.newServicePriceContainer}>
-            <Text style={styles.newServicePriceHd}>PRICE</Text>
-            <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
-          </View>
-        </View>
+        <TouchableOpacity
+          style={styles.newServicesRow}
+          onPress={() => this.props.nav.push({
+            indent:'ApprovalDetail',
+            passProps:{
+              category:this.props.service.id,
+              miles:this.props.miles,
+              name:this.props.service.serviceName,
+              lowCost:this.props.service.low_labor_cost,
+              highCost:this.props.service.high_labor_cost,
+              desc:this.props.service.required_skills_description,
+              time:this.props.service.base_labor_time,
+              timeInterval:this.props.service.labor_time_interval,
+              intervalMile:this.props.service.interval_mile,
+              intervalMonth:this.props.service.interval_month,
+              position:this.props.service.position,
+            }})}>
+              <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+              <View style={styles.fairPriceContainer}>
+                <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                <View style={styles.fairPriceRange}>
+                  <Text style={styles.fairPrice}>${Number(this.props.service.low_labor_cost).toFixed(0)}</Text>
+                  <Image
+                    source={require('../../images/arrow-range.png')}
+                    style={styles.fairPriceArrow} />
+                  <Text style={styles.fairPrice}>${Number(this.props.service.high_labor_cost).toFixed(0)}</Text>
+                </View>
+              </View>
+              <View style={styles.newServicePriceContainer}>
+                <Text style={styles.newServicePriceHd}>PRICE</Text>
+                <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+              </View>
+          </TouchableOpacity>
 
         <View style={styles.btnRow}>
           <TouchableOpacity
