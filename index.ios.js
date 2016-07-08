@@ -3,6 +3,7 @@ var StatusBarBackground = require('./app/components/statusBarBackground');
 var Main = require('./app/screens/main');
 var Intro = require('./app/screens/intro');
 var Approvals = require('./app/screens/approvals');
+var ApprovalDetail = require('./app/screens/approvalDetail');
 var GetStarted = require('./app/screens/getStarted');
 var Login = require('./app/screens/login');
 var Step1 = require('./app/screens/getStarted-step1');
@@ -125,6 +126,10 @@ class caradviseui extends Component {
       case 'Approvals':
         return (
           <Approvals {...globalNavigatorProps} />
+        )
+      case 'ApprovalDetail':
+        return (
+          <ApprovalDetail {...globalNavigatorProps} />
         )
       case 'AddServices':
         return (
