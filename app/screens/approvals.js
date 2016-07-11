@@ -325,6 +325,7 @@ var styles = StyleSheet.create({
   },
   noServicesBg: {
     backgroundColor: '#F4F4F4',
+    marginBottom: 2,
   },
   noServicesContainer: {
     margin: 10,
