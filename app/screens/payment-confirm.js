@@ -1,7 +1,7 @@
 'use strict';
 var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
-import BraintreeAndroid from '../utils/BraintreeAndroid';
+var BTClient = require('react-native-braintree');
 
 import React from 'react';
 import {
@@ -111,50 +111,49 @@ class PaymentConfirm extends Component {
     .then((response) => response.json())
     .then((responseData) => {
       var clientToken = responseData.clientToken;
+      BTClient.setup(clientToken);
 
-      BraintreeAndroid.setup(clientToken);
-
-      BraintreeAndroid.getCardNonce(this.state.cardNumber, this.state.expMonth, this.state.expYear, this.state.cvv,
-          (nonce) => {
-            fetch('https://caradvise.herokuapp.com/pay',
-              {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  payment_method_nonce: nonce,
-                  amount: amount,
-                })
-              })
-              .then((response) => response.json())
-              .then((responseData) => {
-                if(responseData.success == true)
-                {
-                  top.updateOrderComplete(orderId);
-                  top.setState({
-                      visible: false
-                    });
-                  nav.push({ indent:'PaymentThanks' });
-                } else {
-                  Alert.alert(
-                      'Error',
-                      responseData.message,
-                      [
-                        {text: "OK", onPress: () => nav.pop()},
-                      ]
-                    );
-                }
-              });
-          },
-          (msg) => {
-            Alert.alert(
-                'Error',
-                msg,
-              )
-          }
-      );
+      BTClient.getCardNonce(this.state.cardNumber, this.state.expMonth, this.state.expYear, this.state.cvv)
+       .then(function(nonce) {
+         //console.log("got nonce", nonce);
+         fetch('https://caradvise.herokuapp.com/pay',
+           {
+             method: 'POST',
+             headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json',
+             },
+             body: JSON.stringify({
+               payment_method_nonce: nonce,
+               amount: amount,
+             })
+           })
+           .then((response) => response.json())
+           .then((responseData) => {
+             if(responseData.success == true)
+             {
+               top.updateOrderComplete(orderId);
+               top.setState({
+                  visible: false
+                 });
+               nav.push({ indent:'PaymentThanks' });
+             } else {
+               Alert.alert(
+                   'Error',
+                   responseData.message,
+                   [
+                     {text: "OK", onPress: () => nav.pop()},
+                   ]
+                 );
+             }
+           });
+       })
+       .catch(function(err) {
+         Alert.alert(
+             'Error',
+             "An error occurred, please try again.",
+           )
+       });
       this.state = {visible: false};
     })
     .done();
