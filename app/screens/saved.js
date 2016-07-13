@@ -1,7 +1,6 @@
 'use strict';
 var TopBar = require('../components/main/topBar');
 var CarBar = require('../components/main/carBar');
-var ApprovalRequest = require('../components/main/approvalRequest');
 
 import React from 'react';
 import {
