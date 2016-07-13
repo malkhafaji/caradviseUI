@@ -187,7 +187,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFF',
     fontWeight: 'bold',
-    margin: 15,
+    margin: 20,
     fontSize: 16,
   },
   settingsRow: {
