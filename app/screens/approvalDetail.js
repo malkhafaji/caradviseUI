@@ -41,15 +41,37 @@ class ApprovalDetail extends Component {
       };
     }
 
-    renderInfo()
+    renderWhat()
     {
         if (this.state.whatIsIt) {
             return (
               <View>
-              <Text style={styles.textHd}>What is it?</Text>
-              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
+                <Text style={styles.textHd}>What is it?</Text>
+                <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderWhy()
+    {
+        if (this.state.whyDoThis) {
+            return (
+              <View>
               <Text style={styles.textHd}>Why do this?</Text>
               <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderFactors()
+    {
+        if (this.state.factors) {
+            return (
+              <View>
               <Text style={styles.textHd}>Factors to consider</Text>
               <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.factors}</Text></View>
               </View>
@@ -91,7 +113,9 @@ class ApprovalDetail extends Component {
                 </View>
               </View>
 
-              {this.renderInfo()}
+              {this.renderWhat()}
+              {this.renderWhy()}
+              {this.renderFactors()}
 
             </View>
 
