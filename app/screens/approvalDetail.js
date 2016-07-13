@@ -34,8 +34,29 @@ class ApprovalDetail extends Component {
         intervalMonth:passProps.intervalMonth,
         position:passProps.position,
         desc:passProps.desc,
-        partPrice:passProps.partPrice
+        partPrice:passProps.partPrice,
+        whatIsIt:passProps.whatIsIt,
+        whyDoThis:passProps.whyDoThis,
+        factors:passProps.factors,
       };
+    }
+
+    renderInfo()
+    {
+        if (this.state.whatIsIt) {
+            return (
+              <View>
+              <Text style={styles.textHd}>What is it?</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
+              <Text style={styles.textHd}>Why do this?</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View>
+              <Text style={styles.textHd}>Factors to consider</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.factors}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
     }
 
     render() {
@@ -66,15 +87,12 @@ class ApprovalDetail extends Component {
 
                 </View>
                 <View style={styles.maintenanceTime}>
-                  <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text></Text>
-                </View>
-                <View style={styles.maintenanceReco}>
-                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.state.intervalMonth} MONTHS</Text> OR <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text></Text>
-                </View>
-                <View style={styles.maintenanceDesc}>
-                  <Text style={styles.maintenanceDescText}>{this.state.desc}</Text>
+                  <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text></Text>
                 </View>
               </View>
+
+              {this.renderInfo()}
+
             </View>
 
             </ScrollView>
@@ -139,6 +157,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     marginRight: 5,
     marginLeft: 5,
+    marginBottom: 5,
     padding: 10,
     textAlign: 'center',
     color: '#006699',
@@ -150,9 +169,7 @@ var styles = StyleSheet.create({
   },
   maintenanceRecoText: {
     backgroundColor: '#FFF',
-    marginTop: 5,
-    marginRight: 5,
-    marginLeft: 5,
+    margin: 5,
     padding: 10,
     textAlign: 'center',
     color: '#006699',
@@ -161,7 +178,6 @@ var styles = StyleSheet.create({
   maintenanceDesc: {
     width: width,
     backgroundColor: '#EFEFEF',
-    marginBottom: 10,
   },
   maintenanceDescText: {
     backgroundColor: '#FFF',
@@ -288,6 +304,17 @@ var styles = StyleSheet.create({
   },
   textBold: {
     fontWeight: 'bold',
+  },
+  whatContainer: {
+    backgroundColor: '#EFEFEF',
+    width: width,
+  },
+  whatTxt: {
+    backgroundColor: '#FFF',
+    margin: 5,
+    padding: 10,
+    color: '#006699',
+    fontSize: 12,
   },
 });
 

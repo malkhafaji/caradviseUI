@@ -35,6 +35,7 @@ class Approvals extends Component {
         finalTotal:0,
         showSpinner: false,
         showCheckout: false,
+        showTotals: false,
       };
     }
 
@@ -61,6 +62,7 @@ class Approvals extends Component {
        if(orderStatus == 1)
        {
          showCheckout = true;
+         this.state.showTotals = true;
        }
       this.setState({
         services:null
@@ -71,7 +73,7 @@ class Approvals extends Component {
         total: total.toFixed(2),
         tax: tax,
         finalTotal: finalTotal.toFixed(2),
-        discount: discount
+        discount: discount,
       });
     }
 
@@ -114,6 +116,30 @@ class Approvals extends Component {
     filterApprovedServices(service)
     {
       return (service.status == 2 || service.status == 5);
+    }
+
+    renderTotals()
+    {
+      if (this.state.showTotals == true) {
+          return (
+            <View>
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>Sales Tax</Text>
+              <Text style={styles.extrasPrice}>${this.state.tax}</Text>
+            </View>
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>CarAdvise Promo</Text>
+              <Text style={styles.extrasPrice}>-${this.state.discount}</Text>
+            </View>
+            <View style={styles.newTotal}>
+              <Text style={styles.newTotalText}>Sub-Total</Text>
+              <Text style={styles.newTotalPrice}>${this.state.finalTotal}</Text>
+            </View>
+            </View>
+          );
+      } else {
+          return null;
+      }
     }
 
     renderCheckout()
@@ -159,18 +185,7 @@ class Approvals extends Component {
               <Text style={styles.textHd}>Approved Services</Text>
                 {approvedServices.length ? approvedServices.map(this.createServiceRow) :
                 <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No approved services</Text></View></View>}
-                <View style={styles.extrasRow}>
-                  <Text style={styles.extrasItem}>Sales Tax</Text>
-                  <Text style={styles.extrasPrice}>${this.state.tax}</Text>
-                </View>
-                <View style={styles.extrasRow}>
-                  <Text style={styles.extrasItem}>CarAdvise Promo</Text>
-                  <Text style={styles.extrasPrice}>-${this.state.discount}</Text>
-                </View>
-                <View style={styles.newTotal}>
-                  <Text style={styles.newTotalText}>Sub-Total</Text>
-                  <Text style={styles.newTotalPrice}>${this.state.finalTotal}</Text>
-                </View>
+                {this.renderTotals()}
               </View>
 
               {/*<View>
@@ -245,6 +260,9 @@ var Service = React.createClass({
               intervalMile:this.props.service.interval_mile,
               intervalMonth:this.props.service.interval_month,
               position:this.props.service.position,
+              whatIsIt:this.props.service.what_is_it,
+              whyDoThis:this.props.service.why_do_this,
+              factors:this.props.service.factors_to_consider,
             }})}>
               <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
               <View style={styles.fairPriceContainer}>
@@ -287,10 +305,29 @@ var Service = React.createClass({
     }
     else if (this.props.service.status == 2 || this.props.service.status == 5) {
       return(
-        <View style={styles.approvedRow}>
+        <TouchableOpacity
+          style={styles.approvedRow}
+          onPress={() => this.props.nav.push({
+            indent:'ApprovalDetail',
+            passProps:{
+              category:this.props.service.id,
+              miles:this.props.miles,
+              name:this.props.service.serviceName,
+              lowCost:this.props.service.low_labor_cost,
+              highCost:this.props.service.high_labor_cost,
+              desc:this.props.service.required_skills_description,
+              time:this.props.service.base_labor_time,
+              timeInterval:this.props.service.labor_time_interval,
+              intervalMile:this.props.service.interval_mile,
+              intervalMonth:this.props.service.interval_month,
+              position:this.props.service.position,
+              whatIsIt:this.props.service.what_is_it,
+              whyDoThis:this.props.service.why_do_this,
+              factors:this.props.service.factors_to_consider,
+            }})}>
           <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
           <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
-        </View>
+        </TouchableOpacity>
       );
     }
     else {
