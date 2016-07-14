@@ -213,6 +213,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
+    marginBottom: 2,
   },
   partItem: {
     flex: 2,
