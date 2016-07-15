@@ -19,8 +19,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
-var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/orders/update_order_service';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
+var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/update_order_service';
 
 class Approvals extends Component {
 
@@ -36,6 +36,8 @@ class Approvals extends Component {
         showSpinner: false,
         showCheckout: false,
         showTotals: false,
+        partLow:null,
+        partHigh:null,
       };
     }
 
@@ -43,7 +45,7 @@ class Approvals extends Component {
       this.getApprovals();
     }
 
-    refreshServices(services, orderStatus, fees, misc, totalDiscount, taxRate)
+    refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
     {
       var total = 0;
       var showCheckout = false;
@@ -81,6 +83,8 @@ class Approvals extends Component {
         taxRate: taxRate,
         fees: fees,
         misc: misc,
+        partLow: partLow,
+        partHigh: partHigh,
       });
     }
 
@@ -96,10 +100,15 @@ class Approvals extends Component {
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var partLow = (responseData.order != undefined) ? responseData.order.order_services.low_part_cost : 0;
+            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.high_part_cost : 0;
+            var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
+            var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, fees, misc, totalDiscount, taxRate);
+            this.refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
           })
           .done();
+
       }
     }
 
@@ -285,8 +294,12 @@ var Service = React.createClass({
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+            var partLow = (responseData.order != undefined) ? responseData.order.order_services.low_part_cost : 0;
+            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.high_part_cost : 0;
+            var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
+            var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = responseData.order.order_services;
-            this.props.approvals.refreshServices(services, orderStatus, fees, misc, totalDiscount, taxRate);
+            this.props.approvals.refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
             this.props.approvals.setState({
               showSpinner:false
             });
@@ -297,6 +310,8 @@ var Service = React.createClass({
   },
 
   render: function() {
+    var totalLow = this.props.service.low_part_cost + this.props.service.low_labor_cost;
+    var totalHigh = this.props.service.high_part_cost + this.props.service.high_labor_cost;
     if(this.props.service.status == 0)
     {
       return (
@@ -323,16 +338,18 @@ var Service = React.createClass({
               factors:this.props.service.factors_to_consider,
               partLow:this.props.service.low_part_cost,
               partHigh:this.props.service.high_part_cost,
+              parts:this.props.service.motor_vehicle_service,
+              partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
             }})}>
               <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
               <View style={styles.fairPriceContainer}>
                 <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                 <View style={styles.fairPriceRange}>
-                  <Text style={styles.fairPrice}>${Number(this.props.service.low_labor_cost).toFixed(0)}</Text>
+                  <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
                   <Image
                     source={require('../../images/arrow-range.png')}
                     style={styles.fairPriceArrow} />
-                  <Text style={styles.fairPrice}>${Number(this.props.service.high_labor_cost).toFixed(0)}</Text>
+                  <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
                 </View>
               </View>
               <View style={styles.newServicePriceContainer}>
@@ -387,6 +404,8 @@ var Service = React.createClass({
               factors:this.props.service.factors_to_consider,
               partLow:this.props.service.low_part_cost,
               partHigh:this.props.service.high_part_cost,
+              parts:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
+              partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
             }})}>
           <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
           <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>

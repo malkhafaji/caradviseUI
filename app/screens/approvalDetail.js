@@ -26,8 +26,8 @@ class ApprovalDetail extends Component {
       this.state = {
         id: passProps.category,
         name:passProps.name,
-        lowCost:Number(passProps.lowCost).toFixed(0),
-        highCost:Number(passProps.highCost).toFixed(0),
+        lowCost:passProps.lowCost,
+        highCost:passProps.highCost,
         time:passProps.time,
         timeInterval:passProps.timeInterval,
         intervalMile:passProps.intervalMile,
@@ -41,49 +41,9 @@ class ApprovalDetail extends Component {
         factors:passProps.factors,
         partLow:passProps.partLow,
         partHigh:passProps.partHigh,
-        laborLow:Number(passProps.lowCost).toFixed(0),
-        laborHigh:Number(passProps.highCost).toFixed(0),
+        parts:passProps.parts,
+        partDetail:passProps.partDetail,
       };
-    }
-
-    renderPart()
-    {
-
-      return (
-        <View>
-        <Text style={styles.textHd}>Part Detail</Text>
-
-        <View style={styles.maintenanceList}>
-          <View>
-            <View style={styles.maintenanceRow}>
-              <Text style={styles.maintenanceItem}>{this.state.name} {this.state.position}</Text>
-
-              <View style={styles.fairPriceContainer}>
-                <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                <View style={styles.fairPriceRange}>
-                  <Text style={styles.fairPrice}>${this.state.partLow}</Text>
-                  <Image
-                    source={require('../../images/arrow-range.png')}
-                    style={styles.fairPriceArrow} />
-                  <Text style={styles.fairPrice}>${this.state.partHigh}</Text>
-                </View>
-              </View>
-
-            </View>
-          </View>
-        </View>
-        </View>
-      );
-        if (this.state.whatIsIt) {
-            return (
-              <View>
-                <Text style={styles.textHd}>What is it?</Text>
-                <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
-              </View>
-            );
-        } else {
-            return null;
-        }
     }
 
     renderWhat()
@@ -140,6 +100,8 @@ class ApprovalDetail extends Component {
     }
 
     render() {
+      var totalLow = this.state.partLow + this.state.lowCost;
+      var totalHigh = this.state.partHigh + this.state.highCost;
       return (
         <View style={styles.base}>
           <TopBar navigator={this.props.navigator} />
@@ -157,11 +119,11 @@ class ApprovalDetail extends Component {
                   <View style={styles.fairPriceContainer}>
                     <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                     <View style={styles.fairPriceRange}>
-                      <Text style={styles.fairPrice}>${this.state.lowCost}</Text>
+                      <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
                       <Image
                         source={require('../../images/arrow-range.png')}
                         style={styles.fairPriceArrow} />
-                      <Text style={styles.fairPrice}>${this.state.highCost}</Text>
+                      <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
                     </View>
                   </View>
 
@@ -171,7 +133,15 @@ class ApprovalDetail extends Component {
                 </View>
               </View>
 
-              {this.renderPart()}
+              <View style={styles.partList}>
+                <View>
+                  <Text style={styles.textHd}>Part Replacement Estimate</Text>
+                  {this.state.partDetail.length ?
+                    this.state.partDetail.map(this.createPartsRow) :
+                    <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
+
+                </View>
+              </View>
 
               {this.renderWhat()}
               {this.renderWhy()}
@@ -187,9 +157,25 @@ class ApprovalDetail extends Component {
         </View>
       );
     }
-
+    createPartsRow = (part, i) => <Part key={i} part={part} lowCost={this.state.lowCost} highCost={this.state.highCost}/>;
 }
 
+var Part = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+
+  render: function() {
+    //var totalLow = this.props.parts.part_low_cost + this.props.lowCost;
+    //var totalHigh = this.props.partDetail.price + this.props.highCost;
+      return(
+        <View style={styles.partRow}>
+          <Text style={styles.partItem}>{this.props.part.name}</Text>
+          <Text style={styles.partPrice}>${this.props.part.price.toFixed(0)}</Text>
+        </View>
+      );
+  }
+});
 
 var styles = StyleSheet.create({
   base: {
@@ -401,6 +387,18 @@ var styles = StyleSheet.create({
     color: '#006699',
     fontSize: 12,
   },
+  noServicesBg: {
+    backgroundColor: '#F4F4F4',
+    width: width,
+  },
+  noServicesContainer: {
+    margin: 10,
+  },
+  noServices: {
+    color: '#006699',
+    width: width,
+    textAlign: 'center',
+  }
 });
 
 function mapStateToProps(state) {
