@@ -39,7 +39,51 @@ class ApprovalDetail extends Component {
         whyDoThis:passProps.whyDoThis,
         whatIf:passProps.whatIf,
         factors:passProps.factors,
+        partLow:passProps.partLow,
+        partHigh:passProps.partHigh,
+        laborLow:Number(passProps.lowCost).toFixed(0),
+        laborHigh:Number(passProps.highCost).toFixed(0),
       };
+    }
+
+    renderPart()
+    {
+
+      return (
+        <View>
+        <Text style={styles.textHd}>Part Detail</Text>
+
+        <View style={styles.maintenanceList}>
+          <View>
+            <View style={styles.maintenanceRow}>
+              <Text style={styles.maintenanceItem}>{this.state.name} {this.state.position}</Text>
+
+              <View style={styles.fairPriceContainer}>
+                <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                <View style={styles.fairPriceRange}>
+                  <Text style={styles.fairPrice}>${this.state.partLow}</Text>
+                  <Image
+                    source={require('../../images/arrow-range.png')}
+                    style={styles.fairPriceArrow} />
+                  <Text style={styles.fairPrice}>${this.state.partHigh}</Text>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </View>
+        </View>
+      );
+        if (this.state.whatIsIt) {
+            return (
+              <View>
+                <Text style={styles.textHd}>What is it?</Text>
+                <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
     }
 
     renderWhat()
@@ -126,6 +170,8 @@ class ApprovalDetail extends Component {
                   <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text></Text>
                 </View>
               </View>
+
+              {this.renderPart()}
 
               {this.renderWhat()}
               {this.renderWhy()}

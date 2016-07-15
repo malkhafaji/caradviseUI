@@ -321,6 +321,8 @@ var Service = React.createClass({
               whatIf:this.props.service.what_if_decline,
               whyDoThis:this.props.service.why_do_this,
               factors:this.props.service.factors_to_consider,
+              partLow:this.props.service.low_part_cost,
+              partHigh:this.props.service.high_part_cost,
             }})}>
               <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
               <View style={styles.fairPriceContainer}>
@@ -383,6 +385,8 @@ var Service = React.createClass({
               whatIf:this.props.service.what_if_decline,
               whyDoThis:this.props.service.why_do_this,
               factors:this.props.service.factors_to_consider,
+              partLow:this.props.service.low_part_cost,
+              partHigh:this.props.service.high_part_cost,
             }})}>
           <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
           <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
