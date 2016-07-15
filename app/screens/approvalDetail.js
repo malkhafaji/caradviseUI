@@ -37,6 +37,7 @@ class ApprovalDetail extends Component {
         partPrice:passProps.partPrice,
         whatIsIt:passProps.whatIsIt,
         whyDoThis:passProps.whyDoThis,
+        whatIf:passProps.whatIf,
         factors:passProps.factors,
       };
     }
@@ -61,6 +62,19 @@ class ApprovalDetail extends Component {
               <View>
               <Text style={styles.textHd}>Why do this?</Text>
               <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderWhatIf()
+    {
+        if (this.state.whatIf) {
+            return (
+              <View>
+              <Text style={styles.textHd}>What if I decline?</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIf}</Text></View>
               </View>
             );
         } else {
@@ -115,6 +129,7 @@ class ApprovalDetail extends Component {
 
               {this.renderWhat()}
               {this.renderWhy()}
+              {this.renderWhatIf()}
               {this.renderFactors()}
 
             </View>

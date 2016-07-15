@@ -62,6 +62,10 @@ class PaymentConfirm extends Component {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
           var total = 0;
           var orderId = responseData.order.id;
+          var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+          var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
+          var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+          var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
           if(responseData.order != undefined)
           {
              services = services.filter(this.filterCompletedServices.bind(this));
@@ -73,17 +77,65 @@ class PaymentConfirm extends Component {
                }
              }
           }
-          var tax = total * .07;
-          var discount = 5;
+          var discount = totalDiscount;
+          var subtotal = total + fees + misc - discount;
+          var tax = (subtotal * taxRate/100).toFixed(2);
+          var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
+
           this.setState({
             orderId: orderId,
             services: services,
-            total: total.toFixed(2),
-            tax: tax.toFixed(2),
-            finalTotal: (total + tax - discount).toFixed(2)
+            taxRate: taxRate,
+            misc: misc,
+            fees: fees,
+            totalDiscount: totalDiscount,
+            finalTotal: finalTotal.toFixed(2),
+            tax: tax,
           });
         })
         .done();
+    }
+  }
+
+  renderFees()
+  {
+    if (this.state.fees != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Shop Fees</Text>
+            <Text style={styles.taxPrice}>${this.state.fees}</Text>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  }
+
+  renderMisc()
+  {
+    if (this.state.misc != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Other Misc.</Text>
+            <Text style={styles.taxPrice}>${this.state.misc}</Text>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  }
+
+  renderDiscount()
+  {
+    if (this.state.totalDiscount != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Discount</Text>
+            <Text style={styles.taxPrice}>-${this.state.totalDiscount}</Text>
+          </View>
+        );
+    } else {
+        return null;
     }
   }
 
@@ -186,15 +238,12 @@ class PaymentConfirm extends Component {
               <Text style={styles.textHd}>Confirm Order</Text>
 
               {services.map(this.createServiceRow)}
-
+              {this.renderFees()}
+              {this.renderMisc()}
+              {this.renderDiscount()}
               <View style={styles.taxRow}>
                 <Text style={styles.taxItem}>Sales Tax</Text>
                 <Text style={styles.taxPrice}>${this.state.tax}</Text>
-              </View>
-
-              <View style={styles.orderTotal}>
-                <Text style={styles.orderTotalText}>CarAdvise Promo</Text>
-                <Text style={styles.orderTotalPrice}>-$5.00</Text>
               </View>
 
               <View style={styles.totalContainer}>
@@ -270,13 +319,13 @@ var styles = StyleSheet.create({
   },
   serviceItem: {
     flex: 3,
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   servicePrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   taxRow: {
@@ -284,17 +333,20 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#F4F4F4',
     width: width,
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     marginBottom: 2,
   },
   taxItem: {
     flex: 3,
-    color: '#11325F',
+    color: '#006699',
   },
   taxPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
   },
   orderTotal: {
     flex: 1,

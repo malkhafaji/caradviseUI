@@ -43,7 +43,7 @@ class Approvals extends Component {
       this.getApprovals();
     }
 
-    refreshServices(services, orderStatus)
+    refreshServices(services, orderStatus, fees, misc, totalDiscount, taxRate)
     {
       var total = 0;
       var showCheckout = false;
@@ -56,9 +56,12 @@ class Approvals extends Component {
            total += Number(cost);
          }
        }
-       var tax = (total * .07).toFixed(2);
-       var discount = (5).toFixed(2);
-       var finalTotal = Number(total) + Number(tax) - Number(discount);
+       var discount = totalDiscount;
+       var fees = fees;
+       var subtotal = total + fees + misc - discount;
+       var tax = (subtotal * taxRate/100).toFixed(2);
+       var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
+
        if(orderStatus == 1)
        {
          showCheckout = true;
@@ -74,6 +77,10 @@ class Approvals extends Component {
         tax: tax,
         finalTotal: finalTotal.toFixed(2),
         discount: discount,
+        totalDiscount: totalDiscount,
+        taxRate: taxRate,
+        fees: fees,
+        misc: misc,
       });
     }
 
@@ -85,8 +92,12 @@ class Approvals extends Component {
           .then((response) => response.json())
           .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
+            var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+            var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
+            var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
+            var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus);
+            this.refreshServices(services, orderStatus, fees, misc, totalDiscount, taxRate);
           })
           .done();
       }
@@ -118,21 +129,63 @@ class Approvals extends Component {
       return (service.status == 2 || service.status == 5);
     }
 
+    renderFees()
+    {
+      if (this.state.fees != 0) {
+          return (
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>Shop Fees</Text>
+              <Text style={styles.extrasPrice}>${this.state.fees}</Text>
+            </View>
+          );
+      } else {
+          return null;
+      }
+    }
+
+    renderMisc()
+    {
+      if (this.state.misc != 0) {
+          return (
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>Other Misc.</Text>
+              <Text style={styles.extrasPrice}>${this.state.misc}</Text>
+            </View>
+          );
+      } else {
+          return null;
+      }
+    }
+
+    renderDiscount()
+    {
+      if (this.state.totalDiscount != 0) {
+          return (
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>Discount</Text>
+              <Text style={styles.extrasPrice}>-${this.state.totalDiscount}</Text>
+            </View>
+          );
+      } else {
+          return null;
+      }
+    }
+
     renderTotals()
     {
       if (this.state.showTotals == true) {
           return (
             <View>
+            {this.renderFees()}
+            {this.renderMisc()}
+            {this.renderDiscount()}
+
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Sales Tax</Text>
               <Text style={styles.extrasPrice}>${this.state.tax}</Text>
             </View>
-            <View style={styles.extrasRow}>
-              <Text style={styles.extrasItem}>CarAdvise Promo</Text>
-              <Text style={styles.extrasPrice}>-${this.state.discount}</Text>
-            </View>
             <View style={styles.newTotal}>
-              <Text style={styles.newTotalText}>Sub-Total</Text>
+              <Text style={styles.newTotalText}>Total</Text>
               <Text style={styles.newTotalPrice}>${this.state.finalTotal}</Text>
             </View>
             </View>
@@ -228,8 +281,12 @@ var Service = React.createClass({
         .then((response) => response.json())
         .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
+            var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
+            var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
+            var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
             var services = responseData.order.order_services;
-            this.props.approvals.refreshServices(services, orderStatus);
+            this.props.approvals.refreshServices(services, orderStatus, fees, misc, totalDiscount, taxRate);
             this.props.approvals.setState({
               showSpinner:false
             });
@@ -261,6 +318,7 @@ var Service = React.createClass({
               intervalMonth:this.props.service.interval_month,
               position:this.props.service.position,
               whatIsIt:this.props.service.what_is_it,
+              whatIf:this.props.service.what_if_decline,
               whyDoThis:this.props.service.why_do_this,
               factors:this.props.service.factors_to_consider,
             }})}>
@@ -322,6 +380,7 @@ var Service = React.createClass({
               intervalMonth:this.props.service.interval_month,
               position:this.props.service.position,
               whatIsIt:this.props.service.what_is_it,
+              whatIf:this.props.service.what_if_decline,
               whyDoThis:this.props.service.why_do_this,
               factors:this.props.service.factors_to_consider,
             }})}>
@@ -489,9 +548,12 @@ var styles = StyleSheet.create({
   extrasRow: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#EFEFEF',
+    backgroundColor: '#F4F4F4',
     width: width,
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     marginBottom: 2,
   },
   extrasItem: {
@@ -510,7 +572,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF0D9',
     alignItems: 'center',
     padding: 10,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   newTotalText: {
     flex: 3,
@@ -527,7 +589,7 @@ var styles = StyleSheet.create({
   btnCheckout: {
     width: 300,
     height: 40,
-    marginTop: 20,
+    marginTop: 10,
   },
 });
 
