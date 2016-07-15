@@ -21,8 +21,8 @@ import sortBy from 'lodash/sortBy';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
-const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/makes_by_year';
-const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/models_by_year_and_make';
+const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/makes_by_year';
+const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/models_by_year_and_make';
 
 class Step3 extends Component {
     constructor(props) {
