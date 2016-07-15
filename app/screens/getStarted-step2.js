@@ -20,7 +20,7 @@ import { getJSON } from '../utils/fetch';
 import storage from '../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
-const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/search_by_vin';
+const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/search_by_vin';
 
 class Step2 extends Component {
     constructor(props) {
