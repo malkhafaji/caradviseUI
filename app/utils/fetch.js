@@ -1,4 +1,4 @@
-export async function getJSON(url, params={}) {
+export async function getJSON(url, params={}, headers={}) {
   try {
     params = Object.keys(params).map(key => {
       return `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
@@ -9,7 +9,7 @@ export async function getJSON(url, params={}) {
 
     let response = await fetch(url, {
       method: 'GET',
-      headers: { 'Accept': 'application/json' }
+      headers: Object.assign({ 'Accept': 'application/json' }, headers)
     });
 
     if (response.ok) {

@@ -11,146 +11,168 @@ import {
   Component,
   TouchableOpacity,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Swiper from 'react-native-swiper';
+import ActivityIndicator from '../components/activityIndicator';
+import { getJSON } from '../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
+var swiperHeight = Dimensions.get('window').height - 160;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/maintenance';
+var INTERVALS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/vehicle_intervals';
+var SERVICES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/?/services_by_interval';
+
+function getUrl(url, vehicleId) {
+  return url.replace('?', vehicleId);
+}
+
+let subscriptions = {};
+
+function subscribe(key, callback) {
+  subscriptions[key] = callback;
+  return () => subscriptions[key] = null;
+}
+
+function publish(key) {
+  subscriptions[key] && subscriptions[key]();
+}
+
+function clearSubscriptions() {
+  subscriptions = {};
+}
 
 class Maintenance extends Component {
-
   constructor(props) {
     super(props);
-    var category = this.props.navigator._navigationContext._currentRoute.passProps ? this.props.navigator._navigationContext._currentRoute.passProps.category : null;
     this.state = {
-      category: category,
-      services:null,
-      visible: false,
+      intervals: null,
+      currentInterval: null
     };
   }
 
+  componentDidUpdate() {
+    publish(String(this.props.miles));
+  }
+
   componentDidMount() {
-    this.getMaintenance();
+    clearSubscriptions();
+    this.getMaintenanceIntervals();
   }
 
-  filterServices(service)
-  {
-    return service.parent_id == this.state.category;
+  componentWillUnmount() {
+    clearSubscriptions();
   }
 
-    getMaintenance() {
-      if(this.props.isLoggedIn && this.props.vehicleId)
-      {
-        fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
-          .then((response) => response.json())
-          .then((responseData) => {
-            var total = 0;
-            /*for (var i = 0; i < responseData.vehicles.length; i++) {
-              var cost = responseData.vehicles[i].Service.TotalPartCost;
-              if(typeof cost !== "undefined")
-              {
-                total += Number(cost.replace("$", ""));
-              }
-            }*/
-            this.setState({
-              services: responseData.vehicles,
-              total: "$" + total.toFixed(2)
-            });
-          })
-          .done();
-      }
+  async getMaintenanceIntervals() {
+    if (!this.props.isLoggedIn || !this.props.vehicleId)
+      return;
+
+    let response = await getJSON(
+      getUrl(INTERVALS_URL, this.props.vehicleId), {},
+      { 'Authorization': this.props.authentication_token }
+    );
+
+    if (response.error) {
+      Alert.alert('Error', response.error);
+    } else if (response.result) {
+      let intervals = response.result.vehicles || [];
+      this.setState({
+        intervals,
+        currentInterval: intervals.indexOf(String(this.props.miles))
+      });
     }
+  }
 
-    _renderScene(route, navigator) {
-      var globalNavigatorProps = {navigator}
+  render() {
+    if (!this.state.intervals)
+      return <View><Spinner visible={true} /></View>;
 
-      switch(route.indent) {
-        case 'Main':
-          return (
-            <Main {...globalNavigatorProps} />
-          )
-        case 'Approvals':
-          return (
-            <Approvals {...globalNavigatorProps} />
-          )
-        case 'MaintenaceDetail':
-          return (
-            <MaintenanceDetail {...globalNavigatorProps} />
-          )
-        default:
-          return (
-            <Text>EPIC FAIL</Text>
-          )
-      }
-    }
-
-    render() {
-      if (!this.state.services) {
-        return this.renderLoadingView();
-      }
-      var services = this.state.services;
-      return this.renderServices(services);
-    }
-
-    renderLoadingView() {
-      return (
-        <View>
-          <Spinner visible={true} />
+    return (
+      <View style={styles.base}>
+        <TopBar navigator={this.props.navigator} />
+        <CarBar />
+        <View style={styles.maintenanceContainer}>
+          <Text style={styles.textHd}>Maintenance Schedule</Text>
+          <Swiper
+            style={styles.maintenanceSwiper}
+            buttonWrapperStyle={styles.maintenanceSwiperButtons}
+            nextButton={<Image style={styles.swiperButton} source={require('../../images/arrow-right.png')} />}
+            prevButton={<Image style={styles.swiperButton} source={require('../../images/arrow-left.png')} />}
+            onMomentumScrollEnd={(e, state) => publish(this.state.intervals[state.index])}
+            index={this.state.currentInterval}
+            height={swiperHeight}
+            showsButtons={true}
+            loop={false}
+            showsPagination={false}>
+            {this.state.intervals.map((miles, i) =>
+              <MaintenanceCard
+                key={i}
+                miles={miles}
+                vehicleId={this.props.vehicleId}
+                authentication_token={this.props.authentication_token}
+                navigator={this.props.navigator} />)}
+          </Swiper>
         </View>
-      );
+      </View>
+    );
+  }
+}
+
+class MaintenanceCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { services: [], isLoading: false };
+  }
+
+  componentDidMount() {
+    this.unsubscribe = subscribe(this.props.miles, () => this.getServices());
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe();
+  }
+
+  async getServices() {
+    if (this.state.isLoading)
+      return;
+
+    this.setState({ isLoading: true });
+
+    let response = await getJSON(
+      getUrl(SERVICES_URL, this.props.vehicleId), { interval: this.props.miles },
+      { 'Authorization': this.props.authentication_token }
+    );
+
+    this.setState({ isLoading: false });
+
+    if (response.error) {
+      Alert.alert('Error', response.error);
+    } else if (response.result) {
+      this.setState({ services: response.result.vehicles || [] });
+      this.unsubscribe && this.unsubscribe();
     }
+  }
 
-    renderServices(services) {
-        return (
-
-          <View style={styles.base}>
-            <TopBar navigator={this.props.navigator} />
-            <CarBar />
-            <View style={styles.maintenanceContainer}>
-
-              <ScrollView style={styles.scrollView}>
-              <Text style={styles.textHd}>Maintenance Schedule ({this.props.miles} miles)</Text>
-
-              <View style={styles.maintenanceList}>
-              {services.map(this.createServiceRow)}
-              </View>
-
-              {/*
-              <View style={styles.total}>
-                <Text style={styles.totalText}>Total:</Text>
-                <Text style={styles.totalPrice}>{this.state.total}</Text>
-              </View>
-
-              <View style={styles.rowAddService}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
-                  <Image
-                    source={require('../../images/btn-add-service.png')}
-                    style={styles.btnAddService} />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.bookIt}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
-                  <Image
-                    source={require('../../images/btn-bookit-big.png')}
-                    style={styles.btnCheckout} />
-                </TouchableOpacity>
-              </View>
-              */}
-
-              </ScrollView>
-
-            </View>
-
-          </View>
-
-        );
-    }
-    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} />;
-
+  render() {
+    return (
+      <View style={styles.maintenanceCard}>
+        <ScrollView style={styles.maintenanceList}>
+          <Text style={styles.miles}>
+            <Text style={styles.milesValue}>{this.props.miles}</Text>
+            {' '}MILES
+          </Text>
+          {this.state.isLoading && <ActivityIndicator color="#006699" />}
+          {this.state.services.map((service, i) =>
+            <Service key={i} service={service} nav={this.props.navigator} />)}
+        </ScrollView>
+      </View>
+    );
+  }
 }
 
 var Service = React.createClass({
@@ -192,15 +214,6 @@ var Service = React.createClass({
             </View>
           </View>
 
-          <View style={styles.arrowContainer}>
-            <Text style={styles.arrow}>
-              <Image
-                resizeMode="contain"
-                source={require('../../images/arrow-blue.png')}
-                style={styles.arrowBlue} />
-            </Text>
-          </View>
-
         </TouchableOpacity>
       </View>
     );
@@ -230,16 +243,50 @@ var styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center',
   },
+  maintenanceSwiper: {
+    flex: 1
+  },
+  maintenanceSwiperButtons: {
+    alignItems: 'flex-end',
+    justifyContent: 'center'
+  },
+  swiperButton: {
+    marginBottom: 6,
+    height: 40,
+    resizeMode: 'contain'
+  },
+  maintenanceCard: {
+    flex: 1,
+    marginHorizontal: 20,
+    marginTop: 5,
+    marginBottom: 70,
+    backgroundColor: '#EFEFEF',
+    borderColor: '#fff',
+    borderWidth: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 0 }
+  },
   maintenanceList: {
-    flexDirection: 'column',
-    width: Dimensions.get('window').width,
-    alignItems: 'center',
+    flex: 1,
+    padding: 5
+  },
+  miles: {
+    paddingTop: 10,
+    paddingBottom: 15,
+    fontFamily: 'RobotoCondensed-Light',
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#006699'
+  },
+  milesValue: {
+    fontWeight: 'bold'
   },
   maintenanceRow: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#EFEFEF',
-    width: width,
+    backgroundColor: '#fff',
     marginBottom: 3,
   },
   maintenanceItem: {
@@ -310,7 +357,6 @@ var styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 3,
-    marginRight: 3,
     alignItems: 'center',
   },
   fairPriceRange: {
@@ -331,18 +377,6 @@ var styles = StyleSheet.create({
   fairPrice: {
     color: '#006699',
     fontWeight: 'bold',
-  },
-  arrowContainer: {
-    flex: 1,
-  },
-  arrow: {
-    textAlign: 'right',
-    marginTop: 20,
-    marginRight: 10,
-  },
-  arrowBlue: {
-    width: 8,
-    height: 13,
   },
   rowAddService: {
     alignItems: 'center',
