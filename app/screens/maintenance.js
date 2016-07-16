@@ -194,8 +194,8 @@ var Service = React.createClass({
               category:this.props.service.id,
               miles:this.props.miles,
               name:this.props.service.name,
-              lowCost:this.props.service.labor_low_cost,
-              highCost:this.props.service.labor_high_cost,
+              lowCost:this.props.service.low_fair_cost,
+              highCost:this.props.service.high_fair_cost,
               desc:this.props.service.required_skills_description,
               time:this.props.service.base_labor_time,
               timeInterval:this.props.service.labor_time_interval,
@@ -210,11 +210,11 @@ var Service = React.createClass({
           <View style={styles.fairPriceContainer}>
             <Text style={styles.fairPriceText}>FAIR PRICE</Text>
             <View style={styles.fairPriceRange}>
-              <Text style={styles.fairPrice}>${Number(this.props.service.labor_low_cost).toFixed(0)}</Text>
+              <Text style={styles.fairPrice}>${Number(this.props.service.low_fair_cost).toFixed(0)}</Text>
               <Image
                 source={require('../../images/arrow-range.png')}
                 style={styles.fairPriceArrow} />
-              <Text style={styles.fairPrice}>${Number(this.props.service.labor_high_cost).toFixed(0)}</Text>
+              <Text style={styles.fairPrice}>${Number(this.props.service.high_fair_cost).toFixed(0)}</Text>
             </View>
           </View>
 
