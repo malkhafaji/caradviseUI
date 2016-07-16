@@ -26,8 +26,8 @@ class ApprovalDetail extends Component {
       this.state = {
         id: passProps.category,
         name:passProps.name,
-        lowCost:passProps.lowCost,
-        highCost:passProps.highCost,
+        fairLow:passProps.fairLow,
+        fairHigh:passProps.fairHigh,
         time:passProps.time,
         timeInterval:passProps.timeInterval,
         intervalMile:passProps.intervalMile,
@@ -131,8 +131,8 @@ class ApprovalDetail extends Component {
     }
 
     render() {
-      var totalLow = this.state.partLow + this.state.lowCost;
-      var totalHigh = this.state.partHigh + this.state.highCost;
+      var totalLow = this.state.fairLow;
+      var totalHigh = this.state.fairHigh;
       return (
         <View style={styles.base}>
           <TopBar navigator={this.props.navigator} />
@@ -150,11 +150,11 @@ class ApprovalDetail extends Component {
                   <View style={styles.fairPriceContainer}>
                     <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                     <View style={styles.fairPriceRange}>
-                      <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
+                      <Text style={styles.fairPrice}>${this.state.fairLow.toFixed(0)}</Text>
                       <Image
                         source={require('../../images/arrow-range.png')}
                         style={styles.fairPriceArrow} />
-                      <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+                      <Text style={styles.fairPrice}>${this.state.fairHigh.toFixed(0)}</Text>
                     </View>
                   </View>
 
@@ -189,7 +189,7 @@ class ApprovalDetail extends Component {
         </View>
       );
     }
-    createPartsRow = (part, i) => <Part key={i} part={part} lowCost={this.state.lowCost} highCost={this.state.highCost}/>;
+    createPartsRow = (part, i) => <Part key={i} part={part} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
 }
 
 var Part = React.createClass({
