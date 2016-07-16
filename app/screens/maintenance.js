@@ -19,6 +19,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Swiper from 'react-native-swiper';
 import ActivityIndicator from '../components/activityIndicator';
 import { getJSON } from '../utils/fetch';
+import { findIndex } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 var swiperHeight = Dimensions.get('window').height - 160;
@@ -56,7 +57,8 @@ class Maintenance extends Component {
   }
 
   componentDidUpdate() {
-    publish(String(this.props.miles));
+    if (this.state.intervals)
+      publish(this.state.intervals[this.state.currentInterval]);
   }
 
   componentDidMount() {
@@ -81,9 +83,11 @@ class Maintenance extends Component {
       Alert.alert('Error', response.error);
     } else if (response.result) {
       let intervals = response.result.vehicles || [];
+      let index = findIndex(intervals, interval => Number(interval) > this.props.miles);
+
       this.setState({
         intervals,
-        currentInterval: intervals.indexOf(String(this.props.miles))
+        currentInterval: Math.max(0, index - 1)
       });
     }
   }
