@@ -250,7 +250,9 @@ class Approvals extends Component {
     renderServices(services) {
         var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
         var approvedServices = services.filter(this.filterApprovedServices.bind(this));
+
         unapprovedServices = this.groupServices(unapprovedServices);
+        approvedServices = this.groupServices(approvedServices);
 
         return (
           <View style={styles.base}>
@@ -430,27 +432,7 @@ var Service = React.createClass({
       return(
         <TouchableOpacity
           style={styles.approvedRow}
-          onPress={() => this.props.nav.push({
-            indent:'ApprovalDetail',
-            passProps:{
-              category:this.props.service.id,
-              miles:this.props.miles,
-              name:this.props.service.serviceName,
-              desc:this.props.service.motor_vehicle_service.required_skills_description,
-              time:this.props.service.motor_vehicle_service.base_labor_time,
-              timeInterval:this.props.service.motor_vehicle_service.labor_time_interval,
-              intervalMile:this.props.service.motor_vehicle_service.interval_mile,
-              intervalMonth:this.props.service.motor_vehicle_service.interval_month,
-              position:this.props.service.motor_vehicle_service.position,
-              whatIsIt:this.props.service.motor_vehicle_service.what_is_it,
-              whatIf:this.props.service.motor_vehicle_service.what_if_decline,
-              whyDoThis:this.props.service.motor_vehicle_service.why_do_this,
-              factors:this.props.service.motor_vehicle_service.factors_to_consider,
-              fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
-              fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
-              parts:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
-              partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
-            }})}>
+          onPress={() => this.openDetail()}>
           <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
           <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
         </TouchableOpacity>

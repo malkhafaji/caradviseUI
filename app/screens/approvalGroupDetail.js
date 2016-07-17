@@ -33,6 +33,17 @@ class ApprovalGroupDetail extends Component {
   }
 
   render() {
+    let {status} = this.state.services[0] || {};
+    let title, empty;
+
+    if (status == 0) {
+      title = 'Services To Approve';
+      empty = 'No services to approve';
+    } else if (status == 2 || status == 5) {
+      title = 'Approved Services';
+      empty = 'No approved services';
+    }
+
     return (
       <View style={styles.base}>
         <Spinner visible={this.state.showSpinner} />
@@ -40,11 +51,11 @@ class ApprovalGroupDetail extends Component {
         <CarBar />
         <ScrollView style={styles.scrollView}>
           <View style={styles.approvalsContainer}>
-            <Text style={styles.textHd}>Services To Approve</Text>
+            <Text style={styles.textHd}>{title}</Text>
             <View style={styles.newServicesList}>
               {this.state.services.length ?
                 this.state.services.map(this.createServiceRow) :
-                <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No services to approve</Text></View></View>}
+                <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>{empty}</Text></View></View>}
             </View>
           </View>
         </ScrollView>
@@ -114,49 +125,61 @@ var Service = React.createClass({
     var totalLow = this.props.service.motor_vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.motor_vehicle_service.high_fair_cost;
 
-    return (
-      <View>
-        <TouchableOpacity
-          style={styles.newServicesRow}
-          onPress={() => this.openDetail()}>
-          <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
-          <View style={styles.fairPriceContainer}>
-            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-            <View style={styles.fairPriceRange}>
-              <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
-              <Image
-                source={require('../../images/arrow-range.png')}
-                style={styles.fairPriceArrow} />
-              <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+    if (this.props.service.status == 0) {
+      return (
+        <View>
+          <TouchableOpacity
+            style={styles.newServicesRow}
+            onPress={() => this.openDetail()}>
+            <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+            <View style={styles.fairPriceContainer}>
+              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+              <View style={styles.fairPriceRange}>
+                <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
+                <Image
+                  source={require('../../images/arrow-range.png')}
+                  style={styles.fairPriceArrow} />
+                <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.newServicePriceContainer}>
-            <Text style={styles.newServicePriceHd}>PRICE</Text>
-            <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <View style={styles.btnRow}>
-          <TouchableOpacity
-            style={styles.btnLeft}
-            underlayColor='#dddddd'
-            onPress={() => { this.props.updateServiceStatus(this.props.service, 3) }}>
-            <Image
-              source={require('../../images/btn-save.png')}
-              style={styles.btnSave} />
+            <View style={styles.newServicePriceContainer}>
+              <Text style={styles.newServicePriceHd}>PRICE</Text>
+              <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+            </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.btnRight}
-            underlayColor='#dddddd'
-            onPress={() => { this.props.updateServiceStatus(this.props.service, 2) }}>
-            <Image
-              source={require('../../images/btn-approve-orange.png')}
-              style={styles.btnApprove} />
-          </TouchableOpacity>
+          <View style={styles.btnRow}>
+            <TouchableOpacity
+              style={styles.btnLeft}
+              underlayColor='#dddddd'
+              onPress={() => { this.props.updateServiceStatus(this.props.service, 3) }}>
+              <Image
+                source={require('../../images/btn-save.png')}
+                style={styles.btnSave} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.btnRight}
+              underlayColor='#dddddd'
+              onPress={() => { this.props.updateServiceStatus(this.props.service, 2) }}>
+              <Image
+                source={require('../../images/btn-approve-orange.png')}
+                style={styles.btnApprove} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else if (this.props.service.status == 2 || this.props.service.status == 5) {
+      return (
+        <TouchableOpacity
+          style={styles.approvedRow}
+          onPress={() => this.openDetail()}>
+          <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
+          <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+        </TouchableOpacity>
+      );
+    }
+
   }
 });
 
@@ -279,6 +302,25 @@ var styles = StyleSheet.create({
   btnSave: {
     width: 145,
     height: 29,
+  },
+  approvedRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#EFEFEF',
+    width: width,
+    padding: 10,
+    marginBottom: 2,
+  },
+  approvedItem: {
+    flex: 3,
+    color: '#006699',
+    fontWeight: 'bold',
+  },
+  approvedPrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#006699',
+    fontWeight: 'bold',
   }
 });
 
