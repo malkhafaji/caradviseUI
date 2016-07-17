@@ -16,11 +16,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { partition, minBy, maxBy, sumBy } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
 var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/update_order_service';
+var BULK_UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/orders/update_order_services';
 
 class Approvals extends Component {
 
@@ -43,6 +45,30 @@ class Approvals extends Component {
 
     componentDidMount() {
       this.getApprovals();
+    }
+
+    groupServices(services) {
+      let [inspections, otherServices] = partition(services,
+        service => service.motor_vehicle_service.service_type === 'Inspect');
+
+      if (inspections.length > 0) {
+        let serviceLow = minBy(inspections, 'motor_vehicle_service.low_fair_cost');
+        let serviceHigh = maxBy(inspections, 'motor_vehicle_service.high_fair_cost');
+        let totalCost = sumBy(inspections, ({ totalCost }) => Number(totalCost));
+
+        otherServices.unshift({
+          groupedServices: inspections,
+          status: inspections[0].status,
+          serviceName: 'Inspections',
+          totalCost: totalCost,
+          motor_vehicle_service: {
+            low_fair_cost: serviceLow.motor_vehicle_service.low_fair_cost,
+            high_fair_cost: serviceHigh.motor_vehicle_service.high_fair_cost
+          }
+        });
+      }
+
+      return otherServices;
     }
 
     refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
@@ -224,6 +250,8 @@ class Approvals extends Component {
     renderServices(services) {
         var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
         var approvedServices = services.filter(this.filterApprovedServices.bind(this));
+        unapprovedServices = this.groupServices(unapprovedServices);
+
         return (
           <View style={styles.base}>
             <View>
@@ -278,10 +306,18 @@ var Service = React.createClass({
   {
     if(this.props.isLoggedIn)
     {
+        let url;
+        if (this.props.service.groupedServices) {
+          let ids = this.props.service.groupedServices.map(s => s.id).join(',');
+          url = `${BULK_UPDATE_URL}?order_service_ids=${ids}&status=${status}`;
+        } else {
+          url = `${UPDATE_URL}?order_service_id=${this.props.service.id}&status=${status}`;
+        }
+
         this.props.approvals.setState({
           showSpinner:true
         });
-        fetch(UPDATE_URL + '?order_service_id='+ this.props.service.id +'&status=' + status,
+        fetch(url,
           {
             method:"PUT",
             headers: {'Authorization': this.props.authentication_token},
@@ -309,6 +345,38 @@ var Service = React.createClass({
 
   },
 
+  openDetail: function() {
+    if (this.props.service.groupedServices) {
+      this.props.nav.push({
+        indent: 'ApprovalGroupDetail',
+        passProps: { services: this.props.service.groupedServices }
+      });
+    } else {
+      this.props.nav.push({
+        indent:'ApprovalDetail',
+        passProps:{
+          category:this.props.service.id,
+          miles:this.props.miles,
+          name:this.props.service.serviceName,
+          desc:this.props.service.motor_vehicle_service.required_skills_description,
+          time:this.props.service.motor_vehicle_service.base_labor_time,
+          timeInterval:this.props.service.motor_vehicle_service.labor_time_interval,
+          intervalMile:this.props.service.motor_vehicle_service.interval_mile,
+          intervalMonth:this.props.service.motor_vehicle_service.interval_month,
+          position:this.props.service.motor_vehicle_service.position,
+          whatIsIt:this.props.service.motor_vehicle_service.what_is_it,
+          whatIf:this.props.service.motor_vehicle_service.what_if_decline,
+          whyDoThis:this.props.service.motor_vehicle_service.why_do_this,
+          factors:this.props.service.motor_vehicle_service.factors_to_consider,
+          fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
+          fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
+          parts:this.props.service.motor_vehicle_service,
+          partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
+        }
+      });
+    }
+  },
+
   render: function() {
     var totalLow = this.props.service.motor_vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.motor_vehicle_service.high_fair_cost;
@@ -318,27 +386,7 @@ var Service = React.createClass({
         <View>
         <TouchableOpacity
           style={styles.newServicesRow}
-          onPress={() => this.props.nav.push({
-            indent:'ApprovalDetail',
-            passProps:{
-              category:this.props.service.id,
-              miles:this.props.miles,
-              name:this.props.service.serviceName,
-              desc:this.props.service.motor_vehicle_service.required_skills_description,
-              time:this.props.service.motor_vehicle_service.base_labor_time,
-              timeInterval:this.props.service.motor_vehicle_service.labor_time_interval,
-              intervalMile:this.props.service.motor_vehicle_service.interval_mile,
-              intervalMonth:this.props.service.motor_vehicle_service.interval_month,
-              position:this.props.service.motor_vehicle_service.position,
-              whatIsIt:this.props.service.motor_vehicle_service.what_is_it,
-              whatIf:this.props.service.motor_vehicle_service.what_if_decline,
-              whyDoThis:this.props.service.motor_vehicle_service.why_do_this,
-              factors:this.props.service.motor_vehicle_service.factors_to_consider,
-              fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
-              fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
-              parts:this.props.service.motor_vehicle_service,
-              partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
-            }})}>
+          onPress={() => this.openDetail()}>
               <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
               <View style={styles.fairPriceContainer}>
                 <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -421,10 +469,7 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    width: width,
-    height: Dimensions.get('window').height,
-    marginLeft: 10,
-    marginRight: 10,
+    paddingHorizontal: 10
   },
   approvalsContainer: {
     alignItems: 'center',
