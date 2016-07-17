@@ -152,7 +152,7 @@ var Part = React.createClass({
       return(
         <View style={styles.partRow}>
           <Text style={styles.partItem}>{this.props.part.name}</Text>
-          <Text style={styles.partPrice}>${Number(this.props.part.price).toFixed(2)}</Text>
+          <Text style={styles.partPrice}>${Number(this.props.part.price).toFixed(0)}</Text>
         </View>
       );
   }
