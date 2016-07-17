@@ -26,6 +26,7 @@ class ApprovalDetail extends Component {
       this.state = {
         id: passProps.category,
         name:passProps.name,
+        partCost:passProps.partCost,
         fairLow:passProps.fairLow,
         fairHigh:passProps.fairHigh,
         time:passProps.time,
@@ -43,6 +44,7 @@ class ApprovalDetail extends Component {
         partHigh:passProps.partHigh,
         parts:passProps.parts,
         partDetail:passProps.partDetail,
+        partName:passProps.partName,
       };
     }
 
@@ -130,6 +132,25 @@ class ApprovalDetail extends Component {
         }
     }
 
+    renderParts()
+    {
+        if (this.state.partDetail.length != 0) {
+            return (
+              <View style={styles.partList}>
+                <View>
+                  <Text style={styles.textHd}>Part Replacement Estimate</Text>
+                  {this.state.partDetail.length ?
+                    this.state.partDetail.map(this.createPartsRow) :
+                    <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
+
+                </View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     render() {
       var totalLow = this.state.fairLow;
       var totalHigh = this.state.fairHigh;
@@ -165,15 +186,7 @@ class ApprovalDetail extends Component {
 
               </View>
 
-              <View style={styles.partList}>
-                <View>
-                  <Text style={styles.textHd}>Part Replacement Estimate</Text>
-                  {this.state.partDetail.length ?
-                    this.state.partDetail.map(this.createPartsRow) :
-                    <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
-
-                </View>
-              </View>
+              {this.renderParts()}
 
               {this.renderWhat()}
               {this.renderWhy()}
@@ -189,7 +202,7 @@ class ApprovalDetail extends Component {
         </View>
       );
     }
-    createPartsRow = (part, i) => <Part key={i} part={part} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
+    createPartsRow = (part, i) => <Part key={i} part={part} partDetail={this.state.partDetail} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
 }
 
 var Part = React.createClass({
