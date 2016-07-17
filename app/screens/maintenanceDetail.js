@@ -41,6 +41,25 @@ class MaintenanceDetail extends Component {
       };
     }
 
+    renderParts()
+    {
+        if (this.state.parts.length != 0) {
+            return (
+              <View style={styles.partList}>
+                <View>
+                  <Text style={styles.textHd}>Part Replacement Estimate</Text>
+                  {this.state.parts.length ?
+                    this.state.parts.map(this.createPartsRow) :
+                    <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
+
+                </View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     render() {
       return (
         <View style={styles.base}>
@@ -49,7 +68,7 @@ class MaintenanceDetail extends Component {
           <View style={styles.maintenanceContainer}>
 
             <ScrollView style={styles.scrollView}>
-            <Text style={styles.textHd}>Maintenance Detail ({this.props.miles} miles)</Text>
+            <Text style={styles.textHd}>Maintenance Detail</Text>
 
             <View style={styles.maintenanceList}>
               <View>
@@ -80,15 +99,7 @@ class MaintenanceDetail extends Component {
               </View>
             </View>
 
-            <View style={styles.partList}>
-              <View>
-                <Text style={styles.textHd}>Part Replacement Estimate</Text>
-                {this.state.parts.length ?
-                  this.state.parts.map(this.createPartsRow) :
-                  <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
-
-              </View>
-            </View>
+            {this.renderParts()}
 
             </ScrollView>
 
