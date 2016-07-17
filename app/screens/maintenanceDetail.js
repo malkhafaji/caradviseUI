@@ -41,6 +41,37 @@ class MaintenanceDetail extends Component {
       };
     }
 
+    renderTime()
+    {
+        if (this.state.intervalMonth != 0) {
+            return (
+                <Text style={styles.textBold}>{this.state.intervalMonth} MONTHS</Text>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderOr()
+    {
+        if (this.state.intervalMonth != 0 && this.state.intervalMile != 0) {
+            return (
+                <Text> OR </Text>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderMile()
+    {
+        if (this.state.intervalMile != 0) {
+            return (
+                <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text>
+            );
+        } else {
+            return null;
+        }
+    }
+
     renderParts()
     {
         if (this.state.parts.length != 0) {
@@ -91,7 +122,7 @@ class MaintenanceDetail extends Component {
                   <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text></Text>
                 </View>
                 <View style={styles.maintenanceReco}>
-                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.state.intervalMonth} MONTHS</Text> OR <Text style={styles.textBold}>{this.state.intervalMile} MILES</Text></Text>
+                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></Text>
                 </View>
                 <View style={styles.maintenanceDesc}>
                   <Text style={styles.maintenanceDescText}>{this.state.desc}</Text>
