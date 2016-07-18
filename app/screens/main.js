@@ -162,7 +162,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    vehicleNumber : user.vehicles[0].vehicleNumber,
+    vehicleNumber: user.vehicles ? user.vehicles[0].vehicleNumber : null
   };
 }
 
