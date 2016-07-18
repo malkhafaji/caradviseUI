@@ -16,10 +16,39 @@ import {
   Linking,
   Alert
 } from 'react-native';
+import { connect } from 'react-redux';
+import { getJSON } from '../utils/fetch';
 
 var btnWidth = Dimensions.get('window').width - 40;
 
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number';
+
 class Main extends Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasActiveOrders: false };
+    }
+
+    componentDidMount() {
+      this.getMaintenance();
+    }
+
+    async getMaintenance() {
+      if (!this.props.isLoggedIn || !this.props.authentication_token)
+        return;
+
+      let response = await getJSON(
+        MAINTENANCE_URL,
+        { vehicleNumber: this.props.vehicleNumber },
+        { 'Authorization': this.props.authentication_token }
+      );
+
+      if (response.error) {
+        Alert.alert('Error', response.error);
+      } else if (response.result && response.result.order) {
+        this.setState({ hasActiveOrders: response.result.order.status === 0 });
+      }
+    }
 
     render() {
         return (
@@ -44,7 +73,9 @@ class Main extends Component {
                 <View style={styles.btnRow}>
                   <Image
                     resizeMode={'contain'}
-                    source={require('../../images/btn-services.png')}
+                    source={this.state.hasActiveOrders ?
+                      require('../../images/btn-services-alert.png') :
+                      require('../../images/btn-services.png')}
                     style={styles.btnMain} />
                 </View>
               </TouchableOpacity>
@@ -126,4 +157,13 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Main;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    authentication_token: user.authentication_token,
+    vehicleNumber : user.vehicles[0].vehicleNumber,
+  };
+}
+
+module.exports = connect(mapStateToProps)(Main);
