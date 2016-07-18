@@ -19,7 +19,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Swiper from 'react-native-swiper';
 import ActivityIndicator from '../components/activityIndicator';
 import { getJSON } from '../utils/fetch';
-import { findLastIndex } from 'lodash';
+import { findLastIndex, partition, minBy, maxBy } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 var swiperHeight = Dimensions.get('window').height - 160;
@@ -157,9 +157,28 @@ class MaintenanceCard extends Component {
     if (response.error) {
       Alert.alert('Error', response.error);
     } else if (response.result) {
-      this.setState({ services: response.result.vehicles || [] });
+      this.setState({ services: this.groupServices(response.result.vehicles || []) });
       this.unsubscribe && this.unsubscribe();
     }
+  }
+
+  groupServices(services) {
+    let [inspections, otherServices] = partition(services, { service_type: 'Inspect' });
+
+    if (inspections.length > 0) {
+      let serviceLow = minBy(inspections, 'low_fair_cost');
+      let serviceHigh = maxBy(inspections, 'high_fair_cost');
+
+      otherServices.unshift({
+        groupedServices: inspections,
+        name: 'Inspections',
+        position: null,
+        low_fair_cost: serviceLow.low_fair_cost,
+        high_fair_cost: serviceHigh.high_fair_cost,
+      });
+    }
+
+    return otherServices;
   }
 
   render() {
@@ -183,28 +202,41 @@ var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
     return false;
   },
+  openDetail: function() {
+    if (this.props.service.groupedServices) {
+      this.props.nav.push({
+        indent: 'MaintenanceGroupDetail',
+        passProps: {
+          services: this.props.service.groupedServices
+        }
+      });
+    } else {
+      this.props.nav.push({
+        indent: 'MaintenanceDetail',
+        passProps: {
+          category:this.props.service.id,
+          miles:this.props.miles,
+          name:this.props.service.name,
+          lowCost:this.props.service.low_fair_cost,
+          highCost:this.props.service.high_fair_cost,
+          desc:this.props.service.required_skills_description,
+          time:this.props.service.base_labor_time,
+          timeInterval:this.props.service.labor_time_interval,
+          intervalMile:this.props.service.interval_mile,
+          intervalMonth:this.props.service.interval_month,
+          partLowCost:this.props.service.part_low_cost,
+          position:this.props.service.position,
+          parts:this.props.service.motor_vehicle_service_parts
+        }
+      });
+    }
+  },
   render: function() {
     return (
       <View>
         <TouchableOpacity
           style={styles.maintenanceRow}
-          onPress={() => this.props.nav.push({
-            indent:'MaintenanceDetail',
-            passProps:{
-              category:this.props.service.id,
-              miles:this.props.miles,
-              name:this.props.service.name,
-              lowCost:this.props.service.low_fair_cost,
-              highCost:this.props.service.high_fair_cost,
-              desc:this.props.service.required_skills_description,
-              time:this.props.service.base_labor_time,
-              timeInterval:this.props.service.labor_time_interval,
-              intervalMile:this.props.service.interval_mile,
-              intervalMonth:this.props.service.interval_month,
-              partLowCost:this.props.service.part_low_cost,
-              position:this.props.service.position,
-              parts:this.props.service.motor_vehicle_service_parts
-            }})}>
+          onPress={() => this.openDetail()}>
           <Text style={styles.maintenanceItem}>{this.props.service.name} {this.props.service.position}</Text>
 
           <View style={styles.fairPriceContainer}>
