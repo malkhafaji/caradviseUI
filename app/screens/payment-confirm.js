@@ -62,6 +62,8 @@ class PaymentConfirm extends Component {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
           var total = 0;
           var orderId = responseData.order.id;
+          var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
+          var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
           var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
           var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
           var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
@@ -79,8 +81,8 @@ class PaymentConfirm extends Component {
           }
           var discount = totalDiscount;
           var subtotal = total + fees + misc - discount;
-          var tax = (subtotal * taxRate/100).toFixed(2);
-          var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
+          //var tax = (subtotal * taxRate/100).toFixed(2);
+          //var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
 
           this.setState({
             orderId: orderId,
@@ -89,8 +91,8 @@ class PaymentConfirm extends Component {
             misc: misc,
             fees: fees,
             totalDiscount: totalDiscount,
-            finalTotal: finalTotal.toFixed(2),
-            tax: tax,
+            finalTotal: finalTotal,
+            taxAmount: taxAmount,
           });
         })
         .done();
@@ -243,7 +245,7 @@ class PaymentConfirm extends Component {
               {this.renderDiscount()}
               <View style={styles.taxRow}>
                 <Text style={styles.taxItem}>Sales Tax</Text>
-                <Text style={styles.taxPrice}>${this.state.tax}</Text>
+                <Text style={styles.taxPrice}>${this.state.taxAmount}</Text>
               </View>
 
               <View style={styles.totalContainer}>
