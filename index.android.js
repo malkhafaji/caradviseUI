@@ -3,6 +3,7 @@ var StatusBarBackground = require('./app/components/statusBarBackground');
 var Main = require('./app/screens/main');
 var Intro = require('./app/screens/intro');
 var Approvals = require('./app/screens/approvals');
+var ApprovalDetail = require('./app/screens/approvalDetail');
 var ApprovalGroupDetail = require('./app/screens/approvalGroupDetail');
 var GetStarted = require('./app/screens/getStarted');
 var Login = require('./app/screens/login');
@@ -13,6 +14,7 @@ var Step4 = require('./app/screens/getStarted-step4');
 var AddServices = require('./app/screens/addServices');
 var ServiceDetail = require('./app/screens/serviceDetail');
 var Maintenance = require('./app/screens/maintenance');
+var MaintenanceDetail = require('./app/screens/maintenanceDetail');
 var MaintenanceGroupDetail = require('./app/screens/maintenanceGroupDetail');
 var Settings = require('./app/screens/settings');
 var Saved = require('./app/screens/saved');
@@ -127,6 +129,10 @@ class caradviseui extends Component {
         return (
           <Approvals {...globalNavigatorProps} />
         )
+      case 'ApprovalDetail':
+        return (
+          <ApprovalDetail {...globalNavigatorProps} />
+        )
       case 'ApprovalGroupDetail':
         return (
           <ApprovalGroupDetail {...globalNavigatorProps} />
@@ -142,6 +148,10 @@ class caradviseui extends Component {
       case 'Maintenance':
         return (
           <Maintenance {...globalNavigatorProps} />
+        )
+      case 'MaintenanceDetail':
+        return (
+          <MaintenanceDetail {...globalNavigatorProps} />
         )
       case 'MaintenanceGroupDetail':
         return (
