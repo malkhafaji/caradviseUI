@@ -179,7 +179,7 @@ class MaintenanceDetail extends Component {
                   <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text></Text>
                 </View>
                 <View style={styles.maintenanceReco}>
-                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></Text>
+                  <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text>
                 </View>
               </View>
               {this.renderParts()}
