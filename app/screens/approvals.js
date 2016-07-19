@@ -71,7 +71,7 @@ class Approvals extends Component {
       return otherServices;
     }
 
-    refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
+    refreshServices(services, orderStatus, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
     {
       var total = 0;
       var showCheckout = false;
@@ -87,8 +87,8 @@ class Approvals extends Component {
        var discount = totalDiscount;
        var fees = fees;
        var subtotal = total + fees + misc - discount;
-       var tax = (subtotal * taxRate/100).toFixed(2);
-       var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
+       //var tax = (subtotal * taxRate/100).toFixed(2);
+       //var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
 
        if(orderStatus == 1)
        {
@@ -102,8 +102,8 @@ class Approvals extends Component {
         services: services,
         showCheckout: showCheckout,
         total: total.toFixed(2),
-        tax: tax,
-        finalTotal: finalTotal.toFixed(2),
+        //tax: tax,
+        //finalTotal: finalTotal.toFixed(2),
         discount: discount,
         totalDiscount: totalDiscount,
         taxRate: taxRate,
@@ -111,6 +111,8 @@ class Approvals extends Component {
         misc: misc,
         partLow: partLow,
         partHigh: partHigh,
+        taxAmount: taxAmount,
+        finalTotal: finalTotal,
       });
     }
 
@@ -126,12 +128,14 @@ class Approvals extends Component {
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
+            var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var partLow = (responseData.order != undefined) ? responseData.order.order_services.low_part_cost : 0;
             var partHigh = (responseData.order != undefined) ? responseData.order.order_services.high_part_cost : 0;
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
+            this.refreshServices(services, orderStatus, taxAmount, finalTotal, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
           })
           .done();
 
@@ -217,11 +221,11 @@ class Approvals extends Component {
 
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Sales Tax</Text>
-              <Text style={styles.extrasPrice}>${this.state.tax}</Text>
+              <Text style={styles.extrasPrice}>${this.state.finalTotal}</Text>
             </View>
             <View style={styles.newTotal}>
               <Text style={styles.newTotalText}>Total</Text>
-              <Text style={styles.newTotalPrice}>${this.state.finalTotal}</Text>
+              <Text style={styles.newTotalPrice}>${this.state.taxAmount}</Text>
             </View>
             </View>
           );
@@ -331,13 +335,15 @@ var Service = React.createClass({
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
+            var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
             var partLow = (responseData.order != undefined) ? responseData.order.order_services.low_part_cost : 0;
             var partHigh = (responseData.order != undefined) ? responseData.order.order_services.high_part_cost : 0;
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = responseData.order.order_services;
-            this.props.approvals.refreshServices(services, orderStatus, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
+            this.props.approvals.refreshServices(services, orderStatus, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
             this.props.approvals.setState({
               showSpinner:false
             });
