@@ -81,16 +81,14 @@ class PaymentConfirm extends Component {
           }
           var discount = totalDiscount;
           var subtotal = total + fees + misc - discount;
-          //var tax = (subtotal * taxRate/100).toFixed(2);
-          //var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
-
+          
           this.setState({
             orderId: orderId,
             services: services,
             taxRate: taxRate,
             misc: misc,
             fees: fees,
-            totalDiscount: totalDiscount,
+            totalDiscount: Number(totalDiscount).toFixed(2),
             finalTotal: finalTotal,
             taxAmount: taxAmount,
           });

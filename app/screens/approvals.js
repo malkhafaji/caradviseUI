@@ -87,9 +87,7 @@ class Approvals extends Component {
        var discount = totalDiscount;
        var fees = fees;
        var subtotal = total + fees + misc - discount;
-       //var tax = (subtotal * taxRate/100).toFixed(2);
-       //var finalTotal = Number(total) + Number(fees) + Number(misc) + Number(tax) - Number(discount);
-
+       
        if(orderStatus == 1)
        {
          showCheckout = true;
@@ -102,10 +100,8 @@ class Approvals extends Component {
         services: services,
         showCheckout: showCheckout,
         total: total.toFixed(2),
-        //tax: tax,
-        //finalTotal: finalTotal.toFixed(2),
         discount: discount,
-        totalDiscount: totalDiscount,
+        totalDiscount: Number(totalDiscount).toFixed(2),
         taxRate: taxRate,
         fees: fees,
         misc: misc,
