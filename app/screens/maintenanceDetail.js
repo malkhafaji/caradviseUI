@@ -34,6 +34,10 @@ class MaintenanceDetail extends Component {
         intervalMonth:passProps.intervalMonth,
         position:passProps.position,
         desc:passProps.desc,
+        whatIsIt:passProps.whatIsIt,
+        whyDoThis:passProps.whyDoThis,
+        whatIf:passProps.whatIf,
+        factors:passProps.factors,
         partLowCost:passProps.partLowCost,
         partName:passProps.partName,
         partPrice:passProps.partPrice,
@@ -91,6 +95,59 @@ class MaintenanceDetail extends Component {
         }
     }
 
+    renderWhat()
+    {
+        if (this.state.whatIsIt) {
+            return (
+              <View>
+                <Text style={styles.textHd}>What is it?</Text>
+                <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderWhy()
+    {
+        if (this.state.whyDoThis) {
+            return (
+              <View>
+              <Text style={styles.textHd}>Why do this?</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderWhatIf()
+    {
+        if (this.state.whatIf) {
+            return (
+              <View>
+              <Text style={styles.textHd}>What if I decline?</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIf}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderFactors()
+    {
+        if (this.state.factors) {
+            return (
+              <View>
+              <Text style={styles.textHd}>Factors to consider</Text>
+              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.factors}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     render() {
       return (
         <View style={styles.base}>
@@ -124,13 +181,13 @@ class MaintenanceDetail extends Component {
                 <View style={styles.maintenanceReco}>
                   <Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY <Text style={styles.textBold}>{this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></Text>
                 </View>
-                <View style={styles.maintenanceDesc}>
-                  <Text style={styles.maintenanceDescText}>{this.state.desc}</Text>
-                </View>
               </View>
+              {this.renderParts()}
+              {this.renderWhat()}
+              {this.renderWhy()}
+              {this.renderWhatIf()}
+              {this.renderFactors()}
             </View>
-
-            {this.renderParts()}
 
             </ScrollView>
 
@@ -223,6 +280,7 @@ var styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 5,
     marginLeft: 5,
+    marginBottom: 5,
     padding: 10,
     textAlign: 'center',
     color: '#006699',
@@ -359,6 +417,17 @@ var styles = StyleSheet.create({
   },
   textBold: {
     fontWeight: 'bold',
+  },
+  whatContainer: {
+    backgroundColor: '#EFEFEF',
+    width: width,
+  },
+  whatTxt: {
+    backgroundColor: '#FFF',
+    margin: 5,
+    padding: 10,
+    color: '#006699',
+    fontSize: 12,
   },
   noServicesBg: {
     backgroundColor: '#F4F4F4',
