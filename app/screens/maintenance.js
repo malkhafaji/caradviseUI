@@ -313,8 +313,8 @@ var styles = StyleSheet.create({
     padding: 5
   },
   miles: {
-    paddingTop: 10,
-    paddingBottom: 15,
+    marginTop: 10,
+    marginBottom: 15,
     fontFamily: 'RobotoCondensed-Light',
     fontSize: 18,
     textAlign: 'center',
