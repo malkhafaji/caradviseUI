@@ -44,7 +44,7 @@ class Main extends Component {
       );
 
       if (response.error) {
-        Alert.alert('Error', response.error);
+        Alert.alert('Alert', response.error);
       } else if (response.result && response.result.order) {
         this.setState({ hasActiveOrders: response.result.order.status === 0 });
       }
