@@ -54,7 +54,7 @@ class ApprovalDetail extends Component {
             return (
               <View>
                 <Text style={styles.textHd}>What is it?</Text>
-                <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View>
+                <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View></View>
               </View>
             );
         } else {
@@ -67,7 +67,7 @@ class ApprovalDetail extends Component {
             return (
               <View>
               <Text style={styles.textHd}>Why do this?</Text>
-              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View>
+              <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View></View>
               </View>
             );
         } else {
@@ -80,7 +80,7 @@ class ApprovalDetail extends Component {
             return (
               <View>
               <Text style={styles.textHd}>What if I decline?</Text>
-              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.whatIf}</Text></View>
+              <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.whatIf}</Text></View></View>
               </View>
             );
         } else {
@@ -93,7 +93,7 @@ class ApprovalDetail extends Component {
             return (
               <View>
               <Text style={styles.textHd}>Factors to consider</Text>
-              <View style={styles.whatContainer}><Text style={styles.whatTxt}>{this.state.factors}</Text></View>
+              <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.factors}</Text></View></View>
               </View>
             );
         } else {
@@ -181,7 +181,7 @@ class ApprovalDetail extends Component {
 
                 </View>
                 <View style={styles.maintenanceTime}>
-                  <Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text>
+                  <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
                 </View>
 
               </View>
@@ -249,6 +249,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     width: Dimensions.get('window').width,
     alignItems: 'center',
+    marginBottom: 50,
   },
   maintenanceRow: {
     flex: 1,
@@ -269,12 +270,13 @@ var styles = StyleSheet.create({
     width: width,
     backgroundColor: '#EFEFEF',
   },
+  maintenanceTimeTextContainer: {
+    margin: 5,
+    backgroundColor: '#FFF',
+  },
   maintenanceTimeText: {
     backgroundColor: '#FFF',
-    marginRight: 5,
-    marginLeft: 5,
-    marginBottom: 5,
-    padding: 10,
+    margin: 10,
     textAlign: 'center',
     color: '#006699',
     fontSize: 12,
@@ -426,10 +428,13 @@ var styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
     width: width,
   },
+  whatTxtContainer: {
+    margin: 5,
+    backgroundColor: '#FFF',
+  },
   whatTxt: {
     backgroundColor: '#FFF',
-    margin: 5,
-    padding: 10,
+    margin: 10,
     color: '#006699',
     fontSize: 12,
   },
