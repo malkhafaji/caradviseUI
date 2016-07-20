@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -339,10 +340,20 @@ var Service = React.createClass({
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = responseData.order.order_services;
+
+            if(Platform.OS === 'android'){
+              this.props.approvals.setState({
+                showSpinner:false
+              });
+            }
+
             this.props.approvals.refreshServices(services, orderStatus, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
-            this.props.approvals.setState({
-              showSpinner:false
-            });
+
+            if(Platform.OS === 'ios'){
+              this.props.approvals.setState({
+                showSpinner:false
+              });
+            }
         })
         .done();
     }
