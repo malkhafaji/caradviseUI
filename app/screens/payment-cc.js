@@ -132,6 +132,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     color: '#666',
     fontSize: 21,
+    paddingVertical: 0,
   },
   btnCheckout: {
     width: 300,
