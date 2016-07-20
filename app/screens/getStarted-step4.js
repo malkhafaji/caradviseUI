@@ -179,6 +179,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 400,
   },
   bgSteps: {
     position: 'absolute',
@@ -216,6 +217,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     color: '#666',
     fontSize: 21,
+    paddingVertical: 0,
   },
   btnRow: {
     flexDirection: 'row',

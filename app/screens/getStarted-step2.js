@@ -74,8 +74,8 @@ class Step2 extends Component {
 
             <View style={styles.fields}>
               <TextInput
-                autoCapitalize='characters'
                 autoCorrect={false}
+                autoCapitalize="characters"
                 style={[styles.textFld, this.state.fields.vehicleNumber.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.vehicleNumber.name}
@@ -83,8 +83,8 @@ class Step2 extends Component {
                 onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <Text style={styles.textOr}>OR</Text>
               <TextInput
-                autoCapitalize='characters'
                 autoCorrect={false}
+                autoCapitalize="characters"
                 style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.vin.name}
@@ -160,11 +160,14 @@ class Step2 extends Component {
 }
 
 var styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#000',
+  },
   formContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 400,
   },
   bgSteps: {
     position: 'absolute',
@@ -207,6 +210,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     color: '#666',
     fontSize: 21,
+    paddingVertical: 0,
   },
   btnBack: {
     width: 120,
