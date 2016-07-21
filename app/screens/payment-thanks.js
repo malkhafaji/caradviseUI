@@ -30,8 +30,8 @@ class PaymentThanks extends Component {
             <View style={styles.thanksContainer}>
 
 
-              <Text style={styles.textHd}>Success!</Text>
-              <Text style={styles.textHd}>Thank you for your purchase!</Text>
+              <Text style={styles.textHd}>Thanks for using CarAdvise!</Text>
+              <Text style={styles.textHd}>You are all paid, and can be on your way!</Text>
 
               {/*<Text style={styles.textHd}>Your feedback is very important to us. After you have picked up your vehicle, please rate the shop.</Text>
 
