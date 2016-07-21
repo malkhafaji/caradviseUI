@@ -84,7 +84,7 @@ android {
         applicationId "com.caradviseui"
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
                                 onesignal_app_id: "9e8b5f57-6c0f-4584-ab0c-0e54e95b1a23",
-                                onesignal_google_project_number: "70374933322"]
+                                onesignal_google_project_number: "543239794108"]
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
