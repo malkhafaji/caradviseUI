@@ -26,23 +26,26 @@ class Intro extends Component {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={require('../../images/bg-step1.png')} style={styles.page}>
+        <Image source={require('../../images/intro-step1.png')} style={styles.page}>
           {this._renderTopSection()}
-          <View style={styles.section}>
-            <Text style={styles.text}>Bringing <Text style={styles.bold}>TRUST</Text> & <Text style={styles.bold}>CONFIDENCE</Text> to maintainance and repair</Text>
-            <Image source={require('../../images/icon-step1.png')} style={styles.step} />
-          </View>
         </Image>
-        <Image source={require('../../images/bg-step2.png')} style={styles.page}>
+        <Image source={require('../../images/intro-step2.png')} style={styles.page}>
           {this._renderTopSection()}
-          <View style={styles.section}>
-            <Text style={[styles.text, styles.text2]}><Text style={styles.bold}>APPROVE</Text> maintenance/repair work <Text style={styles.bold}>WITH CONFIDENCE</Text></Text>
-            <TouchableOpacity onPress={() => {
+        </Image>
+        <Image source={require('../../images/intro-step3.png')} style={styles.page}>
+          {this._renderTopSection()}
+        </Image>
+        <Image source={require('../../images/intro-step4.png')} style={styles.page}>
+          {this._renderTopSection()}
+        </Image>
+        <Image source={require('../../images/intro-step5.png')} style={styles.page}>
+          {this._renderTopSection()}
+          <View style={styles.sectionBottom}>
+            <TouchableOpacity style={styles.btnGetStarted} onPress={() => {
               this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'Step1' });
             }}>
-              <Image source={require('../../images/btn-intro-getstarted.png')} style={styles.getStarted} />
+              <Image source={require('../../images/btn-getstarted-blue.png')} style={styles.getStarted} />
             </TouchableOpacity>
-            <Image source={require('../../images/icon-step2.png')} style={styles.step} />
           </View>
         </Image>
       </ScrollView>
@@ -53,9 +56,8 @@ class Intro extends Component {
     return (
       <View style={styles.section}>
         <TouchableOpacity onPress={() => this.props.navigator.pop()} style={styles.closeButton}>
-          <Image source={require('../../images/icon-close.png')} style={styles.close} />
+          <Image source={require('../../images/icon-close-blue.png')} style={styles.close} />
         </TouchableOpacity>
-        <Image source={require('../../images/logo-intro.png')} style={styles.logo} />
       </View>
     );
   }
@@ -79,20 +81,25 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    paddingVertical: 40,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: '#fff'
   },
   section: {
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  sectionBottom: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   closeButton: {
     alignSelf: 'flex-end'
   },
   close: {
-    width: 25,
-    height: 25,
+    width: 15,
+    height: 15,
+    marginTop: 5,
     resizeMode: 'contain'
   },
   logo: {
@@ -116,8 +123,7 @@ var styles = StyleSheet.create({
   },
   getStarted: {
     width: 200,
-    marginBottom: 35,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   step: {
     height: 12,
