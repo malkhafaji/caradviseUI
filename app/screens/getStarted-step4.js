@@ -49,7 +49,7 @@ class Step4 extends Component {
 
     render() {
         return (
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps={true}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'

@@ -39,7 +39,8 @@ class CreditCard extends Component {
             <TopBar navigator={this.props.navigator}/>
             <CarBar />
             <ScrollView
-              style={styles.scrollView}>
+              style={styles.scrollView}
+              keyboardShouldPersistTaps={true}>
             <View style={styles.billingContainer}>
 
               <Text style={styles.textHd}>Payment Info</Text>
