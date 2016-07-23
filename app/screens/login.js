@@ -40,7 +40,7 @@ class Login extends Component {
 
     render() {
         return (
-          <ScrollView style={styles.scrollView}>
+          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
