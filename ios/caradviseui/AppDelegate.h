@@ -9,10 +9,12 @@
 
 #import <UIKit/UIKit.h>
 #import <OneSignal/OneSignal.h>
+#import "RCTRootView.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;
 @property (strong, nonatomic) OneSignal *oneSignal;
+@property RCTRootView *rootView;
 
 @end

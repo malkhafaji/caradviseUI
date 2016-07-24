@@ -11,6 +11,8 @@
 #import "RCTRootView.h"
 #import "CodePush.h"
 #import "RNBranch.h"
+#import "RCTBridge.h"
+#import "RCTEventDispatcher.h"
 
 @implementation AppDelegate
 
@@ -29,7 +31,10 @@
 {
   self.oneSignal = [[OneSignal alloc] initWithLaunchOptions:launchOptions
                                                       appId:@"9e8b5f57-6c0f-4584-ab0c-0e54e95b1a23"
-                                         handleNotification:nil];
+                                         handleNotification:^(NSString* message, NSDictionary* additionalData, BOOL isActive) {
+                                           [_rootView.bridge.eventDispatcher sendAppEventWithName:@"RefreshApprovals" body:@{}];
+                                         }];
+  
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
   __block NSMutableString *oneSignalId = [NSMutableString stringWithString:@""];
@@ -80,14 +85,14 @@
   NSDictionary *props = @{@"oneSignalId" : oneSignalId, @"oneSignalToken" : oneSignalToken};
   NSLog(@"id is %@, token is %@", oneSignalId, oneSignalToken);
   
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+  _rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"caradviseui"
                                                initialProperties:props
                                                    launchOptions:launchOptions];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
+  rootViewController.view = _rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;

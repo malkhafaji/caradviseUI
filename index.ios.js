@@ -34,7 +34,8 @@ var PaymentThanks = require('./app/screens/payment-thanks');
      Component,
      Navigator,
      Image,
-     StyleSheet
+     StyleSheet,
+     NativeAppEventEmitter
  } from 'react-native';
  import codePush from 'react-native-code-push';
  import { Provider } from 'react-redux';
@@ -57,6 +58,7 @@ class caradviseui extends Component {
       }
 
       this._listenForDeepLinks();
+      this._listenForRefreshApprovals();
     });
 
     storage.get('caradvise:opened').then(value => {
@@ -72,8 +74,13 @@ class caradviseui extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.removeDeepLinks && this.removeDeepLinks();
+    this.refreshApprovals && this.refreshApprovals.remove();
+  }
+
   _listenForDeepLinks() {
-    branch.subscribe(({params, error, uri}) => {
+    this.removeDeepLinks = branch.subscribe(({params, error, uri}) => {
       if (uri === 'caradvise://approvals') {
         let { user } = store.getState() || {};
         if (!user || !user.authentication_token)
@@ -86,6 +93,21 @@ class caradviseui extends Component {
 
         this.refs.appNavigator.push({ indent: 'Approvals' });
       }
+    });
+  }
+
+  _listenForRefreshApprovals() {
+    this.refreshApprovals = NativeAppEventEmitter.addListener('RefreshApprovals', () => {
+      let routes = this.refs.appNavigator.getCurrentRoutes();
+      let currentRoute = routes[routes.length - 1];
+      if (currentRoute && currentRoute.indent === 'Approvals')
+        return
+
+      let { user } = store.getState() || {};
+      if (!user || !user.authentication_token)
+        return;
+
+      this.refs.appNavigator.push({ indent: 'Approvals' });
     });
   }
 

@@ -14,6 +14,7 @@ import {
   ScrollView,
   Dimensions,
   Platform,
+  NativeAppEventEmitter
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -46,6 +47,14 @@ class Approvals extends Component {
 
     componentDidMount() {
       this.getApprovals();
+
+      this.refreshApprovals = NativeAppEventEmitter.addListener(
+        'RefreshApprovals', () => this.getApprovals()
+      );
+    }
+
+    componentWillUnmount() {
+      this.refreshApprovals && this.refreshApprovals.remove();
     }
 
     groupServices(services) {
