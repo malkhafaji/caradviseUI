@@ -50,7 +50,7 @@ class Step3 extends Component {
     render() {
       return (
         <View style={styles.base}>
-          <ScrollView style={styles.scrollContainer} keyboardShouldPersistTaps={true}>
+          <ScrollView style={styles.scrollContainer} keyboardDismissMode='on-drag'>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
