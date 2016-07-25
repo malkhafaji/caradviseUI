@@ -477,7 +477,7 @@ var styles = StyleSheet.create({
   },
   approvalsContainer: {
     alignItems: 'center',
-    marginBottom: 100,
+    marginBottom: 250,
   },
   textHd: {
     fontSize: 16,
