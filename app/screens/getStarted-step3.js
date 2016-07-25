@@ -23,6 +23,7 @@ var fldWidth = Dimensions.get('window').width - 40;
 
 const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/makes_by_year';
 const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/models_by_year_and_make';
+const BY_MODEL_AND_SUB_MODEL_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/engines_by_model_and_sub_model';
 
 class Step3 extends Component {
     constructor(props) {
@@ -34,10 +35,14 @@ class Step3 extends Component {
         hide_models: true,
         loading_models: false,
         models: cache.get('step3-models') || [],
+        hide_engines: true,
+        loading_engines: false,
+        engines: cache.get('step3-engines') || [],
         fields: Object.assign({
           year: { name: 'Year', value: '', invalid: false, validators: ['_isPresent'] },
           make: { name: 'Make', value: '', invalid: false, validators: ['_isPresent'] },
-          model: { name: 'Model', value: '', invalid: false, validators: ['_isPresent'] }
+          model: { name: 'Model', value: '', invalid: false, validators: ['_isPresent'] },
+          engine: { name: 'Engine', value: '', invalid: false, validators: ['_isPresent'] }
         }, cache.get('step3-fields') || {})
       };
     }
@@ -89,6 +94,13 @@ class Step3 extends Component {
                 isInvalid: this.state.fields.model.invalid
               })}
 
+              {this._renderPickerToggle({
+                key: 'engine',
+                value: this.state.fields.engine.value || this.state.fields.engine.name,
+                isDisabled: this.state.loading_engines,
+                isInvalid: this.state.fields.engine.invalid
+              })}
+
               <View style={styles.btnRow}>
                 <TouchableOpacity onPress={() => this.props.navigator.pop()}>
                   <Image
@@ -122,6 +134,15 @@ class Step3 extends Component {
             items: this.state.models,
             isHidden: this.state.hide_models,
             emptyMessage: 'Please select a make first',
+            onClose: () => this._fetchEngines()
+          })}
+
+          {this._renderPicker({
+            key: 'engine',
+            value: this.state.fields.engine.value,
+            items: this.state.engines,
+            isHidden: this.state.hide_engines,
+            emptyMessage: 'Please select a model first',
             onClose: () => cache.set('step3-fields', this.state.fields)
           })}
         </View>
@@ -221,8 +242,8 @@ class Step3 extends Component {
       if (response.error) {
         Alert.alert('Error', response.error);
       } else if (response.result) {
-        const makes = Object.keys(response.result).map(key => {
-          return { key, label: response.result[key], value: response.result[key] };
+        const makes = response.result.vehicles.map(({ make_id, make }) => {
+          return { key: make_id, label: make, value: make };
         });
 
         makes = sortBy(makes, ({ label }) => label.toLowerCase());
@@ -257,9 +278,14 @@ class Step3 extends Component {
       if (response.error) {
         Alert.alert('Error', response.error);
       } else if (response.result) {
-        const models = Object.keys(response.result).map(key => {
-          let { Model, ModelID } = response.result[key];
-          return { key: ModelID, label: Model, value: Model };
+        const models = response.result.vehicles.map(vehicle => {
+          return {
+            key: vehicle.model_id,
+            subKey: vehicle.sub_model_id,
+            label: `${vehicle.model} ${vehicle.sub_model}`,
+            value: `${vehicle.model} ${vehicle.sub_model}`,
+            originalValue: vehicle.model
+          };
         });
 
         models = sortBy(models, ({ label }) => label.toLowerCase());
@@ -271,6 +297,46 @@ class Step3 extends Component {
           fields: {
             ...(this.state.fields),
             model: { ...(this.state.fields.model), value: '', invalid: false }
+          }
+        }, () => cache.set('step3-fields', this.state.fields));
+      }
+    }
+
+    async _fetchEngines() {
+      let year = this.state.fields.year.value;
+      let make = this.state.fields.make.value;
+      let model = this.state.fields.model.value;
+      if (!year || !make || !model) return;
+
+      make = this.state.makes.find(({ value }) => value === make) || {};
+      let make_id = make.key;
+      if (!make_id) return;
+
+      model = this.state.models.find(({ value }) => value === model) || {};
+      let model_id = model.key;
+      let sub_model_id = model.subKey;
+      if (!model_id || !sub_model_id) return;
+
+      this.setState({ loadingEngines: true });
+      let response = await getJSON(BY_MODEL_AND_SUB_MODEL_URL, { year, make_id, model_id, sub_model_id });
+      this.setState({ loadingEngines: false });
+
+      if (response.error) {
+        Alert.alert('Error', response.error);
+      } else if (response.result) {
+        const engines = response.result.vehicles.map(({ id, description }) => {
+          return { key: id, label: description, value: description };
+        });
+
+        engines = sortBy(engines, ({ label }) => label.toLowerCase());
+        engines.unshift({ key: '0', label: 'Select engine', value: '' });
+        cache.set('step3-engines', engines);
+
+        this.setState({
+          engines,
+          fields: {
+            ...(this.state.fields),
+            engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
         }, () => cache.set('step3-fields', this.state.fields));
       }

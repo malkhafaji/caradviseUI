@@ -162,11 +162,15 @@ class Step4 extends Component {
         if (step3Fields) {
           data.year = step3Fields.year.value;
           data.make = step3Fields.make.value;
-          data.model = step3Fields.model.value;
 
           let models = cache.get('step3-models') || [];
-          let model = models.find(({ value }) => value === data.model) || {};
+          let model = models.find(({ value }) => value === step3Fields.model.value) || {};
           data.model_id = model.key;
+          data.model = model.originalValue;
+
+          let engines = cache.get('step3-engines') || [];
+          let engine = engines.find(({ value }) => value === step3Fields.engine.value) || {};
+          data.vehicle_type_extension_engine_id = engine.key;
         }
 
         this.props.signUp(data);
