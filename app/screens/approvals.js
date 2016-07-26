@@ -216,6 +216,20 @@ class Approvals extends Component {
       }
     }
 
+    renderSubtotal()
+    {
+        if (this.state.showTotals == false) {
+            return (
+              <View style={styles.subtotalRow}>
+                <Text style={styles.subtotalItem}>Subtotal</Text>
+                <Text style={styles.subtotalPrice}>${this.state.total}</Text>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     renderTotals()
     {
       if (this.state.showTotals == true) {
@@ -287,6 +301,7 @@ class Approvals extends Component {
               <Text style={styles.textHd}>Approved Services</Text>
                 {approvedServices.length ? approvedServices.map(this.createServiceRow) :
                 <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No approved services</Text></View></View>}
+                {this.renderSubtotal()}
                 {this.renderTotals()}
               </View>
 
@@ -488,11 +503,13 @@ var styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Light'
   },
   noServicesBg: {
+    width: width,
     backgroundColor: '#F4F4F4',
     marginBottom: 2,
   },
   noServicesContainer: {
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
   noServices: {
     color: '#006699',
@@ -632,6 +649,25 @@ var styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
     color: '#006699',
+  },
+  subtotalRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#FFF0D9',
+    width: width,
+    padding: 10,
+    marginBottom: 2,
+  },
+  subtotalItem: {
+    flex: 3,
+    color: '#006699',
+    fontWeight: 'bold',
+  },
+  subtotalPrice: {
+    flex: 1,
+    textAlign: 'right',
+    color: '#006699',
+    fontWeight: 'bold',
   },
   newTotal: {
     flex: 1,
