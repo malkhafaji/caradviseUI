@@ -34,7 +34,7 @@ class Step2b extends Component {
 
     render() {
         return (
-          <ScrollView keyboardShouldPersistTaps={true}>
+          <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
