@@ -426,7 +426,7 @@ var Service = React.createClass({
         <TouchableOpacity
           style={styles.newServicesRow}
           onPress={() => this.openDetail()}>
-              <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+              <Text style={styles.newServiceItem}>{this.props.service.serviceName} {this.props.service.motor_vehicle_service.position}</Text>
               <View style={styles.fairPriceContainer}>
                 <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                 <View style={styles.fairPriceRange}>
@@ -470,7 +470,7 @@ var Service = React.createClass({
         <TouchableOpacity
           style={styles.approvedRow}
           onPress={() => this.openDetail()}>
-          <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
+          <Text style={styles.approvedItem}>{this.props.service.serviceName} {this.props.service.motor_vehicle_service.position}</Text>
           <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
         </TouchableOpacity>
       );
