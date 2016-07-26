@@ -177,7 +177,7 @@ class GetStarted extends Component {
                   onPress={() => {
                     this._validateFields(() => {
                       cache.set('step1-fields', this.state.fields);
-                      this.props.navigator.push({ indent: 'Step2' });
+                      this.props.navigator.push({ indent: 'Step2a' });
                     });
                   }}>
                   <Image

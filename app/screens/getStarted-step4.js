@@ -40,7 +40,8 @@ class Step4 extends Component {
     componentDidUpdate() {
       if (this.props.isLoggedIn) {
         cache.remove('step1-fields');
-        cache.remove('step2-fields');
+        cache.remove('step2a-fields');
+        cache.remove('step2b-fields');
         cache.remove('step3-fields');
         cache.remove('step4-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
@@ -153,9 +154,9 @@ class Step4 extends Component {
           pushid: this.state.pushid
         };
 
-        let step2Fields = cache.get('step2-fields');
-        if (step2Fields) {
-          data.vin = step2Fields.vin.value;
+        let step2bFields = cache.get('step2b-fields');
+        if (step2bFields) {
+          data.vin = step2bFields.vin.value;
         }
 
         let step3Fields = cache.get('step3-fields');

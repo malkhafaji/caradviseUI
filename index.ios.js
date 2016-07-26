@@ -8,7 +8,8 @@ var ApprovalGroupDetail = require('./app/screens/approvalGroupDetail');
 var GetStarted = require('./app/screens/getStarted');
 var Login = require('./app/screens/login');
 var Step1 = require('./app/screens/getStarted-step1');
-var Step2 = require('./app/screens/getStarted-step2');
+var Step2a = require('./app/screens/getStarted-step2a');
+var Step2b = require('./app/screens/getStarted-step2b');
 var Step3 = require('./app/screens/getStarted-step3');
 var Step4 = require('./app/screens/getStarted-step4');
 var AddServices = require('./app/screens/addServices');
@@ -131,9 +132,13 @@ class caradviseui extends Component {
         return (
           <Step1 {...globalNavigatorProps} />
         )
-      case 'Step2':
+      case 'Step2a':
         return (
-          <Step2 {...globalNavigatorProps} />
+          <Step2a {...globalNavigatorProps} />
+        )
+      case 'Step2b':
+        return (
+          <Step2b {...globalNavigatorProps} />
         )
       case 'Step3':
         return (

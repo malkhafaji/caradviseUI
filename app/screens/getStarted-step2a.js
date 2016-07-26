@@ -16,13 +16,11 @@ import {
 import { connect } from 'react-redux';
 import { signUp } from '../actions/user';
 import cache from '../utils/cache';
-import { getJSON } from '../utils/fetch';
 import storage from '../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
-const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/search_by_vin';
 
-class Step2 extends Component {
+class Step2a extends Component {
     constructor(props) {
       super(props);
 
@@ -35,9 +33,8 @@ class Step2 extends Component {
       this.state = {
         isLoading: false,
         fields: Object.assign({
-          vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false },
-          vin: { name: 'VIN', value: '', invalid: false }
-        }, cache.get('step2-fields') || {}),
+          vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false }
+        }, cache.get('step2a-fields') || {}),
         pushid: ""
       };
     }
@@ -45,7 +42,8 @@ class Step2 extends Component {
     componentDidUpdate() {
       if (this.props.isLoggedIn) {
         cache.remove('step1-fields');
-        cache.remove('step2-fields');
+        cache.remove('step2a-fields');
+        cache.remove('step2b-fields');
         cache.remove('step3-fields');
         cache.remove('step4-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
@@ -69,7 +67,7 @@ class Step2 extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your vehicle number or VIN below. If you don{"'"}t have them then proceed to the next step.</Text>
+              <Text style={styles.textStep}>Enter your vehicle number below. If you don{"'"}t have one then proceed to the next step.</Text>
             </View>
 
             <View style={styles.fields}>
@@ -81,15 +79,6 @@ class Step2 extends Component {
                 placeholder={this.state.fields.vehicleNumber.name}
                 value={this.state.fields.vehicleNumber.value}
                 onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
-              <Text style={styles.textOr}>OR</Text>
-              <TextInput
-                autoCorrect={false}
-                autoCapitalize="characters"
-                style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
-                placeholderTextColor={'#666'}
-                placeholder={this.state.fields.vin.name}
-                value={this.state.fields.vin.value}
-                onChangeText={value => this._onFieldChange('vin', value)} />
               <View style={styles.btnRow}>
                 <TouchableOpacity
                   onPress={() => {
@@ -121,7 +110,7 @@ class Step2 extends Component {
           ...(this.state.fields),
           [key]: { ...field, value: value.trim(), invalid: false }
         }
-      }, () => cache.set('step2-fields', this.state.fields));
+      }, () => cache.set('step2a-fields', this.state.fields));
     }
 
     _onClickNext() {
@@ -136,25 +125,8 @@ class Step2 extends Component {
           vehicleNumber: this.state.fields.vehicleNumber.value,
           pushid: this.state.pushid,
         });
-      } else if (this.state.fields.vin.value) {
-        this._verifyVIN(() => {
-          cache.remove('step3-fields');
-          this.props.navigator.push({ indent: 'Step4' });
-        });
       } else {
-        this.props.navigator.push({ indent: 'Step3' });
-      }
-    }
-
-    async _verifyVIN(callback) {
-      this.setState({ isLoading: true });
-      let response = await getJSON(VIN_LOOKUP_URL, { vin: this.state.fields.vin.value });
-      this.setState({ isLoading: false });
-
-      if (response.error) {
-        Alert.alert('Error', response.error);
-      } else if (callback) {
-        callback();
+        this.props.navigator.push({ indent: 'Step2b' });
       }
     }
 }
@@ -239,4 +211,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps, { signUp })(Step2);
+module.exports = connect(mapStateToProps, { signUp })(Step2a);

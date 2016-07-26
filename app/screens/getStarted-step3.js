@@ -250,6 +250,7 @@ class Step3 extends Component {
         makes.unshift({ key: '0', label: 'Select make', value: '' });
         cache.set('step3-makes', makes);
         cache.remove('step3-models');
+        cache.remove('step3-engines');
 
         this.setState({
           makes,
@@ -344,7 +345,8 @@ class Step3 extends Component {
 
     _onClickNext() {
       this._validateFields(() => {
-        cache.remove('step2-fields');
+        cache.remove('step2a-fields');
+        cache.remove('step2b-fields');
         this.props.navigator.push({ indent: 'Step4' });
       });
     }
