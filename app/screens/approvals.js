@@ -220,9 +220,14 @@ class Approvals extends Component {
     {
         if (this.state.showTotals == false) {
             return (
-              <View style={styles.subtotalRow}>
-                <Text style={styles.subtotalItem}>Subtotal</Text>
-                <Text style={styles.subtotalPrice}>${this.state.total}</Text>
+              <View>
+                <View style={styles.subtotalRow}>
+                  <Text style={styles.subtotalItem}>Subtotal</Text>
+                  <Text style={styles.subtotalPrice}>${this.state.total}</Text>
+                </View>
+                <View style={styles.checkoutMessageContainer}>
+                  <View style={styles.checkoutMessage}><Text style={styles.checkoutMessageTxt}>Once your order is complete, you will be able to proceed to checkout here.</Text></View>
+                </View>
               </View>
             );
         } else {
@@ -667,6 +672,22 @@ var styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
     color: '#006699',
+    fontWeight: 'bold',
+  },
+  checkoutMessageContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    borderWidth: 3,
+    borderColor: '#FF9900',
+    marginTop: 15,
+    width: width,
+  },
+  checkoutMessage: {
+    margin: 10,
+    flex: 1,
+  },
+  checkoutMessageTxt: {
+    color: '#FF9900',
     fontWeight: 'bold',
   },
   newTotal: {
