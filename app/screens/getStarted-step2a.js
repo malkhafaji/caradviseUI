@@ -67,7 +67,7 @@ class Step2a extends Component {
             </View>
 
             <View>
-              <Text style={styles.textStep}>Enter your vehicle number below. If you don{"'"}t have one then proceed to the next step.</Text>
+              <Text style={styles.textStep}>Enter your vehicle number below.</Text>
             </View>
 
             <View style={styles.fields}>
@@ -126,7 +126,8 @@ class Step2a extends Component {
           pushid: this.state.pushid,
         });
       } else {
-        this.props.navigator.push({ indent: 'Step2b' });
+        alert("A service associate will provide you with your Vehicle Number.")
+        //this.props.navigator.push({ indent: 'Step2b' });
       }
     }
 }
