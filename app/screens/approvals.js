@@ -402,6 +402,7 @@ var Service = React.createClass({
           category:this.props.service.id,
           miles:this.props.miles,
           name:this.props.service.serviceName,
+          comments:this.props.service.shopComments,
           desc:this.props.service.motor_vehicle_service.required_skills_description,
           time:this.props.service.motor_vehicle_service.base_labor_time,
           timeInterval:this.props.service.motor_vehicle_service.labor_time_interval,

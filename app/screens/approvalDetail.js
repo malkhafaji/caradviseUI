@@ -29,6 +29,7 @@ class ApprovalDetail extends Component {
         partCost:passProps.partCost,
         fairLow:passProps.fairLow,
         fairHigh:passProps.fairHigh,
+        comments:passProps.comments,
         time:passProps.time,
         timeInterval:passProps.timeInterval,
         intervalMile:passProps.intervalMile,
@@ -48,6 +49,21 @@ class ApprovalDetail extends Component {
       };
     }
 
+    renderComments()
+    {
+        if (this.state.comments) {
+            return (
+              <View>
+                <Text style={styles.textHdComments}>Shop Comments</Text>
+                <View style={styles.commentContainer}>
+                  <View style={styles.comment}><Text style={styles.commentTxt}>{this.state.comments}</Text></View>
+                </View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
     renderWhat()
     {
         if (this.state.whatIsIt) {
@@ -183,11 +199,10 @@ class ApprovalDetail extends Component {
                 <View style={styles.maintenanceTime}>
                   <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
                 </View>
-
               </View>
 
+              {this.renderComments()}
               {this.renderParts()}
-
               {this.renderWhat()}
               {this.renderWhy()}
               {this.renderWhatIf()}
@@ -245,6 +260,15 @@ var styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center',
   },
+  textHdComments: {
+    fontSize: 16,
+    marginTop: 15,
+    marginBottom: 8,
+    color: '#FF9900',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center',
+  },
   maintenanceList: {
     flexDirection: 'column',
     width: Dimensions.get('window').width,
@@ -265,6 +289,21 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#006699',
     alignItems: 'center',
+  },
+  commentContainer: {
+    width: width,
+    backgroundColor: '#FF9900',
+  },
+  comment: {
+    margin: 2,
+    backgroundColor: '#FFF',
+  },
+  commentTxt: {
+    backgroundColor: '#FFF',
+    margin: 10,
+    color: '#006699',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   maintenanceTime: {
     width: width,
