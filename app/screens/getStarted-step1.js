@@ -65,7 +65,7 @@ class GetStarted extends Component {
 
     render() {
         return (
-          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true}>
+          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
