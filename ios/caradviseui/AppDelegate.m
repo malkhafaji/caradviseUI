@@ -13,14 +13,28 @@
 #import "RNBranch.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import "BraintreeCore.h"
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  if (![RNBranch handleDeepLink:url]) {
-    // do other deep link routing for the Facebook SDK, Pinterest SDK, etc
+  
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                 openURL:url
+                                       sourceApplication:sourceApplication
+                                              annotation:annotation];
+  
+  if ([url.scheme localizedCaseInsensitiveCompare:@"com.caradvise.caradvise.payments"] == NSOrderedSame) {
+    return [BTAppSwitch handleOpenURL:url sourceApplication:sourceApplication];
   }
-  return YES;
+  return NO;
+  
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
@@ -29,6 +43,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [BTAppSwitch setReturnURLScheme:@"com.caradvise.caradvise.payments"];
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
+  
   self.oneSignal = [[OneSignal alloc] initWithLaunchOptions:launchOptions
                                                       appId:@"9e8b5f57-6c0f-4584-ab0c-0e54e95b1a23"
                                          handleNotification:^(NSString* message, NSDictionary* additionalData, BOOL isActive) {
