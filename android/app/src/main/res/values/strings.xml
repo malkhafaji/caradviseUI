@@ -1,5 +1,7 @@
 <resources>
 
+
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
     <string name="app_name">CarAdvise</string>
+    <string name="facebook_app_id">1711778189069028</string>
 </resources>

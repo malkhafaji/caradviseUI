@@ -1,5 +1,7 @@
 package com.caradviseui;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactActivity;
 import io.branch.rnbranch.*;
 import com.microsoft.codepush.react.CodePush;
@@ -72,6 +74,8 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      FacebookSdk.sdkInitialize(getApplicationContext());
+      AppEventsLogger.activateApp(this);
       OneSignal.startInit(this).init();
 
       OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
