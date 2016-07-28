@@ -43,15 +43,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [BTAppSwitch setReturnURLScheme:@"com.caradvise.caradvise.payments"];
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                           didFinishLaunchingWithOptions:launchOptions];
-  
   self.oneSignal = [[OneSignal alloc] initWithLaunchOptions:launchOptions
                                                       appId:@"9e8b5f57-6c0f-4584-ab0c-0e54e95b1a23"
                                          handleNotification:^(NSString* message, NSDictionary* additionalData, BOOL isActive) {
                                            [_rootView.bridge.eventDispatcher sendAppEventWithName:@"RefreshApprovals" body:@{}];
                                          }];
+  
+  [BTAppSwitch setReturnURLScheme:@"com.caradvise.caradvise.payments"];
+  
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
   
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   
