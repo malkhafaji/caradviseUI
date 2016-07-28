@@ -17,7 +17,8 @@ import CheckBox from 'react-native-checkbox';
 import { connect } from 'react-redux';
 import cache from '../utils/cache';
 
-var fldWidth = Dimensions.get('window').width - 40;
+var width = Dimensions.get('window').width - 30;
+var fldWidth = Dimensions.get('window').width - 30;
 var firstNameWidth = fldWidth / 2 - 15;
 var lastNameWidth = fldWidth / 2;
 
@@ -108,6 +109,7 @@ class GetStarted extends Component {
                   onSubmitEditing={() => this._focusNextField('email')}
                   onChangeText={value => this._onFieldChange('lastName', value)} />
               </View>
+              <View style={styles.fieldsCol}>
               <TextInput
                 ref='email'
                 style={[styles.textFld, this.state.fields.email.invalid && styles.invalidFld]}
@@ -161,6 +163,7 @@ class GetStarted extends Component {
                   onChange={(checked) => console.log('I am checked', checked)}
                 />
                 <Text style={styles.check}>I agree to the CarAdvise </Text><Text style={styles.privacy} onPress={() => this.props.navigator.push({ indent:'Terms' })}>Terms</Text><Text style={styles.check}> and </Text><Text style={styles.privacy} onPress={() => this.props.navigator.push({ indent:'Privacy' })}>Privacy Policy</Text>
+              </View>
               </View>
 
               <View style={styles.btnRow}>
@@ -272,9 +275,8 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   fields: {
+    width: width,
     marginTop: 30,
-    marginLeft: 15,
-    marginRight: 15,
     alignItems: 'center',
   },
   textFld: {
@@ -317,6 +319,10 @@ var styles = StyleSheet.create({
   },
   nameRow: {
     flexDirection: 'row',
+  },
+  fieldsCol: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   invalidFld: {
     borderWidth: 1,
