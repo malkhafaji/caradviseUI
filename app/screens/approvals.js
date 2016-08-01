@@ -364,8 +364,8 @@ var Service = React.createClass({
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
-            var partLow = (responseData.order != undefined) ? responseData.order.order_services.motor_vehicle_service.part_low_cost : 0;
-            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.motor_vehicle_service.part_high_cost : 0;
+            var partLow = (responseData.order != undefined) ? responseData.order.order_services.part_low_cost : 0;
+            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.part_high_cost : 0;
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = responseData.order.order_services;
