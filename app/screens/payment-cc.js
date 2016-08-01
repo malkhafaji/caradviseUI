@@ -16,6 +16,7 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
+import CheckBox from 'react-native-checkbox';
 
 var width = Dimensions.get('window').width - 20;
 var fldWidth = Dimensions.get('window').width - 40;
@@ -73,6 +74,17 @@ class CreditCard extends Component {
                   maxLength={4}
                   placeholderTextColor={'#666'}
                   placeholder={'Security Code'} />
+              </View>
+
+              <View style={styles.checkboxContainer}>
+                <CheckBox
+                  label=''
+                  checked={false}
+                  checkedImage={require('../../images/icon-checked-gray.png')}
+                  uncheckedImage={require('../../images/icon-uncheck-gray.png')}
+                  onChange={(checked) => console.log('I am checked', checked)}
+                />
+                <Text style={styles.check}>SAVE PAYMENT METHOD</Text>
               </View>
 
               <View style={styles.approveDecline}>
@@ -134,6 +146,17 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
     paddingVertical: 0,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  check: {
+    fontSize: 12,
+    color: '#999',
+    fontWeight: 'bold',
+    marginTop: 7,
+    backgroundColor: 'transparent',
   },
   btnCheckout: {
     width: 300,
