@@ -41,6 +41,8 @@ class ApprovalDetail extends Component {
         whyDoThis:passProps.whyDoThis,
         whatIf:passProps.whatIf,
         factors:passProps.factors,
+        laborLow:passProps.laborLow,
+        laborHigh:passProps.laborHigh,
         partLow:passProps.partLow,
         partHigh:passProps.partHigh,
         parts:passProps.parts,
@@ -49,6 +51,16 @@ class ApprovalDetail extends Component {
       };
     }
 
+    renderLabor()
+    {
+        if (this.state.laborLow) {
+            return (
+              <Text><Text>LABOR ESTIMATE:</Text><Text style={styles.textBold}>  ${this.state.laborLow.toFixed(0)}-${this.state.laborHigh.toFixed(0)}{"\n"}</Text></Text>
+            );
+        } else {
+            return null;
+        }
+    }
     renderComments()
     {
         if (this.state.comments) {
@@ -197,7 +209,7 @@ class ApprovalDetail extends Component {
 
                 </View>
                 <View style={styles.maintenanceTime}>
-                  <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}><Text>LABOR ESTIMATE:</Text><Text style={styles.textBold}>  ${this.state.parts.labor_low_cost.toFixed(0)}-${this.state.parts.labor_high_cost.toFixed(0)}</Text>{"\n"}TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
+                  <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>{this.renderLabor()}TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
                 </View>
               </View>
 
@@ -217,7 +229,7 @@ class ApprovalDetail extends Component {
         </View>
       );
     }
-    createPartsRow = (part, i) => <Part key={i} part={part} partDetail={this.state.partDetail} partLow={this.state.partLow} partHigh={this.state.partHigh} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
+    createPartsRow = (part, i) => <Part key={i} part={part} partDetail={this.state.partDetail} laborLow={this.state.laborLow} laborHigh={this.state.laborHigh} partLow={this.state.partLow} partHigh={this.state.partHigh} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
 }
 
 var Part = React.createClass({

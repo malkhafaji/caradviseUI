@@ -415,6 +415,8 @@ var Service = React.createClass({
           factors:this.props.service.motor_vehicle_service.factors_to_consider,
           fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
           fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
+          laborLow:this.props.service.motor_vehicle_service.labor_low_cost,
+          laborHigh:this.props.service.motor_vehicle_service.labor_high_cost,
           partLow:this.props.service.motor_vehicle_service.part_low_cost,
           partHigh:this.props.service.motor_vehicle_service.part_high_cost,
           parts:this.props.service.motor_vehicle_service,

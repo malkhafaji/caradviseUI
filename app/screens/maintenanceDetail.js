@@ -38,13 +38,26 @@ class MaintenanceDetail extends Component {
         whyDoThis:passProps.whyDoThis,
         whatIf:passProps.whatIf,
         factors:passProps.factors,
-        partLowCost:passProps.partLowCost,
+        laborLow:Number(passProps.laborLow).toFixed(0),
+        laborHigh:Number(passProps.laborHigh).toFixed(0),
+        partLow:Number(passProps.partLow).toFixed(0),
+        partHigh:Number(passProps.partHigh).toFixed(0),
         partName:passProps.partName,
         partPrice:passProps.partPrice,
         parts:passProps.parts
       };
     }
 
+    renderLabor()
+    {
+        if (isNaN(parseFloat(this.state.laborLow))) {
+            return null;
+        } else {
+            return (
+              <Text><Text>LABOR ESTIMATE:</Text><Text style={styles.textBold}>  ${this.state.laborLow}-${this.state.laborHigh}{"\n"}</Text></Text>
+            )
+        }
+    }
     renderTime()
     {
         if (this.state.intervalMonth != 0) {
@@ -176,7 +189,7 @@ class MaintenanceDetail extends Component {
 
                 </View>
                 <View style={styles.maintenanceTime}>
-                  <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text></Text></View>
+                  <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>{this.renderLabor()}TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text></Text></View>
                 </View>
                 <View style={styles.maintenanceReco}>
                   <View style={styles.maintenanceRecoTextContainer}><Text style={styles.maintenanceRecoText}>RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
@@ -197,7 +210,7 @@ class MaintenanceDetail extends Component {
       );
     }
 
-    createPartsRow = (part, i) => <Part key={i} part={part}/>;
+    createPartsRow = (part, i) => <Part key={i} part={part} partLow={this.state.partLow} partHigh={this.state.partHigh}/>;
 }
 
 var Part = React.createClass({
@@ -208,8 +221,17 @@ var Part = React.createClass({
   render: function() {
       return(
         <View style={styles.partRow}>
-          <Text style={styles.partItem}>{this.props.part.name}</Text>
-          <Text style={styles.partPrice}>${Number(this.props.part.price).toFixed(0)}</Text>
+          <Text style={styles.partItem}>{this.props.part.name} {this.props.part.qualifier_name}</Text>
+          <View style={styles.fairPriceContainer}>
+            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fairPrice}>${this.props.partLow}</Text>
+              <Image
+                source={require('../../images/arrow-range.png')}
+                style={styles.fairPriceArrow} />
+              <Text style={styles.fairPrice}>${this.props.partHigh}</Text>
+            </View>
+          </View>
         </View>
       );
   }
@@ -322,7 +344,7 @@ var styles = StyleSheet.create({
   },
   partItem: {
     flex: 2,
-    marginTop: 10,
+    marginTop: 15,
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
