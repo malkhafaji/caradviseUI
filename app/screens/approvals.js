@@ -136,8 +136,8 @@ class Approvals extends Component {
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
-            var partLow = (responseData.order != undefined) ? responseData.order.order_services.low_part_cost : 0;
-            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.high_part_cost : 0;
+            var partLow = (responseData.order != undefined) ? responseData.order.order_services.part_low_cost : 0;
+            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.part_high_cost : 0;
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
@@ -364,8 +364,8 @@ var Service = React.createClass({
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
-            var partLow = (responseData.order != undefined) ? responseData.order.order_services.low_part_cost : 0;
-            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.high_part_cost : 0;
+            var partLow = (responseData.order != undefined) ? responseData.order.order_services.motor_vehicle_service.part_low_cost : 0;
+            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.motor_vehicle_service.part_high_cost : 0;
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = responseData.order.order_services;
@@ -415,6 +415,8 @@ var Service = React.createClass({
           factors:this.props.service.motor_vehicle_service.factors_to_consider,
           fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
           fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
+          partLow:this.props.service.motor_vehicle_service.part_low_cost,
+          partHigh:this.props.service.motor_vehicle_service.part_high_cost,
           parts:this.props.service.motor_vehicle_service,
           partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
         }
