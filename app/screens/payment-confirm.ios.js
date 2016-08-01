@@ -236,7 +236,7 @@ class PaymentConfirm extends Component {
             <TopBar navigator={this.props.navigator} />
             <CarBar />
             <ScrollView
-              style={styles.scrollView}>
+              style={styles.scrollView} keyboardDismissMode={'on-drag'}>
             <View style={styles.confirmContainer}>
               <Text style={styles.textHd}>Confirm Order</Text>
 
