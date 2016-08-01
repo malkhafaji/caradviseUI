@@ -27,6 +27,7 @@ class Settings extends Component {
           firstName: { name: 'First Name', value: props.firstName, invalid: false, validators:['_isPresent'] },
           lastName: { name: 'Last Name', value: props.lastName, invalid: false, validators:['_isPresent'] },
           cellPhone: { name: 'Phone Number', value: props.cellPhone, invalid: false, validators:['_isPresent'] },
+          miles: { name: 'Mileage', value: props.miles, invalid: false, validators:['_isPresent'] },
           password: { name: 'Password', value: '', invalid: false }
         }
       };
@@ -81,6 +82,16 @@ class Settings extends Component {
                   value={this.state.fields.cellPhone.value}
                   onChangeText={value => this._onFieldChange('cellPhone', value)} />
               </View>
+              <View style={[styles.settingsRow, this.state.fields.miles.invalid && styles.invalidFld]}>
+                <Text style={styles.fldName}>MILEAGE</Text>
+                <TextInput
+                  ref='miles'
+                  style={styles.textFld}
+                  selectTextOnFocus={true}
+                  keyboardType={'phone-pad'}
+                  value={this.state.fields.miles.value}
+                  onChangeText={value => this._onFieldChange('miles', value)} />
+              </View>
               <View style={[styles.settingsRow, this.state.fields.password.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>PASSWORD</Text>
                 <TextInput
@@ -100,6 +111,7 @@ class Settings extends Component {
                       firstName: this.state.fields.firstName.value,
                       lastName: this.state.fields.lastName.value,
                       cellPhone: this.state.fields.cellPhone.value,
+                      miles: this.state.fields.miles.value,
                       password: this.state.fields.password.value || undefined
                     }));
                   }}>
