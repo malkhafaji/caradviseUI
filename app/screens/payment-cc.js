@@ -77,7 +77,7 @@ class CreditCard extends Component {
                   placeholder={'Security Code'} />
               </View>
 
-              {/*<View style={styles.checkboxContainer}>
+              <View style={styles.checkboxContainer}>
                 <CheckBox
                   label=''
                   checked={false}
@@ -86,7 +86,7 @@ class CreditCard extends Component {
                   onChange={(checked) => console.log('I am checked', checked)}
                 />
                 <Text style={styles.check}>SAVE PAYMENT METHOD</Text>
-              </View>*/}
+              </View>
 
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'PaymentConfirm', passProps:{amount:this.state.amount, cardNumber:this.state.cardNumber, expMonth:this.state.expMonth, expYear:this.state.expYear, cvv:this.state.cvv} })}>
