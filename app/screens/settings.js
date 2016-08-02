@@ -248,6 +248,7 @@ function mapStateToProps(state) {
     cellPhone: user.cellPhone,
     isLoading: !!user.loading,
     error: user.error,
+    miles: String(vehicle.miles),
     vehicleNumber: vehicle.vehicleNumber
   };
 }

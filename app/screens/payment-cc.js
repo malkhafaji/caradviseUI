@@ -30,7 +30,8 @@ class CreditCard extends Component {
         cardNumber:null,
         expMonth:null,
         expYear:null,
-        cvv:null
+        cvv:null,
+        savePaymentMethod:false
       };
   }
 
@@ -79,17 +80,17 @@ class CreditCard extends Component {
 
               <View style={styles.checkboxContainer}>
                 <CheckBox
-                  label=''
-                  checked={false}
+                  label='SAVE PAYMENT METHOD'
+                  labelStyle={styles.check}
+                  checked={this.state.savePaymentMethod}
                   checkedImage={require('../../images/icon-checked-gray.png')}
                   uncheckedImage={require('../../images/icon-uncheck-gray.png')}
-                  onChange={(checked) => console.log('I am checked', checked)}
+                  onChange={(savePaymentMethod) => this.setState({savePaymentMethod})}
                 />
-                <Text style={styles.check}>SAVE PAYMENT METHOD</Text>
               </View>
 
               <View style={styles.approveDecline}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'PaymentConfirm', passProps:{amount:this.state.amount, cardNumber:this.state.cardNumber, expMonth:this.state.expMonth, expYear:this.state.expYear, cvv:this.state.cvv} })}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'PaymentConfirm', passProps:{amount:this.state.amount, cardNumber:this.state.cardNumber, expMonth:this.state.expMonth, expYear:this.state.expYear, cvv:this.state.cvv, savePaymentMethod:this.state.savePaymentMethod} })}>
                   <Image
                     source={require('../../images/btn-next-big.png')}
                     style={styles.btnCheckout} />
@@ -156,7 +157,6 @@ var styles = StyleSheet.create({
     fontSize: 12,
     color: '#999',
     fontWeight: 'bold',
-    marginTop: 7,
     backgroundColor: 'transparent',
   },
   btnCheckout: {
