@@ -66,7 +66,7 @@ class ApprovalDetail extends Component {
         if (this.state.comments) {
             return (
               <View>
-                <Text style={styles.textHdComments}>Shop Comments</Text>
+                <Text style={styles.textHdComments}>Comments</Text>
                 <View style={styles.commentContainer}>
                   <View style={styles.comment}><Text style={styles.commentTxt}>{this.state.comments}</Text></View>
                 </View>
@@ -316,7 +316,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF9900',
   },
   comment: {
-    margin: 2,
+    margin: 1,
     backgroundColor: '#FFF',
   },
   commentTxt: {
@@ -324,7 +324,6 @@ var styles = StyleSheet.create({
     margin: 10,
     color: '#006699',
     fontSize: 12,
-    fontWeight: 'bold',
   },
   maintenanceTime: {
     width: width,

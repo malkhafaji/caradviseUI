@@ -21,6 +21,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { partition, minBy, maxBy, sumBy } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
+var commentWidth = Dimensions.get('window').width - 40;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/active_order_by_vehicle_number?vehicleNumber=';
 var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/orders/update_order_service';
@@ -426,6 +427,24 @@ var Service = React.createClass({
     }
   },
 
+  renderComments()
+  {
+    if (this.props.service.shopComments) {
+        return (
+          <View style={styles.shopComments}>
+            <View style={styles.commentWrapper}>
+              <View style={styles.iconCommentContainer}>
+                <Text style={styles.commentHd}><Image
+                  source={require('../../images/icon-comment.png')}
+                  style={styles.iconComment} />  VIEW COMMENTS</Text></View>
+              </View>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  },
+
   render: function() {
     var totalLow = this.props.service.motor_vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.motor_vehicle_service.high_fair_cost;
@@ -434,8 +453,8 @@ var Service = React.createClass({
       return (
         <View>
         <TouchableOpacity
-          style={styles.newServicesRow}
           onPress={() => this.openDetail()}>
+            <View style={styles.newServicesRow}>
               <Text style={styles.newServiceItem}>{this.props.service.serviceName} {this.props.service.motor_vehicle_service.position}</Text>
               <View style={styles.fairPriceContainer}>
                 <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -451,8 +470,11 @@ var Service = React.createClass({
                 <Text style={styles.newServicePriceHd}>PRICE</Text>
                 <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
               </View>
+            </View>
+            {this.renderComments()}
           </TouchableOpacity>
 
+        <View style={styles.btnRowContainer}>
         <View style={styles.btnRow}>
           <TouchableOpacity
             style={styles.btnLeft}
@@ -471,6 +493,7 @@ var Service = React.createClass({
               source={require('../../images/btn-approve-orange.png')}
               style={styles.btnApprove} />
           </TouchableOpacity>
+        </View>
         </View>
         </View>
       );
@@ -536,22 +559,23 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   newServiceItem: {
     flex: 5,
-    marginTop: 17,
-    marginBottom: 15,
+    marginTop: 10,
     marginLeft: 10,
+    marginBottom: 5,
     fontWeight: 'bold',
     color: '#006699',
-    alignItems: 'center',
   },
   fairPriceContainer: {
     flex: 3,
     marginTop: 10,
-    marginBottom: 10,
     marginLeft: 3,
     marginRight: 3,
+    marginBottom: 5,
     alignItems: 'center',
   },
   fairPriceRange: {
@@ -577,6 +601,7 @@ var styles = StyleSheet.create({
     flex: 2,
     marginTop: 10,
     marginRight: 10,
+    marginBottom: 5,
   },
   newServicePrice: {
     textAlign: 'right',
@@ -589,13 +614,47 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     fontWeight: 'bold',
   },
+  shopComments: {
+    flexDirection: 'row',
+    backgroundColor: '#EFEFEF'
+  },
+  commentHd: {
+    width: commentWidth,
+    backgroundColor: '#FFF',
+    color: '#FF9900',
+    fontSize: 11,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: 5,
+  },
+  shopCommentsTxt: {
+    width: commentWidth,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom:5,
+    padding: 5,
+    fontSize: 12,
+    color: '#006699',
+  },
+  iconCommentContainer: {
+    marginTop: 5,
+    marginLeft: 10,
+  },
+  iconComment: {
+    width: 10,
+    height: 10,
+  },
+  btnRowContainer: {
+    backgroundColor: '#EFEFEF',
+    marginBottom: 5,
+  },
   btnRow: {
     flex: 1,
     flexDirection: 'row',
     width: width,
     backgroundColor: '#EFEFEF',
     paddingBottom: 10,
-    marginBottom: 5,
+    marginTop: 10,
   },
   btnLeft: {
     flex: 2,
