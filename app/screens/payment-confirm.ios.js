@@ -187,7 +187,6 @@ class PaymentConfirm extends Component {
            .then((responseData) => {
              if(responseData.success == true)
              {
-               top.updateOrderComplete(orderId);
                top.setState({
                   visible: false
                  });
@@ -255,7 +254,7 @@ class PaymentConfirm extends Component {
               </View>
 
               <View>
-                <TouchableOpacity onPress={this.processCreditCard.bind(this)}>
+                  <TouchableOpacity onPress={this.processCreditCard.bind(this)}>
                   <Image
                     source={require('../../images/btn-submit-payment.png')}
                     style={styles.btnCheckout} />

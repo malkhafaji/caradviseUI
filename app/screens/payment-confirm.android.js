@@ -184,8 +184,6 @@ class PaymentConfirm extends Component {
                .then((responseData) => {
                  if(responseData.success == true)
                  {
-                   top.updateOrderComplete(orderId);
-
                    nav.push({ indent:'PaymentThanks' });
                  } else {
                    Alert.alert(
