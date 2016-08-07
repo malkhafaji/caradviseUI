@@ -3,6 +3,7 @@ import { postJSON, putJSON, deleteJSON } from '../utils/fetch';
 const SIGN_UP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/users';
 const SIGN_IN_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/sessions/';
 const SIGN_OUT_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/sessions/destroy';
+const VEHICLES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/';
 
 export const USER_LOADING = 'USER_LOADING';
 function setUserLoading() {
@@ -75,6 +76,29 @@ export function updateInfo(data) {
 
     if (response.result) {
       dispatch(setUserData(response.result.user));
+    } else {
+      dispatch(setUserError(response.error));
+    }
+
+    dispatch(updateVehicle({ miles: data.miles }));
+  }
+}
+
+export function updateVehicle(data) {
+  return async function(dispatch, getState) {
+    dispatch(setUserLoading());
+
+    let user = getState().user || {};
+    let { authentication_token, vehicles } = user;
+    let url = `${VEHICLES_URL}/${vehicles[0].id}`;
+    let response = await putJSON(url, data, { Authorization: authentication_token });
+
+    if (response.result) {
+      user.loading = false;
+      user.error = null;
+      user.vehicles = [response.result.vehicle];
+
+      dispatch(setUserData(user));
     } else {
       dispatch(setUserError(response.error));
     }
