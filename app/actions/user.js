@@ -33,7 +33,7 @@ export function signUp(data) {
     if (response.result) {
       dispatch(setUserData(response.result.user));
     } else {
-      dispatch(setUserError(response.errors));
+      dispatch(setUserError(response.error));
     }
   };
 }
@@ -46,7 +46,7 @@ export function signIn({ email, password }) {
     if (response.result) {
       dispatch(setUserData(response.result.user));
     } else {
-      dispatch(setUserError(response.errors));
+      dispatch(setUserError(response.error));
     }
   };
 }
@@ -58,8 +58,8 @@ export function signOut() {
     let { authentication_token } = getState().user || {};
     let response = await deleteJSON(SIGN_OUT_URL, { authentication_token });
 
-    if (response.errors) {
-      dispatch(setUserError(response.errors));
+    if (response.error) {
+      dispatch(setUserError(response.error));
     } else {
       dispatch(removeUser());
     }
@@ -77,7 +77,7 @@ export function updateInfo(data) {
     if (response.result) {
       dispatch(setUserData(response.result.user));
     } else {
-      dispatch(setUserError(response.errors));
+      dispatch(setUserError(response.error));
     }
 
     dispatch(updateVehicle({ miles: data.miles }));
@@ -100,7 +100,7 @@ export function updateVehicle(data) {
 
       dispatch(setUserData(user));
     } else {
-      dispatch(setUserError(response.errors));
+      dispatch(setUserError(response.error));
     }
   }
 }
