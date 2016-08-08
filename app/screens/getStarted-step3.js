@@ -239,8 +239,8 @@ class Step3 extends Component {
       let response = await getJSON(BY_YEAR_URL, { year });
       this.setState({ loading_makes: false });
 
-      if (response.error) {
-        Alert.alert('Error', response.error);
+      if (response.errors) {
+        Alert.alert('Error', response.errors);
       } else if (response.result) {
         const makes = response.result.vehicles.map(({ make_id, make }) => {
           return { key: make_id, label: make, value: make };
@@ -276,8 +276,8 @@ class Step3 extends Component {
       let response = await getJSON(BY_YEAR_AND_MAKE_URL, { year, make_id });
       this.setState({ loadingModels: false });
 
-      if (response.error) {
-        Alert.alert('Error', response.error);
+      if (response.errors) {
+        Alert.alert('Error', response.errors);
       } else if (response.result) {
         const models = response.result.vehicles.map(vehicle => {
           return {
@@ -322,8 +322,8 @@ class Step3 extends Component {
       let response = await getJSON(BY_MODEL_AND_SUB_MODEL_URL, { year, make_id, model_id, sub_model_id });
       this.setState({ loadingEngines: false });
 
-      if (response.error) {
-        Alert.alert('Error', response.error);
+      if (response.errors) {
+        Alert.alert('Error', response.errors);
       } else if (response.result) {
         const engines = response.result.vehicles.map(({ id, description }) => {
           return { key: id, label: description, value: description };

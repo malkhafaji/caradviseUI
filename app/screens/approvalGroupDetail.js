@@ -77,8 +77,8 @@ class ApprovalGroupDetail extends Component {
 
     this.setState({ showSpinner: false });
 
-    if (response.error) {
-      Alert.alert('Error', response.error)
+    if (response.errors) {
+      Alert.alert('Error', response.errors)
     } else {
       let services = [...this.state.services];
       services.splice(services.indexOf(service), 1);

@@ -112,8 +112,8 @@ class Step2b extends Component {
       let response = await getJSON(VIN_LOOKUP_URL, { vin: this.state.fields.vin.value });
       this.setState({ isLoading: false });
 
-      if (response.error) {
-        Alert.alert('Error', response.error);
+      if (response.errors) {
+        Alert.alert('Error', response.errors);
       } else if (callback) {
         callback();
       }

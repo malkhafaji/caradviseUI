@@ -79,8 +79,8 @@ class Maintenance extends Component {
       { 'Authorization': this.props.authentication_token }
     );
 
-    if (response.error) {
-      Alert.alert('Error', response.error);
+    if (response.errors) {
+      Alert.alert('Error', response.errors);
     } else if (response.result) {
       let intervals = response.result.vehicles || [];
       let index = findLastIndex(intervals, interval => Number(interval) <= this.props.miles);
@@ -154,8 +154,8 @@ class MaintenanceCard extends Component {
 
     this.setState({ isLoading: false });
 
-    if (response.error) {
-      Alert.alert('Error', response.error);
+    if (response.errors) {
+      Alert.alert('Error', response.errors);
     } else if (response.result) {
       this.setState({ services: this.groupServices(response.result.vehicles || []) });
       this.unsubscribe && this.unsubscribe();

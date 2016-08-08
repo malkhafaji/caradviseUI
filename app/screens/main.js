@@ -43,8 +43,8 @@ class Main extends Component {
         { 'Authorization': this.props.authentication_token }
       );
 
-      if (response.error) {
-        Alert.alert('Alert', response.error);
+      if (response.errorss) {
+        Alert.alert('Alert', response.errorss);
       } else if (response.result && response.result.order) {
         this.setState({ hasActiveOrders: response.result.order.status === 0 });
       }
