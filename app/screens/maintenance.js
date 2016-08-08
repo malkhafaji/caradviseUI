@@ -331,10 +331,12 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     marginBottom: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   maintenanceItem: {
     flex: 5,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
     marginRight: 10,
