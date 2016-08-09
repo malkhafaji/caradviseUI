@@ -66,7 +66,7 @@ class ApprovalDetail extends Component {
         if (this.state.comments) {
             return (
               <View>
-                <Text style={styles.textHdComments}>Details and Recommendations</Text>
+                <Text style={styles.textHdComments}>Shop Notes</Text>
                 <View style={styles.commentContainer}>
                   <View style={styles.comment}><Text style={styles.commentTxt}>{this.state.comments}</Text></View>
                 </View>
