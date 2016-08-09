@@ -427,24 +427,6 @@ var Service = React.createClass({
     }
   },
 
-  renderComments()
-  {
-    if (this.props.service.shopComments) {
-        return (
-          <View style={styles.shopComments}>
-            <View style={styles.commentWrapper}>
-              <View style={styles.iconCommentContainer}>
-                <Text style={styles.commentHd}><Image
-                  source={require('../../images/icon-comment.png')}
-                  style={styles.iconComment} />  VIEW COMMENTS</Text></View>
-              </View>
-          </View>
-        );
-    } else {
-        return null;
-    }
-  },
-
   render: function() {
     var totalLow = this.props.service.motor_vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.motor_vehicle_service.high_fair_cost;
@@ -471,7 +453,14 @@ var Service = React.createClass({
                 <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
               </View>
             </View>
-            {this.renderComments()}
+            <View style={styles.shopComments}>
+              <View style={styles.commentWrapper}>
+                <View style={styles.iconCommentContainer}>
+                  <Text style={styles.commentHd}><Image
+                    source={require('../../images/icon-comment.png')}
+                    style={styles.iconComment} />  VIEW DETAILS AND RECOMMENDATION</Text></View>
+                </View>
+            </View>
           </TouchableOpacity>
 
         <View style={styles.btnRowContainer}>
