@@ -14,6 +14,7 @@ import {
   ScrollView,
   Dimensions,
   Platform,
+  Alert,
   NativeAppEventEmitter
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -43,6 +44,7 @@ class Approvals extends Component {
         showTotals: false,
         partLow:null,
         partHigh:null,
+        ctr:0,
       };
     }
 
@@ -99,6 +101,9 @@ class Approvals extends Component {
        var fees = fees;
        var subtotal = total + fees + misc - discount;
 
+       var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
+       var unapprovedTotal = unapprovedServices.length;
+
        if(orderStatus == 1)
        {
          showCheckout = true;
@@ -108,6 +113,7 @@ class Approvals extends Component {
         services:null
       });
       this.setState({
+        orderStatus: orderStatus,
         services: services,
         showCheckout: showCheckout,
         total: total.toFixed(2),
@@ -121,6 +127,10 @@ class Approvals extends Component {
         taxAmount: Number(taxAmount).toFixed(2),
         finalTotal: Number(finalTotal).toFixed(2),
       });
+
+      if (this.state.orderStatus == 0 && unapprovedTotal == 0) {
+        Alert.alert('Alert','All work has been approved. You will be notified as soon as work has been completed by the shop.');
+      }
     }
 
     getApprovals() {
@@ -280,6 +290,7 @@ class Approvals extends Component {
     renderServices(services) {
         var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
         var approvedServices = services.filter(this.filterApprovedServices.bind(this));
+        var unapprovedTotal = unapprovedServices.length;
 
         unapprovedServices = this.groupServices(unapprovedServices);
         approvedServices = this.groupServices(approvedServices);
@@ -320,14 +331,13 @@ class Approvals extends Component {
               </View>*/}
 
               {this.renderCheckout()}
-
             </View>
             </ScrollView>
           </View>
         );
     }
 
-    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} authentication_token={this.props.authentication_token} approvals={this}/>;
+    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} ctr={this.state.ctr} orderStatus={this.state.orderStatus} authentication_token={this.props.authentication_token} approvals={this}/>;
 }
 
 var Service = React.createClass({
@@ -384,6 +394,7 @@ var Service = React.createClass({
                 showSpinner:false
               });
             }
+
         })
         .done();
     }
@@ -614,7 +625,6 @@ var styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 5,
   },
   shopCommentsTxt: {
     width: commentWidth,
@@ -625,9 +635,15 @@ var styles = StyleSheet.create({
     fontSize: 12,
     color: '#006699',
   },
-  iconCommentContainer: {
-    marginTop: 5,
+  commentWrapper: {
+    backgroundColor: '#FFF',
+    marginTop: 2,
     marginLeft: 10,
+  },
+  iconCommentContainer: {
+    backgroundColor: '#FFF',
+    marginTop: 5,
+    marginBottom: 5,
   },
   iconComment: {
     width: 10,
