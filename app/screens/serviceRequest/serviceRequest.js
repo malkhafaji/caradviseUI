@@ -18,8 +18,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/?/services';
-
 class ServiceRequest extends Component {
 
 render() {
@@ -32,15 +30,29 @@ render() {
         <View style={styles.container}>
 
           <Text style={styles.textHd}>Service Request</Text>
+
+          <View style={styles.selectedShop}>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine</Text>
+            <View style={styles.changeContainer}>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
+                <Image
+                  source={require('../../../images/btn-change.png')}
+                  style={styles.btnChange} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
           <View style={styles.selectShop}>
-          <Image
-            source={require('../../../images/btn-selectshop.png')}
-            style={styles.btnSelectShop} />
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
+              <Image
+                source={require('../../../images/btn-selectshop.png')}
+                style={styles.btnSelectShop} />
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.textHd}>Recommended Services (45000 miles)</Text>
-          <View style={styles.maintenanceRow}>
-            <Text style={styles.maintenanceItem}>Tire Rotation</Text>
+          <View style={styles.serviceRow}>
+            <Text style={styles.serviceItem}>Tire Rotation</Text>
             <View style={styles.fairPriceContainer}>
               <Text style={styles.fairPriceText}>FAIR PRICE</Text>
               <View style={styles.fairPriceRange}>
@@ -52,6 +64,43 @@ render() {
               </View>
             </View>
           </View>
+          <View style={styles.serviceRow}>
+            <Text style={styles.serviceItem}>Cabin Air Filter R&R</Text>
+            <View style={styles.fairPriceContainer}>
+              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+              <View style={styles.fairPriceRange}>
+                <Text style={styles.fairPrice}>$30</Text>
+                <Image
+                  source={require('../../../images/arrow-range.png')}
+                  style={styles.fairPriceArrow} />
+                <Text style={styles.fairPrice}>$50</Text>
+              </View>
+            </View>
+          </View>
+
+          <Text style={styles.textHd}>Saved Services</Text>
+          <View style={styles.serviceRow}>
+            <Text style={styles.serviceItem}>Oil Change - Synthetic Blend</Text>
+            <View style={styles.fairPriceContainer}>
+              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+              <View style={styles.fairPriceRange}>
+                <Text style={styles.fairPrice}>$30</Text>
+                <Image
+                  source={require('../../../images/arrow-range.png')}
+                  style={styles.fairPriceArrow} />
+                <Text style={styles.fairPrice}>$50</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.rowAddService}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
+              <Image
+                source={require('../../../images/btn-add-service.png')}
+                style={styles.btnAddService} />
+            </TouchableOpacity>
+          </View>
+
         </View>
         </ScrollView>
       </View>
@@ -83,23 +132,42 @@ var styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
   },
+  textBld: {
+    fontWeight: 'bold',
+  },
   btnSelectShop: {
     width: width,
-    height: 120,
+    height: 130,
   },
-  maintenanceList: {
-    flexDirection: 'column',
-    width: Dimensions.get('window').width,
+  selectedShop: {
+    flexDirection: 'row',
+    width: width,
+    borderWidth: 2,
+    borderColor: '#006699',
+    padding: 15,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  maintenanceRow: {
+  shopInfo: {
+    flex: 4,
+    color: '#006699',
+    fontSize: 12,
+  },
+  changeContainer: {
+    flex: 1,
+  },
+  btnChange: {
+    width: 56,
+    height: 22,
+  },
+  serviceRow: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#EFEFEF',
     width: width,
     marginBottom: 3,
   },
-  maintenanceItem: {
+  serviceItem: {
     flex: 5,
     marginTop: 15,
     marginBottom: 10,
@@ -135,66 +203,13 @@ var styles = StyleSheet.create({
     color: '#006699',
     fontWeight: 'bold',
   },
-  maintenanceDesc: {
-    width: width,
-    backgroundColor: '#EFEFEF',
-    marginBottom: 10,
-  },
-  maintenanceDescText: {
-    backgroundColor: '#FFF',
-    margin: 5,
-    padding: 5,
-  },
-  maintenancePrice: {
-    flex: 1,
-    textAlign: 'right',
-    color: '#006699',
-  },
-  priceContainer: {
-    flex: 1,
-    marginTop: 15,
-    marginRight: 10,
-  },
-  priceHd: {
-    fontSize: 12,
-    textAlign: 'right',
-    fontWeight: 'bold',
-  },
-  price: {
-    textAlign: 'right',
-    color: '#006699',
-    fontWeight: 'bold',
-  },
-  total: {
-    flex: 1,
-    flexDirection: 'row',
-    width: width,
-    backgroundColor: '#006699',
-    alignItems: 'center',
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 20,
-  },
-  totalText: {
-    flex: 3,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#006699',
-  },
-  totalPrice: {
-    flex: 1,
-    fontWeight: 'bold',
-    textAlign: 'right',
-  },
   rowAddService: {
     alignItems: 'center',
   },
   btnAddService: {
     width: 110,
     height: 10,
-    marginBottom: 20,
+    margin: 20,
   },
   bookIt: {
     alignItems: 'center',

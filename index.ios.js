@@ -15,6 +15,9 @@ var Step4 = require('./app/screens/registration/getStarted-step4');
 var AddServices = require('./app/screens/addServices');
 var ServiceDetail = require('./app/screens/serviceDetail');
 var ServiceRequest = require('./app/screens/serviceRequest/serviceRequest');
+var FindShop = require('./app/screens/serviceRequest/findShop');
+var ShopDetail = require('./app/screens/serviceRequest/shopDetail');
+var RequestSubmitted = require('./app/screens/serviceRequest/requestSubmitted');
 var Maintenance = require('./app/screens/maintenance/maintenance');
 var MaintenanceDetail = require('./app/screens/maintenance/maintenanceDetail');
 var MaintenanceGroupDetail = require('./app/screens/maintenance/maintenanceGroupDetail');
@@ -176,6 +179,18 @@ class caradviseui extends Component {
       case 'ServiceRequest':
         return (
           <ServiceRequest {...globalNavigatorProps} />
+        )
+      case 'FindShop':
+        return (
+          <FindShop {...globalNavigatorProps} />
+        )
+      case 'ShopDetail':
+        return (
+          <ShopDetail {...globalNavigatorProps} />
+        )
+      case 'RequestSubmitted':
+        return (
+          <RequestSubmitted {...globalNavigatorProps} />
         )
       case 'Maintenance':
         return (
