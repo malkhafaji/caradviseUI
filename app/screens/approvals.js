@@ -44,7 +44,6 @@ class Approvals extends Component {
         showTotals: false,
         partLow:null,
         partHigh:null,
-        ctr:0,
       };
     }
 
@@ -101,7 +100,9 @@ class Approvals extends Component {
        var fees = fees;
        var subtotal = total + fees + misc - discount;
 
+       var approvedServices = services.filter(this.filterApprovedServices.bind(this));
        var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
+       var approvedTotal = approvedServices.length;
        var unapprovedTotal = unapprovedServices.length;
 
        if(orderStatus == 1)
@@ -128,7 +129,7 @@ class Approvals extends Component {
         finalTotal: Number(finalTotal).toFixed(2),
       });
 
-      if (this.state.orderStatus == 0 && unapprovedTotal == 0) {
+      if (this.state.orderStatus == 0 && unapprovedTotal == 0 && approvedTotal != 0) {
         Alert.alert('Alert','All work has been approved. You will be notified as soon as work has been completed by the shop.');
       }
     }
@@ -290,7 +291,6 @@ class Approvals extends Component {
     renderServices(services) {
         var unapprovedServices = services.filter(this.filterUnapprovedServices.bind(this));
         var approvedServices = services.filter(this.filterApprovedServices.bind(this));
-        var unapprovedTotal = unapprovedServices.length;
 
         unapprovedServices = this.groupServices(unapprovedServices);
         approvedServices = this.groupServices(approvedServices);
@@ -337,7 +337,7 @@ class Approvals extends Component {
         );
     }
 
-    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} ctr={this.state.ctr} orderStatus={this.state.orderStatus} authentication_token={this.props.authentication_token} approvals={this}/>;
+    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} orderStatus={this.state.orderStatus} authentication_token={this.props.authentication_token} approvals={this}/>;
 }
 
 var Service = React.createClass({
