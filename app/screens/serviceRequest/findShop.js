@@ -37,7 +37,6 @@ render() {
             <TextInput
               autoCorrect={false}
               autoCapitalize="characters"
-              placeholderTextColor={'#666'}
               placeholder={'ENTER ZIP CODE'}
               style={styles.searchFld}
               keyboardType={'phone-pad'}
@@ -105,6 +104,7 @@ var styles = StyleSheet.create({
   },
   searchFld: {
     width: fldWidth,
+    height: 45,
     borderWidth: 3,
     borderColor: '#FF9900',
     textAlign: 'center',

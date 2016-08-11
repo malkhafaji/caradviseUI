@@ -1,7 +1,7 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
-import BraintreeAndroid from '../utils/BraintreeAndroid';
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
+import BraintreeAndroid from '../../utils/BraintreeAndroid';
 
 import React from 'react';
 import {
@@ -251,7 +251,7 @@ class PaymentConfirm extends Component {
               <View>
                 <TouchableOpacity onPress={this.processCreditCard.bind(this)}>
                   <Image
-                    source={require('../../images/btn-submit-payment.png')}
+                    source={require('../../../images/btn-submit-payment.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
