@@ -13,7 +13,7 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signIn } from '../actions/user';
+import { signIn } from '../../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
@@ -44,12 +44,12 @@ class Login extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/bg-login.png')}
+              source={require('../../../images/bg-login.png')}
               style={styles.bgLogin} />
             <View>
               <Image
                 resizeMode='cover'
-                source={require('../../images/logo.png')}
+                source={require('../../../images/logo.png')}
                 style={styles.logo} />
             </View>
             <View style={styles.loginContainer}>
@@ -88,7 +88,7 @@ class Login extends Component {
             >
               <Image
                 resizeMode='stretch'
-                source={require('../../images/btn-submit-login.png')}
+                source={require('../../../images/btn-submit-login.png')}
                 style={styles.btnLogin} />
             </TouchableOpacity>
 
@@ -98,7 +98,7 @@ class Login extends Component {
               }}>
               <Image
                 resizeMode='contain'
-                source={require('../../images/btn-back-white.png')}
+                source={require('../../../images/btn-back-white.png')}
                 style={styles.btnBack} />
             </TouchableOpacity>
 

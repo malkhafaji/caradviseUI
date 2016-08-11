@@ -15,8 +15,8 @@ import {
   LayoutAnimation,
   Alert
 } from 'react-native';
-import cache from '../utils/cache';
-import { getJSON } from '../utils/fetch';
+import cache from '../../utils/cache';
+import { getJSON } from '../../utils/fetch';
 import sortBy from 'lodash/sortBy';
 
 var fldWidth = Dimensions.get('window').width - 40;
@@ -54,13 +54,13 @@ class Step3 extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/bg-login.png')}
+              source={require('../../../images/bg-login.png')}
               style={styles.bgSteps} />
 
             <View>
               <Image
                 resizeMode="contain"
-                source={require('../../images/logo.png')}
+                source={require('../../../images/logo.png')}
                 style={styles.logo} />
             </View>
 
@@ -105,13 +105,13 @@ class Step3 extends Component {
                 <TouchableOpacity onPress={() => this.props.navigator.pop()}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-back-white.png')}
+                    source={require('../../../images/btn-back-white.png')}
                     style={styles.btnBack} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-next.png')}
+                    source={require('../../../images/btn-next.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>

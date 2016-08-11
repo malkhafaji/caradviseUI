@@ -10,29 +10,31 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signUp } from '../actions/user';
-import cache from '../utils/cache';
-import storage from '../utils/storage';
+import { signUp } from '../../actions/user';
+import cache from '../../utils/cache';
+import storage from '../../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
-class Step4 extends Component {
+class Step2a extends Component {
     constructor(props) {
       super(props);
 
       storage.get('caradvise:pushid').then(value => {
-        if (value) {
-          this.state.pushid = value;
-        }
-      });
+         if (value) {
+           this.state.pushid = value;
+         }
+       });
 
       this.state = {
+        isLoading: false,
         fields: Object.assign({
-          miles: { name: 'Mileage', value: '', invalid: false, validators: ['_isPresent'] }
-        }, cache.get('step4-fields') || {}),
+          vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false }
+        }, cache.get('step2a-fields') || {}),
         pushid: ""
       };
     }
@@ -54,29 +56,29 @@ class Step4 extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/bg-login.png')}
+              source={require('../../../images/bg-login.png')}
               style={styles.bgSteps} />
 
             <View>
               <Image
                 resizeMode="contain"
-                source={require('../../images/logo.png')}
+                source={require('../../../images/logo.png')}
                 style={styles.logo} />
             </View>
 
             <View>
-              <Text style={styles.textStep}>To complete your car profile, we need the current mileage.</Text>
+              <Text style={styles.textStep}>Enter your vehicle number below.</Text>
             </View>
 
             <View style={styles.fields}>
               <TextInput
-                ref='miles'
-                keyboardType='numeric'
-                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
+                autoCorrect={false}
+                autoCapitalize="characters"
+                style={[styles.textFld, this.state.fields.vehicleNumber.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={this.state.fields.miles.name}
-                value={this.state.fields.miles.value}
-                onChangeText={value => this._onFieldChange('miles', value)} />
+                placeholder={this.state.fields.vehicleNumber.name}
+                value={this.state.fields.vehicleNumber.value}
+                onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <View style={styles.btnRow}>
                 <TouchableOpacity
                   onPress={() => {
@@ -84,13 +86,13 @@ class Step4 extends Component {
                   }}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-back-white.png')}
+                    source={require('../../../images/btn-back-white.png')}
                     style={styles.btnBack} />
                 </TouchableOpacity>
-                <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
+                <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-next.png')}
+                    source={require('../../../images/btn-next.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>
@@ -101,85 +103,39 @@ class Step4 extends Component {
         );
     }
 
-    _isPresent(value) {
-      return !!value;
-    }
-
-    _setAndValidateField(key, value) {
-      let field = this.state.fields[key];
-      let validators = field.validators || [];
-      let invalid = validators.some(validator => !this[validator](value));
-
-      return { ...field, value, invalid };
-    }
-
     _onFieldChange(key, value) {
+      let field = this.state.fields[key];
       this.setState({
         fields: {
           ...(this.state.fields),
-          [key]: this._setAndValidateField(key, value.trim())
+          [key]: { ...field, value: value.trim(), invalid: false }
         }
-      }, () => cache.set('step4-fields', this.state.fields));
-    }
-
-    _validateFields(callback) {
-      let fields = {};
-      let firstInvalidKey = null;
-
-      Object.keys(this.state.fields).forEach(key => {
-        let field = this.state.fields[key];
-        fields[key] = field = this._setAndValidateField(key, field.value);
-        if (!firstInvalidKey && field.invalid)
-          firstInvalidKey = key;
-      });
-
-      this.setState({ fields }, () => {
-        if (firstInvalidKey)
-          this.refs[firstInvalidKey].focus();
-        else if (callback)
-          callback();
-      });
+      }, () => cache.set('step2a-fields', this.state.fields));
     }
 
     _onClickNext() {
-      this._validateFields(() => {
+      if (this.state.fields.vehicleNumber.value) {
         let step1Fields = cache.get('step1-fields');
-        let data = {
+        this.props.signUp({
           firstName: step1Fields.firstName.value,
           lastName: step1Fields.lastName.value,
           email: step1Fields.email.value,
           cellPhone: step1Fields.cellPhone.value,
           password: step1Fields.password.value,
-          miles: this.state.fields.miles.value,
-          pushid: this.state.pushid
-        };
-
-        let step2bFields = cache.get('step2b-fields');
-        if (step2bFields) {
-          data.vin = step2bFields.vin.value;
-        }
-
-        let step3Fields = cache.get('step3-fields');
-        if (step3Fields) {
-          data.year = step3Fields.year.value;
-          data.make = step3Fields.make.value;
-
-          let models = cache.get('step3-models') || [];
-          let model = models.find(({ value }) => value === step3Fields.model.value) || {};
-          data.model_id = model.key;
-          data.model = model.originalValue;
-
-          let engines = cache.get('step3-engines') || [];
-          let engine = engines.find(({ value }) => value === step3Fields.engine.value) || {};
-          data.vehicle_type_extension_engine_id = engine.key;
-        }
-
-        this.props.signUp(data);
-      });
+          vehicleNumber: this.state.fields.vehicleNumber.value,
+          pushid: this.state.pushid,
+        });
+      } else {
+        alert("A service associate will provide you with your Vehicle Number.")
+        //this.props.navigator.push({ indent: 'Step2b' });
+      }
     }
 }
 
 var styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#000',
+  },
   formContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -208,8 +164,13 @@ var styles = StyleSheet.create({
     paddingRight: 20,
     textAlign: 'center'
   },
+  textOr: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    marginTop: 15,
+  },
   fields: {
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 15,
     marginRight: 15,
     alignItems: 'center',
@@ -223,9 +184,6 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 21,
     paddingVertical: 0,
-  },
-  btnRow: {
-    flexDirection: 'row',
   },
   btnBack: {
     width: 120,
@@ -241,6 +199,9 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'red'
   },
+  btnRow: {
+    flexDirection: 'row',
+  }
 });
 
 function mapStateToProps(state) {
@@ -251,4 +212,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps, { signUp })(Step4);
+module.exports = connect(mapStateToProps, { signUp })(Step2a);

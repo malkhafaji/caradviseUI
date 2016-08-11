@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 var BTClient = require('react-native-braintree');
 
 import React from 'react';
@@ -36,10 +36,6 @@ class PaymentThanks extends Component {
         total:0,
         tax:0,
         finalTotal:0,
-        //cardNumber: props.cardNumber,
-        //expMonth:props.expMonth,
-        //expYear:props.expYear,
-        //cvv:props.cvv,
         visible: false
       };
   }
@@ -266,7 +262,7 @@ class PaymentThanks extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.popToTop()}>
                   <Image
-                    source={require('../../images/btn-done.png')}
+                    source={require('../../../images/btn-done.png')}
                     style={styles.btnDone} />
                 </TouchableOpacity>
               </View>

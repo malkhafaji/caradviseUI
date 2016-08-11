@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -181,7 +181,7 @@ class MaintenanceDetail extends Component {
                     <View style={styles.fairPriceRange}>
                       <Text style={styles.fairPrice}>${this.state.lowCost}</Text>
                       <Image
-                        source={require('../../images/arrow-range.png')}
+                        source={require('../../../images/arrow-range.png')}
                         style={styles.fairPriceArrow} />
                       <Text style={styles.fairPrice}>${this.state.highCost}</Text>
                     </View>
@@ -227,7 +227,7 @@ var Part = React.createClass({
             <View style={styles.fairPriceRange}>
               <Text style={styles.fairPrice}>${this.props.partLow}</Text>
               <Image
-                source={require('../../images/arrow-range.png')}
+                source={require('../../../images/arrow-range.png')}
                 style={styles.fairPriceArrow} />
               <Text style={styles.fairPrice}>${this.props.partHigh}</Text>
             </View>

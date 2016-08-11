@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { putJSON } from '../utils/fetch';
+import { putJSON } from '../../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -137,7 +137,7 @@ var Service = React.createClass({
               <View style={styles.fairPriceRange}>
                 <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
                 <Image
-                  source={require('../../images/arrow-range.png')}
+                  source={require('../../../images/arrow-range.png')}
                   style={styles.fairPriceArrow} />
                 <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
               </View>
@@ -154,7 +154,7 @@ var Service = React.createClass({
               underlayColor='#dddddd'
               onPress={() => { this.props.updateServiceStatus(this.props.service, 3) }}>
               <Image
-                source={require('../../images/btn-save.png')}
+                source={require('../../../images/btn-save.png')}
                 style={styles.btnSave} />
             </TouchableOpacity>
 
@@ -163,7 +163,7 @@ var Service = React.createClass({
               underlayColor='#dddddd'
               onPress={() => { this.props.updateServiceStatus(this.props.service, 2) }}>
               <Image
-                source={require('../../images/btn-approve-orange.png')}
+                source={require('../../../images/btn-approve-orange.png')}
                 style={styles.btnApprove} />
             </TouchableOpacity>
           </View>

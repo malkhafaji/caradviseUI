@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
 import { connect } from 'react-redux';
-import cache from '../utils/cache';
+import cache from '../../utils/cache';
 
 var width = Dimensions.get('window').width - 30;
 var fldWidth = Dimensions.get('window').width - 30;
@@ -70,13 +70,13 @@ class GetStarted extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/bg-login.png')}
+              source={require('../../../images/bg-login.png')}
               style={styles.bgSteps} />
 
             <View>
               <Image
                 resizeMode="contain"
-                source={require('../../images/logo.png')}
+                source={require('../../../images/logo.png')}
                 style={styles.logo} />
             </View>
 
@@ -158,8 +158,8 @@ class GetStarted extends Component {
                 <CheckBox
                   label=''
                   checked={true}
-                  checkedImage={require('../../images/icon-checked.png')}
-                  uncheckedImage={require('../../images/icon-unchecked.png')}
+                  checkedImage={require('../../../images/icon-checked.png')}
+                  uncheckedImage={require('../../../images/icon-unchecked.png')}
                   onChange={(checked) => console.log('I am checked', checked)}
                 />
                 <Text style={styles.check}>I agree to the CarAdvise </Text><Text style={styles.privacy} onPress={() => this.props.navigator.push({ indent:'Terms' })}>Terms</Text><Text style={styles.check}> and </Text><Text style={styles.privacy} onPress={() => this.props.navigator.push({ indent:'Privacy' })}>Privacy Policy</Text>
@@ -173,7 +173,7 @@ class GetStarted extends Component {
                   }}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-back-white.png')}
+                    source={require('../../../images/btn-back-white.png')}
                     style={styles.btnBack} />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -185,7 +185,7 @@ class GetStarted extends Component {
                   }}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-next.png')}
+                    source={require('../../../images/btn-next.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>

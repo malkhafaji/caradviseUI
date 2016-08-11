@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 var BTClient = require('react-native-braintree');
 
 import React from 'react';
@@ -256,7 +256,7 @@ class PaymentConfirm extends Component {
               <View>
                   <TouchableOpacity onPress={this.processCreditCard.bind(this)}>
                   <Image
-                    source={require('../../images/btn-submit-payment.png')}
+                    source={require('../../../images/btn-submit-payment.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>

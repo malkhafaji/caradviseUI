@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -278,7 +278,7 @@ class Approvals extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
                   <Image
-                    source={require('../../images/btn-proceed.png')}
+                    source={require('../../../images/btn-proceed.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
@@ -454,7 +454,7 @@ var Service = React.createClass({
                 <View style={styles.fairPriceRange}>
                   <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
                   <Image
-                    source={require('../../images/arrow-range.png')}
+                    source={require('../../../images/arrow-range.png')}
                     style={styles.fairPriceArrow} />
                   <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
                 </View>
@@ -468,7 +468,7 @@ var Service = React.createClass({
               <View style={styles.commentWrapper}>
                 <View style={styles.iconCommentContainer}>
                   <Text style={styles.commentHd}><Image
-                    source={require('../../images/icon-comment.png')}
+                    source={require('../../../images/icon-comment.png')}
                     style={styles.iconComment} />  VIEW DETAILS AND RECOMMENDATION</Text></View>
                 </View>
             </View>
@@ -481,7 +481,7 @@ var Service = React.createClass({
             underlayColor='#dddddd'
             onPress={() => { this.updateStatus(3) }}>
             <Image
-              source={require('../../images/btn-save.png')}
+              source={require('../../../images/btn-save.png')}
               style={styles.btnSave} />
           </TouchableOpacity>
 
@@ -490,7 +490,7 @@ var Service = React.createClass({
             underlayColor='#dddddd'
             onPress={() => { this.updateStatus(2) }}>
             <Image
-              source={require('../../images/btn-approve-orange.png')}
+              source={require('../../../images/btn-approve-orange.png')}
               style={styles.btnApprove} />
           </TouchableOpacity>
         </View>

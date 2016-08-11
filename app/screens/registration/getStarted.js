@@ -20,25 +20,25 @@ class GetStarted extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/bg-login.png')}
+              source={require('../../../images/bg-login.png')}
               style={styles.bgLogin} />
             <View>
               <Image
                 resizeMode='cover'
-                source={require('../../images/logo.png')}
+                source={require('../../../images/logo.png')}
                 style={styles.logo} />
             </View>
             <View style={styles.fields}>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step1' })}>
                 <Image
                   resizeMode='contain'
-                  source={require('../../images/btn-getstarted.png')}
+                  source={require('../../../images/btn-getstarted.png')}
                   style={styles.btnGetStarted} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Login' })}>
                 <Image
                   resizeMode='contain'
-                  source={require('../../images/btn-login.png')}
+                  source={require('../../../images/btn-login.png')}
                   style={styles.btnLogin} />
               </TouchableOpacity>
             </View>

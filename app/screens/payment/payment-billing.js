@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -67,7 +67,7 @@ class Billing extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
                   <Image
-                    source={require('../../images/btn-next-big.png')}
+                    source={require('../../../images/btn-next-big.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>

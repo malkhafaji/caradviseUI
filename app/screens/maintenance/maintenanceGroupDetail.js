@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -74,7 +74,7 @@ var Service = React.createClass({
             <View style={styles.fairPriceRange}>
               <Text style={styles.fairPrice}>${Number(this.props.service.low_fair_cost).toFixed(0)}</Text>
               <Image
-                source={require('../../images/arrow-range.png')}
+                source={require('../../../images/arrow-range.png')}
                 style={styles.fairPriceArrow} />
               <Text style={styles.fairPrice}>${Number(this.props.service.high_fair_cost).toFixed(0)}</Text>
             </View>

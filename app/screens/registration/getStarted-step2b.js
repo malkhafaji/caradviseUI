@@ -13,9 +13,9 @@ import {
   ScrollView,
   Alert
 } from 'react-native';
-import cache from '../utils/cache';
-import { getJSON } from '../utils/fetch';
-import storage from '../utils/storage';
+import cache from '../../utils/cache';
+import { getJSON } from '../../utils/fetch';
+import storage from '../../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
 const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/search_by_vin';
@@ -38,13 +38,13 @@ class Step2b extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../images/bg-login.png')}
+              source={require('../../../images/bg-login.png')}
               style={styles.bgSteps} />
 
             <View>
               <Image
                 resizeMode="contain"
-                source={require('../../images/logo.png')}
+                source={require('../../../images/logo.png')}
                 style={styles.logo} />
             </View>
 
@@ -68,13 +68,13 @@ class Step2b extends Component {
                   }}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-back-white.png')}
+                    source={require('../../../images/btn-back-white.png')}
                     style={styles.btnBack} />
                 </TouchableOpacity>
                 <TouchableOpacity disabled={this.state.isLoading} onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../images/btn-next.png')}
+                    source={require('../../../images/btn-next.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>

@@ -26,25 +26,25 @@ class Intro extends Component {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={require('../../images/intro-step1.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step1.png')} style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../images/intro-step2.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step2.png')} style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../images/intro-step3.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step3.png')} style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../images/intro-step4.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step4.png')} style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../images/intro-step5.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step5.png')} style={styles.page}>
           {this._renderTopSection()}
           <View style={styles.sectionBottom}>
             <TouchableOpacity style={styles.btnGetStarted} onPress={() => {
               this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'Step1' });
             }}>
-              <Image source={require('../../images/btn-getstarted-blue.png')} style={styles.getStarted} />
+              <Image source={require('../../../images/btn-getstarted-blue.png')} style={styles.getStarted} />
             </TouchableOpacity>
           </View>
         </Image>
@@ -56,7 +56,7 @@ class Intro extends Component {
     return (
       <View style={styles.section}>
         <TouchableOpacity onPress={() => this.props.navigator.pop()} style={styles.closeButton}>
-          <Image source={require('../../images/icon-close-blue.png')} style={styles.close} />
+          <Image source={require('../../../images/icon-close-blue.png')} style={styles.close} />
         </TouchableOpacity>
       </View>
     );

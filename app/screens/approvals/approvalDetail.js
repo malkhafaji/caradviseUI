@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -201,7 +201,7 @@ class ApprovalDetail extends Component {
                     <View style={styles.fairPriceRange}>
                       <Text style={styles.fairPrice}>${this.state.fairLow.toFixed(0)}</Text>
                       <Image
-                        source={require('../../images/arrow-range.png')}
+                        source={require('../../../images/arrow-range.png')}
                         style={styles.fairPriceArrow} />
                       <Text style={styles.fairPrice}>${this.state.fairHigh.toFixed(0)}</Text>
                     </View>
@@ -248,7 +248,7 @@ var Part = React.createClass({
             <View style={styles.fairPriceRange}>
               <Text style={styles.fairPrice}>${this.props.partLow.toFixed(0)}</Text>
               <Image
-                source={require('../../images/arrow-range.png')}
+                source={require('../../../images/arrow-range.png')}
                 style={styles.fairPriceArrow} />
               <Text style={styles.fairPrice}>${this.props.partHigh.toFixed(0)}</Text>
             </View>

@@ -1,6 +1,6 @@
 'use strict';
-var TopBar = require('../components/main/topBar');
-var CarBar = require('../components/main/carBar');
+var TopBar = require('../../components/main/topBar');
+var CarBar = require('../../components/main/carBar');
 
 import React from 'react';
 import {
@@ -83,8 +83,8 @@ class CreditCard extends Component {
                   label='SAVE PAYMENT METHOD'
                   labelStyle={styles.check}
                   checked={this.state.savePaymentMethod}
-                  checkedImage={require('../../images/icon-checked-gray.png')}
-                  uncheckedImage={require('../../images/icon-uncheck-gray.png')}
+                  checkedImage={require('../../../images/icon-checked-gray.png')}
+                  uncheckedImage={require('../../../images/icon-uncheck-gray.png')}
                   onChange={(savePaymentMethod) => this.setState({savePaymentMethod})}
                 />
               </View>
@@ -92,7 +92,7 @@ class CreditCard extends Component {
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'PaymentConfirm', passProps:{amount:this.state.amount, cardNumber:this.state.cardNumber, expMonth:this.state.expMonth, expYear:this.state.expYear, cvv:this.state.cvv, savePaymentMethod:this.state.savePaymentMethod} })}>
                   <Image
-                    source={require('../../images/btn-next-big.png')}
+                    source={require('../../../images/btn-next-big.png')}
                     style={styles.btnCheckout} />
                 </TouchableOpacity>
               </View>
