@@ -28,7 +28,7 @@ render() {
         <TopBar navigator={this.props.navigator} />
         <CarBar />
         <ScrollView
-          style={styles.scrollView}>
+          style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
         <View style={styles.container}>
 
           <Text style={styles.textHd}>Find a Shop</Text>
