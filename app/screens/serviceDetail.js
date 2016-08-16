@@ -26,9 +26,64 @@ class ServiceDetail extends Component {
       this.state = {
         id: passProps.category,
         name:passProps.name,
-        lowCost:Number(passProps.lowCost).toFixed(0),
-        highCost:Number(passProps.highCost).toFixed(0)
+        whatIsIt:passProps.whatIsIt,
+        whyDoThis:passProps.whyDoThis,
+        whatIf:passProps.whatIf,
+        factors:passProps.factors,
       };
+    }
+
+    renderWhat()
+    {
+        if (this.state.whatIsIt) {
+            return (
+              <View>
+                <Text style={styles.textHd}>What is it?</Text>
+                <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.whatIsIt}</Text></View></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderWhy()
+    {
+        if (this.state.whyDoThis) {
+            return (
+              <View>
+              <Text style={styles.textHd}>Why do this?</Text>
+              <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.whyDoThis}</Text></View></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderWhatIf()
+    {
+        if (this.state.whatIf) {
+            return (
+              <View>
+              <Text style={styles.textHd}>What if I decline?</Text>
+              <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.whatIf}</Text></View></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderFactors()
+    {
+        if (this.state.factors) {
+            return (
+              <View>
+              <Text style={styles.textHd}>Factors to consider</Text>
+              <View style={styles.whatContainer}><View style={styles.whatTxtContainer}><Text style={styles.whatTxt}>{this.state.factors}</Text></View></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
     }
 
     render() {
@@ -50,11 +105,11 @@ class ServiceDetail extends Component {
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                       <View style={styles.fairPriceRange}>
-                        <Text>${this.state.lowCost}</Text>
+                        <Text style={styles.fairPrice}>${this.state.lowCost}</Text>
                         <Image
                           source={require('../../images/arrow-range.png')}
                           style={styles.fairPriceArrow} />
-                        <Text>${this.state.highCost}</Text>
+                        <Text style={styles.fairPrice}>${this.state.highCost}</Text>
                       </View>
                     </View>
 
@@ -69,6 +124,11 @@ class ServiceDetail extends Component {
                     style={styles.btnAdd} />
                 </TouchableOpacity>
               </View>
+
+              {this.renderWhat()}
+              {this.renderWhy()}
+              {this.renderWhatIf()}
+              {this.renderFactors()}
 
             </View>
             </ScrollView>
@@ -94,10 +154,13 @@ var styles = StyleSheet.create({
     marginBottom: 200,
   },
   textHd: {
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#666666',
+    color: '#006699',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center'
   },
   serviceList: {
     flexDirection: 'column',
@@ -117,7 +180,7 @@ var styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#11325F',
+    color: '#006699',
     alignItems: 'center',
   },
   fairPriceContainer: {
@@ -140,7 +203,7 @@ var styles = StyleSheet.create({
   },
   servicePrice: {
     textAlign: 'right',
-    color: '#11325F',
+    color: '#006699',
     fontWeight: 'bold',
   },
   serviceRange: {
@@ -163,6 +226,10 @@ var styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 2,
   },
+  fairPrice: {
+    color: '#006699',
+    fontWeight: 'bold',
+  },
   serviceDescContainer: {
     backgroundColor: '#EFEFEF',
     width: Dimensions.get('window').width,
@@ -178,6 +245,20 @@ var styles = StyleSheet.create({
     width: 300,
     height: 40,
     marginTop: 15,
+  },
+  whatContainer: {
+    backgroundColor: '#EFEFEF',
+    width: width,
+  },
+  whatTxtContainer: {
+    margin: 5,
+    backgroundColor: '#FFF',
+  },
+  whatTxt: {
+    backgroundColor: '#FFF',
+    margin: 10,
+    color: '#006699',
+    fontSize: 12,
   },
 });
 

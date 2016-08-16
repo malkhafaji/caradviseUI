@@ -18,13 +18,14 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/services/service_hierarchy';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/services/motor_service_hierarchy';
 
 class AddServices extends Component {
 
     constructor(props) {
       super(props);
       var category = this.props.navigator._navigationContext._currentRoute.passProps ? this.props.navigator._navigationContext._currentRoute.passProps.category : null;
+      var level = this.props.navigator._navigationContext._currentRoute.passProps ? this.props.navigator._navigationContext._currentRoute.passProps.level : null;
       this.state = {
         category: category,
         services:null,
@@ -53,7 +54,6 @@ class AddServices extends Component {
     }
 
     render() {
-
       if (!this.state.services) {
         return this.renderLoadingView();
       }
@@ -76,7 +76,7 @@ class AddServices extends Component {
             <CarBar />
             <ScrollView>
             <View style={styles.servicesContainer}>
-              <Text style={styles.textHd}>Select Maintenance</Text>
+              <Text style={styles.textHd}>Select Service</Text>
               {services.map(this.createServiceRow)}
             </View>
             </ScrollView>
@@ -92,10 +92,20 @@ var Service = React.createClass({
     return false;
   },
   render: function() {
-    var indent = this.props.service.parent_id == null ? 'AddServices' : 'ServiceDetail';
+    //var indent = this.props.level != 4 ? 'AddServices' : 'ServiceDetail';
     return (
-      <TouchableOpacity style={styles.servicesList} onPress={() => this.props.nav.push({ indent:indent, passProps:{category:this.props.service.id, name:this.props.service.name, lowCost:this.props.service.procedure.lowCost, highCost:this.props.service.procedure.highCost}})}>
-        <Text style={styles.servicesItem}>{this.props.service.name}</Text>
+      <TouchableOpacity
+        style={styles.servicesList}
+        onPress={() => this.props.nav.push({ indent:'ServiceDetail',
+          passProps:{
+            category:this.props.service.system_description,
+            name:this.props.service.literal_name,
+            whatIsIt:this.props.service.what_is_it,
+            whatIf:this.props.service.what_if_decline,
+            whyDoThis:this.props.service.why_do_this,
+            factors:this.props.service.factors_to_consider,
+          }})}>
+        <Text style={styles.servicesItem}>{this.props.service.literal_name}</Text>
         <View style={styles.arrowContainer}>
           <Text style={styles.arrow}>
             <Image
@@ -121,8 +131,11 @@ var styles = StyleSheet.create({
   textHd: {
     fontSize: 16,
     marginTop: 15,
-    marginBottom: 5,
-    color: '#666666',
+    marginBottom: 8,
+    color: '#006699',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center'
   },
   servicesList: {
     flex: 1,
@@ -134,8 +147,8 @@ var styles = StyleSheet.create({
   },
   servicesItem: {
     flex: 3,
-    color: '#11325F',
-    fontSize: 18,
+    color: '#006699',
+    fontSize: 16,
     fontWeight: 'bold',
   },
   arrowContainer: {
