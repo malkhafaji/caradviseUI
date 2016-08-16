@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  ScrollView
+  ScrollView,
+  MapView
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -21,6 +22,18 @@ var fldWidth = Dimensions.get('window').width - 100;
 var width = Dimensions.get('window').width - 20;
 
 class ShopDetail extends Component {
+
+constructor(props) {
+  super(props);
+  this.state = {
+    region: {
+      latitude: 42.0464058,
+      longitude: -88.0987167,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
+  };
+}
 
 render() {
     return (
@@ -33,16 +46,16 @@ render() {
 
           <Text style={styles.textHd}>Shop Detail</Text>
 
-          <Image
-            source={require('../../../images/map.png')}
-            style={styles.map} />
+          <MapView style={styles.map}
+            region={this.state.region}
+          />
 
           <View style={styles.shopInfoContainer}>
             <Text style={styles.shopInfo}><Text style={styles.textBig}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine, IL 60011{'\n'}Hours: 7am-6pm</Text>
           </View>
 
           <View style={styles.bookShop}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'RequestSubmitted' })}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ServiceRequest' })}>
               <Image
                 source={require('../../../images/btn-bookshop.png')}
                 style={styles.btnBook} />
