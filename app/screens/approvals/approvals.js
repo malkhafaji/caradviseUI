@@ -130,7 +130,7 @@ class Approvals extends Component {
       });
 
       if (this.state.orderStatus == 0 && unapprovedTotal == 0 && approvedTotal != 0) {
-        Alert.alert('Alert','All work has been approved. You will be notified as soon as work has been completed by the shop.');
+        Alert.alert('Hey there!','All work has been approved. You will be notified as soon as work has been completed by the shop.');
       }
     }
 
