@@ -68,12 +68,18 @@ renderLoadingView() {
   );
 }
 
+filterMaintenanceServices(service)
+{
+  return (service.status == 0 && service.service_type == 'Service');
+}
+
 filterSavedServices(service)
 {
   return service.status == 2;
 }
 
-renderServices(services,nav) {
+renderServices(services) {
+    var maintenanceServices = services.filter(this.filterMaintenanceServices.bind(this));
     var savedServices = services.filter(this.filterSavedServices.bind(this));
     return (
 
@@ -106,32 +112,7 @@ renderServices(services,nav) {
           </View>
 
           <Text style={styles.textHd}>Recommended Services (45000 miles)</Text>
-          <View style={styles.serviceRow}>
-            <Text style={styles.serviceItem}>Tire Rotation</Text>
-            <View style={styles.fairPriceContainer}>
-              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-              <View style={styles.fairPriceRange}>
-                <Text style={styles.fairPrice}>$30</Text>
-                <Image
-                  source={require('../../../images/arrow-range.png')}
-                  style={styles.fairPriceArrow} />
-                <Text style={styles.fairPrice}>$50</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.serviceRow}>
-            <Text style={styles.serviceItem}>Cabin Air Filter R&R</Text>
-            <View style={styles.fairPriceContainer}>
-              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-              <View style={styles.fairPriceRange}>
-                <Text style={styles.fairPrice}>$30</Text>
-                <Image
-                  source={require('../../../images/arrow-range.png')}
-                  style={styles.fairPriceArrow} />
-                <Text style={styles.fairPrice}>$50</Text>
-              </View>
-            </View>
-          </View>
+          {maintenanceServices.map(createServiceRow)}
 
           <Text style={styles.textHd}>Saved Services</Text>
           {savedServices.map(createServiceRow)}
@@ -143,6 +124,12 @@ renderServices(services,nav) {
                 style={styles.btnAddService} />
             </TouchableOpacity>
           </View>
+
+          <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'RequestSubmitted' })}>
+            <Image
+              source={require('../../../images/btn-submitServiceRequest.png')}
+              style={styles.btnRequest} />
+          </TouchableOpacity>
 
         </View>
         </ScrollView>
@@ -239,10 +226,12 @@ var styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
     width: width,
     marginBottom: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   serviceItem: {
     flex: 5,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
@@ -283,6 +272,12 @@ var styles = StyleSheet.create({
     width: 110,
     height: 10,
     margin: 20,
+  },
+  btnRequest: {
+    width: width,
+    height: 46,
+    marginTop: 10,
+    marginBottom: 100,
   },
   bookIt: {
     alignItems: 'center',
