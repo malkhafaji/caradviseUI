@@ -106,6 +106,7 @@ renderServices(services) {
           <View style={styles.selectShop}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
               <Image
+                resizeMode={'contain'}
                 source={require('../../../images/btn-selectshop.png')}
                 style={styles.btnSelectShop} />
             </TouchableOpacity>
@@ -147,22 +148,33 @@ var Service = React.createClass({
 },
 render: function() {
 return (
-  <TouchableOpacity
-    onPress={() => this.props.navigator.push({ indent:'ServiceRequestDetail' })}>
+
     <View style={styles.serviceRow}>
-      <Text style={styles.serviceItem}>{this.props.service.name}</Text>
-      <View style={styles.fairPriceContainer}>
-        <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-        <View style={styles.fairPriceRange}>
-          <Text style={styles.fairPrice}>${Number(this.props.service.low_fair_cost).toFixed(0)}</Text>
+
+      <TouchableOpacity style={styles.serviceContainer}>
+          <Text style={styles.serviceItem}>{this.props.service.name}</Text>
+          <View style={styles.fairPriceContainer}>
+            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fairPrice}>${Number(this.props.service.low_fair_cost).toFixed(0)}</Text>
+              <Image
+                source={require('../../../images/arrow-range.png')}
+                style={styles.fairPriceArrow} />
+              <Text style={styles.fairPrice}>${Number(this.props.service.high_fair_cost).toFixed(0)}</Text>
+            </View>
+          </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <View style={styles.deleteContainer}>
           <Image
-            source={require('../../../images/arrow-range.png')}
-            style={styles.fairPriceArrow} />
-          <Text style={styles.fairPrice}>${Number(this.props.service.high_fair_cost).toFixed(0)}</Text>
+            source={require('../../../images/btn-delete.png')}
+            style={styles.btnDelete} />
         </View>
-      </View>
+      </TouchableOpacity>
+
     </View>
-  </TouchableOpacity>
+
 );
 }
 });
@@ -229,6 +241,12 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  serviceContainer: {
+    flex: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   serviceItem: {
     flex: 5,
     marginTop: 10,
@@ -264,6 +282,16 @@ var styles = StyleSheet.create({
   fairPrice: {
     color: '#006699',
     fontWeight: 'bold',
+  },
+  deleteContainer: {
+    flex: 1,
+  },
+  btnDelete: {
+    width: 15,
+    height: 15,
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 10,
   },
   rowAddService: {
     alignItems: 'center',
