@@ -97,6 +97,13 @@ class CreditCard extends Component {
                 </TouchableOpacity>
               </View>
 
+              <View style={styles.braintreeBadgeContainer}>
+                  <Image
+                    resizeMode={'contain'}
+                    source={require('../../../images/braintree-badge.png')}
+                    style={styles.braintreeBadge} />
+              </View>
+
             </View>
             </ScrollView>
           </View>
@@ -163,6 +170,16 @@ var styles = StyleSheet.create({
     width: 300,
     height: 40,
     marginTop: 20,
+  },
+  braintreeBadgeContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#EFEFEF',
+  },
+  braintreeBadge: {
+    width: 200,
+    marginLeft: 3,
   },
 });
 
