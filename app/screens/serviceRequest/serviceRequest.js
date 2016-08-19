@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import DatePicker from 'react-native-datepicker';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -28,6 +29,7 @@ constructor(props) {
     services:null,
     total:0,
     visible: false,
+    datetime: null,
   };
 }
 
@@ -151,6 +153,30 @@ renderServices(services) {
             </TouchableOpacity>
           </View>
 
+          <DatePicker
+            style={{width: 200}}
+            date={this.state.datetime}
+            mode="datetime"
+            placeholder="SELECT DATE & TIME"
+            format="MM-DD-YYYY HH:mm"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+              },
+              dateInput: {
+                marginLeft: 36,
+                borderColor: '#CCC',
+                borderWidth: 1,
+              }
+            }}
+            onDateChange={(datetime) => {this.setState({datetime: datetime});}}
+          />
+
           <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'RequestSubmitted' })}>
             <Image
               source={require('../../../images/btn-submitServiceRequest.png')}
@@ -200,8 +226,8 @@ return (
 
     </View>
 
-);
-}
+    );
+  }
 });
 
 
@@ -329,7 +355,7 @@ var styles = StyleSheet.create({
   btnRequest: {
     width: width,
     height: 46,
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 100,
   },
   bookIt: {
