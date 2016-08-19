@@ -121,7 +121,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   vehicle: {
-    height: 250,
+    height: 200,
     width: Dimensions.get('window').width,
     marginTop: 1,
     marginBottom: 20,
