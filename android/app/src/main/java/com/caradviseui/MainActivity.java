@@ -3,6 +3,7 @@ package com.caradviseui;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactActivity;
+import com.airbnb.android.react.maps.MapsPackage;
 import io.branch.rnbranch.*;
 import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactPackage;
@@ -46,6 +47,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new MapsPackage(),
             new RNBranchPackage(),
             new CAReactPackage(),
             new CodePush("vBEhXUki5-smzPpDObJHi8EkiOtQ4JbaYvpGb", this, BuildConfig.DEBUG)

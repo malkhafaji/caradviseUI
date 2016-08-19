@@ -18,6 +18,7 @@
 		29FF0BD61D496ABD00584274 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29FF0BD31D496ABD00584274 /* FBSDKCoreKit.framework */; };
 		29FF0BD71D496ABD00584274 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29FF0BD41D496ABD00584274 /* FBSDKLoginKit.framework */; };
 		29FF0BD81D496ABD00584274 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29FF0BD51D496ABD00584274 /* FBSDKShareKit.framework */; };
+		7A368FE4BB4C48E3B5D75879 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D18D18D52A94695B99FF78B /* libAirMaps.a */; };
 		88EF7FEC7DEA7E02C2D49AD7 /* libPods-caradviseui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4F99ACFCC337A9E26B8A0 /* libPods-caradviseui.a */; };
 		B022C3A71CF7474200A87895 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */; };
 		B022C3A81CF7474200A87895 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */; };
@@ -159,6 +160,13 @@
 			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
 			remoteInfo = RCTOneSignal;
 		};
+		29CA255D1D67399100843F7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604060A81FB943A4A3436C63 /* AirMaps.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
+			remoteInfo = AirMaps;
+		};
 		29DD341A1CF4B772005662E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */;
@@ -213,10 +221,12 @@
 		29FF0BD41D496ABD00584274 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		29FF0BD51D496ABD00584274 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		604060A81FB943A4A3436C63 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		6F62634BE84F4050B2601277 /* libRNBranch.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBranch.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7F1A7737AACDDE1B98F54BCE /* Pods-caradviseui.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-caradviseui.release.xcconfig"; path = "Pods/Target Support Files/Pods-caradviseui/Pods-caradviseui.release.xcconfig"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9D18D18D52A94695B99FF78B /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoCondensed-Bold.ttf"; path = "fonts/RobotoCondensed-Bold.ttf"; sourceTree = "<group>"; };
 		B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoCondensed-Light.ttf"; path = "fonts/RobotoCondensed-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -241,6 +251,7 @@
 				29FF0BD71D496ABD00584274 /* FBSDKLoginKit.framework in Frameworks */,
 				88EF7FEC7DEA7E02C2D49AD7 /* libPods-caradviseui.a in Frameworks */,
 				D6DB64285A544213B01493FB /* libRNBranch.a in Frameworks */,
+				7A368FE4BB4C48E3B5D75879 /* libAirMaps.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +405,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		29CA255A1D67399100843F7A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				29CA255E1D67399100843F7A /* libAirMaps.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		29DD34171CF4B771005662E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +446,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */,
 				007EAC523EC142EB8B0945BD /* RNBranch.xcodeproj */,
+				604060A81FB943A4A3436C63 /* AirMaps.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -553,6 +573,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 29CA255A1D67399100843F7A /* Products */;
+					ProjectRef = 604060A81FB943A4A3436C63 /* AirMaps.xcodeproj */;
+				},
 				{
 					ProductGroup = 29DD34171CF4B771005662E9 /* Products */;
 					ProjectRef = 3B29F670D9DB4145B8A10888 /* CodePush.xcodeproj */;
@@ -745,6 +769,13 @@
 			remoteRef = 299CD5041CFE418000BF7687 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		29CA255E1D67399100843F7A /* libAirMaps.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAirMaps.a;
+			remoteRef = 29CA255D1D67399100843F7A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		29DD341B1CF4B772005662E9 /* libCodePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -908,7 +939,10 @@
 				INFOPLIST_FILE = caradviseuiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarAdvise.app/CarAdvise";
 			};
@@ -926,7 +960,10 @@
 				INFOPLIST_FILE = caradviseuiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CarAdvise.app/CarAdvise";
 			};
@@ -956,6 +993,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
+					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 				);
 				INFOPLIST_FILE = caradviseui/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -994,6 +1032,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
+					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 				);
 				INFOPLIST_FILE = caradviseui/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1049,6 +1088,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
+					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1091,6 +1131,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-branch/RNBranch",
+					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

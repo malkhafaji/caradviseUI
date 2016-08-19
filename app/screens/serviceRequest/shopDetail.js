@@ -13,9 +13,9 @@ import {
   TextInput,
   Dimensions,
   ScrollView,
-  MapView
 } from 'react-native';
 import { connect } from 'react-redux';
+import MapView from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 var fldWidth = Dimensions.get('window').width - 100;
