@@ -115,10 +115,14 @@ renderServices(services) {
           </View>
 
           <Text style={styles.textHd}>Recommended Services (45000 miles)</Text>
-          {maintenanceServices.map(createServiceRow)}
+          {maintenanceServices.length ?
+            maintenanceServices.map(createServiceRow) :
+            <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No recommended services</Text></View></View>}
 
           <Text style={styles.textHd}>Saved Services</Text>
-          {savedServices.map(createServiceRow)}
+          {savedServices.length ?
+            savedServices.map(createServiceRow) :
+            <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No saved services</Text></View></View>}
 
           <Text style={styles.textHd}>Added Services</Text>
           <View style={styles.serviceRow}>
@@ -198,7 +202,7 @@ var Service = React.createClass({
   return false;
 },
 render: function() {
-return (
+  return (
 
     <View style={styles.serviceRow}>
 
@@ -333,6 +337,20 @@ var styles = StyleSheet.create({
   fairPrice: {
     color: '#006699',
     fontWeight: 'bold',
+  },
+  noServicesBg: {
+    width: width,
+    backgroundColor: '#EFEFEF',
+    marginBottom: 2,
+  },
+  noServicesContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  noServices: {
+    color: '#006699',
+    width: width,
+    textAlign: 'center',
   },
   deleteContainer: {
     flex: 1,
