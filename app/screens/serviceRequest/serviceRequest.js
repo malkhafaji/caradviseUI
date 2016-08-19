@@ -118,6 +118,31 @@ renderServices(services) {
           <Text style={styles.textHd}>Saved Services</Text>
           {savedServices.map(createServiceRow)}
 
+          <Text style={styles.textHd}>Added Services</Text>
+          <View style={styles.serviceRow}>
+            <TouchableOpacity style={styles.serviceContainer}>
+                <Text style={styles.serviceItem}>Oil Change - Synthetic Blend</Text>
+                <View style={styles.fairPriceContainer}>
+                  <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                  <View style={styles.fairPriceRange}>
+                    <Text style={styles.fairPrice}>$30</Text>
+                    <Image
+                      source={require('../../../images/arrow-range.png')}
+                      style={styles.fairPriceArrow} />
+                    <Text style={styles.fairPrice}>$50</Text>
+                  </View>
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <View style={styles.deleteContainer}>
+                <Image
+                  source={require('../../../images/btn-delete.png')}
+                  style={styles.btnDelete} />
+              </View>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.rowAddService}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
               <Image
