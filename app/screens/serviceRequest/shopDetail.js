@@ -51,7 +51,7 @@ render() {
           />
 
           <View style={styles.shopInfoContainer}>
-            <Text style={styles.shopInfo}><Text style={styles.textBig}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine, IL 60011{'\n'}Hours: 7am-6pm</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBig}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine, IL 60011</Text>
           </View>
 
           <View style={styles.bookShop}>
