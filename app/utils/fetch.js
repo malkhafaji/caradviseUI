@@ -27,14 +27,14 @@ export async function getJSON(url, params={}, headers={}) {
   }
 }
 
-export async function postJSON(url, data={}) {
+export async function postJSON(url, data={}, headers={}) {
   try {
     let response = await fetch(url, {
       method: 'POST',
-      headers: {
+      headers: Object.assign({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      },
+      }, headers),
       body: JSON.stringify(data)
     });
 

@@ -15,6 +15,8 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { findLastIndex } from 'lodash';
+import cache from '../utils/cache';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -30,6 +32,7 @@ class ServiceDetail extends Component {
         whyDoThis:passProps.whyDoThis,
         whatIf:passProps.whatIf,
         factors:passProps.factors,
+        service:passProps.service
       };
     }
 
@@ -86,6 +89,19 @@ class ServiceDetail extends Component {
         }
     }
 
+    addService() {
+      const fields = cache.get('serviceRequest-fields');
+      if (!fields) return;
+
+      fields.services.push({ ...this.state.service, status: 'ADDED' });
+      cache.set('serviceRequest-fields', fields);
+
+      const route = { indent: 'ServiceRequest' };
+      const routes = this.props.navigator.getCurrentRoutes();
+      this.props.navigator.replaceAtIndex(route, findLastIndex(routes, route));
+      this.props.navigator.popToRoute(route);
+    }
+
     render() {
         return (
           <View style={styles.base}>
@@ -118,7 +134,7 @@ class ServiceDetail extends Component {
               </View>
 
               <View style={styles.approveDecline}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.addService()}>
                   <Image
                     source={require('../../images/btn-add.png')}
                     style={styles.btnAdd} />

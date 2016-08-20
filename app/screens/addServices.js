@@ -15,6 +15,7 @@ import {
   ScrollView
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import cache from '../utils/cache';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -37,9 +38,19 @@ class AddServices extends Component {
       this.getServices();
     }
 
+    isAlreadyAdded(service) {
+      if (!this.addedServiceIds) {
+        this.addedServiceIds = (cache.get('serviceRequest-fields') || {}).services || [];
+        this.addedServiceIds = this.addedServiceIds.filter(({ status }) => status === 'ADDED')
+                                                   .map(({ id }) => id);
+      }
+
+      return this.addedServiceIds.includes(service.id);
+    }
+
     filterServices(service)
     {
-      return service.parent_id == this.state.category;
+      return service.parent_id == this.state.category && !this.isAlreadyAdded(service);
     }
 
     getServices() {
@@ -104,6 +115,7 @@ var Service = React.createClass({
             whatIf:this.props.service.what_if_decline,
             whyDoThis:this.props.service.why_do_this,
             factors:this.props.service.factors_to_consider,
+            service:this.props.service
           }})}>
         <Text style={styles.servicesItem}>{this.props.service.literal_name}</Text>
         <View style={styles.arrowContainer}>

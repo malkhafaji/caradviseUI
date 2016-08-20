@@ -11,30 +11,49 @@ import {
   Component,
   TouchableOpacity,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-datepicker';
+import cache from '../../utils/cache';
+import { postJSON } from '../../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/?/services';
+var CREATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/?/create_order_by_app';
 
 class ServiceRequest extends Component {
 
 constructor(props) {
   super(props);
-  this.state = {
+  this.state = Object.assign({
+    shop:null,
     services:null,
     total:0,
     visible: false,
     datetime: null,
-  };
+  }, cache.get('serviceRequest-fields') || {});
+
+  this.removeService = this.removeService.bind(this);
+  this.createServiceRow = this.createServiceRow.bind(this);
 }
 
 componentDidMount() {
-  this.getMaintenance();
+  if (this.state.services === null)
+    this.getMaintenance();
+}
+
+componentDidUpdate() {
+  cache.set('serviceRequest-fields', this.state);
+}
+
+removeService(service) {
+  const services = [...this.state.services];
+  services.splice(services.indexOf(service), 1);
+  this.setState({ services });
 }
 
 getMaintenance() {
@@ -79,9 +98,35 @@ filterSavedServices(service)
   return service.status == 2;
 }
 
+filterAddedServices(service)
+{
+  return service.status == 'ADDED';
+}
+
+async createOrder()
+{
+  let response = await postJSON(
+    CREATE_ORDER_URL.replace('?', this.props.vehicleId),
+    {
+      shop_id: this.state.shop.id,
+      services: this.state.services.map(({ id }) => id),
+      appointment_datetime: this.state.datetime
+    },
+    { 'Authorization': this.props.authentication_token }
+  )
+
+  if (response.error) {
+    Alert.alert('Error', response.error);
+  } else {
+    cache.remove('serviceRequest-fields');
+    this.props.navigator.push({ indent:'RequestSubmitted' })
+  }
+}
+
 renderServices(services) {
     var maintenanceServices = services.filter(this.filterMaintenanceServices.bind(this));
     var savedServices = services.filter(this.filterSavedServices.bind(this));
+    var addedServices = services.filter(this.filterAddedServices.bind(this));
     return (
 
       <View style={styles.base}>
@@ -93,8 +138,9 @@ renderServices(services) {
 
           <Text style={styles.textHd}>Service Request</Text>
 
+          {this.state.shop &&
           <View style={styles.selectedShop}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>{this.state.shop.name}</Text>{'\n'}{this.state.shop.address}</Text>
             <View style={styles.changeContainer}>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
                 <Image
@@ -102,7 +148,7 @@ renderServices(services) {
                   style={styles.btnChange} />
               </TouchableOpacity>
             </View>
-          </View>
+          </View>}
 
           <View style={styles.selectShop}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
@@ -113,40 +159,20 @@ renderServices(services) {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.textHd}>Recommended Services (45000 miles)</Text>
+          <Text style={styles.textHd}>Recommended Services ({this.props.miles} miles)</Text>
           {maintenanceServices.length ?
-            maintenanceServices.map(createServiceRow) :
+            maintenanceServices.map(this.createServiceRow) :
             <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No recommended services</Text></View></View>}
 
           <Text style={styles.textHd}>Saved Services</Text>
           {savedServices.length ?
-            savedServices.map(createServiceRow) :
+            savedServices.map(this.createServiceRow) :
             <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No saved services</Text></View></View>}
 
           <Text style={styles.textHd}>Added Services</Text>
-          <View style={styles.serviceRow}>
-            <TouchableOpacity style={styles.serviceContainer}>
-                <Text style={styles.serviceItem}>Oil Change - Synthetic Blend</Text>
-                <View style={styles.fairPriceContainer}>
-                  <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                  <View style={styles.fairPriceRange}>
-                    <Text style={styles.fairPrice}>$30</Text>
-                    <Image
-                      source={require('../../../images/arrow-range.png')}
-                      style={styles.fairPriceArrow} />
-                    <Text style={styles.fairPrice}>$50</Text>
-                  </View>
-                </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <View style={styles.deleteContainer}>
-                <Image
-                  source={require('../../../images/btn-delete.png')}
-                  style={styles.btnDelete} />
-              </View>
-            </TouchableOpacity>
-          </View>
+          {addedServices.length ?
+            addedServices.map(this.createServiceRow) :
+            <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No added services</Text></View></View>}
 
           <View style={styles.rowAddService}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
@@ -180,11 +206,12 @@ renderServices(services) {
             onDateChange={(datetime) => {this.setState({datetime: datetime});}}
           />
 
-          <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'RequestSubmitted' })}>
+          {this.state.shop && this.state.services && this.state.datetime &&
+          <TouchableOpacity onPress={() => this.createOrder()}>
             <Image
               source={require('../../../images/btn-submitServiceRequest.png')}
               style={styles.btnRequest} />
-          </TouchableOpacity>
+          </TouchableOpacity>}
 
         </View>
         </ScrollView>
@@ -192,9 +219,12 @@ renderServices(services) {
 
     );
 }
+
+createServiceRow(service, i) {
+  return <Service key={service.id} service={service} navigator={this.props.navigator} onRemove={this.removeService} />;
 }
 
-var createServiceRow = (service, i) => <Service key={i} service={service} />;
+}
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
@@ -210,10 +240,23 @@ render: function() {
         onPress={() => this.props.navigator.push({ indent:'ServiceRequestDetail',
           passProps:{
             name:this.props.service.name,
+            fairLow:this.props.service.low_fair_cost,
+            fairHigh:this.props.service.high_fair_cost,
+            time:this.props.service.base_labor_time,
+            timeInterval:this.props.service.labor_time_interval,
+            intervalMile:this.props.service.interval_mile,
+            intervalMonth:this.props.service.interval_month,
+            laborLow:this.props.service.labor_low_cost,
+            laborHigh:this.props.service.labor_high_cost,
+            partLow:this.props.service.part_low_cost,
+            partHigh:this.props.service.part_high_cost,
             whatIsIt:this.props.service.what_is_it,
             whatIf:this.props.service.what_if_decline,
             whyDoThis:this.props.service.why_do_this,
             factors:this.props.service.factors_to_consider,
+            parts:this.props.service.motor_vehicle_service_parts,
+            partDetail:'',
+            partName:''
           }})}>
           <Text style={styles.serviceItem}>{this.props.service.name}</Text>
           <View style={styles.fairPriceContainer}>
@@ -228,7 +271,7 @@ render: function() {
           </View>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => this.props.onRemove(this.props.service)}>
         <View style={styles.deleteContainer}>
           <Image
             source={require('../../../images/btn-delete.png')}
@@ -250,13 +293,14 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   container: {
     flexDirection: 'column',
     width: width,
     alignItems: 'center',
+    paddingBottom: 50
   },
   textHd: {
     fontSize: 16,
@@ -382,7 +426,7 @@ var styles = StyleSheet.create({
     width: width,
     height: 46,
     marginTop: 20,
-    marginBottom: 100,
+    marginBottom: 50,
   },
   bookIt: {
     alignItems: 'center',

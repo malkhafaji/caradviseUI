@@ -17,6 +17,8 @@ import {
 import { connect } from 'react-redux';
 import MapView from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { findLastIndex } from 'lodash';
+import cache from '../../utils/cache';
 
 var fldWidth = Dimensions.get('window').width - 100;
 var width = Dimensions.get('window').width - 20;
@@ -26,6 +28,9 @@ class ShopDetail extends Component {
 constructor(props) {
   super(props);
   this.state = {
+    id: 1,
+    name: 'JIFFY LUBE',
+    address: '1217 Main St. Palatine, IL 60011',
     region: {
       latitude: 42.0464058,
       longitude: -88.0987167,
@@ -33,6 +38,19 @@ constructor(props) {
       longitudeDelta: 0.0421,
     },
   };
+}
+
+bookShop() {
+  const fields = cache.get('serviceRequest-fields');
+  if (!fields) return;
+
+  fields.shop = { ...this.state };
+  cache.set('serviceRequest-fields', fields);
+
+  const route = { indent: 'ServiceRequest' };
+  const routes = this.props.navigator.getCurrentRoutes();
+  this.props.navigator.replaceAtIndex(route, findLastIndex(routes, route));
+  this.props.navigator.popToRoute(route);
 }
 
 render() {
@@ -51,11 +69,11 @@ render() {
           />
 
           <View style={styles.shopInfoContainer}>
-            <Text style={styles.shopInfo}><Text style={styles.textBig}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine, IL 60011</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBig}>{this.state.name}</Text>{'\n'}{this.state.address}</Text>
           </View>
 
           <View style={styles.bookShop}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ServiceRequest' })}>
+            <TouchableOpacity onPress={() => this.bookShop()}>
               <Image
                 source={require('../../../images/btn-bookshop.png')}
                 style={styles.btnBook} />
