@@ -150,6 +150,7 @@ renderServices(services) {
             </View>
           </View>}
 
+          {!this.state.shop &&
           <View style={styles.selectShop}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
               <Image
@@ -157,7 +158,7 @@ renderServices(services) {
                 source={require('../../../images/btn-selectshop.png')}
                 style={styles.btnSelectShop} />
             </TouchableOpacity>
-          </View>
+          </View>}
 
           <Text style={styles.textHd}>Recommended Services ({this.props.miles} miles)</Text>
           {maintenanceServices.length ?
