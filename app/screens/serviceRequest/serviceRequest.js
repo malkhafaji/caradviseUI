@@ -58,8 +58,7 @@ render() {
     return this.renderLoadingView();
   }
   var services = this.state.services;
-  var nav = this.props.navigator;
-  return this.renderServices(services,nav);
+  return this.renderServices(services);
 }
 
 renderLoadingView() {
@@ -206,7 +205,16 @@ render: function() {
 
     <View style={styles.serviceRow}>
 
-      <TouchableOpacity style={styles.serviceContainer}>
+      <TouchableOpacity
+        style={styles.serviceContainer}
+        onPress={() => this.props.navigator.push({ indent:'ServiceRequestDetail',
+          passProps:{
+            name:this.props.service.name,
+            whatIsIt:this.props.service.what_is_it,
+            whatIf:this.props.service.what_if_decline,
+            whyDoThis:this.props.service.why_do_this,
+            factors:this.props.service.factors_to_consider,
+          }})}>
           <Text style={styles.serviceItem}>{this.props.service.name}</Text>
           <View style={styles.fairPriceContainer}>
             <Text style={styles.fairPriceText}>FAIR PRICE</Text>
