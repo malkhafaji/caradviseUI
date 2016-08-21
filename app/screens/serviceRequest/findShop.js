@@ -16,11 +16,33 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ActivityIndicator from '../../components/activityIndicator';
+import { getJSON } from '../../utils/fetch';
 
 var fldWidth = Dimensions.get('window').width - 100;
 var width = Dimensions.get('window').width - 20;
 
+var FIND_SHOPS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/shops/shops_by_zip';
+
 class FindShop extends Component {
+
+constructor(props) {
+  super(props);
+  this.state = { zip: '', isLoading: false, shops: [] };
+}
+
+async fetchShops() {
+  this.setState({ isLoading: true, shops: [] });
+
+  let response = await getJSON(
+    FIND_SHOPS_URL,
+    { zip: this.state.zip },
+    { 'Authorization': this.props.authentication_token }
+  );
+
+  let shops = response.result ? response.result.shops : [];
+  this.setState({ shops, isLoading: false });
+}
 
 render() {
     return (
@@ -40,29 +62,25 @@ render() {
               placeholder={'ENTER ZIP CODE'}
               style={styles.searchFld}
               keyboardType={'phone-pad'}
-              placeholderTextColor={'#666'} />
-            <TouchableOpacity>
+              placeholderTextColor={'#666'}
+              value={this.state.zip}
+              onChangeText={zip => this.setState({ zip })} />
+            <TouchableOpacity onPress={() => this.fetchShops()}>
               <Image
                 source={require('../../../images/btn-submit-orange.png')}
                 style={styles.btnSubmit} />
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ShopDetail' })}>
-            <View style={styles.serviceRow}>
-              <Text style={styles.serviceItem}><Text style={styles.textBld}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ShopDetail' })}>
-            <View style={styles.serviceRow}>
-              <Text style={styles.serviceItem}><Text style={styles.textBld}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ShopDetail' })}>
-            <View style={styles.serviceRow}>
-              <Text style={styles.serviceItem}><Text style={styles.textBld}>JIFFY LUBE</Text>{'\n'}1217 Main St. Palatine</Text>
-            </View>
-          </TouchableOpacity>
+          {this.state.isLoading && <ActivityIndicator color="#006699" />}
+
+          {this.state.shops.map(shop => (
+            <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
+              <View style={styles.serviceRow}>
+                <Text style={styles.serviceItem}><Text style={styles.textBld}>{`${shop.name} - ${shop.city}`}</Text>{'\n'}{shop.address_label1}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
 
         </View>
         </ScrollView>

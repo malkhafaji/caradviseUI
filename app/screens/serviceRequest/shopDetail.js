@@ -27,17 +27,8 @@ class ShopDetail extends Component {
 
 constructor(props) {
   super(props);
-  this.state = {
-    id: 1,
-    name: 'JIFFY LUBE',
-    address: '1217 Main St. Palatine, IL 60011',
-    region: {
-      latitude: 42.0464058,
-      longitude: -88.0987167,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    },
-  };
+  var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
+  this.state = { ...passProps.shop };
 }
 
 bookShop() {
@@ -64,12 +55,12 @@ render() {
 
           <Text style={styles.textHd}>Shop Detail</Text>
 
-          <MapView style={styles.map}
-            region={this.state.region}
-          />
+          {this.state.region ?
+            <MapView style={styles.map} region={this.state.region} /> : null
+          }
 
           <View style={styles.shopInfoContainer}>
-            <Text style={styles.shopInfo}><Text style={styles.textBig}>{this.state.name}</Text>{'\n'}{this.state.address}</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBig}>{this.state.name}</Text>{'\n'}{`${this.state.address_label1} ${this.state.city}, ${this.state.state} ${this.state.zip}`}</Text>
           </View>
 
           <View style={styles.bookShop}>
