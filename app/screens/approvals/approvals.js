@@ -230,16 +230,16 @@ class Approvals extends Component {
 
     renderSubtotal()
     {
-        if (this.state.showTotals == false) {
+        if (this.state.total != '0.00') {
             return (
               <View>
                 <View style={styles.subtotalRow}>
                   <Text style={styles.subtotalItem}>Subtotal</Text>
                   <Text style={styles.subtotalPrice}>${this.state.total}</Text>
                 </View>
-                <View style={styles.checkoutMessageContainer}>
+                {/*<View style={styles.checkoutMessageContainer}>
                   <View style={styles.checkoutMessage}><Text style={styles.checkoutMessageTxt}>Once your order is complete, you will be able to proceed to checkout here.</Text></View>
-                </View>
+                </View>*/}
               </View>
             );
         } else {
