@@ -140,7 +140,7 @@ renderServices(services) {
 
           {this.state.shop &&
           <View style={styles.selectedShop}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>{this.state.shop.name}</Text>{'\n'}{`${this.state.shop.address_label1} ${this.state.shop.city}`}</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>{this.state.shop.name} - {this.state.shop.city}</Text>{'\n'}{`${this.state.shop.address_line1}`}</Text>
             <View style={styles.changeContainer}>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
                 <Image
