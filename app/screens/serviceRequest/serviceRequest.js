@@ -240,7 +240,7 @@ render: function() {
         style={styles.serviceContainer}
         onPress={() => this.props.navigator.push({ indent:'ServiceRequestDetail',
           passProps:{
-            name:this.props.service.name,
+            name:this.props.service.name || this.props.service.literal_name,
             fairLow:this.props.service.low_fair_cost,
             fairHigh:this.props.service.high_fair_cost,
             time:this.props.service.base_labor_time,
@@ -259,7 +259,8 @@ render: function() {
             partDetail:'',
             partName:''
           }})}>
-          <Text style={styles.serviceItem}>{this.props.service.name}</Text>
+          <Text style={styles.serviceItem}>{this.props.service.name || this.props.service.literal_name}</Text>
+          {this.props.service.low_fair_cost !== undefined && this.props.service.high_fair_cost !== undefined &&
           <View style={styles.fairPriceContainer}>
             <Text style={styles.fairPriceText}>FAIR PRICE</Text>
             <View style={styles.fairPriceRange}>
@@ -269,7 +270,7 @@ render: function() {
                 style={styles.fairPriceArrow} />
               <Text style={styles.fairPrice}>${Number(this.props.service.high_fair_cost).toFixed(0)}</Text>
             </View>
-          </View>
+          </View>}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => this.props.onRemove(this.props.service)}>

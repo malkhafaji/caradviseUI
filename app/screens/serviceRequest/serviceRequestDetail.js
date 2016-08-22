@@ -196,6 +196,7 @@ class ServiceRequestDetail extends Component {
                 <View style={styles.maintenanceRow}>
                   <Text style={styles.maintenanceItem}>{this.state.name} {this.state.position}</Text>
 
+                  {this.state.fairLow !== undefined && this.state.fairHigh !== undefined &&
                   <View style={styles.fairPriceContainer}>
                     <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                     <View style={styles.fairPriceRange}>
@@ -205,12 +206,13 @@ class ServiceRequestDetail extends Component {
                         style={styles.fairPriceArrow} />
                       <Text style={styles.fairPrice}>${this.state.fairHigh.toFixed(0)}</Text>
                     </View>
-                  </View>
+                  </View>}
 
                 </View>
+                {this.state.time !== undefined &&
                 <View style={styles.maintenanceTime}>
                   <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>{this.renderLabor()}TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
-                </View>
+                </View>}
               </View>
 
               {this.renderComments()}

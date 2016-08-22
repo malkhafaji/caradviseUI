@@ -118,6 +118,7 @@ class ServiceDetail extends Component {
                   <View style={styles.serviceRow}>
                     <Text style={styles.serviceItem}>{this.state.name}</Text>
 
+                    {this.state.lowCost !== undefined && this.state.highCost !== undefined &&
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                       <View style={styles.fairPriceRange}>
@@ -127,7 +128,7 @@ class ServiceDetail extends Component {
                           style={styles.fairPriceArrow} />
                         <Text style={styles.fairPrice}>${this.state.highCost}</Text>
                       </View>
-                    </View>
+                    </View>}
 
                   </View>
 
