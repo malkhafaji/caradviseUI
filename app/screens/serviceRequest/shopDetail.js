@@ -60,7 +60,7 @@ render() {
           }
 
           <View style={styles.shopInfoContainer}>
-            <Text style={styles.shopInfo}><Text style={styles.textBig}>{this.state.name}</Text>{'\n'}{`${this.state.address_label1} ${this.state.city}, ${this.state.state} ${this.state.zip}`}</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBig}>{this.state.name}</Text>{'\n'}{`${this.state.address_line1}`}{'\n'}{`${this.state.city}, ${this.state.state} ${this.state.zip}`}</Text>
           </View>
 
           <View style={styles.bookShop}>
