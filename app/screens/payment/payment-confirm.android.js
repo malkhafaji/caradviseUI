@@ -116,8 +116,8 @@ class PaymentConfirm extends Component {
     if (this.state.misc != 0) {
         return (
           <View style={styles.taxRow}>
-            <Text style={styles.taxItem}>Other Misc.</Text>
-            <Text style={styles.taxPrice}>${this.state.misc}</Text>
+            <Text style={styles.taxItem}>CarAdvise Discount</Text>
+            <Text style={styles.taxPrice}>-${this.state.misc}</Text>
           </View>
         );
     } else {
@@ -130,7 +130,7 @@ class PaymentConfirm extends Component {
     if (this.state.totalDiscount != 0) {
         return (
           <View style={styles.taxRow}>
-            <Text style={styles.taxItem}>Discount</Text>
+            <Text style={styles.taxItem}>Shop Discount</Text>
             <Text style={styles.taxPrice}>-${this.state.totalDiscount}</Text>
           </View>
         );

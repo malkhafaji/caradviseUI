@@ -205,8 +205,8 @@ class Approvals extends Component {
       if (this.state.misc != 0) {
           return (
             <View style={styles.extrasRow}>
-              <Text style={styles.extrasItem}>Other Misc.</Text>
-              <Text style={styles.extrasPrice}>${this.state.misc}</Text>
+              <Text style={styles.extrasItem}>CarAdvise Discount</Text>
+              <Text style={styles.extrasPrice}>-${this.state.misc}</Text>
             </View>
           );
       } else {
@@ -219,7 +219,7 @@ class Approvals extends Component {
       if (this.state.totalDiscount != 0) {
           return (
             <View style={styles.extrasRow}>
-              <Text style={styles.extrasItem}>Discount</Text>
+              <Text style={styles.extrasItem}>Shop Discount</Text>
               <Text style={styles.extrasPrice}>-${this.state.totalDiscount}</Text>
             </View>
           );
@@ -230,7 +230,7 @@ class Approvals extends Component {
 
     renderSubtotal()
     {
-        if (this.state.total != '0.00') {
+        if (this.state.showTotals == false) {
             return (
               <View>
                 <View style={styles.subtotalRow}>

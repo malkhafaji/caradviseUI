@@ -112,8 +112,8 @@ class PaymentThanks extends Component {
     if (this.state.misc != 0) {
         return (
           <View style={styles.taxRow}>
-            <Text style={styles.taxItem}>Other Misc.</Text>
-            <Text style={styles.taxPrice}>${this.state.misc}</Text>
+            <Text style={styles.taxItem}>CarAdvise Discount</Text>
+            <Text style={styles.taxPrice}>-${this.state.misc}</Text>
           </View>
         );
     } else {
