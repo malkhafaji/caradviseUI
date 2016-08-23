@@ -109,7 +109,7 @@ async createOrder()
     CREATE_ORDER_URL.replace('?', this.props.vehicleId),
     {
       shop_id: this.state.shop.id,
-      services: this.state.services.map(({ id }) => id),
+      services: this.state.services.map(({ motor_service_id, id }) => motor_service_id || id),
       appointment_datetime: this.state.datetime
     },
     { 'Authorization': this.props.authentication_token }
@@ -127,6 +127,7 @@ renderServices(services) {
     var maintenanceServices = services.filter(this.filterMaintenanceServices.bind(this));
     var savedServices = services.filter(this.filterSavedServices.bind(this));
     var addedServices = services.filter(this.filterAddedServices.bind(this));
+
     return (
 
       <View style={styles.base}>
