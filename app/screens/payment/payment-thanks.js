@@ -242,11 +242,13 @@ class PaymentThanks extends Component {
               </View>
 
               {services.map(this.createServiceRow)}
+
               <View style={styles.lineRow}><Text> </Text></View>
+
               {this.renderFees()}
               {this.renderMisc()}
               {this.renderDiscount()}
-              {this.updateOrderComplete(orderId)}
+
               <View style={styles.taxRow}>
                 <Text style={styles.taxItem}>Tax</Text>
                 <Text style={styles.taxPrice}>${this.state.taxAmount}</Text>
@@ -268,6 +270,8 @@ class PaymentThanks extends Component {
                     style={styles.btnDone} />
                 </TouchableOpacity>
               </View>
+
+              {this.updateOrderComplete(orderId)}
 
             </View>
             </ScrollView>
