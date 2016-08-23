@@ -126,7 +126,7 @@ class PaymentThanks extends Component {
     if (this.state.totalDiscount != 0) {
         return (
           <View style={styles.taxRow}>
-            <Text style={styles.taxItem}>Discount</Text>
+            <Text style={styles.taxItem}>Shop Discount</Text>
             <Text style={styles.taxPrice}>-${this.state.totalDiscount}</Text>
           </View>
         );
@@ -248,7 +248,7 @@ class PaymentThanks extends Component {
               {this.renderDiscount()}
               {this.updateOrderComplete(orderId)}
               <View style={styles.taxRow}>
-                <Text style={styles.taxItem}>Sales Tax</Text>
+                <Text style={styles.taxItem}>Tax</Text>
                 <Text style={styles.taxPrice}>${this.state.taxAmount}</Text>
               </View>
 
@@ -258,6 +258,8 @@ class PaymentThanks extends Component {
                 <Text style={styles.totalHd}>Total</Text>
                 <Text style={styles.totalAmount}>${this.state.finalTotal}</Text>
               </View>
+
+              <View style={styles.lineRow}><Text> </Text></View>
 
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.props.navigator.popToTop()}>
