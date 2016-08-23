@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../utils/cache';
+import { chain } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -25,17 +26,15 @@ class AddServices extends Component {
 
     constructor(props) {
       super(props);
-      var category = this.props.navigator._navigationContext._currentRoute.passProps ? this.props.navigator._navigationContext._currentRoute.passProps.category : null;
-      var level = this.props.navigator._navigationContext._currentRoute.passProps ? this.props.navigator._navigationContext._currentRoute.passProps.level : null;
+      var passProps = this.props.navigator._navigationContext._currentRoute.passProps || {};
       this.state = {
-        category: category,
-        services:null,
-        visible: false,
+        services: passProps.services || null
       };
     }
 
     componentDidMount() {
-      this.getServices();
+      if (!this.state.services)
+        this.getServices();
     }
 
     isAlreadyAdded(service) {
@@ -48,9 +47,27 @@ class AddServices extends Component {
       return this.addedServiceIds.includes(service.id);
     }
 
-    filterServices(service)
-    {
-      return service.parent_id == this.state.category && !this.isAlreadyAdded(service);
+    groupServices(services) {
+      return chain(services)
+        .filter(({ literal_name }) => !!literal_name)
+        .groupBy('system_description')
+        .map((services, system) => ({
+          literal_name: system,
+          services: chain(services)
+            .groupBy('group_description')
+            .map((services, group) => ({
+              literal_name: group,
+              services: chain(services)
+                .groupBy('sub_group_description')
+                .map((services, subGroup) => ({
+                  literal_name: subGroup,
+                  services: services.filter(service => !this.isAlreadyAdded(service))
+                }))
+                .value()
+            }))
+            .value()
+        }))
+        .value();
     }
 
     getServices() {
@@ -58,7 +75,7 @@ class AddServices extends Component {
         .then((response) => response.json())
         .then((responseData) => {
           this.setState({
-            services: responseData.services.filter(this.filterServices.bind(this)),
+            services: this.groupServices(responseData.services)
           });
         })
         .done();
@@ -103,20 +120,31 @@ var Service = React.createClass({
     return false;
   },
   render: function() {
-    //var indent = this.props.level != 4 ? 'AddServices' : 'ServiceDetail';
     return (
       <TouchableOpacity
         style={styles.servicesList}
-        onPress={() => this.props.nav.push({ indent:'ServiceDetail',
-          passProps:{
-            category:this.props.service.system_description,
-            name:this.props.service.literal_name,
-            whatIsIt:this.props.service.what_is_it,
-            whatIf:this.props.service.what_if_decline,
-            whyDoThis:this.props.service.why_do_this,
-            factors:this.props.service.factors_to_consider,
-            service:this.props.service
-          }})}>
+        onPress={() => {
+          if (this.props.service.services) {
+            this.props.nav.push({
+              indent: 'AddServices',
+              passProps: {
+                services: this.props.service.services
+              }
+            });
+          } else {
+            this.props.nav.push({
+              indent: 'ServiceDetail',
+              passProps: {
+                name:this.props.service.literal_name,
+                whatIsIt:this.props.service.what_is_it,
+                whatIf:this.props.service.what_if_decline,
+                whyDoThis:this.props.service.why_do_this,
+                factors:this.props.service.factors_to_consider,
+                service:this.props.service
+              }
+            });
+          }
+        }}>
         <Text style={styles.servicesItem}>{this.props.service.literal_name}</Text>
         <View style={styles.arrowContainer}>
           <Text style={styles.arrow}>
