@@ -69,6 +69,7 @@ class Main extends Component {
                     style={styles.btnMain} />
                 </View>
               </TouchableOpacity>
+
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ServiceRequest' })}>
                 <View style={styles.btnRow}>
                   <Image
@@ -77,6 +78,7 @@ class Main extends Component {
                     style={styles.btnMain} />
                 </View>
               </TouchableOpacity>
+
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Approvals' })}>
                 <View style={styles.btnRow}>
                   <Image
@@ -121,7 +123,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   vehicle: {
-    height: 200,
+    height: 190,
     width: Dimensions.get('window').width,
     marginTop: 1,
     marginBottom: 20,
