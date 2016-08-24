@@ -25,6 +25,7 @@
                                                  openURL:url
                                        sourceApplication:sourceApplication
                                               annotation:annotation];
+  [RNBranch handleDeepLink:url];
   
   if ([url.scheme localizedCaseInsensitiveCompare:@"com.caradvise.caradvise.payments"] == NSOrderedSame) {
     return [BTAppSwitch handleOpenURL:url sourceApplication:sourceApplication];
