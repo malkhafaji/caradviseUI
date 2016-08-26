@@ -56,7 +56,7 @@ class topBar extends Component {
 
 var styles = StyleSheet.create({
   topContainer: {
-    backgroundColor: '#006699',
+    backgroundColor: '#002d5e',
     alignItems: 'center',
   },
   topBar: {
