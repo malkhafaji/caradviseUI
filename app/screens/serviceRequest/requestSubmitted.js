@@ -71,7 +71,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
@@ -89,7 +89,7 @@ var styles = StyleSheet.create({
   },
   shopInfo: {
     textAlign: 'center',
-    color: '#006699',
+    color: '#002d5e',
   },
   btnDone: {
     width: 149,

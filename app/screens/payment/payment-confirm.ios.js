@@ -307,7 +307,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light'
   },
@@ -321,13 +321,13 @@ var styles = StyleSheet.create({
   },
   serviceItem: {
     flex: 3,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   servicePrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   taxRow: {
@@ -343,12 +343,12 @@ var styles = StyleSheet.create({
   },
   taxItem: {
     flex: 3,
-    color: '#006699',
+    color: '#002d5e',
   },
   taxPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
   },
   orderTotal: {
     flex: 1,

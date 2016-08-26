@@ -97,7 +97,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
@@ -119,7 +119,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     width: width,
     borderWidth: 2,
-    borderColor: '#006699',
+    borderColor: '#002d5e',
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
@@ -131,7 +131,7 @@ var styles = StyleSheet.create({
   },
   shopInfo: {
     textAlign: 'center',
-    color: '#006699',
+    color: '#002d5e',
   },
   serviceRow: {
     flex: 1,
@@ -145,7 +145,7 @@ var styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 10,
     marginLeft: 10,
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   btnBook: {

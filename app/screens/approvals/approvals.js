@@ -531,7 +531,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light'
   },
@@ -545,7 +545,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
   },
   noServices: {
-    color: '#006699',
+    color: '#002d5e',
     width: width,
     textAlign: 'center',
   },
@@ -568,7 +568,7 @@ var styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 5,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
   },
   fairPriceContainer: {
     flex: 3,
@@ -582,7 +582,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   fairPriceText: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -594,7 +594,7 @@ var styles = StyleSheet.create({
     marginRight: 2,
   },
   fairPrice: {
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   newServicePriceContainer: {
@@ -605,12 +605,12 @@ var styles = StyleSheet.create({
   },
   newServicePrice: {
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   newServicePriceHd: {
     fontSize: 12,
-    color: '#006699',
+    color: '#002d5e',
     textAlign: 'right',
     fontWeight: 'bold',
   },
@@ -621,7 +621,7 @@ var styles = StyleSheet.create({
   commentHd: {
     width: commentWidth,
     backgroundColor: '#FFF',
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 11,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -633,7 +633,7 @@ var styles = StyleSheet.create({
     marginBottom:5,
     padding: 5,
     fontSize: 12,
-    color: '#006699',
+    color: '#002d5e',
   },
   commentWrapper: {
     backgroundColor: '#FFF',
@@ -695,13 +695,13 @@ var styles = StyleSheet.create({
   },
   approvedItem: {
     flex: 3,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   approvedPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   extrasRow: {
@@ -717,12 +717,12 @@ var styles = StyleSheet.create({
   },
   extrasItem: {
     flex: 3,
-    color: '#006699',
+    color: '#002d5e',
   },
   extrasPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
   },
   subtotalRow: {
     flex: 1,
@@ -734,20 +734,20 @@ var styles = StyleSheet.create({
   },
   subtotalItem: {
     flex: 3,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   subtotalPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   checkoutMessageContainer: {
     flex: 1,
     flexDirection: 'row',
     borderWidth: 3,
-    borderColor: '#FF9900',
+    borderColor: '#f8991d',
     marginTop: 15,
     width: width,
   },
@@ -756,7 +756,7 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   checkoutMessageTxt: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontWeight: 'bold',
   },
   newTotal: {
@@ -772,13 +772,13 @@ var styles = StyleSheet.create({
     flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
   },
   newTotalPrice: {
     flex: 1,
     fontWeight: 'bold',
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
   },
   btnCheckout: {
     width: 300,

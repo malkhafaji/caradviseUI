@@ -189,7 +189,7 @@ class MaintenanceCard extends Component {
             <Text style={styles.milesValue}>{this.props.miles}</Text>
             {' '}MILES
           </Text>
-          {this.state.isLoading && <ActivityIndicator color="#006699" />}
+          {this.state.isLoading && <ActivityIndicator color="#002d5e" />}
           {this.state.services.map((service, i) =>
             <Service key={i} service={service} nav={this.props.navigator} />)}
         </ScrollView>
@@ -281,7 +281,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center',
@@ -321,7 +321,7 @@ var styles = StyleSheet.create({
     fontFamily: 'RobotoCondensed-Light',
     fontSize: 18,
     textAlign: 'center',
-    color: '#006699'
+    color: '#002d5e'
   },
   milesValue: {
     fontWeight: 'bold'
@@ -341,7 +341,7 @@ var styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   maintenanceDesc: {
@@ -357,7 +357,7 @@ var styles = StyleSheet.create({
   maintenancePrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
   },
   priceContainer: {
     flex: 1,
@@ -371,14 +371,14 @@ var styles = StyleSheet.create({
   },
   price: {
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   total: {
     flex: 1,
     flexDirection: 'row',
     width: width,
-    backgroundColor: '#006699',
+    backgroundColor: '#002d5e',
     alignItems: 'center',
     paddingTop: 15,
     paddingBottom: 15,
@@ -390,7 +390,7 @@ var styles = StyleSheet.create({
     flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
   },
   totalPrice: {
     flex: 1,
@@ -408,7 +408,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   fairPriceText: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -420,7 +420,7 @@ var styles = StyleSheet.create({
     marginRight: 2,
   },
   fairPrice: {
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   rowAddService: {

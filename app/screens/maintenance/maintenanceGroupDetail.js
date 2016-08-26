@@ -99,7 +99,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
@@ -117,7 +117,7 @@ var styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   fairPriceContainer: {
@@ -131,7 +131,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   fairPriceText: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -143,7 +143,7 @@ var styles = StyleSheet.create({
     marginRight: 2,
   },
   fairPrice: {
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   }
 });

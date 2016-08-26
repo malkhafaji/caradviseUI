@@ -200,7 +200,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light'
   },
@@ -212,7 +212,7 @@ var styles = StyleSheet.create({
     margin: 10,
   },
   noServices: {
-    color: '#006699',
+    color: '#002d5e',
     width: width,
     textAlign: 'center',
   },
@@ -233,7 +233,7 @@ var styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   fairPriceContainer: {
@@ -248,7 +248,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   fairPriceText: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -260,7 +260,7 @@ var styles = StyleSheet.create({
     marginRight: 2,
   },
   fairPrice: {
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   newServicePriceContainer: {
@@ -270,12 +270,12 @@ var styles = StyleSheet.create({
   },
   newServicePrice: {
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   newServicePriceHd: {
     fontSize: 12,
-    color: '#006699',
+    color: '#002d5e',
     textAlign: 'right',
     fontWeight: 'bold',
   },
@@ -313,13 +313,13 @@ var styles = StyleSheet.create({
   },
   approvedItem: {
     flex: 3,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   approvedPrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   }
 });

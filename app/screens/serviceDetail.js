@@ -174,7 +174,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
@@ -197,7 +197,7 @@ var styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   fairPriceContainer: {
@@ -220,7 +220,7 @@ var styles = StyleSheet.create({
   },
   servicePrice: {
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   serviceRange: {
@@ -244,7 +244,7 @@ var styles = StyleSheet.create({
     marginRight: 2,
   },
   fairPrice: {
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   serviceDescContainer: {
@@ -274,7 +274,7 @@ var styles = StyleSheet.create({
   whatTxt: {
     backgroundColor: '#FFF',
     margin: 10,
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
 });

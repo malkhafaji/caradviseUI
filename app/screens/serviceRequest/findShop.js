@@ -72,7 +72,7 @@ render() {
             </TouchableOpacity>
           </View>
 
-          {this.state.isLoading && <ActivityIndicator color="#006699" />}
+          {this.state.isLoading && <ActivityIndicator color="#002d5e" />}
 
           {this.state.shops.map(shop => (
             <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
@@ -108,7 +108,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
@@ -124,7 +124,7 @@ var styles = StyleSheet.create({
     width: fldWidth,
     height: 45,
     borderWidth: 3,
-    borderColor: '#FF9900',
+    borderColor: '#f8991d',
     textAlign: 'center',
     backgroundColor: '#EFEFEF',
   },
@@ -140,14 +140,14 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     width: width,
     borderWidth: 2,
-    borderColor: '#006699',
+    borderColor: '#002d5e',
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
   shopInfo: {
     flex: 4,
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
   serviceRow: {
@@ -162,7 +162,7 @@ var styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 10,
     marginLeft: 10,
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
 });

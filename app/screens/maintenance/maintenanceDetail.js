@@ -255,7 +255,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center',
@@ -280,7 +280,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   maintenanceTime: {
@@ -297,7 +297,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     margin: 10,
     textAlign: 'center',
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
   maintenanceReco: {
@@ -312,7 +312,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     margin: 10,
     textAlign: 'center',
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
   maintenanceDesc: {
@@ -324,13 +324,13 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFF',
     margin: 5,
     padding: 10,
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
   maintenancePrice: {
     flex: 1,
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
   },
   partList: {
     flexDirection: 'column',
@@ -352,7 +352,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   partPrice: {
@@ -362,7 +362,7 @@ var styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     textAlign: 'right',
   },
   priceContainer: {
@@ -377,14 +377,14 @@ var styles = StyleSheet.create({
   },
   price: {
     textAlign: 'right',
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   total: {
     flex: 1,
     flexDirection: 'row',
     width: width,
-    backgroundColor: '#006699',
+    backgroundColor: '#002d5e',
     alignItems: 'center',
     paddingTop: 15,
     paddingBottom: 15,
@@ -396,7 +396,7 @@ var styles = StyleSheet.create({
     flex: 3,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
   },
   totalPrice: {
     flex: 1,
@@ -415,7 +415,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   fairPriceText: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -428,7 +428,7 @@ var styles = StyleSheet.create({
   },
   fairPrice: {
     fontSize: 14,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   rowAddService: {
@@ -460,7 +460,7 @@ var styles = StyleSheet.create({
   whatTxt: {
     backgroundColor: '#FFF',
     margin: 10,
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
   noServicesBg: {
@@ -471,7 +471,7 @@ var styles = StyleSheet.create({
     margin: 10,
   },
   noServices: {
-    color: '#006699',
+    color: '#002d5e',
     width: width,
     textAlign: 'center',
   }

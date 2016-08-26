@@ -309,7 +309,7 @@ var styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
@@ -325,14 +325,14 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     width: width,
     borderWidth: 2,
-    borderColor: '#006699',
+    borderColor: '#002d5e',
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
   },
   shopInfo: {
     flex: 4,
-    color: '#006699',
+    color: '#002d5e',
     fontSize: 12,
   },
   changeContainer: {
@@ -363,7 +363,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10,
     fontWeight: 'bold',
-    color: '#006699',
+    color: '#002d5e',
     alignItems: 'center',
   },
   fairPriceContainer: {
@@ -378,7 +378,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   fairPriceText: {
-    color: '#FF9900',
+    color: '#f8991d',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -390,7 +390,7 @@ var styles = StyleSheet.create({
     marginRight: 2,
   },
   fairPrice: {
-    color: '#006699',
+    color: '#002d5e',
     fontWeight: 'bold',
   },
   noServicesBg: {
@@ -403,7 +403,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
   },
   noServices: {
-    color: '#006699',
+    color: '#002d5e',
     width: width,
     textAlign: 'center',
   },
