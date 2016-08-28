@@ -21,11 +21,12 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   
+  [RNBranch handleDeepLink:url];
+  
   [[FBSDKApplicationDelegate sharedInstance] application:application
                                                  openURL:url
                                        sourceApplication:sourceApplication
                                               annotation:annotation];
-  [RNBranch handleDeepLink:url];
   
   if ([url.scheme localizedCaseInsensitiveCompare:@"com.caradvise.caradvise.payments"] == NSOrderedSame) {
     return [BTAppSwitch handleOpenURL:url sourceApplication:sourceApplication];
