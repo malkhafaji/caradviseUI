@@ -38,16 +38,13 @@ class Intro extends Component {
         <Image source={require('../../../images/intro-step4.png')} style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../../images/intro-step5.png')} style={styles.page}>
-          {this._renderTopSection()}
-          <View style={styles.sectionBottom}>
-            <TouchableOpacity style={styles.btnGetStarted} onPress={() => {
-              this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'Step1' });
-            }}>
-              <Image source={require('../../../images/btn-getstarted-blue.png')} style={styles.getStarted} />
-            </TouchableOpacity>
-          </View>
-        </Image>
+        <TouchableOpacity onPress={() => {
+          this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'Step1' });
+        }}>
+          <Image source={require('../../../images/intro-step5.png')} style={styles.page}>
+            {this._renderTopSection()}
+          </Image>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
@@ -92,6 +89,8 @@ var styles = StyleSheet.create({
   sectionBottom: {
     flexDirection: 'column',
     alignItems: 'center',
+    width: 200,
+    height: 50,
   },
   closeButton: {
     alignSelf: 'flex-end'
