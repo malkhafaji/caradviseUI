@@ -38,6 +38,7 @@ class Approvals extends Component {
         total:0,
         tax:0,
         discount:0,
+        percentDiscount:0,
         finalTotal:0,
         showSpinner: false,
         showCheckout: false,
@@ -83,7 +84,7 @@ class Approvals extends Component {
       return otherServices;
     }
 
-    refreshServices(services, orderStatus, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
+    refreshServices(services, orderStatus, percentDiscount, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
     {
       var total = 0;
       var showCheckout = false;
@@ -118,6 +119,7 @@ class Approvals extends Component {
         services: services,
         showCheckout: showCheckout,
         total: total.toFixed(2),
+        percentDiscount: percentDiscount,
         discount: discount,
         totalDiscount: Number(totalDiscount).toFixed(2),
         taxRate: taxRate,
@@ -142,6 +144,7 @@ class Approvals extends Component {
           .then((response) => response.json())
           .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
+            var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
@@ -153,7 +156,7 @@ class Approvals extends Component {
             var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
             var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, taxAmount, finalTotal, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
+            this.refreshServices(services, orderStatus, percentDiscount, taxAmount, finalTotal, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
           })
           .done();
 
@@ -228,6 +231,20 @@ class Approvals extends Component {
       }
     }
 
+    renderDiscountPercent()
+    {
+      if (this.state.percentDiscount != null && this.state.percentDiscount != 0) {
+          return (
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>Shop Discount</Text>
+              <Text style={styles.extrasPrice}>{this.state.percentDiscount}% off</Text>
+            </View>
+          );
+      } else {
+          return null;
+      }
+    }
+
     renderSubtotal()
     {
         if (this.state.showTotals == false) {
@@ -255,6 +272,7 @@ class Approvals extends Component {
             {this.renderFees()}
             {this.renderMisc()}
             {this.renderDiscount()}
+            {this.renderDiscountPercent()}
 
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Sales Tax</Text>
@@ -372,6 +390,7 @@ var Service = React.createClass({
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var percentDiscount = (responseData.order != undefined) ? responseData.order.percentDiscount : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
@@ -387,7 +406,7 @@ var Service = React.createClass({
               });
             }
 
-            this.props.approvals.refreshServices(services, orderStatus, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
+            this.props.approvals.refreshServices(services, orderStatus, percentDiscount, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
 
             if(Platform.OS === 'ios'){
               this.props.approvals.setState({

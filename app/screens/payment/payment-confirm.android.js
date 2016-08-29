@@ -64,6 +64,7 @@ class PaymentConfirm extends Component {
           var orderId = responseData.order.id;
           var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
           var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
+          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
           var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
           var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
           var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
@@ -88,6 +89,7 @@ class PaymentConfirm extends Component {
             taxRate: taxRate,
             misc: misc.toFixed(2),
             fees: fees.toFixed(2),
+            percentDiscount: percentDiscount,
             totalDiscount: Number(totalDiscount).toFixed(2),
             taxAmount: Number(taxAmount).toFixed(2),
             finalTotal: Number(finalTotal).toFixed(2),
@@ -132,6 +134,20 @@ class PaymentConfirm extends Component {
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>Shop Discount</Text>
             <Text style={styles.taxPrice}>-${this.state.totalDiscount}</Text>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  }
+
+  renderPercentDiscount()
+  {
+    if (this.state.percentDiscount != null && this.state.percentDiscount != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Shop Discount</Text>
+            <Text style={styles.taxPrice}>{this.state.percentDiscount}% off</Text>
           </View>
         );
     } else {
@@ -238,6 +254,7 @@ class PaymentConfirm extends Component {
               {this.renderFees()}
               {this.renderMisc()}
               {this.renderDiscount()}
+              {this.renderPercentDiscount()}
               <View style={styles.taxRow}>
                 <Text style={styles.taxItem}>Sales Tax</Text>
                 <Text style={styles.taxPrice}>${this.state.taxAmount}</Text>
