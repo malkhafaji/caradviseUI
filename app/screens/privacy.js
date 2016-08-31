@@ -29,7 +29,7 @@ class Privacy extends Component {
 
               <Text style={styles.textHd}>Privacy Policy</Text>
               <View style={styles.privacyTxt}>
-              <Text>This Privacy Policy applies to all CarAdvise, LLC (“we,” “our” or “CarAdvise”) website(s), all online and offline services and all of our mobile sites and mobile applications (together with any other services or products offered by CarAdvise, the “Services”).
+              <Text>{'\n'}This Privacy Policy applies to all CarAdvise, LLC (“we,” “our” or “CarAdvise”) website(s), all online and offline services and all of our mobile sites and mobile applications (together with any other services or products offered by CarAdvise, the “Services”).
 {'\n'}{'\n'}
 This Privacy Policy (this “Policy”) describes how CarAdvise treats and uses personal information through the Services. This Privacy Policy is hereby incorporated into the CarAdvise Terms of Use, available at: [ ] (the “Terms”).
 {'\n'}{'\n'}
@@ -136,7 +136,7 @@ If you have any questions about this Policy or other privacy concerns, please em
 You can also write to us or call at:
 {'\n'}{'\n'}
 CarAdvise, LLC
-{'\n'}{'\n'}
+{'\n'}
 Customer Privacy
 {'\n'}
 111 W Illinois

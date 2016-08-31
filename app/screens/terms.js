@@ -29,7 +29,7 @@ class Terms extends Component {
 
               <Text style={styles.textHd}>Terms of Use</Text>
               <View style={styles.privacyTxt}>
-              <Text>Effective Date: June 12, 2016
+              <Text>{'\n'}Effective Date: June 12, 2016
 {'\n'}{'\n'}
 Welcome to the products and services ("Services") provided by CarAdvise, LLC, a Delaware limited liability company ("we," "us," "our," or "CarAdvise"). Our Services include, without limitation, the CarAdvise website, located at CarAdvise.com (the "Website"), our mobile applications (together, the "App") and any and all services offered on the Website, through the App and/or by CarAdvise. By accessing or using our Services, you are agreeing to these Terms of Use, so please read them carefully. If you have any questions, comments or concerns regarding these Terms of Use or our Services, please contact us at support@CarAdvise.com.
 {'\n'}{'\n'}</Text>
