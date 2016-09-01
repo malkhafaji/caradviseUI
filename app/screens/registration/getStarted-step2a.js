@@ -126,8 +126,8 @@ class Step2a extends Component {
           pushid: this.state.pushid,
         });
       } else {
-        alert("A service associate will provide you with your Vehicle Number.")
-        //this.props.navigator.push({ indent: 'Step2b' });
+        //alert("A service associate will provide you with your Vehicle Number.")
+        this.props.navigator.push({ indent: 'Step2b' });
       }
     }
 }
