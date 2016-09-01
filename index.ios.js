@@ -31,6 +31,7 @@ var Billing = require('./app/screens/payment/payment-billing');
 var CreditCard = require('./app/screens/payment/payment-cc');
 var PaymentConfirm = require('./app/screens/payment/payment-confirm');
 var PaymentThanks = require('./app/screens/payment/payment-thanks');
+var Rating = require('./app/screens/payment/rating');
 
  import React from 'react';
  import {
@@ -181,9 +182,9 @@ class caradviseui extends Component {
         return (
           <ServiceRequest {...globalNavigatorProps} />
         )
-      case 'ServiceRequestDetail':
+      case 'ServiceRequest':
         return (
-          <ServiceRequestDetail {...globalNavigatorProps} />
+          <ServiceRequest {...globalNavigatorProps} />
         )
       case 'FindShop':
         return (
@@ -240,6 +241,10 @@ class caradviseui extends Component {
       case 'PaymentThanks':
         return (
           <PaymentThanks {...globalNavigatorProps} />
+        )
+      case 'Rating':
+        return (
+          <Rating {...globalNavigatorProps} />
         )
       case 'SideMenu':
         return (
