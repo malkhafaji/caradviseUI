@@ -67,6 +67,7 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>RobotoCondensed-Light.ttf</string>
 		<string>RobotoCondensed-Bold.ttf</string>
+		<string>FontAwesome.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

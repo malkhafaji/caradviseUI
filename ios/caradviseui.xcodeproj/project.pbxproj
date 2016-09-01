@@ -13,6 +13,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2900CC7F1CFCC7710093F46B /* libBranch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2900CC6B1CFCC7490093F46B /* libBranch.a */; };
+		29A406F41D788BF000A470AD /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29A406F31D788BF000A470AD /* FontAwesome.ttf */; };
 		29D88AFD1CFCCD7B008F3DB7 /* CarAdvise.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 2900CC801CFCCBBE0093F46B /* CarAdvise.entitlements */; };
 		29DEBCAF1CFA3FC7009973E0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 29DD34261CF4B7D5005662E9 /* libz.tbd */; };
 		29FF0BD61D496ABD00584274 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29FF0BD31D496ABD00584274 /* FBSDKCoreKit.framework */; };
@@ -216,6 +217,7 @@
 		2900CC581CFCC7480093F46B /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		2900CC801CFCCBBE0093F46B /* CarAdvise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = CarAdvise.entitlements; path = caradviseui/CarAdvise.entitlements; sourceTree = "<group>"; };
 		299CD5001CFE418000BF7687 /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
+		29A406F31D788BF000A470AD /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		29DD34261CF4B7D5005662E9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		29FF0BD31D496ABD00584274 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		29FF0BD41D496ABD00584274 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 		B022C3A41CF7470D00A87895 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				29A406F31D788BF000A470AD /* FontAwesome.ttf */,
 				B022C3A51CF7474200A87895 /* RobotoCondensed-Bold.ttf */,
 				B022C3A61CF7474200A87895 /* RobotoCondensed-Light.ttf */,
 			);
@@ -816,6 +819,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				B022C3A81CF7474200A87895 /* RobotoCondensed-Light.ttf in Resources */,
+				29A406F41D788BF000A470AD /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
