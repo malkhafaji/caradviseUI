@@ -426,8 +426,8 @@ var styles = StyleSheet.create({
     margin: 20,
   },
   btnRequest: {
-    width: width,
-    height: 46,
+    width: 300,
+    height: 40,
     marginTop: 20,
     marginBottom: 50,
   },

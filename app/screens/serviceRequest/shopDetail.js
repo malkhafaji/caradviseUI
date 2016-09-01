@@ -149,8 +149,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnBook: {
-    width: width,
-    height: 46,
+    width: 300,
+    height: 40,
     marginTop: 10,
   },
 });
