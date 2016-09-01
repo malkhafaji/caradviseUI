@@ -137,7 +137,7 @@ renderServices(services) {
           style={styles.scrollView}>
         <View style={styles.container}>
 
-          <Text style={styles.textHd}>Service Request</Text>
+          <Text style={styles.textHd}>Book a Shop</Text>
 
           {this.state.shop &&
           <View style={styles.selectedShop}>
