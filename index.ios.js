@@ -182,9 +182,9 @@ class caradviseui extends Component {
         return (
           <ServiceRequest {...globalNavigatorProps} />
         )
-      case 'ServiceRequest':
+      case 'ServiceRequestDetail':
         return (
-          <ServiceRequest {...globalNavigatorProps} />
+          <ServiceRequestDetail {...globalNavigatorProps} />
         )
       case 'FindShop':
         return (
