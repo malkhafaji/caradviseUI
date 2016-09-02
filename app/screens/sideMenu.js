@@ -29,6 +29,7 @@ class SideMenu extends Component {
       <View style={styles.base}>
         <View style={styles.menu}>
           {this._renderItem({ text: 'SETTINGS', indent: 'Settings' })}
+          {this._renderItem({ text: 'MAINTENANCE HISTORY', indent:  'MaintenanceHistory' })}
           {this._renderItem({ text: 'SAVED MAINTENANCE', indent:  'Saved' })}
           {this._renderItem({ text: 'VIEW INTRO', indent: 'Intro' })}
           <TouchableOpacity

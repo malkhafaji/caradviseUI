@@ -23,6 +23,7 @@ var Maintenance = require('./app/screens/maintenance/maintenance');
 var MaintenanceDetail = require('./app/screens/maintenance/maintenanceDetail');
 var MaintenanceGroupDetail = require('./app/screens/maintenance/maintenanceGroupDetail');
 var Settings = require('./app/screens/settings');
+var MaintenanceHistory = require('./app/screens/history');
 var Saved = require('./app/screens/saved');
 var Privacy = require('./app/screens/privacy');
 var Terms = require('./app/screens/terms');
@@ -213,6 +214,10 @@ class caradviseui extends Component {
       case 'Settings':
         return (
           <Settings {...globalNavigatorProps} />
+        )
+      case 'MaintenanceHistory':
+        return (
+          <MaintenanceHistory {...globalNavigatorProps} />
         )
       case 'Saved':
         return (
