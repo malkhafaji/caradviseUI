@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../utils/cache';
-import { chain } from 'lodash';
+import { chain, includes } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -44,7 +44,7 @@ class AddServices extends Component {
                                                    .map(({ id }) => id);
       }
 
-      return this.addedServiceIds.includes(service.id);
+      return includes(this.addedServiceIds, service.id);
     }
 
     groupServices(services) {
