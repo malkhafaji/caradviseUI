@@ -18,132 +18,75 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/?/services';
-
 class MaintenanceHistory extends Component {
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        services:null,
-        total:0,
-        visible: false,
-      };
-    }
-
-    componentDidMount() {
-      this.getMaintenance();
-    }
-
-    getMaintenance() {
-      if(this.props.isLoggedIn && this.props.vehicleId)
-      {
-        fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
-          .then((response) => response.json())
-          .then((responseData) => {
-            var total = 0;
-            /*for (var i = 0; i < responseData.vehicles.length; i++) {
-              var cost = responseData.vehicles[i].Service.TotalPartCost;
-              if(typeof cost !== "undefined")
-              {
-                total += Number(cost.replace("$", ""));
-              }
-            }*/
-            this.setState({
-              services: responseData.vehicles,
-              total: "$" + total.toFixed(2)
-            });
-          })
-          .done();
-      }
-    }
-
-    _renderScene(route, navigator) {
-      var globalNavigatorProps = {navigator}
-
-      switch(route.indent) {
-        case 'Main':
-          return (
-            <Main {...globalNavigatorProps} />
-          )
-        case 'Approvals':
-          return (
-            <Approvals {...globalNavigatorProps} />
-          )
-        default:
-          return (
-            <Text>EPIC FAIL</Text>
-          )
-      }
-    }
-
-    render() {
-      if (!this.state.services) {
-        return this.renderLoadingView();
-      }
-      var services = this.state.services;
-      return this.renderServices(services);
-    }
-
-    renderLoadingView() {
-      return (
-        <View>
-          <Spinner visible={true} />
-        </View>
-      );
-    }
-
-    filterSavedServices(service)
-    {
-      return service.status == 2;
-    }
-
-    renderServices(services) {
-        var savedServices = services.filter(this.filterSavedServices.bind(this));
-        return (
-
-          <View style={styles.base}>
-            <TopBar navigator={this.props.navigator} />
-            <CarBar />
-            <View style={styles.maintenanceContainer}>
-
-              <ScrollView style={styles.scrollView}>
-              <Text style={styles.textHd}>Maintenance History</Text>
-
-              <View style={styles.maintenanceList}>
-              {savedServices.map(createServiceRow)}
-              </View>
-
-              </ScrollView>
-
-            </View>
-
-          </View>
-
-        );
-    }
-}
-
-var createServiceRow = (service, i) => <Service key={i} service={service} />;
-
-var Service = React.createClass({
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return false;
-  },
-  render: function() {
+render() {
     return (
-      <View>
-        <View style={styles.maintenanceRow}>
-          <Text style={styles.maintenanceItem}>{this.props.service.name}</Text>
-          <View style={styles.newServicePriceContainer}>
-            <Text style={styles.newServicePriceHd}>PRICE</Text>
-            <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+      <View style={styles.base}>
+        <TopBar navigator={this.props.navigator} />
+        <CarBar />
+        <ScrollView
+          style={styles.scrollView}>
+        <View style={styles.container}>
+
+          <Text style={styles.textHd}>Maintenance History</Text>
+
+          <View>
+
+          <View style={styles.selectedShop}>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>SHOP NAME</Text>{'\n'}123 Main St.</Text>
+            <View style={styles.dateContainer}>
+              <Text style={styles.serviceDate}>2016-01-09</Text>
+              <Text style={styles.serviceDate}>Total: $69.00</Text>
+            </View>
           </View>
+
+          <View style={styles.maintenanceRow}>
+            <Text style={styles.maintenanceItem}>Tire Rotation</Text>
+            <View style={styles.newServicePriceContainer}>
+              <Text style={styles.newServicePriceHd}>PRICE</Text>
+              <Text style={styles.newServicePrice}>$20.00</Text>
+            </View>
+          </View>
+          <View style={styles.maintenanceRow}>
+            <Text style={styles.maintenanceItem}>Oil Change - Synthetic Blend</Text>
+            <View style={styles.newServicePriceContainer}>
+              <Text style={styles.newServicePriceHd}>PRICE</Text>
+              <Text style={styles.newServicePrice}>$49.00</Text>
+            </View>
+          </View>
+
+          <View style={styles.selectedShop}>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>SHOP NAME</Text>{'\n'}123 Main St.</Text>
+            <View style={styles.dateContainer}>
+              <Text style={styles.serviceDate}>2016-01-09</Text>
+              <Text style={styles.serviceDate}>Total: $69.00</Text>
+            </View>
+          </View>
+
+          <View style={styles.maintenanceRow}>
+            <Text style={styles.maintenanceItem}>Tire Rotation</Text>
+            <View style={styles.newServicePriceContainer}>
+              <Text style={styles.newServicePriceHd}>PRICE</Text>
+              <Text style={styles.newServicePrice}>$20.00</Text>
+            </View>
+          </View>
+          <View style={styles.maintenanceRow}>
+            <Text style={styles.maintenanceItem}>Oil Change - Synthetic Blend</Text>
+            <View style={styles.newServicePriceContainer}>
+              <Text style={styles.newServicePriceHd}>PRICE</Text>
+              <Text style={styles.newServicePrice}>$49.00</Text>
+            </View>
+          </View>
+
+          </View>
+
         </View>
+        </ScrollView>
       </View>
     );
   }
-});
+}
 
 var styles = StyleSheet.create({
   base: {
@@ -167,6 +110,30 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center'
+  },
+  textBld: {
+    fontWeight: 'bold',
+  },
+  selectedShop: {
+    flexDirection: 'row',
+    width: width,
+    borderWidth: 2,
+    borderColor: '#002d5e',
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shopInfo: {
+    flex: 4,
+    color: '#002d5e',
+    fontSize: 12,
+  },
+  dateContainer: {
+    flex: 2,
+  },
+  serviceDate: {
+    fontSize: 11,
+    textAlign: 'right',
   },
   maintenanceList: {
     flexDirection: 'column',
