@@ -23,6 +23,7 @@ var fldWidth = Dimensions.get('window').width - 100;
 var width = Dimensions.get('window').width - 20;
 
 var FIND_SHOPS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/shops/shops_by_zip';
+var FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/shops/shops_by_coordinates';
 
 class FindShop extends Component {
 
@@ -42,6 +43,29 @@ async fetchShops() {
 
   let shops = response.result ? response.result : [];
   this.setState({ shops, isLoading: false });
+}
+
+async fetchShopsByCoords({ latitude, longitude }) {
+  this.setState({ isLoading: true, shops: [] });
+
+  let response = await getJSON(
+    FIND_SHOPS_BY_COORDINATES_URL,
+    { latitude, longitude },
+    { 'Authorization': this.props.authentication_token }
+  );
+
+  let shops = response.result ? response.result : [];
+  this.setState({ shops, isLoading: false });
+}
+
+componentDidMount() {
+  this.setState({ isLoading: true });
+
+  navigator.geolocation.getCurrentPosition(
+    position => this.fetchShopsByCoords(position.coords),
+    error => this.setState({ isLoading: false }),
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+  );
 }
 
 render() {

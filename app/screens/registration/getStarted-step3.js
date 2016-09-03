@@ -11,7 +11,6 @@ import {
   TextInput,
   Dimensions,
   ScrollView,
-  Picker,
   LayoutAnimation,
   Alert
 } from 'react-native';
@@ -19,7 +18,8 @@ import cache from '../../utils/cache';
 import { getJSON } from '../../utils/fetch';
 import sortBy from 'lodash/sortBy';
 
-var fldWidth = Dimensions.get('window').width - 40;
+var { width, height } = Dimensions.get('window');
+var fldWidth = width - 40;
 
 const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/makes_by_year';
 const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/models_by_year_and_make';
@@ -173,19 +173,24 @@ class Step3 extends Component {
             <View style={styles.pickerControls}>
               <TouchableOpacity
                 style={styles.pickerDone}
-                onPress={() => {
-                  this._hidePicker(key);
-                  onClose && onClose();
-                }}>
+                onPress={() => this._hidePicker(key)}>
                 <Text>Done</Text>
               </TouchableOpacity>
             </View>
-            <Picker
-              selectedValue={value}
-              onValueChange={value => this._onFieldChange(key, value)}
-              style={styles.picker}>
-              {items.map(item => <Picker.Item {...item} />)}
-            </Picker>
+            <ScrollView style={styles.picker} contentContainerStyle={styles.pickerContainerStyle}>
+              {items.map(item => (
+                <TouchableOpacity
+                  key={`${item.key}-${item.subKey}`}
+                  style={styles.pickerItem}
+                  onPress={() => {
+                    this._onFieldChange(key, item.value);
+                    this._hidePicker(key);
+                    onClose && onClose();
+                  }}>
+                  <Text style={styles.pickerItemText}>{item.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
         </View>
       );
@@ -254,10 +259,13 @@ class Step3 extends Component {
 
         this.setState({
           makes,
+          models: [],
+          engines: [],
           fields: {
             ...(this.state.fields),
             make: { ...(this.state.fields.make), value: '', invalid: false },
-            model: { ...(this.state.fields.model), value: '', invalid: false }
+            model: { ...(this.state.fields.model), value: '', invalid: false },
+            engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
         }, () => cache.set('step3-fields', this.state.fields));
       }
@@ -292,12 +300,15 @@ class Step3 extends Component {
         models = sortBy(models, ({ label }) => label.toLowerCase());
         models.unshift({ key: '0', label: 'Select model', value: '' });
         cache.set('step3-models', models);
+        cache.remove('step3-engines');
 
         this.setState({
           models,
+          engines: [],
           fields: {
             ...(this.state.fields),
-            model: { ...(this.state.fields.model), value: '', invalid: false }
+            model: { ...(this.state.fields.model), value: '', invalid: false },
+            engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
         }, () => cache.set('step3-fields', this.state.fields));
       }
@@ -373,13 +384,13 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    height: Dimensions.get('window').height,
+    height,
     flexDirection: 'column',
     justifyContent: 'flex-end',
     backgroundColor: 'transparent'
   },
   pickerHidden: {
-    top: Dimensions.get('window').height,
+    top: height,
   },
   pickerWrapper: {
     backgroundColor: '#fff'
@@ -391,7 +402,20 @@ var styles = StyleSheet.create({
     padding: 10
   },
   picker: {
-    width: Dimensions.get('window').width
+    width,
+    height: 200
+  },
+  pickerContainerStyle: {
+    paddingBottom: 20
+  },
+  pickerItem: {
+    paddingVertical: 7.5,
+    paddingHorizontal: 10,
+    backgroundColor: '#FFF'
+  },
+  pickerItemText: {
+    fontSize: 21,
+    textAlign: 'center'
   },
   formContainer: {
     flex: 1,
@@ -405,7 +429,7 @@ var styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    width: Dimensions.get('window').width,
+    width,
     height: 750,
   },
   logo: {
