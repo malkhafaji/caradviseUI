@@ -15,7 +15,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { findLastIndex } from 'lodash';
 import cache from '../../utils/cache';
@@ -28,7 +28,16 @@ class ShopDetail extends Component {
 constructor(props) {
   super(props);
   var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
-  this.state = { ...passProps.shop };
+  var { latitude, longitude, ...shopProps } = passProps.shop;
+  var coordinate = null;
+  var region = null;
+
+  if (latitude && longitude) {
+    coordinate = { latitude, longitude };
+    region = { ...coordinate, latitudeDelta: 0.005, longitudeDelta: 0.005 };
+  }
+
+  this.state = { ...shopProps, coordinate, region };
 }
 
 bookShop() {
@@ -56,7 +65,9 @@ render() {
           <Text style={styles.textHd}>Shop Detail</Text>
 
           {this.state.region ?
-            <MapView style={styles.map} region={this.state.region} /> : null
+            <MapView style={styles.map} region={this.state.region}>
+              <Marker coordinate={this.state.coordinate} />
+            </MapView> : null
           }
 
           <View style={styles.shopInfoContainer}>
