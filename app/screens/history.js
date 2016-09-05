@@ -15,12 +15,53 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { getJSON } from '../utils/fetch';
+
+var HISTORY_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/orders/orders_history_by_vehicle_id';
 
 var width = Dimensions.get('window').width - 20;
 
+function formatDate(date) {
+  let dateObj = new Date(date);
+  return dateObj.toLocaleDateString();
+}
+
 class MaintenanceHistory extends Component {
 
-render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      orders: [],
+      isLoading: false
+    };
+  }
+
+  async getHistory() {
+    if (!this.props.isLoggedIn || !this.props.vehicleId)
+      return;
+
+    this.setState({ isLoading: true });
+
+    let response = await getJSON(
+      HISTORY_URL,
+      { vehicle_id: this.props.vehicleId },
+      { 'Authorization': this.props.authentication_token }
+    );
+
+    this.setState({ isLoading: false });
+
+    if (response.result)
+      this.setState({ orders: response.result.orders || [] });
+  }
+
+  componentDidMount() {
+    this.getHistory();
+  }
+
+  render() {
+    if (this.state.isLoading)
+      return <Spinner visible />;
+
     return (
       <View style={styles.base}>
         <TopBar navigator={this.props.navigator} />
@@ -31,58 +72,37 @@ render() {
 
           <Text style={styles.textHd}>Maintenance History</Text>
 
-          <View>
-
-          <View style={styles.selectedShop}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>SHOP NAME</Text>{'\n'}123 Main St.</Text>
-            <View style={styles.dateContainer}>
-              <Text style={styles.serviceDate}>2016-01-09</Text>
-              <Text style={styles.serviceDate}>Total: $69.00</Text>
-            </View>
-          </View>
-
-          <View style={styles.maintenanceRow}>
-            <Text style={styles.maintenanceItem}>Tire Rotation</Text>
-            <View style={styles.newServicePriceContainer}>
-              <Text style={styles.newServicePriceHd}>PRICE</Text>
-              <Text style={styles.newServicePrice}>$20.00</Text>
-            </View>
-          </View>
-          <View style={styles.maintenanceRow}>
-            <Text style={styles.maintenanceItem}>Oil Change - Synthetic Blend</Text>
-            <View style={styles.newServicePriceContainer}>
-              <Text style={styles.newServicePriceHd}>PRICE</Text>
-              <Text style={styles.newServicePrice}>$49.00</Text>
-            </View>
-          </View>
-
-          <View style={styles.selectedShop}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>SHOP NAME</Text>{'\n'}123 Main St.</Text>
-            <View style={styles.dateContainer}>
-              <Text style={styles.serviceDate}>2016-01-09</Text>
-              <Text style={styles.serviceDate}>Total: $69.00</Text>
-            </View>
-          </View>
-
-          <View style={styles.maintenanceRow}>
-            <Text style={styles.maintenanceItem}>Tire Rotation</Text>
-            <View style={styles.newServicePriceContainer}>
-              <Text style={styles.newServicePriceHd}>PRICE</Text>
-              <Text style={styles.newServicePrice}>$20.00</Text>
-            </View>
-          </View>
-          <View style={styles.maintenanceRow}>
-            <Text style={styles.maintenanceItem}>Oil Change - Synthetic Blend</Text>
-            <View style={styles.newServicePriceContainer}>
-              <Text style={styles.newServicePriceHd}>PRICE</Text>
-              <Text style={styles.newServicePrice}>$49.00</Text>
-            </View>
-          </View>
-
-          </View>
+          {this.state.orders.map(order => this.renderOrder(order))}
 
         </View>
         </ScrollView>
+      </View>
+    );
+  }
+
+  renderOrder(order) {
+    return (
+      <View key={order.id}>
+        <View style={styles.selectedShop}>
+          <Text style={styles.shopInfo}><Text style={styles.textBld}>{order.shop.name}</Text>{'\n'}{order.shop.address}</Text>
+          <View style={styles.dateContainer}>
+            <Text style={styles.serviceDate}>{formatDate(order.created)}</Text>
+            <Text style={styles.serviceDate}>Total: ${Number(order.total).toFixed(2)}</Text>
+          </View>
+        </View>
+        {order.orders_services.map((service, index) => this.renderService(service, index))}
+      </View>
+    );
+  }
+
+  renderService(service, index) {
+    return (
+      <View key={index} style={styles.maintenanceRow}>
+        <Text style={styles.maintenanceItem}>{service.service_name}</Text>
+        <View style={styles.newServicePriceContainer}>
+          <Text style={styles.newServicePriceHd}>PRICE</Text>
+          <Text style={styles.newServicePrice}>${Number(service.totalCost).toFixed(2)}</Text>
+        </View>
       </View>
     );
   }
@@ -95,8 +115,7 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
+    paddingHorizontal: 10
   },
   maintenanceContainer: {
     flex: 1,
