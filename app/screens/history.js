@@ -50,8 +50,10 @@ class MaintenanceHistory extends Component {
 
     this.setState({ isLoading: false });
 
-    if (response.result)
-      this.setState({ orders: response.result.orders || [] });
+    if (response.result) {
+      const orders = (response.result.orders || []).filter(({ status }) => status == 3);
+      this.setState({ orders });
+    }
   }
 
   componentDidMount() {
