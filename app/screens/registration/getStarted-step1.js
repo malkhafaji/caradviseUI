@@ -30,7 +30,7 @@ class GetStarted extends Component {
           firstName: { name: 'First Name', value: '', invalid: false, validators:['_isPresent'] },
           lastName: { name: 'Last Name', value: '', invalid: false, validators:['_isPresent'] },
           email: { name: 'Email', value: '', invalid: false, validators:['_isPresent'] },
-          cellPhone: { name: 'Phone Number', value: '', invalid: false, validators:['_isPresent'] },
+          cellPhone: { name: 'Cell Number', value: '', invalid: false, validators:['_isPresent'] },
           password: { name: 'Password', value: '', invalid: false, validators:['_isPresent'] },
           confirmPassword: { name: 'Confirm Password', value: '', invalid: false, validators:['_isPasswordMatched'] }
         }
