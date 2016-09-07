@@ -20,6 +20,7 @@ import CheckBox from 'react-native-checkbox';
 
 var width = Dimensions.get('window').width - 20;
 var fldWidth = Dimensions.get('window').width - 40;
+var fldWidth2 = fldWidth / 2 - 5;
 
 class CreditCard extends Component {
 
@@ -49,33 +50,39 @@ class CreditCard extends Component {
               <Text style={styles.textHd}>Payment Info</Text>
 
               <View style={styles.billingCol}>
-                <TextInput
-                  onChangeText={(cardNumber) => this.setState({cardNumber})}
-                  keyboardType="numeric"
-                  style={styles.textFld}
-                  placeholderTextColor={'#666'}
-                  placeholder={'Credit Card #'} />
-                <TextInput
-                  onChangeText={(expMonth) => this.setState({expMonth})}
-                  keyboardType="numeric"
-                  style={styles.textFld}
-                  placeholderTextColor={'#666'}
-                  maxLength={2}
-                  placeholder={'Exp. Month (MM)'} />
-                <TextInput
-                  onChangeText={(expYear) => this.setState({expYear})}
-                  keyboardType="numeric"
-                  style={styles.textFld}
-                  placeholderTextColor={'#666'}
-                  maxLength={2}
-                  placeholder={'Exp. Year (YY)'} />
-                <TextInput
-                  onChangeText={(cvv) => this.setState({cvv})}
-                  keyboardType="numeric"
-                  style={styles.textFld}
-                  maxLength={4}
-                  placeholderTextColor={'#666'}
-                  placeholder={'Security Code'} />
+                <View style={styles.billingRow}>
+                  <TextInput
+                    onChangeText={(cardNumber) => this.setState({cardNumber})}
+                    keyboardType="numeric"
+                    style={styles.textFld}
+                    placeholderTextColor={'#666'}
+                    placeholder={'Credit Card #'} />
+                </View>
+                <View style={styles.billingRow}>
+                  <TextInput
+                    onChangeText={(expMonth) => this.setState({expMonth})}
+                    keyboardType="numeric"
+                    style={styles.monthFld}
+                    placeholderTextColor={'#666'}
+                    maxLength={2}
+                    placeholder={'Exp. Month (MM)'} />
+                  <TextInput
+                    onChangeText={(expYear) => this.setState({expYear})}
+                    keyboardType="numeric"
+                    style={styles.yearFld}
+                    placeholderTextColor={'#666'}
+                    maxLength={2}
+                    placeholder={'Exp. Year (YY)'} />
+                </View>
+                <View style={styles.billingRow}>
+                  <TextInput
+                    onChangeText={(cvv) => this.setState({cvv})}
+                    keyboardType="numeric"
+                    style={styles.textFld}
+                    maxLength={4}
+                    placeholderTextColor={'#666'}
+                    placeholder={'Security Code'} />
+                </View>
               </View>
 
               <View style={styles.checkboxContainer}>
@@ -146,6 +153,9 @@ var styles = StyleSheet.create({
     paddingBottom: 10,
     marginBottom: 1,
   },
+  billingRow: {
+    flexDirection: 'row'
+  },
   textFld: {
     height: 40,
     marginTop: 15,
@@ -153,7 +163,28 @@ var styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#FFF',
     color: '#666',
-    fontSize: 21,
+    fontSize: 16,
+    paddingVertical: 0,
+  },
+  monthFld: {
+    height: 40,
+    marginTop: 15,
+    width: fldWidth2,
+    padding: 10,
+    backgroundColor: '#FFF',
+    color: '#666',
+    fontSize: 16,
+    paddingVertical: 0,
+    marginRight: 10,
+  },
+  yearFld: {
+    height: 40,
+    marginTop: 15,
+    width: fldWidth2,
+    padding: 10,
+    backgroundColor: '#FFF',
+    color: '#666',
+    fontSize: 16,
     paddingVertical: 0,
   },
   checkboxContainer: {
