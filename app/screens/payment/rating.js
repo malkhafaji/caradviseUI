@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import StarRating from 'react-native-star-rating';
-import { putJSON } from '../../utils/fetch';
+import { postJSON } from '../../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -76,9 +76,9 @@ class Rating extends Component {
 
   submitRating = () => {
     if (this.state.orderId && this.props.authentication_token) {
-      putJSON(
+      postJSON(
         RATE_ORDER_URL.replace('?', this.state.orderId),
-        { rating: this.state.starCount },
+        { rating: this.state.starCount, option_selected: 'none' },
         { 'Authorization': this.props.authentication_token }
       )
     }
