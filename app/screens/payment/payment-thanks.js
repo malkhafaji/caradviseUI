@@ -279,7 +279,7 @@ class PaymentThanks extends Component {
               </View>
 
               <View style={styles.approveDecline}>
-                <TouchableOpacity onPress={() => this.props.navigator.popToTop()}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'Rating', passProps: { orderId } })}>
                   <Image
                     source={require('../../../images/btn-done.png')}
                     style={styles.btnDone} />

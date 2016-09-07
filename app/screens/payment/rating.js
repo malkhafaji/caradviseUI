@@ -13,17 +13,22 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-
+import { connect } from 'react-redux';
 import StarRating from 'react-native-star-rating';
+import { putJSON } from '../../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
+
+var RATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/orders/?/rate_order';
 
 class Rating extends Component {
 
   constructor(props) {
     super(props);
+    var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
     this.state = {
-      starCount: 0
+      starCount: 0,
+      orderId: passProps.orderId
     };
   }
 
@@ -57,7 +62,7 @@ class Rating extends Component {
                 </View>
               </View>
               <View>
-                <TouchableOpacity onPress={() => this.props.navigator.popToTop()}>
+                <TouchableOpacity onPress={this.submitRating}>
                   <Image
                     source={require('../../../images/btn-done.png')}
                     style={styles.btnDone} />
@@ -68,6 +73,18 @@ class Rating extends Component {
           </View>
         );
     }
+
+  submitRating = () => {
+    if (this.state.orderId && this.props.authentication_token) {
+      putJSON(
+        RATE_ORDER_URL.replace('?', this.state.orderId),
+        { rating: this.state.starCount },
+        { 'Authorization': this.props.authentication_token }
+      )
+    }
+
+    this.props.navigator.popToTop();
+  }
 
 }
 
@@ -111,4 +128,11 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Rating;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    authentication_token: user.authentication_token
+  };
+}
+
+module.exports = connect(mapStateToProps)(Rating);
