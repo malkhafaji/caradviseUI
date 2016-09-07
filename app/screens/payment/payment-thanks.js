@@ -374,10 +374,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FFF',
     width: width,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
+    padding: 5,
     marginBottom: 2,
   },
   taxItem: {
