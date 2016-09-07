@@ -83,7 +83,7 @@ render() {
             <TextInput
               autoCorrect={false}
               autoCapitalize="characters"
-              placeholder={'ENTER ZIP CODE'}
+              placeholder={'SEARCH BY ZIP CODE'}
               style={styles.searchFld}
               keyboardType={'phone-pad'}
               placeholderTextColor={'#666'}
