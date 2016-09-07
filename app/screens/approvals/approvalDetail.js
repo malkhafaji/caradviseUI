@@ -159,6 +159,18 @@ class ApprovalDetail extends Component {
             return null;
         }
     }
+    renderMaintenance()
+    {
+        if (this.state.intervalMile != 0) {
+            return (
+              <View style={styles.maintenanceTime}>
+                <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>{this.renderLabor()}TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
 
     renderParts()
     {
@@ -208,9 +220,7 @@ class ApprovalDetail extends Component {
                   </View>
 
                 </View>
-                <View style={styles.maintenanceTime}>
-                  <View style={styles.maintenanceTimeTextContainer}><Text style={styles.maintenanceTimeText}>{this.renderLabor()}TIME ESTIMATE:  <Text style={styles.textBold}>{this.state.time} {this.state.timeInterval}</Text>{"\n"}RECOMMENDED EVERY {this.renderTime()}{this.renderOr()}{this.renderMile()}</Text></View>
-                </View>
+                {this.renderMaintenance()}
               </View>
 
               {this.renderComments()}
