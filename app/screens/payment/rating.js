@@ -28,7 +28,7 @@ class Rating extends Component {
     var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
     this.state = {
       starCount: 0,
-      orderId: passProps.orderId
+      //orderId: passProps.orderId
     };
   }
 
@@ -49,7 +49,7 @@ class Rating extends Component {
 
               <Text style={styles.textHd}>Rate Your Experience</Text>
               <View style={styles.ratingContainer}>
-                <Text>Your opinion is important to us. Please rate your overall shop experience from 1-5 stars.</Text>
+                <Text style={styles.ratingTxt}>Your opinion is important to us. Please rate your overall shop experience from 1-5 stars.</Text>
                 <View style={styles.rating}>
                   <StarRating
                     disabled={false}
@@ -116,6 +116,12 @@ var styles = StyleSheet.create({
   ratingContainer: {
     marginTop: 10,
     alignItems: 'center'
+  },
+  ratingTxt: {
+    color: '#002d5e',
+    paddingLeft: 20,
+    paddingRight: 20,
+    textAlign: 'center'
   },
   rating: {
     marginTop: 40,
