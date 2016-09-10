@@ -20,7 +20,7 @@ import storage from '../../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
-class Step4 extends Component {
+class Miles extends Component {
     constructor(props) {
       super(props);
 
@@ -33,24 +33,24 @@ class Step4 extends Component {
       this.state = {
         fields: Object.assign({
           miles: { name: 'Mileage', value: '', invalid: false, validators: ['_isPresent'] }
-        }, cache.get('step4-fields') || {}),
+        }, cache.get('miles-fields') || {}),
         pushid: ""
       };
     }
 
     componentDidUpdate() {
       if (this.props.isLoggedIn) {
-        cache.remove('step1-fields');
-        cache.remove('step2a-fields');
-        cache.remove('step2b-fields');
-        cache.remove('step3-fields');
-        cache.remove('step4-fields');
+        cache.remove('accountDetails-fields');
+        cache.remove('vehicleDetails-fields');
+        cache.remove('vin-fields');
+        cache.remove('miles-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
       }
     }
 
     render() {
         return (
+          <View style={styles.base}>
           <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
@@ -80,6 +80,7 @@ class Step4 extends Component {
 
           </View>
           </ScrollView>
+          </View>
         );
     }
 
@@ -101,7 +102,7 @@ class Step4 extends Component {
           ...(this.state.fields),
           [key]: this._setAndValidateField(key, value.trim())
         }
-      }, () => cache.set('step4-fields', this.state.fields));
+      }, () => cache.set('miles-fields', this.state.fields));
     }
 
     _validateFields(callback) {
@@ -125,34 +126,34 @@ class Step4 extends Component {
 
     _onClickNext() {
       this._validateFields(() => {
-        let step1Fields = cache.get('step1-fields');
+        let accountDetailsFields = cache.get('accountDetails-fields');
         let data = {
-          firstName: step1Fields.firstName.value,
-          lastName: step1Fields.lastName.value,
-          email: step1Fields.email.value,
-          cellPhone: step1Fields.cellPhone.value,
-          password: step1Fields.password.value,
+          firstName: accountDetailsFields.firstName.value,
+          lastName: accountDetailsFields.lastName.value,
+          email: accountDetailsFields.email.value,
+          cellPhone: accountDetailsFields.cellPhone.value,
+          password: accountDetailsFields.password.value,
           miles: this.state.fields.miles.value,
           pushid: this.state.pushid
         };
 
-        let step2bFields = cache.get('step2b-fields');
-        if (step2bFields) {
-          data.vin = step2bFields.vin.value;
+        let vinFields = cache.get('vin-fields');
+        if (vinFields) {
+          data.vin = vinFields.vin.value;
         }
 
-        let step3Fields = cache.get('step3-fields');
-        if (step3Fields) {
-          data.year = step3Fields.year.value;
-          data.make = step3Fields.make.value;
+        let vehicleDetailsFields = cache.get('vehicleDetails-fields');
+        if (vehicleDetailsFields) {
+          data.year = vehicleDetailsFields.year.value;
+          data.make = vehicleDetailsFields.make.value;
 
-          let models = cache.get('step3-models') || [];
-          let model = models.find(({ value }) => value === step3Fields.model.value) || {};
+          let models = cache.get('vehicleDetails-models') || [];
+          let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
           data.model_id = model.key;
           data.model = model.originalValue;
 
-          let engines = cache.get('step3-engines') || [];
-          let engine = engines.find(({ value }) => value === step3Fields.engine.value) || {};
+          let engines = cache.get('vehicleDetails-engines') || [];
+          let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
           data.vehicle_type_extension_engine_id = engine.key;
         }
 
@@ -162,11 +163,14 @@ class Step4 extends Component {
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#FFF'
+  },
   formContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 400,
   },
   textStep: {
     marginTop: 50,
@@ -196,7 +200,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
   },
   btnNext: {
-    width: 120,
+    width: 190,
     marginTop: 10,
     marginLeft: 5,
   },
@@ -214,4 +218,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps, { signUp })(Step4);
+module.exports = connect(mapStateToProps, { signUp })(Miles);

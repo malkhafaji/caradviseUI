@@ -12,7 +12,7 @@ import {
   ScrollView
 } from 'react-native';
 
-class GetStarted extends Component {
+class StartScreen extends Component {
 
     render() {
         return (
@@ -29,7 +29,7 @@ class GetStarted extends Component {
                 style={styles.logo} />
             </View>
             <View style={styles.fields}>
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Step1' })}>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AccountDetails' })}>
                 <Image
                   resizeMode='contain'
                   source={require('../../../images/btn-getstarted.png')}
@@ -81,4 +81,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = GetStarted;
+module.exports = StartScreen;

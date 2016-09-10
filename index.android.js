@@ -1,17 +1,17 @@
 'use strict';
 var StatusBarBackground = require('./app/components/statusBarBackground');
 var Main = require('./app/screens/main');
-var Intro = require('./app/screens/registration/intro');
+var Intro = require('./app/screens/signup/intro');
 var Approvals = require('./app/screens/approvals/approvals');
 var ApprovalDetail = require('./app/screens/approvals/approvalDetail');
 var ApprovalGroupDetail = require('./app/screens/approvals/approvalGroupDetail');
-var GetStarted = require('./app/screens/registration/getStarted');
-var Login = require('./app/screens/registration/login');
-var Step1 = require('./app/screens/registration/getStarted-step1');
-var Step2a = require('./app/screens/registration/getStarted-step2a');
-var Step2b = require('./app/screens/registration/getStarted-step2b');
-var Step3 = require('./app/screens/registration/getStarted-step3');
-var Step4 = require('./app/screens/registration/getStarted-step4');
+var StartScreen = require('./app/screens/signup/startScreen');
+var Login = require('./app/screens/signup/login');
+var AccountDetails = require('./app/screens/signup/accountDetails');
+var Vin = require('./app/screens/signup/vin');
+var VehicleDetails = require('./app/screens/signup/vehicleDetails');
+var Miles = require('./app/screens/signup/miles');
+var AtShop = require('./app/screens/signup/atShop');
 var AddServices = require('./app/screens/addServices');
 var ServiceDetail = require('./app/screens/serviceDetail');
 var ServiceRequest = require('./app/screens/serviceRequest/serviceRequest');
@@ -105,33 +105,37 @@ class caradviseui extends Component {
         return (
           <Intro {...globalNavigatorProps} />
         )
-      case 'GetStarted':
+      case 'StartScreen':
         return (
-          <GetStarted {...globalNavigatorProps} />
+          <StartScreen {...globalNavigatorProps} />
         )
       case 'Login':
         return (
           <Login {...globalNavigatorProps} />
         )
-      case 'Step1':
+      case 'AccountDetails':
         return (
-          <Step1 {...globalNavigatorProps} />
+          <AccountDetails {...globalNavigatorProps} />
         )
       case 'Step2a':
         return (
           <Step2a {...globalNavigatorProps} />
         )
-      case 'Step2b':
+      case 'Vin':
         return (
-          <Step2b {...globalNavigatorProps} />
+          <Vin {...globalNavigatorProps} />
         )
-      case 'Step3':
+      case 'VehicleDetails':
         return (
-          <Step3 {...globalNavigatorProps} />
+          <VehicleDetails {...globalNavigatorProps} />
         )
-      case 'Step4':
+      case 'Miles':
         return (
-          <Step4 {...globalNavigatorProps} />
+          <Miles {...globalNavigatorProps} />
+        )
+      case 'AtShop':
+        return (
+          <AtShop {...globalNavigatorProps} />
         )
       case 'Main':
         return (
@@ -258,7 +262,7 @@ class caradviseui extends Component {
             style={styles.container}
             renderScene={this._renderScene}
             configureScene={this._configureScene}
-            initialRoute={{indent: 'GetStarted'}}
+            initialRoute={{indent: 'StartScreen'}}
             barTintColor='#11325F'
             translucent={false}
             titleTextColor='white'

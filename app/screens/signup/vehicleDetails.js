@@ -26,25 +26,25 @@ const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:30
 const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/models_by_year_and_make';
 const BY_MODEL_AND_SUB_MODEL_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/engines_by_model_and_sub_model';
 
-class Step3 extends Component {
+class VehicleDetails extends Component {
     constructor(props) {
       super(props);
       this.state = {
         hide_makes: true,
         loading_makes: false,
-        makes: cache.get('step3-makes') || [],
+        makes: cache.get('vehicleDetails-makes') || [],
         hide_models: true,
         loading_models: false,
-        models: cache.get('step3-models') || [],
+        models: cache.get('vehicleDetails-models') || [],
         hide_engines: true,
         loading_engines: false,
-        engines: cache.get('step3-engines') || [],
+        engines: cache.get('vehicleDetails-engines') || [],
         fields: Object.assign({
           year: { name: 'Year', value: '', invalid: false, validators: ['_isPresent'] },
           make: { name: 'Make', value: '', invalid: false, validators: ['_isPresent'] },
           model: { name: 'Model', value: '', invalid: false, validators: ['_isPresent'] },
           engine: { name: 'Engine', value: '', invalid: false, validators: ['_isPresent'] }
-        }, cache.get('step3-fields') || {})
+        }, cache.get('vehicleDetails-fields') || {})
       };
     }
 
@@ -128,7 +128,7 @@ class Step3 extends Component {
             items: this.state.engines,
             isHidden: this.state.hide_engines,
             emptyMessage: 'Please select a model first',
-            onClose: () => cache.set('step3-fields', this.state.fields)
+            onClose: () => cache.set('vehicleDetails-fields', this.state.fields)
           })}
         </View>
       );
@@ -238,9 +238,9 @@ class Step3 extends Component {
 
         makes = sortBy(makes, ({ label }) => label.toLowerCase());
         makes.unshift({ key: '0', label: 'Select make', value: '' });
-        cache.set('step3-makes', makes);
-        cache.remove('step3-models');
-        cache.remove('step3-engines');
+        cache.set('vehicleDetails-makes', makes);
+        cache.remove('vehicleDetails-models');
+        cache.remove('vehicleDetails-engines');
 
         this.setState({
           makes,
@@ -252,7 +252,7 @@ class Step3 extends Component {
             model: { ...(this.state.fields.model), value: '', invalid: false },
             engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
-        }, () => cache.set('step3-fields', this.state.fields));
+        }, () => cache.set('vehicleDetails-fields', this.state.fields));
       }
     }
 
@@ -284,8 +284,8 @@ class Step3 extends Component {
 
         models = sortBy(models, ({ label }) => label.toLowerCase());
         models.unshift({ key: '0', label: 'Select model', value: '' });
-        cache.set('step3-models', models);
-        cache.remove('step3-engines');
+        cache.set('vehicleDetails-models', models);
+        cache.remove('vehicleDetails-engines');
 
         this.setState({
           models,
@@ -295,7 +295,7 @@ class Step3 extends Component {
             model: { ...(this.state.fields.model), value: '', invalid: false },
             engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
-        }, () => cache.set('step3-fields', this.state.fields));
+        }, () => cache.set('vehicleDetails-fields', this.state.fields));
       }
     }
 
@@ -327,7 +327,7 @@ class Step3 extends Component {
 
         engines = sortBy(engines, ({ label }) => label.toLowerCase());
         engines.unshift({ key: '0', label: 'Select engine', value: '' });
-        cache.set('step3-engines', engines);
+        cache.set('vehicleDetails-engines', engines);
 
         this.setState({
           engines,
@@ -335,15 +335,14 @@ class Step3 extends Component {
             ...(this.state.fields),
             engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
-        }, () => cache.set('step3-fields', this.state.fields));
+        }, () => cache.set('vehicleDetails-fields', this.state.fields));
       }
     }
 
     _onClickNext() {
       this._validateFields(() => {
-        cache.remove('step2a-fields');
-        cache.remove('step2b-fields');
-        this.props.navigator.push({ indent: 'Step4' });
+        cache.remove('vin-fields');
+        this.props.navigator.push({ indent: 'Miles' });
       });
     }
 
@@ -360,7 +359,8 @@ class Step3 extends Component {
 
 var styles = StyleSheet.create({
   base: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#FFF'
   },
   scrollContainer: {
     flex: 1
@@ -465,4 +465,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Step3;
+module.exports = VehicleDetails;

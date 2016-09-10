@@ -23,7 +23,7 @@ var fldWidth = Dimensions.get('window').width - 30;
 var firstNameWidth = fldWidth / 2 - 15;
 var lastNameWidth = fldWidth / 2;
 
-class GetStarted extends Component {
+class AccountDetails extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -161,8 +161,8 @@ class GetStarted extends Component {
                 <TouchableOpacity
                   onPress={() => {
                     this._validateFields(() => {
-                      cache.set('step1-fields', this.state.fields);
-                      this.props.navigator.push({ indent: 'Step2a' });
+                      cache.set('accountDetails-fields', this.state.fields);
+                      this.props.navigator.push({ indent: 'AtShop' });
                     });
                   }}>
                   <Image
@@ -320,4 +320,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps)(GetStarted);
+module.exports = connect(mapStateToProps)(AccountDetails);

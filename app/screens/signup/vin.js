@@ -14,41 +14,23 @@ import {
   ScrollView,
   Alert
 } from 'react-native';
-import { connect } from 'react-redux';
-import { signUp } from '../../actions/user';
 import cache from '../../utils/cache';
+import { getJSON } from '../../utils/fetch';
 import storage from '../../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 40;
+const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/search_by_vin';
 
-class Step2a extends Component {
+class Vin extends Component {
     constructor(props) {
       super(props);
-
-      storage.get('caradvise:pushid').then(value => {
-         if (value) {
-           this.state.pushid = value;
-         }
-       });
 
       this.state = {
         isLoading: false,
         fields: Object.assign({
-          vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false }
-        }, cache.get('step2a-fields') || {}),
-        pushid: ""
+          vin: { name: 'VIN', value: '', invalid: false }
+        }, cache.get('vin-fields') || {})
       };
-    }
-
-    componentDidUpdate() {
-      if (this.props.isLoggedIn) {
-        cache.remove('step1-fields');
-        cache.remove('step2a-fields');
-        cache.remove('step2b-fields');
-        cache.remove('step3-fields');
-        cache.remove('step4-fields');
-        this.props.navigator.resetTo({ indent: 'Main' });
-      }
     }
 
     render() {
@@ -58,20 +40,20 @@ class Step2a extends Component {
           <View style={styles.formContainer}>
 
             <View>
-              <Text style={styles.textStep}>Enter your vehicle number below.</Text>
+              <Text style={styles.textStep}>Enter your VIN below. If you don{"'"}t know it then proceed to the next step.</Text>
             </View>
 
             <View style={styles.fields}>
               <TextInput
                 autoCorrect={false}
                 autoCapitalize="characters"
-                style={[styles.textFld, this.state.fields.vehicleNumber.invalid && styles.invalidFld]}
+                style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={this.state.fields.vehicleNumber.name}
-                value={this.state.fields.vehicleNumber.value}
-                onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
+                placeholder={this.state.fields.vin.name}
+                value={this.state.fields.vin.value}
+                onChangeText={value => this._onFieldChange('vin', value)} />
               <View style={styles.btnRow}>
-                <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
+                <TouchableOpacity disabled={this.state.isLoading} onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
                     source={require('../../../images/btn-next-med.png')}
@@ -92,24 +74,25 @@ class Step2a extends Component {
           ...(this.state.fields),
           [key]: { ...field, value: value.trim(), invalid: false }
         }
-      }, () => cache.set('step2a-fields', this.state.fields));
+      }, () => cache.set('vin-fields', this.state.fields));
     }
 
     _onClickNext() {
-      if (this.state.fields.vehicleNumber.value) {
-        let step1Fields = cache.get('step1-fields');
-        this.props.signUp({
-          firstName: step1Fields.firstName.value,
-          lastName: step1Fields.lastName.value,
-          email: step1Fields.email.value,
-          cellPhone: step1Fields.cellPhone.value,
-          password: step1Fields.password.value,
-          vehicleNumber: this.state.fields.vehicleNumber.value,
-          pushid: this.state.pushid,
-        });
-      } else {
-        //alert("A service associate will provide you with your Vehicle Number.")
-        this.props.navigator.push({ indent: 'Step2b' });
+      this._verifyVIN(() => {
+        cache.remove('vehicleDetails-fields');
+        this.props.navigator.push({ indent: 'Miles' });
+      });
+    }
+
+    async _verifyVIN(callback) {
+      this.setState({ isLoading: true });
+      let response = await getJSON(VIN_LOOKUP_URL, { vin: this.state.fields.vin.value });
+      this.setState({ isLoading: false });
+
+      if (response.error) {
+        Alert.alert('Error', response.error);
+      } else if (callback) {
+        callback();
       }
     }
 }
@@ -167,12 +150,4 @@ var styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  let user = state.user || {};
-  return {
-    isLoggedIn: !!user.authentication_token,
-    isLoading: !!user.loading
-  };
-}
-
-module.exports = connect(mapStateToProps, { signUp })(Step2a);
+module.exports = Vin;
