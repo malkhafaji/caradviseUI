@@ -1,4 +1,5 @@
 'use strict';
+var TopBar = require('../../components/main/topBar');
 
 import React from 'react';
 import {
@@ -53,18 +54,8 @@ class Step2a extends Component {
     render() {
         return (
           <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
+          <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
-            <Image
-              resizeMode='cover'
-              source={require('../../../images/bg-login.png')}
-              style={styles.bgSteps} />
-
-            <View>
-              <Image
-                resizeMode="contain"
-                source={require('../../../images/logo.png')}
-                style={styles.logo} />
-            </View>
 
             <View>
               <Text style={styles.textStep}>Enter your vehicle number below.</Text>
@@ -80,19 +71,10 @@ class Step2a extends Component {
                 value={this.state.fields.vehicleNumber.value}
                 onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <View style={styles.btnRow}>
-                <TouchableOpacity
-                  onPress={() => {
-                      this.props.navigator.pop();
-                  }}>
-                  <Image
-                    resizeMode='contain'
-                    source={require('../../../images/btn-back-white.png')}
-                    style={styles.btnBack} />
-                </TouchableOpacity>
                 <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../../images/btn-next.png')}
+                    source={require('../../../images/btn-next-med.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>
@@ -134,7 +116,7 @@ class Step2a extends Component {
 
 var styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   formContainer: {
     flex: 1,
@@ -142,30 +124,16 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 400,
   },
-  bgSteps: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    width: Dimensions.get('window').width,
-    height: 750,
-  },
-  logo: {
-    width: 180,
-    height: 29,
-    marginTop: 50,
-  },
   textStep: {
     marginTop: 50,
-    color: '#FFF',
+    color: '#002d5e',
     fontSize: 21,
     paddingLeft: 20,
     paddingRight: 20,
     textAlign: 'center'
   },
   textOr: {
-    color: '#FFF',
+    color: '#002d5e',
     fontWeight: 'bold',
     marginTop: 15,
   },
@@ -180,18 +148,13 @@ var styles = StyleSheet.create({
     marginTop: 15,
     width: fldWidth,
     padding: 10,
-    backgroundColor: '#FFF',
+    backgroundColor: '#efefef',
     color: '#666',
     fontSize: 21,
     paddingVertical: 0,
   },
-  btnBack: {
-    width: 120,
-    marginTop: 10,
-    marginRight: 5,
-  },
   btnNext: {
-    width: 120,
+    width: 190,
     marginTop: 10,
     marginLeft: 5,
   },

@@ -1,4 +1,5 @@
 'use strict';
+var TopBar = require('../../components/main/topBar');
 
 import React from 'react';
 import {
@@ -67,18 +68,8 @@ class GetStarted extends Component {
     render() {
         return (
           <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
+          <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
-            <Image
-              resizeMode='cover'
-              source={require('../../../images/bg-login.png')}
-              style={styles.bgSteps} />
-
-            <View>
-              <Image
-                resizeMode="contain"
-                source={require('../../../images/logo.png')}
-                style={styles.logo} />
-            </View>
 
             <View>
               <Text style={styles.textStep}>Enter your account details to get started.</Text>
@@ -158,7 +149,7 @@ class GetStarted extends Component {
                 <CheckBox
                   label=''
                   checked={true}
-                  checkedImage={require('../../../images/icon-checked.png')}
+                  checkedImage={require('../../../images/icon-checked-gray.png')}
                   uncheckedImage={require('../../../images/icon-unchecked.png')}
                   onChange={(checked) => console.log('I am checked', checked)}
                 />
@@ -169,15 +160,6 @@ class GetStarted extends Component {
               <View style={styles.btnRow}>
                 <TouchableOpacity
                   onPress={() => {
-                      this.props.navigator.pop();
-                  }}>
-                  <Image
-                    resizeMode='contain'
-                    source={require('../../../images/btn-back-white.png')}
-                    style={styles.btnBack} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
                     this._validateFields(() => {
                       cache.set('step1-fields', this.state.fields);
                       this.props.navigator.push({ indent: 'Step2a' });
@@ -185,7 +167,7 @@ class GetStarted extends Component {
                   }}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../../images/btn-next.png')}
+                    source={require('../../../images/btn-next-med.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>
@@ -243,7 +225,7 @@ class GetStarted extends Component {
 
 var styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   formContainer: {
     flex: 1,
@@ -251,23 +233,9 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 400,
   },
-  bgSteps: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    width: Dimensions.get('window').width,
-    height: 750,
-  },
-  logo: {
-    width: 180,
-    height: 29,
-    marginTop: 50,
-  },
   textStep: {
     marginTop: 50,
-    color: '#FFF',
+    color: '#002d5e',
     fontSize: 21,
     paddingLeft: 20,
     paddingRight: 20,
@@ -284,7 +252,7 @@ var styles = StyleSheet.create({
     marginTop: 15,
     width: fldWidth,
     padding: 10,
-    backgroundColor: '#FFF',
+    backgroundColor: '#efefef',
     color: '#666',
     fontSize: 18,
   },
@@ -293,7 +261,7 @@ var styles = StyleSheet.create({
     marginTop: 15,
     width: firstNameWidth,
     padding: 10,
-    backgroundColor: '#FFF',
+    backgroundColor: '#efefef',
     color: '#666',
     fontSize: 18,
     marginRight: 15,
@@ -303,17 +271,12 @@ var styles = StyleSheet.create({
     marginTop: 15,
     width: lastNameWidth,
     padding: 10,
-    backgroundColor: '#FFF',
+    backgroundColor: '#efefef',
     color: '#666',
     fontSize: 18,
   },
-  btnBack: {
-    width: 120,
-    marginTop: 10,
-    marginRight: 5,
-  },
   btnNext: {
-    width: 120,
+    width: 190,
     marginTop: 10,
     marginLeft: 5,
   },
@@ -337,13 +300,13 @@ var styles = StyleSheet.create({
   },
   check: {
     fontSize: 10,
-    color: '#FFF',
+    color: '#002d5e',
     marginTop: 7,
     backgroundColor: 'transparent',
   },
   privacy: {
     fontSize: 10,
-    color: '#FFF',
+    color: '#002d5e',
     marginTop: 7,
     textDecorationLine: 'underline',
     backgroundColor: 'transparent',
