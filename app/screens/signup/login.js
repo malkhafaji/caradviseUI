@@ -12,6 +12,7 @@ import {
   Alert,
   ScrollView
 } from 'react-native';
+import TopBar from '../../components/main/topBar.js';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions/user';
 
@@ -41,18 +42,9 @@ class Login extends Component {
     render() {
         return (
           <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
+          <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
-            <Image
-              resizeMode='cover'
-              source={require('../../../images/bg-login.png')}
-              style={styles.bgLogin} />
-            <View>
-              <Image
-                resizeMode='cover'
-                source={require('../../../images/logo.png')}
-                style={styles.logo} />
-            </View>
-            <View style={styles.loginContainer}>
+            <View style={styles.emailContainer}>
               <TextInput
                 ref='email'
                 style={[styles.fldEmail, this.state.fields.email.invalid && styles.invalidFld]}
@@ -65,7 +57,7 @@ class Login extends Component {
                 value={this.state.fields.email.value}
                 onChangeText={value => this._onFieldChange('email', value)} />
             </View>
-            <View style={styles.loginContainer}>
+            <View style={styles.pwdContainer}>
               <TextInput
                 ref='password'
                 style={[styles.fldPwd, this.state.fields.password.invalid && styles.invalidFld]}
@@ -87,19 +79,9 @@ class Login extends Component {
               }}
             >
               <Image
-                resizeMode='stretch'
+                resizeMode='contain'
                 source={require('../../../images/btn-submit-login.png')}
                 style={styles.btnLogin} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                  this.props.navigator.pop();
-              }}>
-              <Image
-                resizeMode='contain'
-                source={require('../../../images/btn-back-white.png')}
-                style={styles.btnBack} />
             </TouchableOpacity>
 
           </View>
@@ -150,7 +132,7 @@ class Login extends Component {
 
 var styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   formContainer: {
     flex: 1,
@@ -173,40 +155,40 @@ var styles = StyleSheet.create({
     marginTop: 80,
     marginBottom: 80,
   },
-  loginContainer: {
+  emailContainer: {
+    width: Dimensions.get('window').width,
+    backgroundColor: '#FFF',
+    marginTop: 50,
+  },
+  pwdContainer: {
     width: Dimensions.get('window').width,
     backgroundColor: '#FFF',
   },
   fldEmail: {
     height: 40,
-    marginTop: 30,
+    marginTop: 10,
     marginLeft: 20,
     width: fldWidth,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#CCC',
+    padding: 10,
+    backgroundColor: '#efefef',
+    color: '#666',
   },
   fldPwd: {
     height: 40,
     marginTop: 20,
-    marginBottom: 30,
+    marginBottom: 10,
     marginLeft: 20,
     width: fldWidth,
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#CCC',
+    backgroundColor: '#efefef',
+    color: '#666',
   },
   btnLogin: {
-    width: Dimensions.get('window').width,
-    height: 60,
+    width: 190,
   },
   invalidFld: {
     borderWidth: 1,
     borderColor: 'red'
-  },
-  btnBack: {
-    width: 120,
-    marginTop: 10,
   },
 });
 

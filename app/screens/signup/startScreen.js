@@ -20,14 +20,8 @@ class StartScreen extends Component {
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
-              source={require('../../../images/bg-login.png')}
+              source={require('../../../images/bg-logo.png')}
               style={styles.bgLogin} />
-            <View>
-              <Image
-                resizeMode='cover'
-                source={require('../../../images/logo.png')}
-                style={styles.logo} />
-            </View>
             <View style={styles.fields}>
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AccountDetails' })}>
                 <Image
@@ -64,20 +58,16 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: 750,
   },
-  logo: {
-    width: 180,
-    height: 29,
-    marginTop: 130,
-    marginBottom: 200,
-  },
   fields: {
-    marginBottom: 200,
+    marginTop: 440,
+    marginBottom: 50,
   },
   btnGetStarted: {
-    width: 200,
+    width: 280,
+    height: 45
   },
   btnLogin: {
-    width: 200,
+    width: 280,
   },
 });
 
