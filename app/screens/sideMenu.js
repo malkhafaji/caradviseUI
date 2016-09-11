@@ -21,7 +21,7 @@ class SideMenu extends Component {
 
   componentDidUpdate() {
     if (this.props.isLoggedOut)
-      this.props.navigator.resetTo({ indent: 'GetStarted' });
+      this.props.navigator.resetTo({ indent: 'StartScreen' });
   }
 
   render() {
