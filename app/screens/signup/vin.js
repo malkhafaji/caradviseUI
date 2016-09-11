@@ -28,23 +28,25 @@ class Vin extends Component {
       this.state = {
         isLoading: false,
         fields: Object.assign({
-          vin: { name: 'VIN', value: '', invalid: false }
+          vin: { name: 'VIN', value: '', invalid: false, validators: ['_isPresent'] }
         }, cache.get('vin-fields') || {})
       };
     }
 
     render() {
         return (
+          <View style={styles.base}>
           <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
 
             <View>
-              <Text style={styles.textStep}>Enter your VIN below. If you don{"'"}t know it then proceed to the next step.</Text>
+              <Text style={styles.textStep}>Enter your VIN below. If you don{"'"}t know it then go back to the last step.</Text>
             </View>
 
             <View style={styles.fields}>
               <TextInput
+                ref='vin'
                 autoCorrect={false}
                 autoCapitalize="characters"
                 style={[styles.textFld, this.state.fields.vin.invalid && styles.invalidFld]}
@@ -64,7 +66,20 @@ class Vin extends Component {
 
           </View>
           </ScrollView>
+          </View>
         );
+    }
+
+    _isPresent(value) {
+      return !!value;
+    }
+
+    _setAndValidateField(key, value) {
+      let field = this.state.fields[key];
+      let validators = field.validators || [];
+      let invalid = validators.some(validator => !this[validator](value));
+
+      return { ...field, value, invalid };
     }
 
     _onFieldChange(key, value) {
@@ -72,15 +87,36 @@ class Vin extends Component {
       this.setState({
         fields: {
           ...(this.state.fields),
-          [key]: { ...field, value: value.trim(), invalid: false }
+          [key]: this._setAndValidateField(key, value.trim())
         }
       }, () => cache.set('vin-fields', this.state.fields));
     }
 
+    _validateFields(callback) {
+      let fields = {};
+      let firstInvalidKey = null;
+
+      Object.keys(this.state.fields).forEach(key => {
+        let field = this.state.fields[key];
+        fields[key] = field = this._setAndValidateField(key, field.value);
+        if (!firstInvalidKey && field.invalid)
+          firstInvalidKey = key;
+      });
+
+      this.setState({ fields }, () => {
+        if (firstInvalidKey)
+          this.refs[firstInvalidKey].focus();
+        else if (callback)
+          callback();
+      });
+    }
+
     _onClickNext() {
-      this._verifyVIN(() => {
-        cache.remove('vehicleDetails-fields');
-        this.props.navigator.push({ indent: 'Miles' });
+      this._validateFields(() => {
+        this._verifyVIN(() => {
+          cache.remove('vehicleDetails-fields');
+          this.props.navigator.push({ indent: 'Miles' });
+        });
       });
     }
 
@@ -98,8 +134,9 @@ class Vin extends Component {
 }
 
 var styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#fff',
+  base: {
+    flex: 1,
+    backgroundColor: '#FFF'
   },
   formContainer: {
     flex: 1,
@@ -138,8 +175,7 @@ var styles = StyleSheet.create({
   },
   btnNext: {
     width: 190,
-    marginTop: 10,
-    marginLeft: 5,
+    marginTop: 10
   },
   invalidFld: {
     borderWidth: 1,

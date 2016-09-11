@@ -92,11 +92,17 @@ class VehicleDetails extends Component {
                 isInvalid: this.state.fields.engine.invalid
               })}
 
-              <View style={styles.btnRow}>
+              <View style={styles.btnCol}>
                 <TouchableOpacity onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
                     source={require('../../../images/btn-next-med.png')}
+                    style={styles.btnNext} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'Vin' })}>
+                  <Image
+                    resizeMode='contain'
+                    source={require('../../../images/btn-enterVin.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>
@@ -432,13 +438,12 @@ var styles = StyleSheet.create({
     fontSize: 21,
     paddingVertical: 0,
   },
-  btnRow: {
-    flexDirection: 'row',
+  btnCol: {
+    marginTop: 30
   },
   btnNext: {
     width: 190,
-    marginTop: 10,
-    marginLeft: 5,
+    height: 60
   },
   selectFld: {
     marginTop: 15,
