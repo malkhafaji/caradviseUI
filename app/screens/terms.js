@@ -225,10 +225,13 @@ var styles = StyleSheet.create({
     marginBottom: 200,
   },
   textHd: {
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 15,
     marginBottom: 8,
-    color: '#666666',
+    color: '#002d5e',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center'
   },
   privacyTxt: {
     flexDirection: 'column',
