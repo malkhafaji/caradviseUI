@@ -4,6 +4,7 @@ import React from 'react';
 import {
   View,
   Image,
+  Text,
   StyleSheet,
   Component,
   TouchableOpacity,
@@ -44,6 +45,7 @@ class Login extends Component {
           <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
+            <Text style={styles.textHd}>Sign In</Text>
             <View style={styles.emailContainer}>
               <TextInput
                 ref='email'
@@ -149,6 +151,15 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: 750,
   },
+  textHd: {
+    fontSize: 16,
+    marginTop: 15,
+    marginBottom: 8,
+    color: '#002d5e',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center'
+  },
   logo: {
     width: 180,
     height: 29,
@@ -158,7 +169,7 @@ var styles = StyleSheet.create({
   emailContainer: {
     width: Dimensions.get('window').width,
     backgroundColor: '#FFF',
-    marginTop: 50,
+    marginTop: 10,
   },
   pwdContainer: {
     width: Dimensions.get('window').width,
