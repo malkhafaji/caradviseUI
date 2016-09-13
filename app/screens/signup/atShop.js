@@ -17,7 +17,7 @@ class AtShop extends Component {
       <View style={styles.base}>
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
-          <Text style={styles.textStep}>Are you currently at a shop?</Text>
+          <Text style={styles.textStep}>Are you currently at a car care shop?</Text>
           <View style={styles.btnCol}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'SelectShop' })}>
               <Image
