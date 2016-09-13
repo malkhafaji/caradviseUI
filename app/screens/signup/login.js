@@ -169,7 +169,6 @@ var styles = StyleSheet.create({
   emailContainer: {
     width: Dimensions.get('window').width,
     backgroundColor: '#FFF',
-    marginTop: 10,
   },
   pwdContainer: {
     width: Dimensions.get('window').width,
