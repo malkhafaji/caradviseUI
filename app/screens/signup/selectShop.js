@@ -96,7 +96,7 @@ class SelectShop extends Component {
           {this.state.shops.map(shop => (
             <TouchableOpacity key={shop.id} onPress={() => this.selectShop(shop)}>
               <View style={styles.serviceRow}>
-                <Text style={styles.serviceItem}><Text style={styles.textBld}>{`${shop.name} - ${shop.city}`}</Text>{'\n'}{shop.address_line1}</Text>
+                <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}{shop.address_line1}, {shop.city} ({shop.distance.toFixed(2)} miles away)</Text>
               </View>
             </TouchableOpacity>
           ))}
