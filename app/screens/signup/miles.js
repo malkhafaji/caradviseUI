@@ -56,18 +56,38 @@ class Miles extends Component {
           <View style={styles.formContainer}>
 
             <View>
-              <Text style={styles.textStep}>To complete your car profile, we need the current mileage.</Text>
+              <Text style={styles.textStep}>Great! We have a few questions to complete your vehicle profile.</Text>
             </View>
 
             <View style={styles.fields}>
+              <Text style={styles.fieldLbl}>What is your current mileage?</Text>
               <TextInput
                 ref='miles'
                 keyboardType='numeric'
                 style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
                 placeholderTextColor={'#666'}
-                placeholder={this.state.fields.miles.name}
                 value={this.state.fields.miles.value}
                 onChangeText={value => this._onFieldChange('miles', value)} />
+              <Text style={styles.fieldLbl}>How many miles do you drive per month?</Text>
+              <TextInput
+                ref='miles-per-month'
+                keyboardType='numeric'
+                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
+                placeholderTextColor={'#666'} />
+              <Text style={styles.fieldLbl}>What type of driving do you do the most?</Text>
+              <TextInput
+                ref='driving-type'
+                keyboardType='numeric'
+                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
+                placeholderTextColor={'#666'} />
+              <View style={styles.labelContainer}>
+                <Text style={styles.fieldLbl}>What type of oil does your vehicle take?</Text>
+              </View>
+              <TextInput
+                ref='oil-type'
+                keyboardType='numeric'
+                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
+                placeholderTextColor={'#666'} />
               <View style={styles.btnRow}>
                 <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickNext()}>
                   <Image
@@ -184,11 +204,19 @@ var styles = StyleSheet.create({
     marginTop: 30,
     marginLeft: 15,
     marginRight: 15,
-    alignItems: 'center',
+    alignItems: 'center'
+  },
+  fieldLbl: {
+    color: '#002d5e',
+    width: fldWidth,
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'left'
   },
   textFld: {
     height: 40,
-    marginTop: 15,
+    marginTop: 5,
+    marginBottom: 15,
     width: fldWidth,
     padding: 10,
     backgroundColor: '#efefef',
