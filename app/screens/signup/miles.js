@@ -229,6 +229,7 @@ var styles = StyleSheet.create({
   },
   btnNext: {
     width: 190,
+    height: 40,
     marginTop: 10,
     marginLeft: 5,
   },
