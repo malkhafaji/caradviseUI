@@ -191,13 +191,13 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 400
   },
   textStep: {
-    marginTop: 50,
+    width: fldWidth,
+    marginTop: 30,
     color: '#002d5e',
     fontSize: 21,
-    paddingLeft: 20,
-    paddingRight: 20,
     textAlign: 'center'
   },
   fields: {
@@ -209,7 +209,7 @@ var styles = StyleSheet.create({
   fieldLbl: {
     color: '#002d5e',
     width: fldWidth,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'left'
   },
@@ -229,7 +229,7 @@ var styles = StyleSheet.create({
   },
   btnNext: {
     width: 190,
-    marginTop: 10,
+    height: 60,
     marginLeft: 5,
   },
   invalidFld: {

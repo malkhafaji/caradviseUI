@@ -1,5 +1,4 @@
 'use strict';
-var TopBar = require('../../components/main/topBar');
 
 import React from 'react';
 import {
@@ -14,6 +13,7 @@ import {
   Alert,
   ScrollView
 } from 'react-native';
+import TopBar from '../../components/main/topBar.js';
 import CheckBox from 'react-native-checkbox';
 import { connect } from 'react-redux';
 import cache from '../../utils/cache';
@@ -23,7 +23,7 @@ var fldWidth = Dimensions.get('window').width - 30;
 var firstNameWidth = fldWidth / 2 - 15;
 var lastNameWidth = fldWidth / 2;
 
-class AccountDetails extends Component {
+class GetStarted extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -31,7 +31,7 @@ class AccountDetails extends Component {
           firstName: { name: 'First Name', value: '', invalid: false, validators:['_isPresent'] },
           lastName: { name: 'Last Name', value: '', invalid: false, validators:['_isPresent'] },
           email: { name: 'Email', value: '', invalid: false, validators:['_isPresent'] },
-          cellPhone: { name: 'Cell Number', value: '', invalid: false, validators:['_isPresent'] },
+          cellPhone: { name: 'Phone Number', value: '', invalid: false, validators:['_isPresent'] },
           password: { name: 'Password', value: '', invalid: false, validators:['_isPresent'] },
           confirmPassword: { name: 'Confirm Password', value: '', invalid: false, validators:['_isPasswordMatched'] }
         }
@@ -161,13 +161,13 @@ class AccountDetails extends Component {
                 <TouchableOpacity
                   onPress={() => {
                     this._validateFields(() => {
-                      cache.set('accountDetails-fields', this.state.fields);
-                      this.props.navigator.push({ indent: 'AtShop' });
+                      cache.set('step1-fields', this.state.fields);
+                      this.props.navigator.push({ indent: 'Step2a' });
                     });
                   }}>
                   <Image
                     resizeMode='contain'
-                    source={require('../../../images/btn-next-med.png')}
+                    source={require('../../../images/btn-next.png')}
                     style={styles.btnNext} />
                 </TouchableOpacity>
               </View>
@@ -233,17 +233,32 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 400,
   },
+  bgSteps: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    width: Dimensions.get('window').width,
+    height: 750,
+  },
+  logo: {
+    width: 180,
+    height: 29,
+    marginTop: 50,
+  },
   textStep: {
-    width: fldWidth,
-    marginTop: 30,
+    marginTop: 50,
     color: '#002d5e',
     fontSize: 21,
+    paddingLeft: 20,
+    paddingRight: 20,
     textAlign: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   fields: {
     width: width,
-    marginTop: 15,
+    marginTop: 30,
     alignItems: 'center',
   },
   textFld: {
@@ -274,8 +289,13 @@ var styles = StyleSheet.create({
     color: '#666',
     fontSize: 18,
   },
+  btnBack: {
+    width: 120,
+    marginTop: 10,
+    marginRight: 5,
+  },
   btnNext: {
-    width: 190,
+    width: 120,
     marginTop: 10,
     marginLeft: 5,
   },
@@ -319,4 +339,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps)(AccountDetails);
+module.exports = connect(mapStateToProps)(GetStarted);
