@@ -145,10 +145,11 @@ var styles = StyleSheet.create({
     marginBottom: 400,
   },
   textStep: {
-    width: fldWidth,
-    marginTop: 30,
+    marginTop: 50,
     color: '#002d5e',
     fontSize: 21,
+    paddingLeft: 20,
+    paddingRight: 20,
     textAlign: 'center'
   },
   textOr: {

@@ -7,12 +7,9 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
   Component
 } from 'react-native';
 import TopBar from '../../components/main/topBar.js';
-
-var fldWidth = Dimensions.get('window').width - 40;
 
 class SelectShopDone extends Component {
   render() {
@@ -46,10 +43,11 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   textStep: {
-    width: fldWidth,
     marginTop: 50,
     color: '#002d5e',
     fontSize: 21,
+    paddingLeft: 20,
+    paddingRight: 20,
     textAlign: 'center'
   },
   btnCol: {

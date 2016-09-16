@@ -136,7 +136,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   textStep: {
-    marginTop: 30,
+    marginTop: 50,
     color: '#002d5e',
     fontSize: 21,
     paddingLeft: 20,
@@ -158,7 +158,6 @@ var styles = StyleSheet.create({
     borderColor: '#f8991d',
     textAlign: 'center',
     backgroundColor: '#EFEFEF',
-    fontSize: 18
   },
   btnSubmit: {
     width: 80,

@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  ScrollView,
   Dimensions,
   Component
 } from 'react-native';
@@ -40,7 +39,6 @@ class NotListed extends Component {
   render() {
     return (
       <View style={styles.base}>
-      <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
         <View>
@@ -86,7 +84,6 @@ class NotListed extends Component {
           </View>
         </View>
         </View>
-      </ScrollView>
       </View>
     );
   }
@@ -100,19 +97,20 @@ var styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: 400
+    alignItems: 'center'
   },
   textHd1: {
-    width: fldWidth,
-    marginTop: 30,
+    marginTop: 50,
     color: '#002d5e',
     fontSize: 21,
+    paddingLeft: 20,
+    paddingRight: 20,
     textAlign: 'center'
   },
   textHd2: {
-    width: fldWidth,
     color: '#002d5e',
+    paddingLeft: 20,
+    paddingRight: 20,
     marginTop: 10,
     textAlign: 'center'
   },
@@ -125,7 +123,7 @@ var styles = StyleSheet.create({
   fieldLbl: {
     color: '#002d5e',
     width: fldWidth,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'left'
   },
@@ -149,6 +147,7 @@ var styles = StyleSheet.create({
   },
   btnNext: {
     width: 190,
+    marginTop: 10,
     marginLeft: 5,
   }
 });
