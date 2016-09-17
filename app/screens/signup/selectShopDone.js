@@ -41,7 +41,8 @@ class SelectShopDone extends Component {
       <View style={styles.base}>
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
-          <Text style={styles.textStep}>Great, a car care professional will be right with you!</Text>
+          <Text style={styles.textHd1}>Hang tight! The shop will send you a notification shortly.</Text>
+          <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile.</Text>
 
           <View style={styles.fields}>
             <Text style={styles.fieldLbl}>What is your current mileage?</Text>
@@ -75,7 +76,7 @@ class SelectShopDone extends Component {
               <TouchableOpacity>
                 <Image
                   resizeMode='contain'
-                  source={require('../../../images/btn-next-med.png')}
+                  source={require('../../../images/btn-submit.png')}
                   style={styles.btnNext} />
               </TouchableOpacity>
             </View>
@@ -96,12 +97,19 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  textStep: {
+  textHd1: {
     marginTop: 50,
     color: '#002d5e',
     fontSize: 21,
     paddingLeft: 20,
     paddingRight: 20,
+    textAlign: 'center'
+  },
+  textHd2: {
+    color: '#002d5e',
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 10,
     textAlign: 'center'
   },
   fields: {

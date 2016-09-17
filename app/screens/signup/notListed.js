@@ -78,7 +78,7 @@ class NotListed extends Component {
             <TouchableOpacity>
               <Image
                 resizeMode='contain'
-                source={require('../../../images/btn-next-med.png')}
+                source={require('../../../images/btn-submit.png')}
                 style={styles.btnNext} />
             </TouchableOpacity>
           </View>
