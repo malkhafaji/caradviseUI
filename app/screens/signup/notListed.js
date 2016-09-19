@@ -67,7 +67,7 @@ class NotListed extends Component {
             style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
             placeholderTextColor={'#666'} />
           <View style={styles.labelContainer}>
-            <Text style={styles.fieldLbl}>What type of oil does your vehicle take?</Text>
+            <Text style={styles.fieldLbl}>Did you purchase your car new or used?</Text>
           </View>
           <TextInput
             ref='oil-type'
