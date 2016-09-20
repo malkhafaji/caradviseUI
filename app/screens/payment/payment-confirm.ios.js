@@ -194,9 +194,6 @@ class PaymentConfirm extends Component {
              body: JSON.stringify({
                payment_method_nonce: nonce,
                amount: amount,
-               options: {
-                  submitForSettlement: true
-                },
              })
            })
            .then((response) => response.json())
