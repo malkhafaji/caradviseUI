@@ -439,7 +439,7 @@ var styles = StyleSheet.create({
     paddingVertical: 0,
   },
   btnCol: {
-    marginTop: 30
+    marginTop: 20
   },
   btnNext: {
     width: 190,
