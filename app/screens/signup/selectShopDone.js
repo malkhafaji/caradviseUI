@@ -45,13 +45,6 @@ class SelectShopDone extends Component {
           <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile.</Text>
 
           <View style={styles.fields}>
-            <Text style={styles.fieldLbl}>What is your current mileage?</Text>
-            <TextInput
-              ref='miles'
-              keyboardType='numeric'
-              style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
-              placeholderTextColor={'#666'}
-              onChangeText={value => this._onFieldChange('miles', value)} />
             <Text style={styles.fieldLbl}>How many miles do you drive per month?</Text>
             <TextInput
               ref='miles-per-month'
