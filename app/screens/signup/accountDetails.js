@@ -162,7 +162,7 @@ class AccountDetails extends Component {
                   onPress={() => {
                     this._validateFields(() => {
                       cache.set('accountDetails-fields', this.state.fields);
-                      this.props.navigator.push({ indent: 'AtShop' });
+                      this.props.navigator.push({ indent: 'VehicleDetails' });
                     });
                   }}>
                   <Image

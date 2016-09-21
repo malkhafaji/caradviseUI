@@ -348,7 +348,7 @@ class VehicleDetails extends Component {
     _onClickNext() {
       this._validateFields(() => {
         cache.remove('vin-fields');
-        this.props.navigator.push({ indent: 'Miles' });
+        this.props.navigator.push({ indent: 'AtShop' });
       });
     }
 
