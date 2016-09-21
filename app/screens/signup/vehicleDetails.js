@@ -22,9 +22,9 @@ import sortBy from 'lodash/sortBy';
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
 
-const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/makes_by_year';
-const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/models_by_year_and_make';
-const BY_MODEL_AND_SUB_MODEL_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/engines_by_model_and_sub_model';
+const BY_YEAR_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/makes_by_year';
+const BY_YEAR_AND_MAKE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/models_by_year_and_make';
+const BY_MODEL_AND_SUB_MODEL_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/engines_by_model_and_sub_model';
 
 class VehicleDetails extends Component {
     constructor(props) {

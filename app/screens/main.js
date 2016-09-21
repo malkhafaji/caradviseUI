@@ -21,7 +21,7 @@ import { getJSON } from '../utils/fetch';
 
 var btnWidth = Dimensions.get('window').width - 40;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3001/api/v1/vehicles/active_order_by_vehicle_number';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/active_order_by_vehicle_number';
 
 class Main extends Component {
     constructor(props) {
