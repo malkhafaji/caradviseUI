@@ -7,9 +7,12 @@ var ApprovalDetail = require('./app/screens/approvals/approvalDetail');
 var ApprovalGroupDetail = require('./app/screens/approvals/approvalGroupDetail');
 var StartScreen = require('./app/screens/signup/startScreen');
 var Login = require('./app/screens/signup/login');
+var Step1 = require('./app/screens/signup/getStarted-step1');
+var Step2a = require('./app/screens/signup/getStarted-step2a');
 var AccountDetails = require('./app/screens/signup/accountDetails');
 var Vin = require('./app/screens/signup/vin');
 var VehicleDetails = require('./app/screens/signup/vehicleDetails');
+var VehicleNumber = require('./app/screens/signup/vehicleNumber');
 var Miles = require('./app/screens/signup/miles');
 var AtShop = require('./app/screens/signup/atShop');
 var SelectShop = require('./app/screens/signup/selectShop');
@@ -134,6 +137,14 @@ class caradviseui extends Component {
         return (
           <StartScreen {...globalNavigatorProps} />
         )
+      case 'Step1':
+        return (
+          <Step1 {...globalNavigatorProps} />
+        )
+      case 'Step2a':
+        return (
+          <Step2a {...globalNavigatorProps} />
+        )
       case 'Login':
         return (
           <Login {...globalNavigatorProps} />
@@ -149,6 +160,10 @@ class caradviseui extends Component {
       case 'VehicleDetails':
         return (
           <VehicleDetails {...globalNavigatorProps} />
+        )
+      case 'VehicleNumber':
+        return (
+          <VehicleNumber {...globalNavigatorProps} />
         )
       case 'Miles':
         return (

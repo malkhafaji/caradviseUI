@@ -12,6 +12,7 @@ var Step2a = require('./app/screens/signup/getStarted-step2a');
 var AccountDetails = require('./app/screens/signup/accountDetails');
 var Vin = require('./app/screens/signup/vin');
 var VehicleDetails = require('./app/screens/signup/vehicleDetails');
+var VehicleNumber = require('./app/screens/signup/vehicleNumber');
 var Miles = require('./app/screens/signup/miles');
 var AtShop = require('./app/screens/signup/atShop');
 var SelectShop = require('./app/screens/signup/selectShop');
@@ -137,6 +138,10 @@ class caradviseui extends Component {
       case 'VehicleDetails':
         return (
           <VehicleDetails {...globalNavigatorProps} />
+        )
+      case 'VehicleNumber':
+        return (
+          <VehicleNumber {...globalNavigatorProps} />
         )
       case 'Miles':
         return (
