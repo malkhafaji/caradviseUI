@@ -101,7 +101,7 @@ class SelectShop extends Component {
             </TouchableOpacity>
           ))}
 
-          <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'NotListed' })}>
+          <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'VehicleNumber' })}>
             <Image
               resizeMode='contain'
               source={require('../../../images/btn-notListed.png')}
