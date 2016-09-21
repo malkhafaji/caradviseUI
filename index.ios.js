@@ -181,6 +181,10 @@ class caradviseui extends Component {
         return (
           <SelectShopDone {...globalNavigatorProps} />
         )
+      case 'NotAtShopDone':
+        return (
+          <NotAtShopDone {...globalNavigatorProps} />
+        )
       case 'NotListed':
         return (
           <NotListed {...globalNavigatorProps} />
