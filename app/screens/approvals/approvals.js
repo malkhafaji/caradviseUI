@@ -106,6 +106,11 @@ class Approvals extends Component {
        var approvedTotal = approvedServices.length;
        var unapprovedTotal = unapprovedServices.length;
 
+       if(orderStatus == 4)
+       {
+         this.props.navigator.push({ indent: 'PaymentThanks' });
+       }
+
        if(orderStatus == 1)
        {
          showCheckout = true;
