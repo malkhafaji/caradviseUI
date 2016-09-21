@@ -32,6 +32,7 @@ class PaymentThanks extends Component {
       var props = this.props.navigator._navigationContext._currentRoute.passProps;
       this.state = {
         orderId:0,
+        orderStatus:null,
         services:null,
         total:0,
         tax:0,
@@ -58,6 +59,7 @@ class PaymentThanks extends Component {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
           var total = 0;
           var orderId = responseData.order.id;
+          var orderStatus = responseData.order.status;
           var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
           var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
           var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
@@ -81,6 +83,7 @@ class PaymentThanks extends Component {
 
           this.setState({
             orderId: orderId,
+            orderStatus: orderStatus,
             services: services,
             taxRate: taxRate,
             misc: misc.toFixed(2),
@@ -153,13 +156,17 @@ class PaymentThanks extends Component {
 
   updateOrderComplete(orderId)
   {
-    fetch(UPDATE_ORDER_URL.replace("?", orderId) +'?status=3',
-      {
-        method:"PUT",
-        headers: {'Authorization': this.props.authentication_token},
-      }
-    )
-    .done();
+    if (this.state.orderStatus != 4) {
+      fetch(UPDATE_ORDER_URL.replace("?", orderId) +'?status=3',
+        {
+          method:"PUT",
+          headers: {'Authorization': this.props.authentication_token},
+        }
+      )
+      .done();
+    } else {
+        return null;
+    }
   }
 
   processCreditCard=()=>
@@ -171,6 +178,7 @@ class PaymentThanks extends Component {
     var nav = this.props.navigator;
     var amount = this.state.finalTotal;
     var orderId = this.state.orderId;
+    var orderStatus = this.state.orderStatus;
     fetch('https://caradvise.herokuapp.com/get_token', {method: "GET"})
     .then((response) => response.json())
     .then((responseData) => {
@@ -244,6 +252,7 @@ class PaymentThanks extends Component {
 
     renderServices(services) {
         var orderId = this.state.orderId;
+        var orderStatus = this.state.orderStatus;
         return (
           <View style={styles.base}>
             <TopBar navigator={this.props.navigator} />
