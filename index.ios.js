@@ -17,6 +17,7 @@ var Miles = require('./app/screens/signup/miles');
 var AtShop = require('./app/screens/signup/atShop');
 var SelectShop = require('./app/screens/signup/selectShop');
 var SelectShopDone = require('./app/screens/signup/selectShopDone');
+var SelectMaintenance = require('./app/screens/signup/selectMaintenance');
 var NotListed = require('./app/screens/signup/notListed');
 var AddServices = require('./app/screens/addServices');
 var ServiceDetail = require('./app/screens/serviceDetail');
@@ -180,6 +181,10 @@ class caradviseui extends Component {
       case 'SelectShopDone':
         return (
           <SelectShopDone {...globalNavigatorProps} />
+        )
+      case 'SelectMaintenance':
+        return (
+          <SelectMaintenance {...globalNavigatorProps} />
         )
       case 'NotAtShopDone':
         return (
