@@ -207,18 +207,18 @@ class ApprovalDetail extends Component {
               <View>
                 <View style={styles.maintenanceRow}>
                   <Text style={styles.maintenanceItem}>{this.state.name} {this.state.position}</Text>
-
-                  <View style={styles.fairPriceContainer}>
-                    <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                    <View style={styles.fairPriceRange}>
-                      <Text style={styles.fairPrice}>${this.state.fairLow.toFixed(0)}</Text>
-                      <Image
-                        source={require('../../../images/arrow-range.png')}
-                        style={styles.fairPriceArrow} />
-                      <Text style={styles.fairPrice}>${this.state.fairHigh.toFixed(0)}</Text>
+                  { totalLow || totalHigh ? (
+                    <View style={styles.fairPriceContainer}>
+                      <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                      <View style={styles.fairPriceRange}>
+                        <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
+                        <Image
+                          source={require('../../../images/arrow-range.png')}
+                          style={styles.fairPriceArrow} />
+                        <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+                      </View>
                     </View>
-                  </View>
-
+                  ) : null }
                 </View>
                 {this.renderMaintenance()}
               </View>
@@ -253,16 +253,18 @@ var Part = React.createClass({
       return(
         <View style={styles.partRow}>
           <Text style={styles.partItem}>{this.props.part.name} {this.props.part.qualifier_name}</Text>
-          <View style={styles.fairPriceContainer}>
-            <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-            <View style={styles.fairPriceRange}>
-              <Text style={styles.fairPrice}>${this.props.partLow.toFixed(0)}</Text>
-              <Image
-                source={require('../../../images/arrow-range.png')}
-                style={styles.fairPriceArrow} />
-              <Text style={styles.fairPrice}>${this.props.partHigh.toFixed(0)}</Text>
+          { this.props.partLow || this.props.partHigh ? (
+            <View style={styles.fairPriceContainer}>
+              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+              <View style={styles.fairPriceRange}>
+                <Text style={styles.fairPrice}>${this.props.partLow.toFixed(0)}</Text>
+                <Image
+                  source={require('../../../images/arrow-range.png')}
+                  style={styles.fairPriceArrow} />
+                <Text style={styles.fairPrice}>${this.props.partHigh.toFixed(0)}</Text>
+              </View>
             </View>
-          </View>
+          ) : null }
         </View>
       );
   }

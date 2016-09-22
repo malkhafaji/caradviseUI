@@ -127,46 +127,50 @@ var Service = React.createClass({
 
     if (this.props.service.status == 0) {
       return (
-        <View>
+        <View style={styles.serviceRow}>
           <TouchableOpacity
             style={styles.newServicesRow}
             onPress={() => this.openDetail()}>
             <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
-            <View style={styles.fairPriceContainer}>
-              <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-              <View style={styles.fairPriceRange}>
-                <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
-                <Image
-                  source={require('../../../images/arrow-range.png')}
-                  style={styles.fairPriceArrow} />
-                <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+            { totalLow || totalHigh ? (
+              <View style={styles.fairPriceContainer}>
+                <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                <View style={styles.fairPriceRange}>
+                  <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
+                  <Image
+                    source={require('../../../images/arrow-range.png')}
+                    style={styles.fairPriceArrow} />
+                  <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+                </View>
               </View>
-            </View>
-            <View style={styles.newServicePriceContainer}>
-              <Text style={styles.newServicePriceHd}>PRICE</Text>
-              <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
-            </View>
+            ) : null }
+            { Number(this.props.service.totalCost) ? (
+              <View style={styles.newServicePriceContainer}>
+                <Text style={styles.newServicePriceHd}>PRICE</Text>
+                <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+              </View>
+            ) : null }
           </TouchableOpacity>
-
-          <View style={styles.btnRow}>
-            <TouchableOpacity
-              style={styles.btnLeft}
-              underlayColor='#dddddd'
-              onPress={() => { this.props.updateServiceStatus(this.props.service, 3) }}>
-              <Image
-                source={require('../../../images/btn-save.png')}
-                style={styles.btnSave} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.btnRight}
-              underlayColor='#dddddd'
-              onPress={() => { this.props.updateServiceStatus(this.props.service, 2) }}>
-              <Image
-                source={require('../../../images/btn-approve-orange.png')}
-                style={styles.btnApprove} />
-            </TouchableOpacity>
-          </View>
+          { this.props.service.group_id ? null :
+            <View style={styles.btnRow}>
+              <TouchableOpacity
+                style={styles.btnLeft}
+                underlayColor='#dddddd'
+                onPress={() => { this.props.updateServiceStatus(this.props.service, 3) }}>
+                <Image
+                  source={require('../../../images/btn-save.png')}
+                  style={styles.btnSave} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.btnRight}
+                underlayColor='#dddddd'
+                onPress={() => { this.props.updateServiceStatus(this.props.service, 2) }}>
+                <Image
+                  source={require('../../../images/btn-approve-orange.png')}
+                  style={styles.btnApprove} />
+              </TouchableOpacity>
+            </View>
+          }
         </View>
       );
     } else if (this.props.service.status == 2 || this.props.service.status == 5) {
@@ -279,13 +283,15 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     fontWeight: 'bold',
   },
+  serviceRow: {
+    marginBottom: 5
+  },
   btnRow: {
     flex: 1,
     flexDirection: 'row',
     width: width,
     backgroundColor: '#EFEFEF',
     paddingBottom: 10,
-    marginBottom: 5,
   },
   btnLeft: {
     flex: 2,

@@ -390,6 +390,8 @@ var Service = React.createClass({
         let url;
         if (this.props.service.groupedServices) {
           let ids = this.props.service.groupedServices.map(s => s.id).join(',');
+          if (this.props.service.group_list)
+            ids += `,${this.props.service.id}`
           url = `${BULK_UPDATE_URL}?order_service_ids=${ids}&status=${status}`;
         } else {
           url = `${UPDATE_URL}?order_service_id=${this.props.service.id}&status=${status}`;
@@ -488,20 +490,24 @@ var Service = React.createClass({
           onPress={() => this.openDetail()}>
             <View style={styles.newServicesRow}>
               <Text style={styles.newServiceItem}>{this.props.service.serviceName} {this.props.service.motor_vehicle_service.position}</Text>
-              <View style={styles.fairPriceContainer}>
-                <Text style={styles.fairPriceText}>FAIR PRICE</Text>
-                <View style={styles.fairPriceRange}>
-                  <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
-                  <Image
-                    source={require('../../../images/arrow-range.png')}
-                    style={styles.fairPriceArrow} />
-                  <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+              { totalLow || totalHigh ? (
+                <View style={styles.fairPriceContainer}>
+                  <Text style={styles.fairPriceText}>FAIR PRICE</Text>
+                  <View style={styles.fairPriceRange}>
+                    <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
+                    <Image
+                      source={require('../../../images/arrow-range.png')}
+                      style={styles.fairPriceArrow} />
+                    <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.newServicePriceContainer}>
-                <Text style={styles.newServicePriceHd}>PRICE</Text>
-                <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
-              </View>
+              ) : null }
+              { Number(this.props.service.totalCost) ? (
+                <View style={styles.newServicePriceContainer}>
+                  <Text style={styles.newServicePriceHd}>PRICE</Text>
+                  <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+                </View>
+              ) : null }
             </View>
             <View style={styles.shopComments}>
               <View style={styles.commentWrapper}>
