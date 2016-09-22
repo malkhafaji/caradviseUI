@@ -81,6 +81,21 @@ class Approvals extends Component {
         });
       }
 
+      if (otherServices.length > 0) {
+        let [individualServices, groupedServices] = partition(otherServices, { group_id: 0 });
+
+        individualServices.forEach(service => {
+          if (!service.group_list) return;
+
+          service.groupedServices = service.group_list
+            .map(({ motor_service_id }) => groupedServices
+              .find(service => motor_service_id === service.motor_service_id))
+            .filter(service => !!service);
+        })
+
+        otherServices = individualServices;
+      }
+
       return otherServices;
     }
 
