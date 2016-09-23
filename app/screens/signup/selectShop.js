@@ -116,7 +116,8 @@ class SelectShop extends Component {
 
   selectShop = shop => {
     cache.set('selectShop-fields', { shop });
-    this.props.navigator.push({ indent: 'SelectShopDone' });
+    cache.remove('vehicleNumber-fields');
+    this.props.navigator.push({ indent: 'SelectMaintenance' });
   }
 }
 

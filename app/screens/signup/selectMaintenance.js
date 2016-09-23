@@ -47,7 +47,7 @@ class SelectMaintenance extends Component {
           </TouchableOpacity>
 
           <View style={styles.btnCol}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'VehicleDetails' })}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'SelectShopDone' })}>
               <Image
                 resizeMode='contain'
                 source={require('../../../images/btn-next-med.png')}

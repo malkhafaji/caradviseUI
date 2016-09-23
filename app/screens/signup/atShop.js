@@ -25,7 +25,7 @@ class AtShop extends Component {
                 source={require('../../../images/btn-yes.png')}
                 style={styles.btn} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'VehicleDetails' })}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'NotAtShopDone' })}>
               <Image
                 resizeMode='contain'
                 source={require('../../../images/btn-no.png')}

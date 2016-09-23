@@ -65,7 +65,7 @@ export async function putJSON(url, data={}, headers={}) {
     });
 
     if (response.ok) {
-      let result = await response.json();
+      let result = await response.json().catch(() => null);
       return { result };
     } else if (response.status >= 400 && response.status < 500) {
       let result = await response.json();

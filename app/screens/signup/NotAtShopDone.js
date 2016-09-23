@@ -23,7 +23,7 @@ var fldWidth = Dimensions.get('window').width - 40;
 
 var UPDATE_VEHICLE_PROPERTIES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/owner_vehicles/update_owner_vehicle_properties';
 
-class SelectShopDone extends Component {
+class NotAtShopDone extends Component {
 
   constructor(props) {
     super(props);
@@ -39,7 +39,7 @@ class SelectShopDone extends Component {
         miles_per_month: { name: '', value: '', invalid: false, validators: ['_isPresent'] },
         type_of_driving: { name: '', value: 'Highway', invalid: false, validators: ['_isPresent'] },
         used_or_new: { name: '', value: 'Used', invalid: false, validators: ['_isPresent'] }
-      }, cache.get('selectShopDone-fields') || {}),
+      }, cache.get('notAtShopDone-fields') || {}),
       pushid: ""
     };
   }
@@ -49,7 +49,6 @@ class SelectShopDone extends Component {
       cache.remove('accountDetails-fields');
       cache.remove('vehicleDetails-fields');
       cache.remove('vin-fields');
-      cache.remove('vehicleNumber-fields');
 
       let response = await putJSON(
         UPDATE_VEHICLE_PROPERTIES_URL,
@@ -65,7 +64,7 @@ class SelectShopDone extends Component {
       if (response.error) {
         Alert.alert('Error', response.error);
       } else {
-        cache.remove('selectShopDone-fields');
+        cache.remove('notAtShopDone-fields');
         this.props.navigator.resetTo({ indent: 'Main' });
       }
     }
@@ -164,25 +163,23 @@ class SelectShopDone extends Component {
   _onClickSubmit() {
     this._validateFields(() => {
       let accountDetailsFields = cache.get('accountDetails-fields');
-      let vehicleDetailsFields = cache.get('vehicleDetails-fields');
       let data = {
         firstName: accountDetailsFields.firstName.value,
         lastName: accountDetailsFields.lastName.value,
         email: accountDetailsFields.email.value,
         cellPhone: accountDetailsFields.cellPhone.value,
         password: accountDetailsFields.password.value,
-        miles: vehicleDetailsFields.miles.value,
+        miles: this.state.fields.miles.value,
         pushid: this.state.pushid
       };
 
       let vinFields = cache.get('vin-fields');
-      let vehicleNumberFields = cache.get('vehicleNumber-fields');
-
       if (vinFields) {
         data.vin = vinFields.vin.value;
-      } else if (vehicleNumberFields) {
-        data.vehicleNumber = vehicleNumberFields.vehicleNumber.value;
-      } else {
+      }
+
+      let vehicleDetailsFields = cache.get('vehicleDetails-fields');
+      if (vehicleDetailsFields) {
         data.year = vehicleDetailsFields.year.value;
         data.make = vehicleDetailsFields.make.value;
 
@@ -268,4 +265,4 @@ function mapStateToProps(state) {
   };
 }
 
-module.exports = connect(mapStateToProps, { signUp })(SelectShopDone);
+module.exports = connect(mapStateToProps, { signUp })(NotAtShopDone);

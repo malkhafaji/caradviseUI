@@ -14,8 +14,6 @@ import {
   Alert
 } from 'react-native';
 import TopBar from '../../components/main/topBar.js';
-import { connect } from 'react-redux';
-import { signUp } from '../../actions/user';
 import cache from '../../utils/cache';
 import storage from '../../utils/storage';
 
@@ -25,34 +23,16 @@ class VehicleNumber extends Component {
     constructor(props) {
       super(props);
 
-      storage.get('caradvise:pushid').then(value => {
-         if (value) {
-           this.state.pushid = value;
-         }
-       });
-
       this.state = {
-        isLoading: false,
         fields: Object.assign({
           vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false }
-        }, cache.get('step2a-fields') || {}),
-        pushid: ""
+        }, cache.get('vehicleNumber-fields') || {})
       };
-    }
-
-    componentDidUpdate() {
-      if (this.props.isLoggedIn) {
-        cache.remove('step1-fields');
-        cache.remove('step2a-fields');
-        cache.remove('step2b-fields');
-        cache.remove('step3-fields');
-        cache.remove('step4-fields');
-        this.props.navigator.resetTo({ indent: 'Main' });
-      }
     }
 
     render() {
         return (
+          <View style={styles.base}>
           <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
@@ -71,7 +51,7 @@ class VehicleNumber extends Component {
                 value={this.state.fields.vehicleNumber.value}
                 onChangeText={value => this._onFieldChange('vehicleNumber', value)} />
               <View style={styles.btnRow}>
-                <TouchableOpacity disabled={this.props.isLoading || this.state.isLoading} onPress={() => this._onClickNext()}>
+                <TouchableOpacity onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
                     source={require('../../../images/btn-next.png')}
@@ -82,6 +62,7 @@ class VehicleNumber extends Component {
 
           </View>
           </ScrollView>
+          </View>
         );
     }
 
@@ -92,29 +73,23 @@ class VehicleNumber extends Component {
           ...(this.state.fields),
           [key]: { ...field, value: value.trim(), invalid: false }
         }
-      }, () => cache.set('step2a-fields', this.state.fields));
+      }, () => cache.set('vehicleNumber-fields', this.state.fields));
     }
 
     _onClickNext() {
       if (this.state.fields.vehicleNumber.value) {
-        let step1Fields = cache.get('step1-fields');
-        this.props.signUp({
-          firstName: step1Fields.firstName.value,
-          lastName: step1Fields.lastName.value,
-          email: step1Fields.email.value,
-          cellPhone: step1Fields.cellPhone.value,
-          password: step1Fields.password.value,
-          vehicleNumber: this.state.fields.vehicleNumber.value,
-          pushid: this.state.pushid,
-        });
+        this.props.navigator.push({ indent: 'SelectMaintenance' });
       } else {
         alert("A car care professional will provide you with your Vehicle Number.")
-        //this.props.navigator.push({ indent: 'Step2b' });
       }
     }
 }
 
 var styles = StyleSheet.create({
+  base: {
+    flex: 1,
+    backgroundColor: '#FFF'
+  },
   scrollView: {
     backgroundColor: '#000',
   },
@@ -186,12 +161,4 @@ var styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  let user = state.user || {};
-  return {
-    isLoggedIn: !!user.authentication_token,
-    isLoading: !!user.loading
-  };
-}
-
-module.exports = connect(mapStateToProps, { signUp })(VehicleNumber);
+module.exports = VehicleNumber;

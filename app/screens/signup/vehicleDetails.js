@@ -41,9 +41,10 @@ class VehicleDetails extends Component {
         engines: cache.get('vehicleDetails-engines') || [],
         fields: Object.assign({
           year: { name: 'Year', value: '', invalid: false, validators: ['_isPresent'] },
-          make: { name: 'Make', value: '', invalid: false, validators: ['_isPresent'] },
-          model: { name: 'Model', value: '', invalid: false, validators: ['_isPresent'] },
-          engine: { name: 'Engine', value: '', invalid: false, validators: ['_isPresent'] }
+          make: { name: 'Select Make', value: '', invalid: false, validators: ['_isPresent'] },
+          model: { name: 'Select Model', value: '', invalid: false, validators: ['_isPresent'] },
+          engine: { name: 'Select Engine', value: '', invalid: false, validators: ['_isPresent'] },
+          miles: { name: 'How many miles?', value: '', invalid: false, validators: ['_isPresent'] }
         }, cache.get('vehicleDetails-fields') || {})
       };
     }
@@ -91,6 +92,16 @@ class VehicleDetails extends Component {
                 isDisabled: this.state.loading_engines,
                 isInvalid: this.state.fields.engine.invalid
               })}
+
+              <TextInput
+                ref='miles'
+                keyboardType='numeric'
+                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
+                placeholderTextColor={'#666'}
+                placeholder={this.state.fields.miles.name}
+                value={this.state.fields.miles.value}
+                onChangeText={value => this._onFieldChange('miles', value)}
+                onEndEditing={() => cache.set('vehicleDetails-fields', this.state.fields)} />
 
               <View style={styles.btnCol}>
                 <TouchableOpacity onPress={() => this._onClickNext()}>
