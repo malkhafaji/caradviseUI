@@ -9,6 +9,8 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
+  ScrollView,
+  LayoutAnimation,
   Component,
   Alert
 } from 'react-native';
@@ -19,7 +21,8 @@ import cache from '../../utils/cache';
 import storage from '../../utils/storage';
 import { putJSON } from '../../utils/fetch';
 
-var fldWidth = Dimensions.get('window').width - 40;
+var { width, height } = Dimensions.get('window');
+var fldWidth = width - 40;
 
 var UPDATE_VEHICLE_PROPERTIES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/owner_vehicles/update_owner_vehicle_properties';
 
@@ -35,6 +38,10 @@ class SelectShopDone extends Component {
     });
 
     this.state = {
+      hide_type_of_driving: true,
+      types_of_driving: [{ label: 'Highway', value: 'Highway' }, { label: 'City', value: 'City' }, { label: 'Both', value: 'Both' }],
+      hide_used_or_new: true,
+      types_of_car: [{ label: 'Used', value: 'Used' }, { label: 'New', value: 'New' }],
       fields: Object.assign({
         miles_per_month: { name: '', value: '', invalid: false, validators: ['_isPresent'] },
         type_of_driving: { name: '', value: 'Highway', invalid: false, validators: ['_isPresent'] },
@@ -90,23 +97,19 @@ class SelectShopDone extends Component {
               value={this.state.fields.miles_per_month.value}
               onChangeText={value => this._onFieldChange('miles_per_month', value)} />
             <Text style={styles.fieldLbl}>What type of driving do you do the most?</Text>
-            <TextInput
-              ref='type_of_driving'
-              style={[styles.textFld, this.state.fields.type_of_driving.invalid && styles.invalidFld]}
-              placeholderTextColor={'#666'}
-              placeholder={this.state.fields.type_of_driving.name}
-              value={this.state.fields.type_of_driving.value}
-              onChangeText={value => this._onFieldChange('type_of_driving', value)} />
+            {this._renderPickerToggle({
+              key: 'type_of_driving',
+              value: this.state.fields.type_of_driving.value || this.state.fields.type_of_driving.name,
+              isInvalid: this.state.fields.type_of_driving.invalid
+            })}
             <View style={styles.labelContainer}>
               <Text style={styles.fieldLbl}>Did you purchase your car new or used?</Text>
             </View>
-            <TextInput
-              ref='used_or_new'
-              style={[styles.textFld, this.state.fields.used_or_new.invalid && styles.invalidFld]}
-              placeholderTextColor={'#666'}
-              placeholder={this.state.fields.used_or_new.name}
-              value={this.state.fields.used_or_new.value}
-              onChangeText={value => this._onFieldChange('used_or_new', value)} />
+            {this._renderPickerToggle({
+              key: 'used_or_new',
+              value: this.state.fields.used_or_new.value || this.state.fields.used_or_new.name,
+              isInvalid: this.state.fields.used_or_new.invalid
+            })}
             <View style={styles.btnRow}>
               <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickSubmit()}>
                 <Image
@@ -117,8 +120,73 @@ class SelectShopDone extends Component {
             </View>
           </View>
         </View>
+
+        {this._renderPicker({
+          key: 'type_of_driving',
+          items: this.state.types_of_driving,
+          isHidden: this.state.hide_type_of_driving
+        })}
+
+        {this._renderPicker({
+          key: 'used_or_new',
+          items: this.state.types_of_car,
+          isHidden: this.state.hide_used_or_new
+        })}
+
       </View>
     );
+  }
+
+  _renderPickerToggle({ key, value, isInvalid }) {
+    return (
+      <TouchableOpacity
+        ref={key}
+        key={key}
+        style={[styles.selectFld, isInvalid && styles.invalidFld]}
+        onPress={() => this._showPicker(key)}>
+        <Text style={styles.selectTextFld}>{value}</Text>
+        <Text style={styles.selectArrow}>{'>'}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  _renderPicker({ key, items, isHidden }) {
+    return (
+      <View key={key} style={[styles.pickerContainer, isHidden && styles.pickerHidden]}>
+        <View style={styles.pickerWrapper}>
+          <View style={styles.pickerControls}>
+            <TouchableOpacity
+              style={styles.pickerDone}
+              onPress={() => this._hidePicker(key)}>
+              <Text>Done</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView style={styles.picker} contentContainerStyle={styles.pickerContainerStyle}>
+            {items.map(item => (
+              <TouchableOpacity
+                key={item.value}
+                style={styles.pickerItem}
+                onPress={() => {
+                  this._onFieldChange(key, item.value);
+                  this._hidePicker(key);
+                }}>
+                <Text style={styles.pickerItemText}>{item.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      </View>
+    );
+  }
+
+  _showPicker(type) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ [`hide_${type}`]: false });
+  }
+
+  _hidePicker(type) {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ [`hide_${type}`]: true });
   }
 
   _isPresent(value) {
@@ -255,6 +323,67 @@ var styles = StyleSheet.create({
     height: 40,
     marginTop: 10,
     marginLeft: 5,
+  },
+  pickerContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
+  },
+  pickerHidden: {
+    top: height,
+  },
+  pickerWrapper: {
+    backgroundColor: '#efefef'
+  },
+  pickerControls: {
+    alignItems: 'flex-end'
+  },
+  pickerDone: {
+    padding: 10
+  },
+  picker: {
+    width,
+    height: 200
+  },
+  pickerContainerStyle: {
+    paddingBottom: 20
+  },
+  pickerItem: {
+    paddingVertical: 7.5,
+    paddingHorizontal: 10,
+    backgroundColor: '#efefef'
+  },
+  pickerItemText: {
+    fontSize: 21,
+    textAlign: 'center'
+  },
+  selectFld: {
+    marginTop: 5,
+    marginBottom: 15,
+    width: fldWidth,
+    paddingVertical: 7.5,
+    paddingHorizontal: 10,
+    backgroundColor: '#efefef',
+    flexDirection: 'row'
+  },
+  selectTextFld: {
+    flex: 1,
+    color: '#666',
+    fontSize: 21
+  },
+  selectArrow: {
+    width: 20,
+    color: '#666',
+    fontSize: 21,
+    textAlign: 'center'
+  },
+  invalidFld: {
+    borderWidth: 1,
+    borderColor: 'red'
   }
 });
 
