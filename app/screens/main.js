@@ -44,7 +44,9 @@ class Main extends Component {
       );
 
       if (response.error) {
-        Alert.alert('Hey there!', response.error);
+        let [currentRoute] = this.props.navigator.getCurrentRoutes().reverse();
+        if (currentRoute.indent === 'Main')
+          Alert.alert('Hey there!', response.error);
       } else if (response.result && response.result.order) {
         this.setState({ hasActiveOrders: response.result.order.status === 0 });
       }

@@ -42,10 +42,13 @@ class SelectMaintenance extends Component {
       fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
         .then((response) => response.json())
         .then((responseData) => {
-          this.setState({
-            isLoading: false,
-            services: responseData.vehicles.filter(this.filterMaintenanceServices)
-          });
+          let services = responseData.vehicles.filter(this.filterMaintenanceServices);
+          if (services.length > 0) {
+            this.setState({ isLoading: false, services });
+          } else {
+            cache.remove('selectShop-fields');
+            this.props.navigator.replace({ indent: 'SelectShopDone' });
+          }
         })
     }
   }
