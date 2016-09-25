@@ -28,7 +28,8 @@ class Vin extends Component {
       this.state = {
         isLoading: false,
         fields: Object.assign({
-          vin: { name: 'VIN', value: '', invalid: false, validators: ['_isPresent'] }
+          vin: { name: 'VIN', value: '', invalid: false, validators: ['_isPresent'] },
+          miles: { name: 'How many miles?', value: '', invalid: false, validators: ['_isPresent'] }
         }, cache.get('vin-fields') || {})
       };
     }
@@ -54,6 +55,15 @@ class Vin extends Component {
                 placeholder={this.state.fields.vin.name}
                 value={this.state.fields.vin.value}
                 onChangeText={value => this._onFieldChange('vin', value)} />
+              <TextInput
+                ref='miles'
+                autoCorrect={false}
+                autoCapitalize="characters"
+                style={[styles.textFld, this.state.fields.miles.invalid && styles.invalidFld]}
+                placeholderTextColor={'#666'}
+                placeholder={this.state.fields.miles.name}
+                value={this.state.fields.miles.value}
+                onChangeText={value => this._onFieldChange('miles', value)} />
               <View style={styles.btnRow}>
                 <TouchableOpacity disabled={this.state.isLoading} onPress={() => this._onClickNext()}>
                   <Image
