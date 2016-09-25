@@ -49,10 +49,7 @@ class VehicleNumber extends Component {
           cache.remove('vin-fields');
           cache.remove('vehicleNumber-fields');
 
-          this.props.navigator.immediatelyResetRouteStack([
-            { indent: 'Main' },
-            { indent: 'SelectMaintenance' }
-          ]);
+          this.props.navigator.immediatelyResetRouteStack([{ indent: 'Main' }]);
         }
       }
     }
