@@ -15,10 +15,8 @@ import {
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions/user';
 import TopBar from '../../components/main/topBar.js';
 import cache from '../../utils/cache';
-import storage from '../../utils/storage';
 import { putJSON } from '../../utils/fetch';
 
 var { width, height } = Dimensions.get('window');
@@ -31,12 +29,6 @@ class NotAtShopDone extends Component {
   constructor(props) {
     super(props);
 
-    storage.get('caradvise:pushid').then(value => {
-      if (value) {
-        this.state.pushid = value;
-      }
-    });
-
     this.state = {
       hide_type_of_driving: true,
       types_of_driving: [{ label: 'Highway', value: 'Highway' }, { label: 'City', value: 'City' }, { label: 'Both', value: 'Both' }],
@@ -46,35 +38,8 @@ class NotAtShopDone extends Component {
         miles_per_month: { name: '', value: '', invalid: false, validators: ['_isPresent'] },
         type_of_driving: { name: '', value: 'Highway', invalid: false, validators: ['_isPresent'] },
         used_or_new: { name: '', value: 'Used', invalid: false, validators: ['_isPresent'] }
-      }, cache.get('notAtShopDone-fields') || {}),
-      pushid: ""
+      }, cache.get('notAtShopDone-fields') || {})
     };
-  }
-
-  async componentDidUpdate() {
-    if (this.props.isLoggedIn) {
-      cache.remove('accountDetails-fields');
-      cache.remove('vehicleDetails-fields');
-      cache.remove('vin-fields');
-
-      let response = await putJSON(
-        UPDATE_VEHICLE_PROPERTIES_URL,
-        {
-          vehicle_id: this.props.vehicleId,
-          miles_per_month: this.state.fields.miles_per_month.value,
-          type_of_driving: this.state.fields.type_of_driving.value,
-          used_or_new: this.state.fields.used_or_new.value
-        },
-        { 'Authorization': this.props.authentication_token }
-      );
-
-      if (response.error) {
-        Alert.alert('Error', response.error);
-      } else {
-        cache.remove('notAtShopDone-fields');
-        this.props.navigator.resetTo({ indent: 'Main' });
-      }
-    }
   }
 
   render() {
@@ -110,7 +75,7 @@ class NotAtShopDone extends Component {
               isInvalid: this.state.fields.used_or_new.invalid
             })}
             <View style={styles.btnRow}>
-              <TouchableOpacity disabled={this.props.isLoading} onPress={() => this._onClickSubmit()}>
+              <TouchableOpacity onPress={() => this._onClickSubmit()}>
                 <Image
                   resizeMode='contain'
                   source={require('../../../images/btn-submit.png')}
@@ -230,38 +195,21 @@ class NotAtShopDone extends Component {
 
   _onClickSubmit() {
     this._validateFields(() => {
-      let accountDetailsFields = cache.get('accountDetails-fields');
-      let data = {
-        firstName: accountDetailsFields.firstName.value,
-        lastName: accountDetailsFields.lastName.value,
-        email: accountDetailsFields.email.value,
-        cellPhone: accountDetailsFields.cellPhone.value,
-        password: accountDetailsFields.password.value,
-        miles: this.state.fields.miles.value,
-        pushid: this.state.pushid
-      };
+      if (!this.props.isLoggedIn) return;
 
-      let vinFields = cache.get('vin-fields');
-      if (vinFields) {
-        data.vin = vinFields.vin.value;
-      }
+      putJSON(
+        UPDATE_VEHICLE_PROPERTIES_URL,
+        {
+          vehicle_id: this.props.vehicleId,
+          miles_per_month: this.state.fields.miles_per_month.value,
+          type_of_driving: this.state.fields.type_of_driving.value,
+          used_or_new: this.state.fields.used_or_new.value
+        },
+        { 'Authorization': this.props.authentication_token }
+      );
 
-      let vehicleDetailsFields = cache.get('vehicleDetails-fields');
-      if (vehicleDetailsFields) {
-        data.year = vehicleDetailsFields.year.value;
-        data.make = vehicleDetailsFields.make.value;
-
-        let models = cache.get('vehicleDetails-models') || [];
-        let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
-        data.model_id = model.key;
-        data.model = model.originalValue;
-
-        let engines = cache.get('vehicleDetails-engines') || [];
-        let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
-        data.vehicle_type_extension_engine_id = engine.key;
-      }
-
-      this.props.signUp(data);
+      cache.remove('notAtShopDone-fields');
+      this.props.navigator.pop();
     });
   }
 }
@@ -389,9 +337,8 @@ function mapStateToProps(state) {
   return {
     authentication_token: user.authentication_token,
     isLoggedIn: !!user.authentication_token,
-    isLoading: !!user.loading,
     vehicleId: user.vehicles && user.vehicles[0] ? user.vehicles[0].id : null
   };
 }
 
-module.exports = connect(mapStateToProps, { signUp })(NotAtShopDone);
+module.exports = connect(mapStateToProps)(NotAtShopDone);

@@ -12,7 +12,11 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../../utils/cache';
+import storage from '../../utils/storage';
+import { connect } from 'react-redux';
+import { signUp } from '../../actions/user';
 import TopBar from '../../components/main/topBar';
 import ActivityIndicator from '../../components/activityIndicator';
 import { getJSON } from '../../utils/fetch';
@@ -27,7 +31,28 @@ class SelectShop extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { zip: '', isLoading: false, shops: [] };
+    this.state = { zip: '', isLoading: false, shops: [], pushid: '' };
+    storage.get('caradvise:pushid').then(value => {
+      if (value) {
+        this.state.pushid = value;
+      }
+    });
+  }
+
+  componentDidUpdate() {
+    if (this.props.isLoggedIn) {
+      let [currentRoute] = this.props.navigator.getCurrentRoutes().reverse();
+      if (currentRoute.indent === 'SelectShop') {
+        cache.remove('accountDetails-fields');
+        cache.remove('vehicleDetails-fields');
+        cache.remove('vin-fields');
+
+        this.props.navigator.immediatelyResetRouteStack([
+          { indent: 'Main' },
+          { indent: 'SelectMaintenance' }
+        ]);
+      }
+    }
   }
 
   async fetchShops() {
@@ -65,6 +90,9 @@ class SelectShop extends Component {
   }
 
   render() {
+    if (this.props.isLoading)
+      return <Spinner visible={true} />;
+
     return (
       <View style={styles.base}>
         <TopBar navigator={this.props.navigator} />
@@ -116,8 +144,37 @@ class SelectShop extends Component {
 
   selectShop = shop => {
     cache.set('selectShop-fields', { shop });
-    cache.remove('vehicleNumber-fields');
-    this.props.navigator.push({ indent: 'SelectMaintenance' });
+
+    let accountDetailsFields = cache.get('accountDetails-fields');
+    let vehicleDetailsFields = cache.get('vehicleDetails-fields');
+    let data = {
+      firstName: accountDetailsFields.firstName.value,
+      lastName: accountDetailsFields.lastName.value,
+      email: accountDetailsFields.email.value,
+      cellPhone: accountDetailsFields.cellPhone.value,
+      password: accountDetailsFields.password.value,
+      miles: vehicleDetailsFields.miles.value,
+      pushid: this.state.pushid
+    };
+
+    let vinFields = cache.get('vin-fields');
+    if (vinFields) {
+      data.vin = vinFields.vin.value;
+    } else {
+      data.year = vehicleDetailsFields.year.value;
+      data.make = vehicleDetailsFields.make.value;
+
+      let models = cache.get('vehicleDetails-models') || [];
+      let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
+      data.model_id = model.key;
+      data.model = model.originalValue;
+
+      let engines = cache.get('vehicleDetails-engines') || [];
+      let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
+      data.vehicle_type_extension_engine_id = engine.key;
+    }
+
+    this.props.signUp(data);
   }
 }
 
@@ -185,4 +242,12 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = SelectShop;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(SelectShop);

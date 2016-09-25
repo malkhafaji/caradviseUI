@@ -14,8 +14,11 @@ import {
   Alert
 } from 'react-native';
 import TopBar from '../../components/main/topBar.js';
+import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../../utils/cache';
 import storage from '../../utils/storage';
+import { connect } from 'react-redux';
+import { signUp } from '../../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
 
@@ -26,11 +29,38 @@ class VehicleNumber extends Component {
       this.state = {
         fields: Object.assign({
           vehicleNumber: { name: 'Vehicle Number', value: '', invalid: false }
-        }, cache.get('vehicleNumber-fields') || {})
+        }, cache.get('vehicleNumber-fields') || {}),
+        pushid: ''
       };
+
+      storage.get('caradvise:pushid').then(value => {
+        if (value) {
+          this.state.pushid = value;
+        }
+      });
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn) {
+        let [currentRoute] = this.props.navigator.getCurrentRoutes().reverse();
+        if (currentRoute.indent === 'VehicleNumber') {
+          cache.remove('accountDetails-fields');
+          cache.remove('vehicleDetails-fields');
+          cache.remove('vin-fields');
+          cache.remove('vehicleNumber-fields');
+
+          this.props.navigator.immediatelyResetRouteStack([
+            { indent: 'Main' },
+            { indent: 'SelectMaintenance' }
+          ]);
+        }
+      }
     }
 
     render() {
+        if (this.props.isLoading)
+          return <Spinner visible={true} />;
+
         return (
           <View style={styles.base}>
           <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
@@ -78,7 +108,22 @@ class VehicleNumber extends Component {
 
     _onClickNext() {
       if (this.state.fields.vehicleNumber.value) {
-        this.props.navigator.push({ indent: 'SelectMaintenance' });
+        let accountDetailsFields = cache.get('accountDetails-fields');
+        let vehicleDetailsFields = cache.get('vehicleDetails-fields');
+        let data = {
+          firstName: accountDetailsFields.firstName.value,
+          lastName: accountDetailsFields.lastName.value,
+          email: accountDetailsFields.email.value,
+          cellPhone: accountDetailsFields.cellPhone.value,
+          password: accountDetailsFields.password.value,
+          miles: vehicleDetailsFields.miles.value,
+          pushid: this.state.pushid
+        };
+
+        let vehicleNumberFields = cache.get('vehicleNumber-fields');
+        data.vehicleNumber = vehicleNumberFields.vehicleNumber.value;
+
+        this.props.signUp(data);
       } else {
         alert("A car care professional will provide you with your Vehicle Number.")
       }
@@ -161,4 +206,12 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = VehicleNumber;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(VehicleNumber);
