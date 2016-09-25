@@ -75,13 +75,17 @@ class SelectMaintenance extends Component {
               key={service.motor_service_id}
               style={styles.maintenanceItem}
               onPress={() => this.toggleService(service.motor_service_id)}>
-              <Image
-                resizeMode='contain'
-                source={this.state.selectedServiceIds.indexOf(service.motor_service_id) >= 0 ?
-                  require('../../../images/checkbox-on.png') :
-                  require('../../../images/checkbox-off.png')}
-                style={styles.checkboxOn} />
-              <Text style={styles.maintenanceName}>{service.name || service.literal_name}</Text>
+              <View style={styles.maintenanceCheckContainer}>
+                <Image
+                  resizeMode='contain'
+                  source={this.state.selectedServiceIds.indexOf(service.motor_service_id) >= 0 ?
+                    require('../../../images/checkbox-on.png') :
+                    require('../../../images/checkbox-off.png')}
+                  style={styles.checkboxOn} />
+              </View>
+              <View style={styles.maintenanceNameContainer}>
+                <Text style={styles.maintenanceName}>{service.name || service.literal_name}</Text>
+              </View>
             </TouchableOpacity>
           ))}
 
@@ -174,6 +178,13 @@ var styles = StyleSheet.create({
     marginBottom: 3,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  maintenanceCheckContainer: {
+    flex: 1,
+    marginLeft: 15
+  },
+  maintenanceNameContainer: {
+    flex: 6
   },
   maintenanceName: {
     color: '#002d5e',
