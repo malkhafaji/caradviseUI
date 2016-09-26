@@ -111,7 +111,6 @@ class AccountDetails extends Component {
                 autoCapitalize='none'
                 autoCorrect={false}
                 value={this.state.fields.email.value}
-                returnKeyType='next'
                 blurOnSubmit={false}
                 onSubmitEditing={() => this._focusNextField('cellPhone')}
                 onChangeText={value => this._onFieldChange('email', value)} />
