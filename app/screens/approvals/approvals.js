@@ -71,6 +71,8 @@ class Approvals extends Component {
 
         otherServices.unshift({
           groupedServices: inspections,
+          group_id: 0,
+          group_list: null,
           status: inspections[0].status,
           serviceName: 'Inspections',
           totalCost: totalCost,
