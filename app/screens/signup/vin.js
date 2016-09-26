@@ -14,9 +14,12 @@ import {
   ScrollView,
   Alert
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../../utils/cache';
 import { getJSON } from '../../utils/fetch';
 import storage from '../../utils/storage';
+import { connect } from 'react-redux';
+import { signUp } from '../../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
 const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/vehicles/search_by_vin';
@@ -30,11 +33,34 @@ class Vin extends Component {
         fields: Object.assign({
           vin: { name: 'VIN', value: '', invalid: false, validators: ['_isPresent'] },
           miles: { name: 'How many miles?', value: '', invalid: false, validators: ['_isPresent'] }
-        }, cache.get('vin-fields') || {})
+        }, cache.get('vin-fields') || {}),
+        pushid: ''
       };
+
+      storage.get('caradvise:pushid').then(value => {
+        if (value) {
+          this.state.pushid = value;
+        }
+      });
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn) {
+        let [currentRoute] = this.props.navigator.getCurrentRoutes().reverse();
+        if (currentRoute.indent === 'Vin') {
+          cache.remove('accountDetails-fields');
+          cache.remove('vehicleDetails-fields');
+          cache.remove('vin-fields');
+
+          this.props.navigator.immediatelyResetRouteStack([{ indent: 'Main' }]);
+        }
+      }
     }
 
     render() {
+        if (this.props.isLoading)
+          return <Spinner visible={true} />;
+
         return (
           <View style={styles.base}>
           <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
@@ -124,7 +150,19 @@ class Vin extends Component {
     _onClickNext() {
       this._validateFields(() => {
         this._verifyVIN(() => {
-          this.props.navigator.push({ indent: 'AtShop' });
+          let accountDetailsFields = cache.get('accountDetails-fields');
+          let data = {
+            firstName: accountDetailsFields.firstName.value,
+            lastName: accountDetailsFields.lastName.value,
+            email: accountDetailsFields.email.value,
+            cellPhone: accountDetailsFields.cellPhone.value,
+            password: accountDetailsFields.password.value,
+            miles: this.state.fields.miles.value,
+            vin: this.state.fields.vin.value,
+            pushid: this.state.pushid
+          };
+
+          this.props.signUp(data);
         });
       });
     }
@@ -195,4 +233,12 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Vin;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(Vin);

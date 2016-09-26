@@ -15,6 +15,7 @@ import {
   ScrollView
 } from 'react-native';
 import CheckBox from 'react-native-checkbox';
+import PhoneInput from '../../components/phoneInput';
 import { connect } from 'react-redux';
 import cache from '../../utils/cache';
 
@@ -114,10 +115,9 @@ class AccountDetails extends Component {
                 blurOnSubmit={false}
                 onSubmitEditing={() => this._focusNextField('cellPhone')}
                 onChangeText={value => this._onFieldChange('email', value)} />
-              <TextInput
+              <PhoneInput
                 ref='cellPhone'
                 style={[styles.textFld, this.state.fields.cellPhone.invalid && styles.invalidFld]}
-                keyboardType={'phone-pad'}
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.cellPhone.name}
                 value={this.state.fields.cellPhone.value}

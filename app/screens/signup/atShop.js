@@ -81,25 +81,19 @@ class AtShop extends Component {
       cellPhone: accountDetailsFields.cellPhone.value,
       password: accountDetailsFields.password.value,
       miles: vehicleDetailsFields.miles.value,
+      year: vehicleDetailsFields.year.value,
+      make: vehicleDetailsFields.make.value,
       pushid: this.state.pushid
     };
 
-    let vinFields = cache.get('vin-fields');
-    if (vinFields) {
-      data.vin = vinFields.vin.value;
-    } else {
-      data.year = vehicleDetailsFields.year.value;
-      data.make = vehicleDetailsFields.make.value;
+    let models = cache.get('vehicleDetails-models') || [];
+    let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
+    data.model_id = model.key;
+    data.model = model.originalValue;
 
-      let models = cache.get('vehicleDetails-models') || [];
-      let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
-      data.model_id = model.key;
-      data.model = model.originalValue;
-
-      let engines = cache.get('vehicleDetails-engines') || [];
-      let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
-      data.vehicle_type_extension_engine_id = engine.key;
-    }
+    let engines = cache.get('vehicleDetails-engines') || [];
+    let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
+    data.vehicle_type_extension_engine_id = engine.key;
 
     this.props.signUp(data);
   }
