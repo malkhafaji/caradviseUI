@@ -36,8 +36,8 @@ class SelectShopDone extends Component {
       types_of_car: [{ label: 'Used', value: 'Used' }, { label: 'New', value: 'New' }],
       fields: Object.assign({
         miles_per_month: { name: '', value: '', invalid: false, validators: ['_isPresent'] },
-        type_of_driving: { name: '', value: 'Highway', invalid: false, validators: ['_isPresent'] },
-        used_or_new: { name: '', value: 'Used', invalid: false, validators: ['_isPresent'] }
+        type_of_driving: { name: '', value: 'Select', invalid: false, validators: ['_isPresent'] },
+        used_or_new: { name: '', value: 'Select', invalid: false, validators: ['_isPresent'] }
       }, cache.get('selectShopDone-fields') || {})
     };
   }
@@ -45,6 +45,7 @@ class SelectShopDone extends Component {
   render() {
     return (
       <View style={styles.base}>
+      <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
           <Text style={styles.textHd1}>Hang tight! The shop will send you a notification shortly.</Text>
@@ -97,6 +98,7 @@ class SelectShopDone extends Component {
           isHidden: this.state.hide_used_or_new
         })}
 
+      </ScrollView>
       </View>
     );
   }
@@ -215,6 +217,9 @@ class SelectShopDone extends Component {
 }
 
 var styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#fff',
+  },
   base: {
     flex: 1,
     backgroundColor: 'white'
