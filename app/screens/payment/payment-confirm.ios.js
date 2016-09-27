@@ -50,7 +50,7 @@ class PaymentConfirm extends Component {
 
   filterCompletedServices(service)
   {
-    return service.status == 5;
+    return (service.status == 5 && service.group_id == 0);
   }
 
   getServices() {
