@@ -316,7 +316,7 @@ class Approvals extends Component {
         if (this.state.showCheckout) {
             return (
               <View style={styles.approveDecline}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'CreditCard' })}>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Coupon' })}>
                   <Image
                     source={require('../../../images/btn-proceed.png')}
                     style={styles.btnCheckout} />
