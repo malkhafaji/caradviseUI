@@ -48,8 +48,7 @@ class NotAtShopDone extends Component {
       <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
-          <Text style={styles.textHd1}>Hang tight! The shop will send you a notification shortly.</Text>
-          <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile.</Text>
+          <Text style={styles.textHd1}>Great, we have a few additional questions to complete your vehicle profile.</Text>
 
           <View style={styles.fields}>
             <Text style={styles.fieldLbl}>How many miles do you drive per month?</Text>
