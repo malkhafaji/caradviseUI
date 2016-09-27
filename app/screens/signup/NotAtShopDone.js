@@ -31,7 +31,7 @@ class NotAtShopDone extends Component {
 
     this.state = {
       hide_type_of_driving: true,
-      types_of_driving: [{ label: 'Highway', value: 'Highway' }, { label: 'City', value: 'City' }, { label: 'Both', value: 'Both' }],
+      types_of_driving: [{ label: 'Highway', value: 'Highway' }, { label: 'City', value: 'City' }, { label: 'City and Highway', value: 'City and Highway' }],
       hide_used_or_new: true,
       types_of_car: [{ label: 'Used', value: 'Used' }, { label: 'New', value: 'New' }],
       fields: Object.assign({
