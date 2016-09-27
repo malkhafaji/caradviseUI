@@ -36,6 +36,7 @@ var Saved = require('./app/screens/saved');
 var Privacy = require('./app/screens/privacy');
 var Terms = require('./app/screens/terms');
 var SideMenu = require('./app/screens/sideMenu');
+var Coupon = require('./app/screens/payment/coupon');
 var Billing = require('./app/screens/payment/payment-billing');
 var CreditCard = require('./app/screens/payment/payment-cc');
 var PaymentConfirm = require('./app/screens/payment/payment-confirm');
@@ -270,6 +271,10 @@ class caradviseui extends Component {
       case 'Terms':
         return (
           <Terms {...globalNavigatorProps} />
+        )
+      case 'Coupon':
+        return (
+          <Coupon {...globalNavigatorProps} />
         )
       case 'Billing':
         return (
