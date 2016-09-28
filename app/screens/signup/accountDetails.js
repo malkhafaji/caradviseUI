@@ -31,9 +31,9 @@ class AccountDetails extends Component {
         fields: {
           firstName: { name: 'First Name', value: '', invalid: false, validators:['_isPresent'] },
           lastName: { name: 'Last Name', value: '', invalid: false, validators:['_isPresent'] },
-          email: { name: 'Email', value: '', invalid: false, validators:['_isPresent'] },
+          email: { name: 'Email', value: '', invalid: false, validators:['_isPresent', '_isEmailValid'] },
           cellPhone: { name: 'Cell Number', value: '', invalid: false, validators:['_isPresent'] },
-          password: { name: 'Password', value: '', invalid: false, validators:['_isPresent'] },
+          password: { name: 'Password', value: '', invalid: false, validators:['_isPresent', '_isPasswordValid'] },
           confirmPassword: { name: 'Confirm Password', value: '', invalid: false, validators:['_isPasswordMatched'] }
         }
       };
@@ -179,6 +179,15 @@ class AccountDetails extends Component {
 
     _isPresent(value) {
       return !!value;
+    }
+
+    _isEmailValid(value) {
+      let rx = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      return rx.test(value);
+    }
+
+    _isPasswordValid(value) {
+      return value.length >= 6;
     }
 
     _isPasswordMatched(value) {
