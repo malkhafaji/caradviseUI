@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import cache from '../../utils/cache';
 import { getJSON } from '../../utils/fetch';
-import sortBy from 'lodash/sortBy';
+import { sortBy, range } from 'lodash';
 
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
@@ -30,6 +30,8 @@ class VehicleDetails extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        hide_years: true,
+        years: range(2017, 1989, -1).map(n => n.toString()).map(value => ({ value, label: value, key: value })),
         hide_makes: true,
         loading_makes: false,
         makes: cache.get('vehicleDetails-makes') || [],
@@ -61,16 +63,12 @@ class VehicleDetails extends Component {
             </View>
 
             <View style={styles.fields}>
-              <TextInput
-                ref='year'
-                keyboardType='numeric'
-                maxLength={4}
-                style={[styles.textFld, this.state.fields.year.invalid && styles.invalidFld]}
-                placeholderTextColor={'#666'}
-                placeholder={this.state.fields.year.name}
-                value={this.state.fields.year.value}
-                onChangeText={value => this._onFieldChange('year', value)}
-                onEndEditing={() => this._fetchMakes()} />
+
+              {this._renderPickerToggle({
+                key: 'year',
+                value: this.state.fields.year.value || this.state.fields.year.name,
+                isInvalid: this.state.fields.year.invalid
+              })}
 
               {this._renderPickerToggle({
                 key: 'make',
@@ -120,6 +118,14 @@ class VehicleDetails extends Component {
             </View>
           </View>
           </ScrollView>
+
+          {this._renderPicker({
+            key: 'year',
+            value: this.state.fields.year.value,
+            items: this.state.years,
+            isHidden: this.state.hide_years,
+            onClose: () => this._fetchMakes()
+          })}
 
           {this._renderPicker({
             key: 'make',

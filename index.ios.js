@@ -59,6 +59,7 @@ var Rating = require('./app/screens/payment/rating');
  import configureStore from './app/utils/configureStore';
  import { loadState } from './app/actions';
  import storage from './app/utils/storage';
+ import cache from './app/utils/cache';
  import branch from 'react-native-branch';
 
 const store = configureStore();
@@ -98,6 +99,9 @@ class caradviseui extends Component {
 
   _listenForDeepLinks() {
     this.removeDeepLinks = branch.subscribe(({params, error, uri}) => {
+      if (params.vid) {
+        cache.set('vehicle_id', params.vid);
+      }
       if (uri === 'caradvise://approvals') {
         let { user } = store.getState() || {};
         if (!user || !user.authentication_token)

@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import TopBar from '../../components/main/topBar.js';
 import cache from '../../utils/cache';
 import { putJSON } from '../../utils/fetch';
+import { range } from 'lodash';
 
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
@@ -30,6 +31,8 @@ class SelectShopDone extends Component {
     super(props);
 
     this.state = {
+      hide_miles_per_month: true,
+      miles_per_month: range(250, 2750, 250).map(n => n.toString()).map(value => ({ value, label: value })),
       hide_type_of_driving: true,
       types_of_driving: [{ label: 'Highway', value: 'Highway' }, { label: 'City', value: 'City' }, { label: 'City and Highway', value: 'City and Highway' }],
       hide_used_or_new: true,
@@ -53,14 +56,11 @@ class SelectShopDone extends Component {
 
           <View style={styles.fields}>
             <Text style={styles.fieldLbl}>How many miles do you drive per month?</Text>
-            <TextInput
-              ref='miles_per_month'
-              keyboardType='numeric'
-              style={[styles.textFld, this.state.fields.miles_per_month.invalid && styles.invalidFld]}
-              placeholderTextColor={'#666'}
-              placeholder={this.state.fields.miles_per_month.name}
-              value={this.state.fields.miles_per_month.value}
-              onChangeText={value => this._onFieldChange('miles_per_month', value)} />
+            {this._renderPickerToggle({
+              key: 'miles_per_month',
+              value: this.state.fields.miles_per_month.value || this.state.fields.miles_per_month.name,
+              isInvalid: this.state.fields.miles_per_month.invalid
+            })}
             <Text style={styles.fieldLbl}>What type of driving do you do the most?</Text>
             {this._renderPickerToggle({
               key: 'type_of_driving',
@@ -85,6 +85,12 @@ class SelectShopDone extends Component {
             </View>
           </View>
         </View>
+
+        {this._renderPicker({
+          key: 'miles_per_month',
+          items: this.state.miles_per_month,
+          isHidden: this.state.hide_miles_per_month
+        })}
 
         {this._renderPicker({
           key: 'type_of_driving',
