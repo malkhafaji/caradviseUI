@@ -99,7 +99,7 @@ class caradviseui extends Component {
 
   _listenForDeepLinks() {
     this.removeDeepLinks = branch.subscribe(({params, error, uri}) => {
-      if (params.vid) {
+      if (params && params.vid) {
         cache.set('vehicle_id', params.vid);
       }
       if (uri === 'caradvise://approvals') {
