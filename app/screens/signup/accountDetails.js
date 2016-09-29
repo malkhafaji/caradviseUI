@@ -17,7 +17,9 @@ import {
 import CheckBox from 'react-native-checkbox';
 import PhoneInput from '../../components/phoneInput';
 import { connect } from 'react-redux';
+import { signUp } from '../../actions/user';
 import cache from '../../utils/cache';
+import storage from '../../utils/storage';
 
 var width = Dimensions.get('window').width - 30;
 var fldWidth = Dimensions.get('window').width - 30;
@@ -35,8 +37,15 @@ class AccountDetails extends Component {
           cellPhone: { name: 'Cell Number', value: '', invalid: false, validators:['_isPresent'] },
           password: { name: 'Password', value: '', invalid: false, validators:['_isPresent', '_isPasswordValid'] },
           confirmPassword: { name: 'Confirm Password', value: '', invalid: false, validators:['_isPasswordMatched'] }
-        }
+        },
+        pushid: ''
       };
+
+      storage.get('caradvise:pushid').then(value => {
+        if (value) {
+          this.state.pushid = value;
+        }
+      });
     }
 
     componentWillReceiveProps({ error }) {
@@ -58,6 +67,16 @@ class AccountDetails extends Component {
 
           Alert.alert('Error', errorMessages.join('\n'));
           this.setState({ fields: { ...this.state.fields, ...errorFields } });
+        }
+      }
+    }
+
+    componentDidUpdate() {
+      if (this.props.isLoggedIn) {
+        let [currentRoute] = this.props.navigator.getCurrentRoutes().reverse();
+        if (currentRoute.indent === 'AccountDetails') {
+          cache.remove('vehicle_id');
+          this.props.navigator.resetTo({ indent: 'Main' });
         }
       }
     }
@@ -158,12 +177,7 @@ class AccountDetails extends Component {
 
               <View style={styles.btnRow}>
                 <TouchableOpacity
-                  onPress={() => {
-                    this._validateFields(() => {
-                      cache.set('accountDetails-fields', this.state.fields);
-                      this.props.navigator.push({ indent: 'VehicleDetails' });
-                    });
-                  }}>
+                  onPress={() => this._onClickNext()}>
                   <Image
                     resizeMode='contain'
                     source={require('../../../images/btn-next-med.png')}
@@ -227,6 +241,26 @@ class AccountDetails extends Component {
           this.refs[firstInvalidKey].focus();
         else if (callback)
           callback();
+      });
+    }
+
+    _onClickNext() {
+      this._validateFields(() => {
+        let vehicle_id = cache.get('vehicle_id');
+        if (vehicle_id) {
+          this.props.signUp({
+            vehicle_id,
+            firstName: this.state.fields.firstName.value,
+            lastName: this.state.fields.lastName.value,
+            email: this.state.fields.email.value,
+            cellPhone: this.state.fields.cellPhone.value,
+            password: this.state.fields.password.value,
+            pushid: this.state.pushid
+          });
+        } else {
+          cache.set('accountDetails-fields', this.state.fields);
+          this.props.navigator.push({ indent: 'VehicleDetails' });
+        }
       });
     }
 }
@@ -324,8 +358,9 @@ var styles = StyleSheet.create({
 function mapStateToProps(state) {
   let user = state.user || {};
   return {
+    isLoggedIn: !!user.authentication_token,
     error: user.error
   };
 }
 
-module.exports = connect(mapStateToProps)(AccountDetails);
+module.exports = connect(mapStateToProps, { signUp })(AccountDetails);

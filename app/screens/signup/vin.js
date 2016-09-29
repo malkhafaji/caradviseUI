@@ -51,7 +51,6 @@ class Vin extends Component {
           cache.remove('accountDetails-fields');
           cache.remove('vehicleDetails-fields');
           cache.remove('vin-fields');
-          cache.remove('vehicle_id');
 
           this.props.navigator.immediatelyResetRouteStack([{ indent: 'Main' }]);
         }
@@ -162,10 +161,6 @@ class Vin extends Component {
             vin: this.state.fields.vin.value,
             pushid: this.state.pushid
           };
-
-          let vehicle_id = cache.get('vehicle_id');
-          if (vehicle_id)
-            data.vehicle_id = vehicle_id;
 
           this.props.signUp(data);
         });

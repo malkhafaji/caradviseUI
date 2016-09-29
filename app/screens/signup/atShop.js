@@ -34,7 +34,6 @@ class AtShop extends Component {
         cache.remove('accountDetails-fields');
         cache.remove('vehicleDetails-fields');
         cache.remove('vin-fields');
-        cache.remove('vehicle_id');
 
         this.props.navigator.immediatelyResetRouteStack([
           { indent: 'Main' },
@@ -95,10 +94,6 @@ class AtShop extends Component {
     let engines = cache.get('vehicleDetails-engines') || [];
     let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
     data.vehicle_type_extension_engine_id = engine.key;
-
-    let vehicle_id = cache.get('vehicle_id');
-    if (vehicle_id)
-      data.vehicle_id = vehicle_id;
 
     this.props.signUp(data);
   }
