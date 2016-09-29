@@ -232,7 +232,8 @@ var styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 200
   },
   textHd1: {
     marginTop: 50,
