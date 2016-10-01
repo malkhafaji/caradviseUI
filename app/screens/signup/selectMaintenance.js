@@ -46,8 +46,7 @@ class SelectMaintenance extends Component {
           if (services.length > 0) {
             this.setState({ isLoading: false, services });
           } else {
-            cache.remove('selectShop-fields');
-            this.props.navigator.replace({ indent: 'SelectShopDone' });
+            this.createOrder();
           }
         })
     }
