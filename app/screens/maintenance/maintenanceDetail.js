@@ -44,7 +44,8 @@ class MaintenanceDetail extends Component {
         partHigh:Number(passProps.partHigh).toFixed(0),
         partName:passProps.partName,
         partPrice:passProps.partPrice,
-        parts:passProps.parts
+        parts:passProps.parts,
+        fluids:passProps.fluids
       };
     }
 
@@ -98,6 +99,25 @@ class MaintenanceDetail extends Component {
                   <Text style={styles.textHd}>Part Replacement Estimate</Text>
                   {this.state.parts.length ?
                     this.state.parts.map(this.createPartsRow) :
+                    <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
+
+                </View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
+    renderFluids()
+    {
+        if (this.state.fluids.length != 0) {
+            return (
+              <View style={styles.partList}>
+                <View>
+                  <Text style={styles.textHd}>Fluid Detail</Text>
+                  {this.state.fluids.length ?
+                    this.state.fluids.map(this.createFluidsRow) :
                     <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
 
                 </View>
@@ -196,6 +216,7 @@ class MaintenanceDetail extends Component {
                 </View>
               </View>
               {this.renderParts()}
+              {this.renderFluids()}
               {this.renderWhat()}
               {this.renderWhy()}
               {this.renderWhatIf()}
@@ -211,6 +232,7 @@ class MaintenanceDetail extends Component {
     }
 
     createPartsRow = (part, i) => <Part key={i} part={part} partLow={this.state.partLow} partHigh={this.state.partHigh}/>;
+    createFluidsRow = (fluid, i) => <Fluid key={i} fluid={fluid} />;
 }
 
 var Part = React.createClass({
@@ -232,6 +254,33 @@ var Part = React.createClass({
               <Text style={styles.fairPrice}>${this.props.partHigh}</Text>
             </View>
           </View>
+        </View>
+      );
+  }
+});
+
+var Fluid = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+
+  render: function() {
+      return(
+        <View style={styles.partRow}>
+          <View style={styles.fluidContainerLeft}>
+            <Text style={styles.fairPriceText}>{this.props.fluid.literal_name}</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fluidViscosityTxt}>{this.props.fluid.fluid_type_name}</Text>
+            </View>
+          </View>
+          { this.props.fluid.viscosity ? (
+          <View style={styles.fluidContainerRight}>
+            <Text style={styles.fairPriceText}>Viscosity</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fluidViscosityTxt}>{this.props.fluid.viscosity}</Text>
+            </View>
+          </View>
+          ) : null }
         </View>
       );
   }
@@ -430,6 +479,33 @@ var styles = StyleSheet.create({
     fontSize: 14,
     color: '#002d5e',
     fontWeight: 'bold',
+  },
+  fluidContainerLeft: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 3
+  },
+  fluidContainerRight: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 10,
+    alignItems: 'flex-end'
+  },
+  fluidViscosity: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 3
+  },
+  fluidViscosityTxt: {
+    color: '#002d5e',
+    fontWeight: 'bold',
+    textAlign: 'right'
   },
   rowAddService: {
     alignItems: 'center',

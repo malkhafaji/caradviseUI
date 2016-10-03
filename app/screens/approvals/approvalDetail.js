@@ -48,6 +48,8 @@ class ApprovalDetail extends Component {
         parts:passProps.parts,
         partDetail:passProps.partDetail,
         partName:passProps.partName,
+        fluidDetail:passProps.fluidDetail,
+        fluidType:passProps.fluidType,
       };
     }
 
@@ -191,6 +193,25 @@ class ApprovalDetail extends Component {
         }
     }
 
+    renderFluids()
+    {
+        if (this.state.fluidDetail.length != 0) {
+            return (
+              <View style={styles.partList}>
+                <View>
+                  <Text style={styles.textHd}>Fluid Detail</Text>
+                  {this.state.fluidDetail.length ?
+                    this.state.fluidDetail.map(this.createFluidsRow) :
+                    <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>None</Text></View></View>}
+
+                </View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
+
     render() {
       var totalLow = this.state.fairLow;
       var totalHigh = this.state.fairHigh;
@@ -225,6 +246,7 @@ class ApprovalDetail extends Component {
 
               {this.renderComments()}
               {this.renderParts()}
+              {this.renderFluids()}
               {this.renderWhat()}
               {this.renderWhy()}
               {this.renderWhatIf()}
@@ -240,6 +262,7 @@ class ApprovalDetail extends Component {
       );
     }
     createPartsRow = (part, i) => <Part key={i} part={part} partDetail={this.state.partDetail} laborLow={this.state.laborLow} laborHigh={this.state.laborHigh} partLow={this.state.partLow} partHigh={this.state.partHigh} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
+    createFluidsRow = (fluid, i) => <Fluid key={i} fluid={fluid} fluidDetail={this.state.fluidDetail} fluidType={this.state.fluidType} />;
 }
 
 var Part = React.createClass({
@@ -248,8 +271,6 @@ var Part = React.createClass({
   },
 
   render: function() {
-    //var totalLow = this.props.parts.part_low_cost + this.props.lowCost;
-    //var totalHigh = this.props.partDetail.price + this.props.highCost;
       return(
         <View style={styles.partRow}>
           <Text style={styles.partItem}>{this.props.part.name} {this.props.part.qualifier_name}</Text>
@@ -264,6 +285,33 @@ var Part = React.createClass({
                 <Text style={styles.fairPrice}>${this.props.partHigh.toFixed(0)}</Text>
               </View>
             </View>
+          ) : null }
+        </View>
+      );
+  }
+});
+
+var Fluid = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return false;
+  },
+
+  render: function() {
+      return(
+        <View style={styles.partRow}>
+          <View style={styles.fluidContainerLeft}>
+            <Text style={styles.fairPriceText}>{this.props.fluid.literal_name}</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fluidViscosityTxt}>{this.props.fluid.fluid_type_name}</Text>
+            </View>
+          </View>
+          { this.props.fluid.viscosity ? (
+          <View style={styles.fluidContainerRight}>
+            <Text style={styles.fairPriceText}>Viscosity</Text>
+            <View style={styles.fairPriceRange}>
+              <Text style={styles.fluidViscosityTxt}>{this.props.fluid.viscosity}</Text>
+            </View>
+          </View>
           ) : null }
         </View>
       );
@@ -480,6 +528,33 @@ var styles = StyleSheet.create({
     fontSize: 14,
     color: '#002d5e',
     fontWeight: 'bold',
+  },
+  fluidContainerLeft: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 3
+  },
+  fluidContainerRight: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 10,
+    alignItems: 'flex-end'
+  },
+  fluidViscosity: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 3,
+    marginRight: 3
+  },
+  fluidViscosityTxt: {
+    color: '#002d5e',
+    fontWeight: 'bold',
+    textAlign: 'right'
   },
   rowAddService: {
     alignItems: 'center',

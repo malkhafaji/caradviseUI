@@ -233,7 +233,8 @@ var Service = React.createClass({
           whatIf:this.props.service.what_if_decline,
           whyDoThis:this.props.service.why_do_this,
           factors:this.props.service.factors_to_consider,
-          parts:this.props.service.motor_vehicle_service_parts
+          parts:this.props.service.motor_vehicle_service_parts,
+          fluids:this.props.service.motor_vehicle_service_fluids
         }
       });
     }

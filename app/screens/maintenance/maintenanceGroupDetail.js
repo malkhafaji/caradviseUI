@@ -57,7 +57,8 @@ var Service = React.createClass({
         intervalMonth:this.props.service.interval_month,
         partLowCost:this.props.service.part_low_cost,
         position:this.props.service.position,
-        parts:this.props.service.motor_vehicle_service_parts
+        parts:this.props.service.motor_vehicle_service_parts,
+        fluids:this.props.service.motor_vehicle_service_fluids
       }
     });
   },

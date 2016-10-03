@@ -117,6 +117,7 @@ var Service = React.createClass({
         fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
         parts:this.props.service.motor_vehicle_service,
         partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
+        fluidDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_fluids,
       }
     });
   },
