@@ -45,7 +45,7 @@ class MaintenanceDetail extends Component {
         partName:passProps.partName,
         partPrice:passProps.partPrice,
         parts:passProps.parts,
-        fluids:passProps.fluids
+        fluids:(passProps.fluids || []).filter(fluid => fluid.literal_name == 'Engine Oil Fluid Type'),
       };
     }
 

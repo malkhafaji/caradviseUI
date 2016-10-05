@@ -93,6 +93,15 @@ class Approvals extends Component {
             .map(({ motor_service_id }) => groupedServices
               .find(service => motor_service_id === service.motor_service_id))
             .filter(service => !!service);
+
+          if (service.groupedServices.length > 0) {
+            let serviceLow = minBy(service.groupedServices, 'motor_vehicle_service.low_fair_cost');
+            let serviceHigh = maxBy(service.groupedServices, 'motor_vehicle_service.high_fair_cost');
+
+            service.motor_vehicle_service = service.motor_vehicle_service || {};
+            service.motor_vehicle_service.low_fair_cost = serviceLow.motor_vehicle_service.low_fair_cost;
+            service.motor_vehicle_service.high_fair_cost = serviceHigh.motor_vehicle_service.high_fair_cost;
+          }
         })
 
         otherServices = individualServices;
