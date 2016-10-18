@@ -21,7 +21,11 @@ import { getJSON } from '../utils/fetch';
 
 var btnWidth = Dimensions.get('window').width - 40;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/most_recent_order';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
+
+function getUrl(url, vehicleId) {
+  return url.replace('?', vehicleId);
+}
 
 class Main extends Component {
     constructor(props) {
@@ -38,8 +42,7 @@ class Main extends Component {
         return;
 
       let response = await getJSON(
-        MAINTENANCE_URL,
-        { vehicleNumber: this.props.vehicleNumber },
+        getUrl(MAINTENANCE_URL, this.props.vehicleId), {},
         { 'Authorization': this.props.authentication_token }
       );
 
@@ -174,6 +177,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
+    vehicleId : user.vehicles[0].id,
     vehicleNumber: user.vehicles ? user.vehicles[0].vehicleNumber : null
   };
 }
