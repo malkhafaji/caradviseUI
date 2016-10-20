@@ -20,7 +20,7 @@ import { chain, includes } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/services/motor_service_hierarchy';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/services/service_hierarchy';
 
 class AddServices extends Component {
 
@@ -49,21 +49,14 @@ class AddServices extends Component {
 
     groupServices(services) {
       return chain(services)
-        .filter(({ literal_name }) => !!literal_name)
-        .groupBy('system_description')
-        .map((services, system) => ({
-          literal_name: system,
+        .groupBy('first_level')
+        .map((services, name) => ({
+          name,
           services: chain(services)
-            .groupBy('group_description')
-            .map((services, group) => ({
-              literal_name: group,
-              services: chain(services)
-                .groupBy('sub_group_description')
-                .map((services, subGroup) => ({
-                  literal_name: subGroup,
-                  services: services.filter(service => !this.isAlreadyAdded(service))
-                }))
-                .value()
+            .groupBy('second_level')
+            .map((services, name) => ({
+              name,
+              services: services.filter(service => !this.isAlreadyAdded(service))
             }))
             .value()
         }))
@@ -135,7 +128,7 @@ var Service = React.createClass({
             this.props.nav.push({
               indent: 'ServiceDetail',
               passProps: {
-                name:this.props.service.literal_name,
+                name:this.props.service.name,
                 whatIsIt:this.props.service.what_is_it,
                 whatIf:this.props.service.what_if_decline,
                 whyDoThis:this.props.service.why_do_this,
@@ -145,7 +138,7 @@ var Service = React.createClass({
             });
           }
         }}>
-        <Text style={styles.servicesItem}>{this.props.service.literal_name}</Text>
+        <Text style={styles.servicesItem}>{this.props.service.name}</Text>
         <View style={styles.arrowContainer}>
           <Text style={styles.arrow}>
             <Image
