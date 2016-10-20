@@ -25,7 +25,7 @@ var width = Dimensions.get('window').width - 20;
 var swiperHeight = Dimensions.get('window').height - 160;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/maintenance';
-var INTERVALS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/vehicle_intervals';
+var INTERVALS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/intervals';
 var SERVICES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/services_by_interval';
 
 function getUrl(url, vehicleId) {
@@ -233,7 +233,7 @@ var Service = React.createClass({
           whatIf:this.props.service.what_if_decline,
           whyDoThis:this.props.service.why_do_this,
           factors:this.props.service.factors_to_consider,
-          parts:this.props.service.motor_vehicle_service_parts,
+          parts:this.props.service.vehicle_service_options,
           fluids:this.props.service.motor_vehicle_service_fluids
         }
       });
