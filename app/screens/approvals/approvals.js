@@ -62,11 +62,11 @@ class Approvals extends Component {
 
     groupServices(services) {
       let [inspections, otherServices] = partition(services,
-        service => service.motor_vehicle_service.service_type === 'Inspect');
+        service => service.vehicle_service.service.inspection === 'true');
 
       if (inspections.length > 0) {
-        let serviceLow = minBy(inspections, 'motor_vehicle_service.low_fair_cost');
-        let serviceHigh = maxBy(inspections, 'motor_vehicle_service.high_fair_cost');
+        let serviceLow = minBy(inspections, 'vehicle_service.low_fair_cost');
+        let serviceHigh = maxBy(inspections, 'vehicle_service.high_fair_cost');
         let totalCost = sumBy(inspections, ({ totalCost }) => Number(totalCost));
 
         otherServices.unshift({
@@ -76,9 +76,9 @@ class Approvals extends Component {
           status: inspections[0].status,
           serviceName: 'Inspections',
           totalCost: totalCost,
-          motor_vehicle_service: {
-            low_fair_cost: serviceLow.motor_vehicle_service.low_fair_cost,
-            high_fair_cost: serviceHigh.motor_vehicle_service.high_fair_cost
+          vehicle_service: {
+            low_fair_cost: serviceLow.vehicle_service.low_fair_cost,
+            high_fair_cost: serviceHigh.vehicle_service.high_fair_cost
           }
         });
       }
@@ -95,12 +95,12 @@ class Approvals extends Component {
             .filter(service => !!service);
 
           if (service.groupedServices.length > 0) {
-            let serviceLow = minBy(service.groupedServices, 'motor_vehicle_service.low_fair_cost');
-            let serviceHigh = maxBy(service.groupedServices, 'motor_vehicle_service.high_fair_cost');
+            let serviceLow = minBy(service.groupedServices, 'vehicle_service.low_fair_cost');
+            let serviceHigh = maxBy(service.groupedServices, 'vehicle_service.high_fair_cost');
 
-            service.motor_vehicle_service = service.motor_vehicle_service || {};
-            service.motor_vehicle_service.low_fair_cost = serviceLow.motor_vehicle_service.low_fair_cost;
-            service.motor_vehicle_service.high_fair_cost = serviceHigh.motor_vehicle_service.high_fair_cost;
+            service.vehicle_service = service.vehicle_service || {};
+            service.vehicle_service.low_fair_cost = serviceLow.vehicle_service.low_fair_cost;
+            service.vehicle_service.high_fair_cost = serviceHigh.vehicle_service.high_fair_cost;
           }
         })
 
@@ -154,8 +154,8 @@ class Approvals extends Component {
         discount: discount,
         totalDiscount: Number(totalDiscount).toFixed(2),
         taxRate: taxRate,
-        fees: fees.toFixed(2),
-        misc: misc.toFixed(2),
+        fees: fees,
+        misc: misc,
         partLow: partLow,
         partHigh: partHigh,
         taxAmount: Number(taxAmount).toFixed(2),
@@ -175,19 +175,15 @@ class Approvals extends Component {
           .then((response) => response.json())
           .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
-            var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
-            var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+            var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
+            var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc_fees : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
-            var partLow = (responseData.order != undefined) ? responseData.order.order_services.part_low_cost : 0;
-            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.part_high_cost : 0;
-            var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
-            var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, percentDiscount, taxAmount, finalTotal, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
+            this.refreshServices(services, orderStatus, percentDiscount, taxAmount, finalTotal, fees, misc, totalDiscount, taxRate);
           })
           .done();
 
@@ -423,14 +419,14 @@ var Service = React.createClass({
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
-            var percentDiscount = (responseData.order != undefined) ? responseData.order.percentDiscount : 0;
+            var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
-            var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
-            var partLow = (responseData.order != undefined) ? responseData.order.order_services.part_low_cost : 0;
-            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.part_high_cost : 0;
-            var laborLow = (responseData.order != undefined) ? responseData.order.order_services.low_labor_cost : 0;
-            var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.high_labor_cost : 0;
+            var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
+            var partLow = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.part_low_cost : 0;
+            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.part_high_cost : 0;
+            var laborLow = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.low_labor_cost : 0;
+            var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.high_labor_cost : 0;
             var services = responseData.order.order_services;
 
             if(Platform.OS === 'android'){
@@ -467,33 +463,33 @@ var Service = React.createClass({
           miles:this.props.miles,
           name:this.props.service.serviceName,
           comments:this.props.service.shopComments,
-          desc:this.props.service.motor_vehicle_service.required_skills_description,
-          time:this.props.service.motor_vehicle_service.base_labor_time,
-          timeInterval:this.props.service.motor_vehicle_service.labor_time_interval,
-          intervalMile:this.props.service.motor_vehicle_service.interval_mile,
-          intervalMonth:this.props.service.motor_vehicle_service.interval_month,
-          position:this.props.service.motor_vehicle_service.position,
-          whatIsIt:this.props.service.motor_vehicle_service.what_is_it,
-          whatIf:this.props.service.motor_vehicle_service.what_if_decline,
-          whyDoThis:this.props.service.motor_vehicle_service.why_do_this,
-          factors:this.props.service.motor_vehicle_service.factors_to_consider,
-          fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
-          fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
-          laborLow:this.props.service.motor_vehicle_service.labor_low_cost,
-          laborHigh:this.props.service.motor_vehicle_service.labor_high_cost,
-          partLow:this.props.service.motor_vehicle_service.part_low_cost,
-          partHigh:this.props.service.motor_vehicle_service.part_high_cost,
-          parts:this.props.service.motor_vehicle_service,
-          partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
-          fluidDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_fluids,
+          desc:this.props.service.vehicle_service.required_skills_description,
+          time:this.props.service.vehicle_service.base_labor_time,
+          timeInterval:this.props.service.vehicle_service.labor_time_interval,
+          intervalMile:this.props.service.vehicle_service.interval_mile,
+          intervalMonth:this.props.service.vehicle_service.interval_month,
+          position:this.props.service.vehicle_service.position,
+          whatIsIt:this.props.service.vehicle_service.what_is_it,
+          whatIf:this.props.service.vehicle_service.what_if_decline,
+          whyDoThis:this.props.service.vehicle_service.why_do_this,
+          factors:this.props.service.vehicle_service.factors_to_consider,
+          fairLow:this.props.service.vehicle_service.low_fair_cost,
+          fairHigh:this.props.service.vehicle_service.high_fair_cost,
+          laborLow:this.props.service.vehicle_service.labor_low_cost,
+          laborHigh:this.props.service.vehicle_service.labor_high_cost,
+          partLow:this.props.service.vehicle_service.part_low_cost,
+          partHigh:this.props.service.vehicle_service.part_high_cost,
+          parts:this.props.service.vehicle_service,
+          partDetail:this.props.service.vehicle_service.motor_vehicle_service_parts,
+          fluidDetail:this.props.service.vehicle_service.motor_vehicle_service_fluids,
         }
       });
     }
   },
 
   render: function() {
-    var totalLow = this.props.service.motor_vehicle_service.low_fair_cost;
-    var totalHigh = this.props.service.motor_vehicle_service.high_fair_cost;
+    var totalLow = this.props.service.vehicle_service.low_fair_cost;
+    var totalHigh = this.props.service.vehicle_service.high_fair_cost;
     if(this.props.service.status == 0)
     {
       return (
@@ -501,7 +497,7 @@ var Service = React.createClass({
         <TouchableOpacity
           onPress={() => this.openDetail()}>
             <View style={styles.newServicesRow}>
-              <Text style={styles.newServiceItem}>{this.props.service.serviceName} {this.props.service.motor_vehicle_service.position}</Text>
+              <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
               { totalLow || totalHigh ? (
                 <View style={styles.fairPriceContainer}>
                   <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -560,7 +556,7 @@ var Service = React.createClass({
         <TouchableOpacity
           style={styles.approvedRow}
           onPress={() => this.openDetail()}>
-          <Text style={styles.approvedItem}>{this.props.service.serviceName} {this.props.service.motor_vehicle_service.position}</Text>
+          <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
           <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
         </TouchableOpacity>
       );
