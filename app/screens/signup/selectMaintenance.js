@@ -42,7 +42,7 @@ class SelectMaintenance extends Component {
       fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
         .then((response) => response.json())
         .then((responseData) => {
-          let services = responseData.vehicles.filter(this.filterMaintenanceServices);
+          let services = responseData.vehicles.filter(service => service.service_id);
           if (services.length > 0) {
             this.setState({ isLoading: false, services });
           } else {
@@ -50,10 +50,6 @@ class SelectMaintenance extends Component {
           }
         })
     }
-  }
-
-  filterMaintenanceServices(service) {
-    return service.status == 0 && service.service_type == 'Service';
   }
 
   render() {
@@ -71,13 +67,13 @@ class SelectMaintenance extends Component {
 
           {this.state.services.map(service => (
             <TouchableOpacity
-              key={service.motor_service_id}
+              key={service.service_id}
               style={styles.maintenanceItem}
-              onPress={() => this.toggleService(service.motor_service_id)}>
+              onPress={() => this.toggleService(service.service_id)}>
               <View style={styles.maintenanceCheckContainer}>
                 <Image
                   resizeMode='contain'
-                  source={this.state.selectedServiceIds.indexOf(service.motor_service_id) >= 0 ?
+                  source={this.state.selectedServiceIds.indexOf(service.service_id) >= 0 ?
                     require('../../../images/checkbox-on.png') :
                     require('../../../images/checkbox-off.png')}
                   style={styles.checkboxOn} />
@@ -122,6 +118,7 @@ class SelectMaintenance extends Component {
       {
         shop_id: selectShopFields.shop.id,
         services: this.state.selectedServiceIds.join(','),
+        // services: '899',
         appointment_datetime: ''
       },
       { 'Authorization': this.props.authentication_token }

@@ -24,7 +24,7 @@ import { partition, minBy, maxBy, sumBy } from 'lodash';
 var width = Dimensions.get('window').width - 20;
 var commentWidth = Dimensions.get('window').width - 40;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/most_recent_order?vehicleNumber=';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
 var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/update_order_service';
 var BULK_UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/update_order_services';
 
@@ -168,10 +168,10 @@ class Approvals extends Component {
     }
 
     getApprovals() {
-      if(this.props.isLoggedIn && this.props.vehicleNumber)
+      if(this.props.isLoggedIn && this.props.vehicleId)
       {
         //console.log("token is", this.props.authentication_token);
-        fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+        fetch(MAINTENANCE_URL.replace('?', this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
           .then((response) => response.json())
           .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
@@ -179,7 +179,7 @@ class Approvals extends Component {
             var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
-            var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var misc = (responseData.order != undefined) ? responseData.order.other_misc_fees : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var partLow = (responseData.order != undefined) ? responseData.order.order_services.part_low_cost : 0;
@@ -849,7 +849,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    vehicleNumber : user.vehicles[0].vehicleNumber,
+    vehicleId: user.vehicles ? user.vehicles[0].id : null
   };
 }
 
