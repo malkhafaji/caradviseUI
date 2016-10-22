@@ -46,7 +46,7 @@ class ApprovalDetail extends Component {
         partLow:passProps.partLow,
         partHigh:passProps.partHigh,
         parts:passProps.parts,
-        partDetail:passProps.partDetail,
+        partDetail:passProps.partDetail || [],
         partName:passProps.partName,
         fluidDetail:(passProps.fluidDetail || []).filter(fluid => fluid.literal_name == 'Engine Oil Fluid Type'),
         fluidType:passProps.fluidType,

@@ -102,29 +102,29 @@ var Service = React.createClass({
       passProps:{
         category:this.props.service.id,
         miles:this.props.miles,
-        name:this.props.service.serviceName,
-        desc:this.props.service.motor_vehicle_service.required_skills_description,
-        time:this.props.service.motor_vehicle_service.base_labor_time,
-        timeInterval:this.props.service.motor_vehicle_service.labor_time_interval,
-        intervalMile:this.props.service.motor_vehicle_service.interval_mile,
-        intervalMonth:this.props.service.motor_vehicle_service.interval_month,
-        position:this.props.service.motor_vehicle_service.position,
-        whatIsIt:this.props.service.motor_vehicle_service.what_is_it,
-        whatIf:this.props.service.motor_vehicle_service.what_if_decline,
-        whyDoThis:this.props.service.motor_vehicle_service.why_do_this,
-        factors:this.props.service.motor_vehicle_service.factors_to_consider,
-        fairLow:this.props.service.motor_vehicle_service.low_fair_cost,
-        fairHigh:this.props.service.motor_vehicle_service.high_fair_cost,
-        parts:this.props.service.motor_vehicle_service,
-        partDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_parts,
-        fluidDetail:this.props.service.motor_vehicle_service.motor_vehicle_service_fluids,
+        name:this.props.service.name,
+        desc:this.props.service.vehicle_service.required_skills_description,
+        time:this.props.service.vehicle_service.base_labor_time,
+        timeInterval:this.props.service.vehicle_service.labor_time_interval,
+        intervalMile:this.props.service.vehicle_service.interval_mile,
+        intervalMonth:this.props.service.vehicle_service.interval_month,
+        position:this.props.service.vehicle_service.position,
+        whatIsIt:this.props.service.vehicle_service.what_is_it,
+        whatIf:this.props.service.vehicle_service.what_if_decline,
+        whyDoThis:this.props.service.vehicle_service.why_do_this,
+        factors:this.props.service.vehicle_service.factors_to_consider,
+        fairLow:this.props.service.vehicle_service.low_fair_cost,
+        fairHigh:this.props.service.vehicle_service.high_fair_cost,
+        parts:this.props.service.vehicle_service,
+        partDetail:this.props.service.vehicle_service.vehicle_service_parts,
+        fluidDetail:this.props.service.vehicle_service.vehicle_service_fluids,
       }
     });
   },
 
   render: function() {
-    var totalLow = this.props.service.motor_vehicle_service.low_fair_cost;
-    var totalHigh = this.props.service.motor_vehicle_service.high_fair_cost;
+    var totalLow = this.props.service.vehicle_service.low_fair_cost;
+    var totalHigh = this.props.service.vehicle_service.high_fair_cost;
 
     if (this.props.service.status == 0) {
       return (
@@ -132,7 +132,7 @@ var Service = React.createClass({
           <TouchableOpacity
             style={styles.newServicesRow}
             onPress={() => this.openDetail()}>
-            <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+            <Text style={styles.newServiceItem}>{this.props.service.name}</Text>
             { totalLow || totalHigh ? (
               <View style={styles.fairPriceContainer}>
                 <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -145,10 +145,10 @@ var Service = React.createClass({
                 </View>
               </View>
             ) : null }
-            { Number(this.props.service.totalCost) ? (
+            { Number(this.props.service.override_total) ? (
               <View style={styles.newServicePriceContainer}>
                 <Text style={styles.newServicePriceHd}>PRICE</Text>
-                <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+                <Text style={styles.newServicePrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
               </View>
             ) : null }
           </TouchableOpacity>
@@ -180,7 +180,7 @@ var Service = React.createClass({
           style={styles.approvedRow}
           onPress={() => this.openDetail()}>
           <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
-          <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+          <Text style={styles.approvedPrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
         </TouchableOpacity>
       );
     }

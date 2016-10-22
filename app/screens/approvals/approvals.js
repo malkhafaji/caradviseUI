@@ -62,20 +62,20 @@ class Approvals extends Component {
 
     groupServices(services) {
       let [inspections, otherServices] = partition(services,
-        service => service.vehicle_service.service.inspection === 'true');
+        service => !!service.vehicle_service.service.inspection);
 
       if (inspections.length > 0) {
         let serviceLow = minBy(inspections, 'vehicle_service.low_fair_cost');
         let serviceHigh = maxBy(inspections, 'vehicle_service.high_fair_cost');
-        let totalCost = sumBy(inspections, ({ totalCost }) => Number(totalCost));
+        let override_total = sumBy(inspections, ({ override_total }) => Number(override_total));
 
         otherServices.unshift({
           groupedServices: inspections,
-          group_id: 0,
+          group_id: null,
           group_list: null,
           status: inspections[0].status,
-          serviceName: 'Inspections',
-          totalCost: totalCost,
+          name: 'Inspections',
+          override_total,
           vehicle_service: {
             low_fair_cost: serviceLow.vehicle_service.low_fair_cost,
             high_fair_cost: serviceHigh.vehicle_service.high_fair_cost
@@ -84,7 +84,7 @@ class Approvals extends Component {
       }
 
       if (otherServices.length > 0) {
-        let [individualServices, groupedServices] = partition(otherServices, { group_id: 0 });
+        let [individualServices, groupedServices] = partition(otherServices, { group_id: null });
 
         individualServices.forEach(service => {
           if (!service.group_list) return;
@@ -117,7 +117,7 @@ class Approvals extends Component {
 
        var approved = services.filter(this.filterApprovedServices.bind(this));
        for (var i = 0; i < approved.length; i++) {
-         var cost = approved[i].totalCost;
+         var cost = approved[i].override_total;
          if(typeof cost !== "undefined")
          {
            total += Number(cost);
@@ -461,7 +461,7 @@ var Service = React.createClass({
         passProps:{
           category:this.props.service.id,
           miles:this.props.miles,
-          name:this.props.service.serviceName,
+          name:this.props.service.name,
           comments:this.props.service.shopComments,
           desc:this.props.service.vehicle_service.required_skills_description,
           time:this.props.service.vehicle_service.base_labor_time,
@@ -497,7 +497,7 @@ var Service = React.createClass({
         <TouchableOpacity
           onPress={() => this.openDetail()}>
             <View style={styles.newServicesRow}>
-              <Text style={styles.newServiceItem}>{this.props.service.serviceName}</Text>
+              <Text style={styles.newServiceItem}>{this.props.service.name}</Text>
               { totalLow || totalHigh ? (
                 <View style={styles.fairPriceContainer}>
                   <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -510,10 +510,10 @@ var Service = React.createClass({
                   </View>
                 </View>
               ) : null }
-              { Number(this.props.service.totalCost) ? (
+              { Number(this.props.service.override_total) ? (
                 <View style={styles.newServicePriceContainer}>
                   <Text style={styles.newServicePriceHd}>PRICE</Text>
-                  <Text style={styles.newServicePrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+                  <Text style={styles.newServicePrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
                 </View>
               ) : null }
             </View>
@@ -556,8 +556,8 @@ var Service = React.createClass({
         <TouchableOpacity
           style={styles.approvedRow}
           onPress={() => this.openDetail()}>
-          <Text style={styles.approvedItem}>{this.props.service.serviceName}</Text>
-          <Text style={styles.approvedPrice}>${Number(this.props.service.totalCost).toFixed(2)}</Text>
+          <Text style={styles.approvedItem}>{this.props.service.name}</Text>
+          <Text style={styles.approvedPrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
         </TouchableOpacity>
       );
     }
