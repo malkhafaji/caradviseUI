@@ -84,6 +84,19 @@ class SelectMaintenance extends Component {
             </TouchableOpacity>
           ))}
 
+          <Text style={styles.textHd}>Added Services</Text>
+          <View style={styles.noServicesBg}>
+            <View style={styles.noServicesContainer}><Text style={styles.noServices}>No added services</Text></View>
+          </View>
+
+          <View style={styles.rowAddService}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
+              <Image
+                source={require('../../../images/btn-add-service.png')}
+                style={styles.btnAddService} />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.btnCol}>
             <TouchableOpacity onPress={() => this.createOrder()}>
               <Image
@@ -145,6 +158,15 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center'
   },
+  textHd: {
+    fontSize: 16,
+    marginTop: 15,
+    marginBottom: 8,
+    color: '#002d5e',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center'
+  },
   textStep: {
     marginTop: 30,
     marginBottom: 30,
@@ -200,7 +222,29 @@ var styles = StyleSheet.create({
   btn: {
     width: 190,
     height: 60
-  }
+  },
+  rowAddService: {
+    alignItems: 'center',
+  },
+  noServicesBg: {
+    width: width,
+    backgroundColor: '#EFEFEF',
+    marginBottom: 2,
+  },
+  noServicesContainer: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  noServices: {
+    color: '#002d5e',
+    width: width,
+    textAlign: 'center',
+  },
+  btnAddService: {
+    width: 110,
+    height: 10,
+    margin: 20,
+  },
 });
 
 function mapStateToProps(state) {
