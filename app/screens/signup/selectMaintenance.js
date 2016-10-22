@@ -117,8 +117,8 @@ class SelectMaintenance extends Component {
       CREATE_ORDER_URL.replace('?', this.props.vehicleId),
       {
         shop_id: selectShopFields.shop.id,
-        services: this.state.selectedServiceIds.join(','),
-        // services: '899',
+        //services: this.state.selectedServiceIds.join(','),
+        services: '[{"service_id":108},{"service_id":375}]',
         appointment_datetime: ''
       },
       { 'Authorization': this.props.authentication_token }
