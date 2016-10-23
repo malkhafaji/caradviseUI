@@ -62,7 +62,7 @@ class Approvals extends Component {
 
     groupServices(services) {
       let [inspections, otherServices] = partition(services,
-        service => !!service.vehicle_service.service.inspection);
+        service => !!(service.vehicle_service.service || {}).inspection && !service.group_id);
 
       if (inspections.length > 0) {
         let serviceLow = minBy(inspections, 'vehicle_service.low_fair_cost');
@@ -91,7 +91,7 @@ class Approvals extends Component {
 
           service.groupedServices = service.group_list
             .map(({ motor_service_id }) => groupedServices
-              .find(service => motor_service_id === service.motor_service_id))
+              .find(service => motor_service_id === service.vehicle_service.service_id))
             .filter(service => !!service);
 
           if (service.groupedServices.length > 0) {

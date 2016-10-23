@@ -109,7 +109,7 @@ async createOrder()
     CREATE_ORDER_URL.replace('?', this.props.vehicleId),
     {
       shop_id: this.state.shop.id,
-      services: this.state.services.map(({ motor_service_id, id }) => motor_service_id || id),
+      services: this.state.services.map(({ service_id, id }) => ({ service_id: service_id || id })),
       appointment_datetime: this.state.datetime
     },
     { 'Authorization': this.props.authentication_token }
@@ -177,7 +177,7 @@ renderServices(services) {
             <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No added services</Text></View></View>}
 
           <View style={styles.rowAddService}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices', passProps: { returnTo: 'ServiceRequest' } })}>
               <Image
                 source={require('../../../images/btn-add-service.png')}
                 style={styles.btnAddService} />

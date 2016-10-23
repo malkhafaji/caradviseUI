@@ -90,13 +90,17 @@ class ServiceDetail extends Component {
     }
 
     addService() {
-      const fields = cache.get('serviceRequest-fields');
-      if (!fields) return;
+      if (cache.get('serviceRequest-fields')) {
+        const fields = cache.get('serviceRequest-fields');
+        fields.services.push({ ...this.state.service, status: 'ADDED' });
+        cache.set('serviceRequest-fields', fields);
+      } else {
+        const services = cache.get('selectMaintenance-addedServices') || [];
+        services.push({ ...this.state.service, status: 'ADDED' });
+        cache.set('selectMaintenance-addedServices', services);
+      }
 
-      fields.services.push({ ...this.state.service, status: 'ADDED' });
-      cache.set('serviceRequest-fields', fields);
-
-      const route = { indent: 'ServiceRequest' };
+      const route = { indent: cache.get('addServices-returnTo') };
       const routes = this.props.navigator.getCurrentRoutes();
       this.props.navigator.replaceAtIndex(route, findLastIndex(routes, route));
       this.props.navigator.popToRoute(route);

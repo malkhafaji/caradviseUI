@@ -30,6 +30,10 @@ class AddServices extends Component {
       this.state = {
         services: passProps.services || null
       };
+
+      if (passProps.returnTo) {
+        cache.set('addServices-returnTo', passProps.returnTo);
+      }
     }
 
     componentDidMount() {
@@ -37,9 +41,20 @@ class AddServices extends Component {
         this.getServices();
     }
 
+    componentWillUnmount() {
+      cache.remove('addServices-returnTo');
+    }
+
     isAlreadyAdded(service) {
       if (!this.addedServiceIds) {
-        this.addedServiceIds = (cache.get('serviceRequest-fields') || {}).services || [];
+        if (cache.get('serviceRequest-fields')) {
+          this.addedServiceIds = (cache.get('serviceRequest-fields') || {}).services || [];
+        } else if (cache.get('selectMaintenance-addedServices')) {
+          this.addedServiceIds = cache.get('selectMaintenance-addedServices') || [];
+        } else {
+          this.addedServiceIds = []
+        }
+
         this.addedServiceIds = this.addedServiceIds.filter(({ status }) => status === 'ADDED')
                                                    .map(({ id }) => id);
       }

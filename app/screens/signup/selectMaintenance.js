@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Dimensions,
   Component,
+  ScrollView,
   Alert
 } from 'react-native';
 import TopBar from '../../components/main/topBar.js';
@@ -27,13 +28,15 @@ class SelectMaintenance extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      services: [],
-      selectedServiceIds: []
+      services: cache.get('selectMaintenance-services') || [],
+      addedServices: cache.get('selectMaintenance-addedServices') || [],
+      selectedServiceIds: cache.get('selectMaintenance-selectedServiceIds') || []
     }
   }
 
   componentDidMount() {
-    this.getMaintenance();
+    if (this.state.services.length === 0)
+      this.getMaintenance();
   }
 
   getMaintenance() {
@@ -42,12 +45,20 @@ class SelectMaintenance extends Component {
       fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
         .then((response) => response.json())
         .then((responseData) => {
-          let services = responseData.vehicles.filter(service => service.service_id);
-          if (services.length > 0) {
-            this.setState({ isLoading: false, services });
+          let services = [];
+
+          if (responseData.vehicles) {
+            services = responseData.vehicles.filter(service => service.service_id);
           } else {
-            this.createOrder();
+            services = [
+              { service_id: 108, name: 'Oil Change' },
+              { service_id: 375, name: 'Tire Rotation' },
+              { service_id: 36, name: 'Cabin Air Filter' }
+            ];
           }
+
+          this.setState({ isLoading: false, services });
+          cache.set('selectMaintenance-services', services);
         })
     }
   }
@@ -59,6 +70,7 @@ class SelectMaintenance extends Component {
     return (
       <View style={styles.base}>
         <TopBar navigator={this.props.navigator} />
+        <ScrollView style={styles.scrollView}>
         <View style={styles.formContainer}>
           <Text style={styles.textStep}>Based on your mileage, the following maintenance is highly recommended. Please select the work you would like to get done.</Text>
           <View style={styles.maintenanceHd}>
@@ -85,12 +97,15 @@ class SelectMaintenance extends Component {
           ))}
 
           <Text style={styles.textHd}>Added Services</Text>
-          <View style={styles.noServicesBg}>
-            <View style={styles.noServicesContainer}><Text style={styles.noServices}>No added services</Text></View>
-          </View>
+          { this.state.addedServices.length > 0 ?
+            this.state.addedServices.map(this.renderServiceRow) :
+            <View style={styles.noServicesBg}>
+              <View style={styles.noServicesContainer}><Text style={styles.noServices}>No added services</Text></View>
+            </View>
+          }
 
           <View style={styles.rowAddService}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices' })}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices', passProps: { returnTo: 'SelectMaintenance' } })}>
               <Image
                 source={require('../../../images/btn-add-service.png')}
                 style={styles.btnAddService} />
@@ -106,8 +121,31 @@ class SelectMaintenance extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        </ScrollView>
       </View>
     );
+  }
+
+  renderServiceRow = service => (
+    <View key={service.id} style={styles.serviceRow}>
+      <View style={styles.serviceContainer}>
+        <Text style={styles.serviceItem}>{service.name}</Text>
+      </View>
+      <TouchableOpacity onPress={() => this.removeAddedService(service)}>
+        <View style={styles.deleteContainer}>
+          <Image
+            source={require('../../../images/btn-delete.png')}
+            style={styles.btnDelete} />
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+
+  removeAddedService(service) {
+    let addedServices = [...this.state.addedServices];
+    addedServices.splice(addedServices.indexOf(service), 1);
+    this.setState({ addedServices });
+    cache.set('selectMaintenance-addedServices', addedServices);
   }
 
   toggleService(id) {
@@ -120,6 +158,7 @@ class SelectMaintenance extends Component {
       selectedServiceIds.push(id);
 
     this.setState({ selectedServiceIds });
+    cache.set('selectMaintenance-selectedServiceIds', selectedServiceIds);
   }
 
   async createOrder() {
@@ -130,8 +169,10 @@ class SelectMaintenance extends Component {
       CREATE_ORDER_URL.replace('?', this.props.vehicleId),
       {
         shop_id: selectShopFields.shop.id,
-        //services: this.state.selectedServiceIds.join(','),
-        services: '[{"service_id":108},{"service_id":375}]',
+        services: [].concat(
+          this.state.selectedServiceIds.map(service_id => ({ service_id })),
+          this.state.addedServices.map(({ id }) => ({ service_id: id }))
+        ),
         appointment_datetime: ''
       },
       { 'Authorization': this.props.authentication_token }
@@ -143,6 +184,9 @@ class SelectMaintenance extends Component {
       Alert.alert('Error', response.error);
     } else {
       cache.remove('selectShop-fields');
+      cache.remove('selectMaintenance-selectedServiceIds');
+      cache.remove('selectMaintenance-services');
+      cache.remove('selectMaintenance-addedServices');
       this.props.navigator.replace({ indent: 'SelectShopDone' });
     }
   }
@@ -152,6 +196,9 @@ var styles = StyleSheet.create({
   base: {
     flex: 1,
     backgroundColor: 'white'
+  },
+  scrollView: {
+    flex: 1,
   },
   formContainer: {
     flex: 1,
@@ -244,6 +291,36 @@ var styles = StyleSheet.create({
     width: 110,
     height: 10,
     margin: 20,
+  },
+  serviceRow: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#EFEFEF',
+    width: width,
+    marginBottom: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  serviceContainer: {
+    flex: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  serviceItem: {
+    flex: 1,
+    margin: 10,
+    fontWeight: 'bold',
+    color: '#002d5e',
+    alignItems: 'center',
+  },
+  deleteContainer: {
+    flex: 1,
+  },
+  btnDelete: {
+    width: 15,
+    height: 15,
+    margin: 10,
   },
 });
 
