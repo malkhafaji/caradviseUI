@@ -25,8 +25,8 @@ var width = Dimensions.get('window').width - 20;
 var commentWidth = Dimensions.get('window').width - 40;
 
 var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
-var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/update_order_service';
-var BULK_UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/update_order_services';
+var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_service';
+var BULK_UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_services';
 
 class Approvals extends Component {
 
@@ -39,7 +39,10 @@ class Approvals extends Component {
         tax:0,
         discount:0,
         percentDiscount:0,
+        caradviseDiscount:0,
+        totalDiscount:0,
         finalTotal:0,
+        fees:0,
         showSpinner: false,
         showCheckout: false,
         showTotals: false,
@@ -110,7 +113,7 @@ class Approvals extends Component {
       return otherServices;
     }
 
-    refreshServices(services, orderStatus, percentDiscount, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate)
+    refreshServices(services, orderStatus, caradviseDiscount, fees, percentDiscount, totalDiscount, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, misc, taxRate)
     {
       var total = 0;
       var showCheckout = false;
@@ -151,6 +154,7 @@ class Approvals extends Component {
         showCheckout: showCheckout,
         total: total.toFixed(2),
         percentDiscount: percentDiscount,
+        caradviseDiscount: caradviseDiscount,
         discount: discount,
         totalDiscount: Number(totalDiscount).toFixed(2),
         taxRate: taxRate,
@@ -175,6 +179,7 @@ class Approvals extends Component {
           .then((response) => response.json())
           .then((responseData) => {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
+            var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
             var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
@@ -183,7 +188,7 @@ class Approvals extends Component {
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, percentDiscount, taxAmount, finalTotal, fees, misc, totalDiscount, taxRate);
+            this.refreshServices(services, orderStatus, caradviseDiscount, fees, percentDiscount, totalDiscount, taxAmount, finalTotal, misc, taxRate);
           })
           .done();
 
@@ -230,13 +235,13 @@ class Approvals extends Component {
       }
     }
 
-    renderMisc()
+    renderCaradviseDiscount()
     {
-      if (this.state.misc != 0) {
+      if (this.state.caradviseDiscount != 0) {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>CarAdvise Discount</Text>
-              <Text style={styles.extrasPrice}>-${this.state.misc}</Text>
+              <Text style={styles.extrasPrice}>-${this.state.caradviseDiscount}</Text>
             </View>
           );
       } else {
@@ -297,7 +302,7 @@ class Approvals extends Component {
           return (
             <View>
             {this.renderFees()}
-            {this.renderMisc()}
+            {this.renderCaradviseDiscount()}
             {this.renderDiscount()}
             {this.renderDiscountPercent()}
 
@@ -399,9 +404,9 @@ var Service = React.createClass({
           let ids = this.props.service.groupedServices.map(s => s.id).join(',');
           if (this.props.service.group_list)
             ids += `,${this.props.service.id}`
-          url = `${BULK_UPDATE_URL}?order_service_ids=${ids}&status=${status}`;
+          url = `${BULK_UPDATE_URL.replace("?", this.props.vehicleId)}?order_service_ids=${ids}&status=${status}`;
         } else {
-          url = `${UPDATE_URL}?order_service_id=${this.props.service.id}&status=${status}`;
+          url = `${UPDATE_URL.replace("?", this.props.vehicleId)}?order_service_id=${this.props.service.id}&status=${status}`;
         }
 
         this.props.approvals.setState({
@@ -423,10 +428,10 @@ var Service = React.createClass({
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
-            var partLow = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.part_low_cost : 0;
-            var partHigh = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.part_high_cost : 0;
-            var laborLow = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.low_labor_cost : 0;
-            var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.high_labor_cost : 0;
+            //var partLow = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.part_low_cost : 0;
+            //var partHigh = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.part_high_cost : 0;
+            //var laborLow = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.low_labor_cost : 0;
+            //var laborHigh = (responseData.order != undefined) ? responseData.order.order_services.vehicle_service.high_labor_cost : 0;
             var services = responseData.order.order_services;
 
             if(Platform.OS === 'android'){
@@ -435,7 +440,7 @@ var Service = React.createClass({
               });
             }
 
-            this.props.approvals.refreshServices(services, orderStatus, percentDiscount, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, fees, misc, totalDiscount, taxRate);
+            this.props.approvals.refreshServices(services, orderStatus, fees, percentDiscount, totalDiscount, finalTotal, taxAmount, misc, taxRate);
 
             if(Platform.OS === 'ios'){
               this.props.approvals.setState({
