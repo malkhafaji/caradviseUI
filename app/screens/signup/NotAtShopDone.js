@@ -38,7 +38,7 @@ class NotAtShopDone extends Component {
       hide_used_or_new: true,
       types_of_car: [{ label: 'Used', value: 'Used' }, { label: 'New', value: 'New' }],
       fields: Object.assign({
-        miles_per_month: { name: '', value: '', invalid: false, validators: ['_isPresent'] },
+        miles_per_month: { name: '', value: 'Select', invalid: false, validators: ['_isPresent'] },
         type_of_driving: { name: '', value: 'Select', invalid: false, validators: ['_isPresent'] },
         used_or_new: { name: '', value: 'Select', invalid: false, validators: ['_isPresent'] }
       }, cache.get('notAtShopDone-fields') || {})

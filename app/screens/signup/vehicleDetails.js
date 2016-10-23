@@ -42,7 +42,7 @@ class VehicleDetails extends Component {
         loading_engines: false,
         engines: cache.get('vehicleDetails-engines') || [],
         fields: Object.assign({
-          year: { name: 'Year', value: '', invalid: false, validators: ['_isPresent'] },
+          year: { name: 'Select Year', value: '', invalid: false, validators: ['_isPresent'] },
           make: { name: 'Select Make', value: '', invalid: false, validators: ['_isPresent'] },
           model: { name: 'Select Model', value: '', invalid: false, validators: ['_isPresent'] },
           engine: { name: 'Select Engine', value: '', invalid: false, validators: ['_isPresent'] },
