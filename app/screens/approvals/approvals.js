@@ -39,6 +39,7 @@ class Approvals extends Component {
         tax:0,
         discount:0,
         percentDiscount:0,
+        couponDiscount:0,
         caradviseDiscount:0,
         totalDiscount:0,
         finalTotal:0,
@@ -113,7 +114,7 @@ class Approvals extends Component {
       return otherServices;
     }
 
-    refreshServices(services, orderStatus, caradviseDiscount, fees, percentDiscount, totalDiscount, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, misc, taxRate)
+    refreshServices(services, orderStatus, totalDiscount, couponDiscount, percentDiscount, caradviseDiscount, fees, finalTotal, taxAmount, partLow, partHigh, laborLow, laborHigh, misc, taxRate)
     {
       var total = 0;
       var showCheckout = false;
@@ -156,6 +157,7 @@ class Approvals extends Component {
         percentDiscount: percentDiscount,
         caradviseDiscount: caradviseDiscount,
         discount: discount,
+        couponDiscount: couponDiscount,
         totalDiscount: Number(totalDiscount).toFixed(2),
         taxRate: taxRate,
         fees: fees,
@@ -181,6 +183,7 @@ class Approvals extends Component {
             var orderStatus = (responseData.order != undefined) ? responseData.order.status : 0;
             var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
             var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
+            var couponDiscount = (responseData.order != undefined) ? responseData.order.total_coupon_discount : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
@@ -188,7 +191,7 @@ class Approvals extends Component {
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, caradviseDiscount, fees, percentDiscount, totalDiscount, taxAmount, finalTotal, misc, taxRate);
+            this.refreshServices(services, orderStatus, caradviseDiscount, fees, percentDiscount, couponDiscount, totalDiscount, taxAmount, finalTotal, misc, taxRate);
           })
           .done();
 
@@ -237,7 +240,7 @@ class Approvals extends Component {
 
     renderCaradviseDiscount()
     {
-      if (this.state.caradviseDiscount != 0) {
+      if (this.state.caradviseDiscount != null && this.state.caradviseDiscount != 0) {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>CarAdvise Discount</Text>
@@ -249,13 +252,27 @@ class Approvals extends Component {
       }
     }
 
+    renderCouponDiscount()
+    {
+      if (this.state.couponDiscount != null && this.state.couponDiscount != 0) {
+          return (
+            <View style={styles.extrasRow}>
+              <Text style={styles.extrasItem}>Coupon Discount</Text>
+              <Text style={styles.extrasPrice}>-${this.state.couponDiscount}</Text>
+            </View>
+          );
+      } else {
+          return null;
+      }
+    }
+
     renderDiscount()
     {
-      if (this.state.totalDiscount != 0) {
+      if (this.state.totalDiscount != null && this.state.totalDiscount != 0) {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Shop Discount</Text>
-              <Text style={styles.extrasPrice}>-${this.state.totalDiscount.toFixed(2)}</Text>
+              <Text style={styles.extrasPrice}>-${this.state.totalDiscount}</Text>
             </View>
           );
       } else {
@@ -303,6 +320,7 @@ class Approvals extends Component {
             <View>
             {this.renderFees()}
             {this.renderCaradviseDiscount()}
+            {this.renderCouponDiscount()}
             {this.renderDiscount()}
             {this.renderDiscountPercent()}
 
@@ -424,7 +442,9 @@ var Service = React.createClass({
             var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
             var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
             var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+            var couponDiscount = (responseData.order != undefined) ? responseData.order.total_coupon_discount : 0;
             var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
+            var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
@@ -440,7 +460,7 @@ var Service = React.createClass({
               });
             }
 
-            this.props.approvals.refreshServices(services, orderStatus, fees, percentDiscount, totalDiscount, finalTotal, taxAmount, misc, taxRate);
+            this.props.approvals.refreshServices(services, orderStatus, fees, couponDiscount, percentDiscount, caradviseDiscount, totalDiscount, finalTotal, taxAmount, misc, taxRate);
 
             if(Platform.OS === 'ios'){
               this.props.approvals.setState({
