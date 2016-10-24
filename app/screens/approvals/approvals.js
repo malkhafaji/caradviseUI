@@ -227,7 +227,7 @@ class Approvals extends Component {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Shop Fees</Text>
-              <Text style={styles.extrasPrice}>${this.state.fees}</Text>
+              <Text style={styles.extrasPrice}>${this.state.fees.toFixed(2)}</Text>
             </View>
           );
       } else {
@@ -241,7 +241,7 @@ class Approvals extends Component {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>CarAdvise Discount</Text>
-              <Text style={styles.extrasPrice}>-${this.state.caradviseDiscount}</Text>
+              <Text style={styles.extrasPrice}>-${this.state.caradviseDiscount.toFixed(2)}</Text>
             </View>
           );
       } else {
@@ -255,7 +255,7 @@ class Approvals extends Component {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Shop Discount</Text>
-              <Text style={styles.extrasPrice}>-${this.state.totalDiscount}</Text>
+              <Text style={styles.extrasPrice}>-${this.state.totalDiscount.toFixed(2)}</Text>
             </View>
           );
       } else {
