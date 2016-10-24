@@ -65,6 +65,7 @@ class PaymentConfirm extends Component {
           var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
           var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
           var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
+          var couponDiscount = (responseData.order != undefined) ? responseData.order.total_coupon_discount : 0;
           var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
           var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
           var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
@@ -90,6 +91,7 @@ class PaymentConfirm extends Component {
             taxRate: taxRate,
             caradviseDiscount: caradviseDiscount,
             percentDiscount: percentDiscount,
+            couponDiscount: couponDiscount,
             misc: misc.toFixed(2),
             fees: fees.toFixed(2),
             totalDiscount: Number(totalDiscount).toFixed(2),
@@ -122,6 +124,20 @@ class PaymentConfirm extends Component {
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>CarAdvise Discount</Text>
             <Text style={styles.taxPrice}>-${this.state.caradviseDiscount}</Text>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  }
+
+  renderCouponDiscount()
+  {
+    if (this.state.couponDiscount != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Coupon Discount</Text>
+            <Text style={styles.taxPrice}>-${this.state.couponDiscount}</Text>
           </View>
         );
     } else {
@@ -257,6 +273,7 @@ class PaymentConfirm extends Component {
               {services.map(this.createServiceRow)}
               {this.renderFees()}
               {this.renderMisc()}
+              {this.renderCouponDiscount()}
               {this.renderDiscount()}
               {this.renderPercentDiscount()}
               <View style={styles.taxRow}>
