@@ -22,7 +22,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/most_recent_order?vehicleNumber=';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
 var UPDATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order';
 
 class PaymentConfirm extends Component {
@@ -54,9 +54,9 @@ class PaymentConfirm extends Component {
   }
 
   getServices() {
-    if(this.props.isLoggedIn && this.props.vehicleNumber)
+    if(this.props.isLoggedIn && this.props.vehicleId)
     {
-      fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+      fetch(MAINTENANCE_URL.replace('?', this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
         .then((response) => response.json())
         .then((responseData) => {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
@@ -64,10 +64,11 @@ class PaymentConfirm extends Component {
           var orderId = responseData.order.id;
           var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
           var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
-          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
-          var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+          var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
+          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
+          var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
           var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
-          var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+          var misc = (responseData.order != undefined) ? responseData.order.other_misc_fees : 0;
           var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
           if(responseData.order != undefined)
           {
@@ -87,6 +88,7 @@ class PaymentConfirm extends Component {
             orderId: orderId,
             services: services,
             taxRate: taxRate,
+            caradviseDiscount: caradviseDiscount,
             percentDiscount: percentDiscount,
             misc: misc.toFixed(2),
             fees: fees.toFixed(2),
@@ -115,11 +117,11 @@ class PaymentConfirm extends Component {
 
   renderMisc()
   {
-    if (this.state.misc != 0) {
+    if (this.state.caradviseDiscount != 0) {
         return (
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>CarAdvise Discount</Text>
-            <Text style={styles.taxPrice}>-${this.state.misc}</Text>
+            <Text style={styles.taxPrice}>-${this.state.caradviseDiscount}</Text>
           </View>
         );
     } else {
@@ -414,7 +416,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    vehicleNumber : user.vehicles[0].vehicleNumber,
+    vehicleId: user.vehicles ? user.vehicles[0].id : null
   };
 }
 
