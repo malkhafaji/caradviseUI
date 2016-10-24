@@ -169,10 +169,10 @@ class SelectMaintenance extends Component {
       CREATE_ORDER_URL.replace('?', this.props.vehicleId),
       {
         shop_id: selectShopFields.shop.id,
-        services: [].concat(
+        services: JSON.stringify([].concat(
           this.state.selectedServiceIds.map(service_id => ({ service_id })),
           this.state.addedServices.map(({ id }) => ({ service_id: id }))
-        ),
+        )),
         appointment_datetime: ''
       },
       { 'Authorization': this.props.authentication_token }

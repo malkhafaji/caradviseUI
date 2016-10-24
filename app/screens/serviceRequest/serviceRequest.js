@@ -109,7 +109,7 @@ async createOrder()
     CREATE_ORDER_URL.replace('?', this.props.vehicleId),
     {
       shop_id: this.state.shop.id,
-      services: this.state.services.map(({ service_id, id }) => ({ service_id: service_id || id })),
+      services: JSON.stringify(this.state.services.map(({ service_id, id }) => ({ service_id: service_id || id }))),
       appointment_datetime: this.state.datetime
     },
     { 'Authorization': this.props.authentication_token }
