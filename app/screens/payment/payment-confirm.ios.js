@@ -50,7 +50,7 @@ class PaymentConfirm extends Component {
 
   filterCompletedServices(service)
   {
-    return (service.status == 5 && service.group_id == 0);
+    return (service.status == 5 && service.group_id == null);
   }
 
   getServices() {
@@ -75,7 +75,7 @@ class PaymentConfirm extends Component {
           {
              services = services.filter(this.filterCompletedServices.bind(this));
              for (var i = 0; i < services.length; i++) {
-               var cost = services[i].totalCost;
+               var cost = services[i].override_total;
                if(typeof cost !== "undefined")
                {
                  total += Number(cost);
@@ -314,8 +314,8 @@ var Service = React.createClass({
   render: function() {
     return(
       <View style={styles.serviceRow}>
-        <Text style={styles.serviceItem}>{this.props.service.serviceName}</Text>
-        <Text style={styles.servicePrice}>${this.props.service.totalCost}</Text>
+        <Text style={styles.serviceItem}>{this.props.service.name}</Text>
+        <Text style={styles.servicePrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
       </View>
     );
   }
