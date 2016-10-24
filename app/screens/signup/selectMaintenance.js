@@ -49,7 +49,9 @@ class SelectMaintenance extends Component {
 
           if (responseData.vehicles) {
             services = responseData.vehicles.filter(service => service.service_id);
-          } else {
+          }
+
+          if (services.length === 0) {
             services = [
               { service_id: 108, name: 'Oil Change' },
               { service_id: 375, name: 'Tire Rotation' },
