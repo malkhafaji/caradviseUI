@@ -191,7 +191,7 @@ class Approvals extends Component {
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
             var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
-            this.refreshServices(services, orderStatus, caradviseDiscount, fees, percentDiscount, couponDiscount, totalDiscount, taxAmount, finalTotal, misc, taxRate);
+            this.refreshServices(services, orderStatus, totalDiscount, couponDiscount, percentDiscount, caradviseDiscount, fees, taxAmount, finalTotal, misc, taxRate);
           })
           .done();
 
@@ -258,7 +258,7 @@ class Approvals extends Component {
           return (
             <View style={styles.extrasRow}>
               <Text style={styles.extrasItem}>Coupon Discount</Text>
-              <Text style={styles.extrasPrice}>-${this.state.couponDiscount}</Text>
+              <Text style={styles.extrasPrice}>-${this.state.couponDiscount.toFixed(2)}</Text>
             </View>
           );
       } else {

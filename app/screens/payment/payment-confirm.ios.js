@@ -117,13 +117,13 @@ class PaymentConfirm extends Component {
     }
   }
 
-  renderMisc()
+  renderCaradviseDiscount()
   {
     if (this.state.caradviseDiscount != 0) {
         return (
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>CarAdvise Discount</Text>
-            <Text style={styles.taxPrice}>-${this.state.caradviseDiscount}</Text>
+            <Text style={styles.taxPrice}>-${this.state.caradviseDiscount.toFixed(2)}</Text>
           </View>
         );
     } else {
@@ -137,7 +137,7 @@ class PaymentConfirm extends Component {
         return (
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>Coupon Discount</Text>
-            <Text style={styles.taxPrice}>-${this.state.couponDiscount}</Text>
+            <Text style={styles.taxPrice}>-${this.state.couponDiscount.toFixed(2)}</Text>
           </View>
         );
     } else {
@@ -272,7 +272,7 @@ class PaymentConfirm extends Component {
 
               {services.map(this.createServiceRow)}
               {this.renderFees()}
-              {this.renderMisc()}
+              {this.renderCaradviseDiscount()}
               {this.renderCouponDiscount()}
               {this.renderDiscount()}
               {this.renderPercentDiscount()}
