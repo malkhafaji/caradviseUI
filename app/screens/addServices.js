@@ -20,7 +20,7 @@ import { chain, includes } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/services/service_hierarchy';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/services/app_service_hierarchy';
 
 class AddServices extends Component {
 
@@ -67,13 +67,7 @@ class AddServices extends Component {
         .groupBy('first_level')
         .map((services, name) => ({
           name,
-          services: chain(services)
-            .groupBy('second_level')
-            .map((services, name) => ({
-              name,
-              services: services.filter(service => !this.isAlreadyAdded(service))
-            }))
-            .value()
+          services: services.filter(service => !this.isAlreadyAdded(service))
         }))
         .value();
     }
