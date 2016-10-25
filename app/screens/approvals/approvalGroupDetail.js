@@ -126,7 +126,7 @@ var Service = React.createClass({
     var totalLow = this.props.service.vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.vehicle_service.high_fair_cost;
 
-    if (this.props.service.status == 0) {
+    if (this.props.service.status == 0 || this.props.service.status == 1) {
       return (
         <View style={styles.serviceRow}>
           <TouchableOpacity
@@ -185,6 +185,7 @@ var Service = React.createClass({
       );
     }
 
+    return null;
   }
 });
 

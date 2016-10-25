@@ -64,6 +64,7 @@ class AddServices extends Component {
 
     groupServices(services) {
       return chain(services)
+        .filter(({ app_services }) => app_services && app_services.length > 0)
         .groupBy('first_level')
         .map((services, name) => ({
           name,

@@ -19,6 +19,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-datepicker';
 import cache from '../../utils/cache';
 import { postJSON } from '../../utils/fetch';
+import { flatMap } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -64,7 +65,7 @@ getMaintenance() {
       .then((responseData) => {
         var total = 0;
         this.setState({
-          services: responseData.vehicles,
+          services: responseData.vehicles.filter(({ status }) => status == 0 || status == 2),
           total: "$" + total.toFixed(2)
         });
       })
@@ -105,11 +106,12 @@ filterAddedServices(service)
 
 async createOrder()
 {
+  let services = flatMap(this.state.services, a => a.service_id || a.app_services.map(b => b.service_id));
   let response = await postJSON(
     CREATE_ORDER_URL.replace('?', this.props.vehicleId),
     {
       shop_id: this.state.shop.id,
-      services: JSON.stringify(this.state.services.map(({ service_id, id }) => ({ service_id: service_id || id }))),
+      services: JSON.stringify(services.map(service_id => ({ service_id }))),
       appointment_datetime: this.state.datetime
     },
     { 'Authorization': this.props.authentication_token }

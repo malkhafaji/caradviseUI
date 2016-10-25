@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../../utils/cache';
 import { postJSON } from '../../utils/fetch';
+import { flatMap } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -172,9 +173,9 @@ class SelectMaintenance extends Component {
       {
         shop_id: selectShopFields.shop.id,
         services: JSON.stringify([].concat(
-          this.state.selectedServiceIds.map(service_id => ({ service_id })),
-          this.state.addedServices.map(({ id }) => ({ service_id: id }))
-        )),
+          this.state.selectedServiceIds,
+          flatMap(this.state.addedServices, a => a.app_services.map(b => b.service_id))
+        ).map(service_id => ({ service_id }))),
         appointment_datetime: ''
       },
       { 'Authorization': this.props.authentication_token }
