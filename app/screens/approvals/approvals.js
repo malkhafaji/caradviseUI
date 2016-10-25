@@ -216,7 +216,7 @@ class Approvals extends Component {
 
     filterUnapprovedServices(service)
     {
-      return service.status == 0;
+      return (service.status == 0 || service.status == 1);
     }
 
     filterApprovedServices(service)
@@ -515,7 +515,7 @@ var Service = React.createClass({
   render: function() {
     var totalLow = this.props.service.vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.vehicle_service.high_fair_cost;
-    if(this.props.service.status == 0)
+    if(this.props.service.status == 0 || this.props.service.status == 1)
     {
       return (
         <View>
