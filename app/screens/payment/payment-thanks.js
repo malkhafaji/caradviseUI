@@ -22,7 +22,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/most_recent_order?vehicleNumber=';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
 var UPDATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order';
 
 class PaymentThanks extends Component {
@@ -51,9 +51,9 @@ class PaymentThanks extends Component {
   }
 
   getServices() {
-    if(this.props.isLoggedIn && this.props.vehicleNumber)
+    if(this.props.isLoggedIn && this.props.vehicleId)
     {
-      fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+      fetch(MAINTENANCE_URL.replace('?', this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
         .then((response) => response.json())
         .then((responseData) => {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
@@ -62,10 +62,12 @@ class PaymentThanks extends Component {
           var orderStatus = responseData.order.status;
           var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
           var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
-          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
-          var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+          var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
+          var couponDiscount = (responseData.order != undefined) ? responseData.order.total_coupon_discount : 0;
+          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
+          var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
           var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
-          var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+          var misc = (responseData.order != undefined) ? responseData.order.other_misc_fees : 0;
           var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
           if(responseData.order != undefined)
           {
