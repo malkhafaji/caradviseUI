@@ -716,6 +716,7 @@ var styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     padding: 5,
+    fontSize: 12
   },
   shopComments: {
     flexDirection: 'row',
