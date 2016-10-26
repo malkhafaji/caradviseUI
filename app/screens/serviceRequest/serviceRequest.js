@@ -36,6 +36,7 @@ constructor(props) {
     total:0,
     visible: false,
     datetime: null,
+    isLoading: false
   }, cache.get('serviceRequest-fields') || {});
 
   this.removeService = this.removeService.bind(this);
@@ -74,7 +75,7 @@ getMaintenance() {
 }
 
 render() {
-  if (!this.state.services) {
+  if (!this.state.services || this.state.isLoading) {
     return this.renderLoadingView();
   }
   var services = this.state.services;
@@ -106,6 +107,8 @@ filterAddedServices(service)
 
 async createOrder()
 {
+  this.setState({ isLoading: true });
+
   let services = flatMap(this.state.services, a => a.service_id || a.app_services.map(b => b.service_id));
   let response = await postJSON(
     CREATE_ORDER_URL.replace('?', this.props.vehicleId),
@@ -116,6 +119,8 @@ async createOrder()
     },
     { 'Authorization': this.props.authentication_token }
   )
+
+  this.setState({ isLoading: false });
 
   if (response.error) {
     Alert.alert('Error', response.error);
