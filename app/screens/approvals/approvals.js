@@ -494,6 +494,7 @@ var Service = React.createClass({
           intervalMile:this.props.service.vehicle_service.frequency_mile,
           intervalMonth:this.props.service.vehicle_service.frequency_month,
           position:this.props.service.vehicle_service.position,
+          oneLiner:this.props.service.vehicle_service.service.one_liner,
           whatIsIt:this.props.service.vehicle_service.service.what_is_this,
           whatIf:this.props.service.vehicle_service.service.what_if_decline,
           whyDoThis:this.props.service.vehicle_service.service.why_do_this,
@@ -515,6 +516,7 @@ var Service = React.createClass({
   render: function() {
     var totalLow = this.props.service.vehicle_service.low_fair_cost;
     var totalHigh = this.props.service.vehicle_service.high_fair_cost;
+    var oneLiner = this.props.service.vehicle_service.service.one_liner;
     if(this.props.service.status == 0 || this.props.service.status == 1)
     {
       return (
@@ -542,6 +544,14 @@ var Service = React.createClass({
                 </View>
               ) : null }
             </View>
+
+            { oneLiner ? (
+            <View style={styles.oneLinerContainer}>
+              <View style={styles.oneLiner}>
+                <Text style={styles.oneLinerTxt}>{this.props.service.vehicle_service.service.one_liner}</Text>
+              </View>
+            </View> ) : null }
+
             <View style={styles.shopComments}>
               <View style={styles.commentWrapper}>
                 <View style={styles.iconCommentContainer}>
@@ -691,6 +701,21 @@ var styles = StyleSheet.create({
     color: '#002d5e',
     textAlign: 'right',
     fontWeight: 'bold',
+  },
+  oneLinerContainer: {
+    backgroundColor: '#EFEFEF'
+  },
+  oneLiner: {
+    backgroundColor: '#FFF',
+    marginTop: 2,
+    marginLeft: 10,
+    marginRight: 10
+  },
+  oneLinerTxt: {
+    color: '#002d5e',
+    marginLeft: 5,
+    marginRight: 5,
+    padding: 5,
   },
   shopComments: {
     flexDirection: 'row',
