@@ -65,7 +65,7 @@ getMaintenance() {
       .then((responseData) => {
         var total = 0;
         this.setState({
-          services: responseData.vehicles.filter(({ status }) => status == 0 || status == 2),
+          services: responseData.vehicles.filter(({ status, service_id }) => (status == 0 || status == 2) && service_id),
           total: "$" + total.toFixed(2)
         });
       })
