@@ -39,7 +39,7 @@ class Intro extends Component {
           {this._renderTopSection()}
         </Image>
         <TouchableOpacity onPress={() => {
-          this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'Step1' });
+          this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'StartScreen' });
         }}>
           <Image source={require('../../../images/intro-step5.png')} style={styles.page}>
             {this._renderTopSection()}
