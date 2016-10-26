@@ -92,7 +92,7 @@ renderLoadingView() {
 
 filterMaintenanceServices(service)
 {
-  return (service.status == 0 && service.service_type == 'Service');
+  return (service.status == 0 || service.status == 1 && service.service_type == 'Service');
 }
 
 filterSavedServices(service)
