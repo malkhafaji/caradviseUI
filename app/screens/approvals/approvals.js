@@ -82,7 +82,8 @@ class Approvals extends Component {
           override_total,
           vehicle_service: {
             low_fair_cost: serviceLow.vehicle_service.low_fair_cost,
-            high_fair_cost: serviceHigh.vehicle_service.high_fair_cost
+            high_fair_cost: serviceHigh.vehicle_service.high_fair_cost,
+            service: {}
           }
         });
       }
