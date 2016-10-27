@@ -82,8 +82,7 @@ class Approvals extends Component {
           override_total,
           vehicle_service: {
             low_fair_cost: serviceLow.vehicle_service.low_fair_cost,
-            high_fair_cost: serviceHigh.vehicle_service.high_fair_cost,
-            service: {}
+            high_fair_cost: serviceHigh.vehicle_service.high_fair_cost
           }
         });
       }
@@ -482,6 +481,7 @@ var Service = React.createClass({
         passProps: { services: this.props.service.groupedServices }
       });
     } else {
+      var service = this.props.service.vehicle_service.service || {};
       this.props.nav.push({
         indent:'ApprovalDetail',
         passProps:{
@@ -495,11 +495,11 @@ var Service = React.createClass({
           intervalMile:this.props.service.vehicle_service.frequency_mile,
           intervalMonth:this.props.service.vehicle_service.frequency_month,
           position:this.props.service.vehicle_service.position,
-          oneLiner:this.props.service.vehicle_service.service.one_liner,
-          whatIsIt:this.props.service.vehicle_service.service.what_is_this,
-          whatIf:this.props.service.vehicle_service.service.what_if_decline,
-          whyDoThis:this.props.service.vehicle_service.service.why_do_this,
-          factors:this.props.service.vehicle_service.service.factors_to_consider,
+          oneLiner:service.one_liner,
+          whatIsIt:service.what_is_this,
+          whatIf:service.what_if_decline,
+          whyDoThis:service.why_do_this,
+          factors:service.factors_to_consider,
           fairLow:this.props.service.vehicle_service.low_fair_cost,
           fairHigh:this.props.service.vehicle_service.high_fair_cost,
           laborLow:this.props.service.vehicle_service.labor_low_cost,
@@ -543,7 +543,7 @@ var Service = React.createClass({
               ) : null }
             </View>
 
-            { this.props.service.vehicle_service.service.one_liner ? (
+            { (this.props.service.vehicle_service.service || {}).one_liner ? (
             <View style={styles.oneLinerContainer}>
               <View style={styles.oneLiner}>
                 <Text style={styles.oneLinerTxt}>{this.props.service.vehicle_service.service.one_liner}</Text>
