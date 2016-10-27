@@ -514,9 +514,6 @@ var Service = React.createClass({
   },
 
   render: function() {
-    var totalLow = this.props.service.vehicle_service.low_fair_cost;
-    var totalHigh = this.props.service.vehicle_service.high_fair_cost;
-    var oneLiner = this.props.service.vehicle_service.service.one_liner;
     if(this.props.service.status == 0 || this.props.service.status == 1)
     {
       return (
@@ -525,15 +522,15 @@ var Service = React.createClass({
           onPress={() => this.openDetail()}>
             <View style={styles.newServicesRow}>
               <Text style={styles.newServiceItem}>{this.props.service.name}</Text>
-              { totalLow || totalHigh ? (
+              { this.props.service.vehicle_service.low_fair_cost || this.props.service.vehicle_service.high_fair_cost ? (
                 <View style={styles.fairPriceContainer}>
                   <Text style={styles.fairPriceText}>FAIR PRICE</Text>
                   <View style={styles.fairPriceRange}>
-                    <Text style={styles.fairPrice}>${totalLow.toFixed(0)}</Text>
+                    <Text style={styles.fairPrice}>${this.props.service.vehicle_service.low_fair_cost.toFixed(0)}</Text>
                     <Image
                       source={require('../../../images/arrow-range.png')}
                       style={styles.fairPriceArrow} />
-                    <Text style={styles.fairPrice}>${totalHigh.toFixed(0)}</Text>
+                    <Text style={styles.fairPrice}>${this.props.service.vehicle_service.high_fair_cost.toFixed(0)}</Text>
                   </View>
                 </View>
               ) : null }
@@ -545,7 +542,7 @@ var Service = React.createClass({
               ) : null }
             </View>
 
-            { oneLiner ? (
+            { this.props.service.vehicle_service.service.one_liner ? (
             <View style={styles.oneLinerContainer}>
               <View style={styles.oneLiner}>
                 <Text style={styles.oneLinerTxt}>{this.props.service.vehicle_service.service.one_liner}</Text>
