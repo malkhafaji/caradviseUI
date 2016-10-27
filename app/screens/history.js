@@ -51,7 +51,7 @@ class MaintenanceHistory extends Component {
     this.setState({ isLoading: false });
 
     if (response.result) {
-      const orders = (response.result.orders || []).filter(({ status }) => status == 3);
+      const orders = (response.result.orders || []).filter(({ status }) => status == 3 || status == 4);
       this.setState({ orders });
     }
   }
@@ -89,7 +89,7 @@ class MaintenanceHistory extends Component {
           <Text style={styles.shopInfo}><Text style={styles.textBld}>{order.shop.name}</Text>{'\n'}{order.shop.address}</Text>
           <View style={styles.dateContainer}>
             <Text style={styles.serviceDate}>{formatDate(order.created)}</Text>
-            <Text style={styles.serviceDate}>Total: ${Number(order.total).toFixed(2)}</Text>
+            <Text style={styles.serviceDate}>Total: ${Number(order.post_tax_total).toFixed(2)}</Text>
           </View>
         </View>
         {order.orders_services.map((service, index) => this.renderService(service, index))}
@@ -103,7 +103,7 @@ class MaintenanceHistory extends Component {
         <Text style={styles.maintenanceItem}>{service.service_name}</Text>
         <View style={styles.newServicePriceContainer}>
           <Text style={styles.newServicePriceHd}>PRICE</Text>
-          <Text style={styles.newServicePrice}>${Number(service.totalCost).toFixed(2)}</Text>
+          <Text style={styles.newServicePrice}>${Number(service.override_total).toFixed(2)}</Text>
         </View>
       </View>
     );
