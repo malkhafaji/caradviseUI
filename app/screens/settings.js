@@ -48,10 +48,6 @@ class Settings extends Component {
             <View style={styles.settingsContainer}>
               <Text style={styles.textHd}>Settings</Text>
 
-              <View style={styles.vehicleNumber}>
-                <Text style={styles.vehicleNumberText}>VEHICLE NUMBER:  {this.props.vehicleNumber}</Text>
-              </View>
-
               <View style={[styles.settingsRow, this.state.fields.firstName.invalid && styles.invalidFld]}>
                 <Text style={styles.fldName}>FIRST NAME</Text>
                 <TextInput
