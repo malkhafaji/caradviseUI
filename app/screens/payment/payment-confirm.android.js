@@ -22,7 +22,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/most_recent_order?vehicleNumber=';
+var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
 var UPDATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order';
 
 class PaymentConfirm extends Component {
@@ -50,13 +50,13 @@ class PaymentConfirm extends Component {
 
   filterCompletedServices(service)
   {
-    return (service.status == 5 && service.group_id == 0);
+    return (service.status == 5 && service.group_id == null);
   }
 
   getServices() {
-    if(this.props.isLoggedIn && this.props.vehicleNumber)
+    if(this.props.isLoggedIn && this.props.vehicleId)
     {
-      fetch(MAINTENANCE_URL + this.props.vehicleNumber, {headers: {'Authorization': this.props.authentication_token}})
+      fetch(MAINTENANCE_URL.replace('?', this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
         .then((response) => response.json())
         .then((responseData) => {
           var services = (responseData.order != undefined) ? responseData.order.order_services : [];
@@ -64,16 +64,18 @@ class PaymentConfirm extends Component {
           var orderId = responseData.order.id;
           var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
           var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
-          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_discount : 0;
-          var totalDiscount = (responseData.order != undefined) ? responseData.order.totalDiscount : 0;
+          var caradviseDiscount = (responseData.order != undefined) ? responseData.order.caradvise_discount : 0;
+          var couponDiscount = (responseData.order != undefined) ? responseData.order.total_coupon_discount : 0;
+          var percentDiscount = (responseData.order != undefined) ? responseData.order.percent_shop_discount : 0;
+          var totalDiscount = (responseData.order != undefined) ? responseData.order.total_shop_discount : 0;
           var fees = (responseData.order != undefined) ? responseData.order.shop_fees : 0;
-          var misc = (responseData.order != undefined) ? responseData.order.other_misc : 0;
+          var misc = (responseData.order != undefined) ? responseData.order.other_misc_fees : 0;
           var taxRate = (responseData.order != undefined) ? responseData.order.tax_rate : 0;
           if(responseData.order != undefined)
           {
              services = services.filter(this.filterCompletedServices.bind(this));
              for (var i = 0; i < services.length; i++) {
-               var cost = services[i].totalCost;
+               var cost = services[i].override_total;
                if(typeof cost !== "undefined")
                {
                  total += Number(cost);
@@ -87,9 +89,11 @@ class PaymentConfirm extends Component {
             orderId: orderId,
             services: services,
             taxRate: taxRate,
+            caradviseDiscount: caradviseDiscount,
+            percentDiscount: percentDiscount,
+            couponDiscount: couponDiscount,
             misc: misc.toFixed(2),
             fees: fees.toFixed(2),
-            percentDiscount: percentDiscount,
             totalDiscount: Number(totalDiscount).toFixed(2),
             taxAmount: Number(taxAmount).toFixed(2),
             finalTotal: Number(finalTotal).toFixed(2),
@@ -113,13 +117,27 @@ class PaymentConfirm extends Component {
     }
   }
 
-  renderMisc()
+  renderCaradviseDiscount()
   {
-    if (this.state.misc != 0) {
+    if (this.state.caradviseDiscount != 0) {
         return (
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>CarAdvise Discount</Text>
-            <Text style={styles.taxPrice}>-${this.state.misc}</Text>
+            <Text style={styles.taxPrice}>-${this.state.caradviseDiscount.toFixed(2)}</Text>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  }
+
+  renderCouponDiscount()
+  {
+    if (this.state.couponDiscount != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Coupon Discount</Text>
+            <Text style={styles.taxPrice}>-${this.state.couponDiscount.toFixed(2)}</Text>
           </View>
         );
     } else {
@@ -249,7 +267,8 @@ class PaymentConfirm extends Component {
 
               {services.map(this.createServiceRow)}
               {this.renderFees()}
-              {this.renderMisc()}
+              {this.renderCaradviseDiscount()}
+              {this.renderCouponDiscount()}
               {this.renderDiscount()}
               {this.renderPercentDiscount()}
               <View style={styles.taxRow}>
@@ -290,8 +309,8 @@ var Service = React.createClass({
   render: function() {
     return(
       <View style={styles.serviceRow}>
-        <Text style={styles.serviceItem}>{this.props.service.serviceName}</Text>
-        <Text style={styles.servicePrice}>${this.props.service.totalCost}</Text>
+      <Text style={styles.serviceItem}>{this.props.service.name}</Text>
+      <Text style={styles.servicePrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
       </View>
     );
   }
@@ -409,7 +428,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    vehicleNumber : user.vehicles[0].vehicleNumber,
+    vehicleId: user.vehicles ? user.vehicles[0].id : null
   };
 }
 

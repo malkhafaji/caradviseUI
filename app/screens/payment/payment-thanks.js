@@ -47,7 +47,7 @@ class PaymentThanks extends Component {
 
   filterCompletedServices(service)
   {
-    return (service.status == 5 && service.group_id == 0);
+    return (service.status == 5 && service.group_id == null);
   }
 
   getServices() {
@@ -90,7 +90,9 @@ class PaymentThanks extends Component {
             taxRate: taxRate,
             misc: misc.toFixed(2),
             fees: fees.toFixed(2),
+            caradviseDiscount: caradviseDiscount,
             percentDiscount: percentDiscount,
+            couponDiscount: couponDiscount,
             totalDiscount: Number(totalDiscount).toFixed(2),
             taxAmount: Number(taxAmount).toFixed(2),
             finalTotal: Number(finalTotal).toFixed(2),
@@ -114,13 +116,27 @@ class PaymentThanks extends Component {
     }
   }
 
-  renderMisc()
+  renderCaradviseDiscount()
   {
-    if (this.state.misc != 0) {
+    if (this.state.caradviseDiscount != 0) {
         return (
           <View style={styles.taxRow}>
             <Text style={styles.taxItem}>CarAdvise Discount</Text>
-            <Text style={styles.taxPrice}>-${this.state.misc}</Text>
+            <Text style={styles.taxPrice}>-${this.state.caradviseDiscount.toFixed(2)}</Text>
+          </View>
+        );
+    } else {
+        return null;
+    }
+  }
+
+  renderCouponDiscount()
+  {
+    if (this.state.couponDiscount != 0) {
+        return (
+          <View style={styles.taxRow}>
+            <Text style={styles.taxItem}>Coupon Discount</Text>
+            <Text style={styles.taxPrice}>-${this.state.couponDiscount.toFixed(2)}</Text>
           </View>
         );
     } else {
@@ -273,7 +289,8 @@ class PaymentThanks extends Component {
               <View style={styles.lineRow}><Text> </Text></View>
 
               {this.renderFees()}
-              {this.renderMisc()}
+              {this.renderCaradviseDiscount()}
+              {this.renderCouponDiscount()}
               {this.renderDiscount()}
               {this.renderPercentDiscount()}
 
@@ -319,8 +336,8 @@ var Service = React.createClass({
   render: function() {
     return(
       <View style={styles.serviceRow}>
-        <Text style={styles.serviceItem}>{this.props.service.serviceName}</Text>
-        <Text style={styles.servicePrice}>${this.props.service.totalCost}</Text>
+        <Text style={styles.serviceItem}>{this.props.service.name}</Text>
+        <Text style={styles.servicePrice}>${Number(this.props.service.override_total).toFixed(2)}</Text>
       </View>
     );
   }
@@ -459,7 +476,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
-    vehicleNumber : user.vehicles[0].vehicleNumber,
+    vehicleId: user.vehicles ? user.vehicles[0].id : null
   };
 }
 
