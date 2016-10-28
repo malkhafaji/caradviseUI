@@ -58,7 +58,7 @@ class ApprovalDetail extends Component {
         selectedPosition: '',
         selectedUnit: '',
         pickers: {
-          part: [{ label: 'Remanufactured', value: 'Remanufactured' }, { label: 'Used', value: 'Used' }, { label: 'Aftermarket', value: 'Aftermarket' }, { label: 'Oem', value: 'Oem' }],
+          part: [{ label: 'Conventional', value: 'Conventional' }, { label: 'Synthetic', value: 'Synthetic' }, { label: 'High Mileage', value: 'High Mileage' }],
           quantity: [{ label: '1', value: '1' }, { label: '2', value: '2' }, { label: '3', value: '3' }, { label: '4', value: '4' }],
           position: [{ label: 'Front', value: 'Front' }, { label: 'Back', value: 'Back' }],
           unit: [{ label: 'Unit', value: 'Unit' }]
@@ -77,6 +77,19 @@ class ApprovalDetail extends Component {
         if (this.state.laborLow) {
             return (
               <Text><Text>LABOR ESTIMATE:</Text><Text style={styles.textBold}>  ${this.state.laborLow.toFixed(0)}-${this.state.laborHigh.toFixed(0)}{"\n"}</Text></Text>
+            );
+        } else {
+            return null;
+        }
+    }
+    renderOil()
+    {
+        if (this.state.name == "Oil Change") {
+            return (
+              <View style={styles.oilContainer}>
+                <Text style={styles.oilHd}>Recommended Oil:</Text>
+                <View style={styles.oilType}><Text style={styles.oilTypeTxt}>{this.props.oilType}</Text></View>
+              </View>
             );
         } else {
             return null;
@@ -380,6 +393,8 @@ class ApprovalDetail extends Component {
                 {this.renderMaintenance()}
               </View>
 
+              {this.renderOil()}
+              {this.renderOrderServiceOptions()}
               {this.renderComments()}
               {this.renderParts()}
               {this.renderFluids()}
@@ -387,7 +402,6 @@ class ApprovalDetail extends Component {
               {this.renderWhy()}
               {this.renderWhatIf()}
               {this.renderFactors()}
-              {this.renderOrderServiceOptions()}
 
             </View>
 
@@ -735,6 +749,23 @@ var styles = StyleSheet.create({
   textBold: {
     fontWeight: 'bold',
   },
+  oilContainer: {
+    width: width,
+    backgroundColor: '#fff',
+    marginTop: 5,
+    padding: 10,
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#0099ff'
+  },
+  oilHd: {
+    color: '#0099ff',
+    fontSize: 12
+  },
+  oilTypeTxt: {
+    color: '#0099ff',
+    fontWeight: 'bold'
+  },
   whatContainer: {
     backgroundColor: '#EFEFEF',
     width: width,
@@ -763,7 +794,7 @@ var styles = StyleSheet.create({
   },
   partOptionsContainer: {
     width,
-    marginTop: 10,
+    marginTop: 5,
     flexDirection: 'column',
     alignItems: 'stretch'
   },
@@ -879,6 +910,7 @@ function mapStateToProps(state) {
     authentication_token: user.authentication_token,
     vehicleId : user.vehicles[0].id,
     miles : user.vehicles[0].miles,
+    oilType : user.vehicles[0].oil_type_name,
   };
 }
 
