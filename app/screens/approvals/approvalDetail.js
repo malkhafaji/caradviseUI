@@ -11,12 +11,14 @@ import {
   Component,
   TouchableOpacity,
   Dimensions,
+  LayoutAnimation,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 var width = Dimensions.get('window').width - 20;
+var height = Dimensions.get('window').height;
 
 class ApprovalDetail extends Component {
 
@@ -50,6 +52,23 @@ class ApprovalDetail extends Component {
         partName:passProps.partName,
         fluidDetail:(passProps.fluidDetail || []).filter(fluid => fluid.literal_name == 'Engine Oil Fluid Type'),
         fluidType:passProps.fluidType,
+        orderServiceOptions:passProps.orderServiceOptions || [],
+        selectedPart: '',
+        selectedQuantity: '',
+        selectedPosition: '',
+        selectedUnit: '',
+        pickers: {
+          part: [{ label: 'Remanufactured', value: 'Remanufactured' }, { label: 'Used', value: 'Used' }, { label: 'Aftermarket', value: 'Aftermarket' }, { label: 'Oem', value: 'Oem' }],
+          quantity: [{ label: '1', value: '1' }, { label: '2', value: '2' }, { label: '3', value: '3' }, { label: '4', value: '4' }],
+          position: [{ label: 'Front', value: 'Front' }, { label: 'Back', value: 'Back' }],
+          unit: [{ label: 'Unit', value: 'Unit' }]
+        },
+        hide_pickers: {
+          part: true,
+          quantity: true,
+          position: true,
+          unit: true
+        },
       };
     }
 
@@ -212,6 +231,123 @@ class ApprovalDetail extends Component {
         }
     }
 
+    renderOrderServiceOptions() {
+      if (this.state.orderServiceOptions.length === 0)
+        return null;
+
+      return (
+        <View>
+          {this.state.orderServiceOptions.map(option => this.renderOrderServiceItem(option))}
+          <TouchableOpacity style={styles.btnUpdate}>
+            <Image style={styles.btnUpdateImage} source={require('../../../images/btn-update.png')} />
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    renderOrderServiceItem(option) {
+      return (
+        <View key={option.id} style={styles.partOptionsContainer}>
+          <View style={styles.partOptionsHeader}>
+            <Text style={styles.partOptionsHeaderText}>
+              { option.option_type == 0 ? 'Part' : 'Fluid' } Options
+            </Text>
+          </View>
+          <View style={styles.partOptionsSelectPart}>
+            {this.renderPickerToggle({
+              key: 'part',
+              value: this.state.selectedPart || `Select ${option.option_type == 0 ? 'Part' : 'Fluid'}`
+            })}
+          </View>
+          <View style={styles.partOptionsSelectOptions}>
+            <View style={styles.partOptionsSelectQuantity}>
+              <View style={styles.partOptionsSelectLabel}>
+                <Text style={styles.partOptionsSelectLabelText}>Quantity: </Text>
+              </View>
+              {this.renderPickerToggle({
+                key: 'quantity',
+                value: this.state.selectedQuantity || '1'
+              })}
+            </View>
+            { (option.positions || []).length > 0 || true ?
+              <View style={styles.partOptionsSelectPosition}>
+                <View style={styles.partOptionsSelectLabel}>
+                  <Text style={styles.partOptionsSelectLabelText}>Position: </Text>
+                </View>
+                {this.renderPickerToggle({
+                  key: 'position',
+                  value: this.state.selectedPosition || 'Front'
+                })}
+              </View> : null
+            }
+            { (option.units || []).length > 0 ?
+              <View style={styles.partOptionsSelectUnit}>
+                <View style={styles.partOptionsSelectLabel}>
+                  <Text style={styles.partOptionsSelectLabelText}>Unit: </Text>
+                </View>
+                {this.renderPickerToggle({
+                  key: 'unit',
+                  value: this.state.selectedUnit
+                })}
+              </View> : null
+            }
+          </View>
+        </View>
+      );
+    }
+
+    renderPickerToggle({ key, value }) {
+      return (
+        <TouchableOpacity
+          ref={key}
+          key={key}
+          style={styles.selectFld}
+          onPress={() => this.showPicker(key)}>
+          <Text style={styles.selectTextFld}>{value}</Text>
+          <Text style={styles.selectArrow}>{'>'}</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    renderPicker({ key, items, onChange }) {
+      return (
+        <View key={key} style={[styles.pickerContainer, this.state.hide_pickers[key] && styles.pickerHidden]}>
+          <View style={styles.pickerWrapper}>
+            <View style={styles.pickerControls}>
+              <TouchableOpacity
+                style={styles.pickerDone}
+                onPress={() => this.hidePicker(key)}>
+                <Text>Done</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView style={styles.picker} contentContainerStyle={styles.pickerContainerStyle}>
+              {items.map(item => (
+                <TouchableOpacity
+                  key={item.value}
+                  style={styles.pickerItem}
+                  onPress={() => {
+                    onChange && onChange(item.value);
+                    this.hidePicker(key);
+                  }}>
+                  <Text style={styles.pickerItemText}>{item.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      )
+    }
+
+    showPicker(type) {
+      LayoutAnimation.easeInEaseOut();
+      this.setState({ hide_pickers: { ...this.state.hide_pickers, [type]: false } });
+    }
+
+    hidePicker(type) {
+      LayoutAnimation.easeInEaseOut();
+      this.setState({ hide_pickers: { ...this.state.hide_pickers, [type]: true } });
+    }
+
     render() {
       var totalLow = this.state.fairLow;
       var totalHigh = this.state.fairHigh;
@@ -251,12 +387,37 @@ class ApprovalDetail extends Component {
               {this.renderWhy()}
               {this.renderWhatIf()}
               {this.renderFactors()}
+              {this.renderOrderServiceOptions()}
 
             </View>
 
             </ScrollView>
 
           </View>
+
+          {this.renderPicker({
+            key: 'part',
+            items: this.state.pickers.part,
+            onChange: selectedPart => this.setState({ selectedPart })
+          })}
+
+          {this.renderPicker({
+            key: 'quantity',
+            items: this.state.pickers.quantity,
+            onChange: selectedQuantity => this.setState({ selectedQuantity })
+          })}
+
+          {this.renderPicker({
+            key: 'position',
+            items: this.state.pickers.position,
+            onChange: selectedPosition => this.setState({ selectedPosition })
+          })}
+
+          {this.renderPicker({
+            key: 'unit',
+            items: this.state.pickers.unit,
+            onChange: selectedQuantity => this.setState({ selectedQuantity })
+          })}
 
         </View>
       );
@@ -599,6 +760,115 @@ var styles = StyleSheet.create({
     color: '#002d5e',
     width: width,
     textAlign: 'center',
+  },
+  partOptionsContainer: {
+    width,
+    marginTop: 10,
+    flexDirection: 'column',
+    alignItems: 'stretch'
+  },
+  partOptionsHeader: {
+    backgroundColor: '#0099FF',
+    alignItems: 'center',
+    padding: 5
+  },
+  partOptionsHeaderText: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  partOptionsSelectPart: {
+    marginTop: 2,
+    padding: 5,
+    backgroundColor: '#EFEFEF'
+  },
+  partOptionsSelectOptions: {
+    borderWidth: 2,
+    borderColor: '#EFEFEF',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    padding: 5
+  },
+  partOptionsSelectQuantity: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  partOptionsSelectPosition: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  partOptionsSelectUnit: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  partOptionsSelectLabel: {
+    paddingVertical: 10,
+    paddingHorizontal: 5
+  },
+  partOptionsSelectLabelText: {
+
+  },
+  selectFld: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    flexDirection: 'row',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#bbb',
+  },
+  selectTextFld: {
+    flex: 1,
+    color: '#002d5e',
+    fontWeight: 'bold'
+  },
+  selectArrow: {
+    width: 20,
+    color: '#002d5e',
+    fontWeight: 'bold',
+    textAlign: 'right'
+  },
+  pickerContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
+  },
+  pickerHidden: {
+    top: height,
+  },
+  pickerWrapper: {
+    backgroundColor: '#efefef'
+  },
+  pickerControls: {
+    alignItems: 'flex-end'
+  },
+  pickerDone: {
+    padding: 10
+  },
+  picker: {
+    width: width + 20,
+    height: 200
+  },
+  pickerContainerStyle: {
+    paddingBottom: 20
+  },
+  pickerItem: {
+    paddingVertical: 7.5,
+    paddingHorizontal: 10,
+    backgroundColor: '#efefef'
+  },
+  pickerItemText: {
+    fontSize: 21,
+    textAlign: 'center'
+  },
+  btnUpdate: {
+    width
+  },
+  btnUpdateImage: {
+    width,
+    resizeMode: 'contain'
   }
 });
 

@@ -509,6 +509,7 @@ var Service = React.createClass({
           parts:this.props.service.vehicle_service,
           partDetail:this.props.service.vehicle_service.motor_vehicle_service_parts,
           fluidDetail:this.props.service.vehicle_service.motor_vehicle_service_fluids,
+          orderServiceOptions:this.props.service.order_service_options
         }
       });
     }
