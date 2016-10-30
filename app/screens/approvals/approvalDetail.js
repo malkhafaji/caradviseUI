@@ -284,7 +284,10 @@ class ApprovalDetail extends Component {
                 this.setState({
                   pickers: {
                     ...this.state.pickers,
-                    part: option.order_service_option_items.map(a => ({ label: a.name, value: a.name, item: a }))
+                    part: option.order_service_option_items.map(a => {
+                      let label = a.name + (a.position ? ` (${a.position})` : '');
+                      return { label, value: label, item: a };
+                    })
                   }
                 })
               }
