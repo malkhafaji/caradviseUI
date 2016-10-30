@@ -139,7 +139,7 @@ var Service = React.createClass({
               indent: 'ServiceDetail',
               passProps: {
                 name:this.props.service.name,
-                whatIsIt:this.props.service.what_is_it,
+                whatIsIt:this.props.service.what_is_this,
                 whatIf:this.props.service.what_if_decline,
                 whyDoThis:this.props.service.why_do_this,
                 factors:this.props.service.factors_to_consider,
