@@ -12,10 +12,15 @@ import {
   TouchableOpacity,
   Dimensions,
   LayoutAnimation,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { putJSON } from '../../utils/fetch';
+import { findLastIndex } from 'lodash';
+
+var UPDATE_ORDER_SERVICE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_service_option_item';
 
 var width = Dimensions.get('window').width - 20;
 var height = Dimensions.get('window').height;
@@ -27,6 +32,7 @@ class ApprovalDetail extends Component {
       var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
       this.state = {
         id: passProps.category,
+        orderId: passProps.orderId,
         name:passProps.name,
         partCost:passProps.partCost,
         fairLow:passProps.fairLow,
@@ -53,15 +59,17 @@ class ApprovalDetail extends Component {
         fluidDetail:(passProps.fluidDetail || []).filter(fluid => fluid.literal_name == 'Engine Oil Fluid Type'),
         fluidType:passProps.fluidType,
         orderServiceOptions:passProps.orderServiceOptions || [],
+        showSpinner: false,
+        selectedOrderServiceOptionId: null,
         selectedPart: '',
         selectedQuantity: '',
         selectedPosition: '',
         selectedUnit: '',
         pickers: {
-          part: [{ label: 'Conventional', value: 'Conventional' }, { label: 'Synthetic', value: 'Synthetic' }, { label: 'High Mileage', value: 'High Mileage' }],
-          quantity: [{ label: '1', value: '1' }, { label: '2', value: '2' }, { label: '3', value: '3' }, { label: '4', value: '4' }],
-          position: [{ label: 'Front', value: 'Front' }, { label: 'Back', value: 'Back' }],
-          unit: [{ label: 'Unit', value: 'Unit' }]
+          part: [],
+          quantity: [{ label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 }, { label: '4', value: 4 }],
+          position: [],
+          unit: []
         },
         hide_pickers: {
           part: true,
@@ -251,9 +259,11 @@ class ApprovalDetail extends Component {
       return (
         <View>
           {this.state.orderServiceOptions.map(option => this.renderOrderServiceItem(option))}
-          <TouchableOpacity style={styles.btnUpdate}>
-            <Image style={styles.btnUpdateImage} source={require('../../../images/btn-update.png')} />
-          </TouchableOpacity>
+          {this.state.selectedOrderServiceOptionId ?
+            <TouchableOpacity style={styles.btnUpdate} onPress={() => this.updatePart()}>
+              <Image style={styles.btnUpdateImage} source={require('../../../images/btn-update.png')} />
+            </TouchableOpacity> : null
+          }
         </View>
       );
     }
@@ -269,7 +279,15 @@ class ApprovalDetail extends Component {
           <View style={styles.partOptionsSelectPart}>
             {this.renderPickerToggle({
               key: 'part',
-              value: this.state.selectedPart || `Select ${option.option_type == 0 ? 'Part' : 'Fluid'}`
+              value: this.state.selectedPart || `Select ${option.option_type == 0 ? 'Part' : 'Fluid'}`,
+              onPress: () => {
+                this.setState({
+                  pickers: {
+                    ...this.state.pickers,
+                    part: option.order_service_option_items.map(a => ({ label: a.name, value: a.name, item: a }))
+                  }
+                })
+              }
             })}
           </View>
           <View style={styles.partOptionsSelectOptions}>
@@ -282,14 +300,22 @@ class ApprovalDetail extends Component {
                 value: this.state.selectedQuantity || '1'
               })}
             </View>
-            { (option.positions || []).length > 0 || true ?
+            { (option.positions || []).length > 0 ?
               <View style={styles.partOptionsSelectPosition}>
                 <View style={styles.partOptionsSelectLabel}>
                   <Text style={styles.partOptionsSelectLabelText}>Position: </Text>
                 </View>
                 {this.renderPickerToggle({
                   key: 'position',
-                  value: this.state.selectedPosition || 'Front'
+                  value: this.state.selectedPosition,
+                  onPress: () => {
+                    this.setState({
+                      pickers: {
+                        ...this.state.pickers,
+                        position: option.positions.map(label => ({ label, value: label }))
+                      }
+                    })
+                  }
                 })}
               </View> : null
             }
@@ -300,7 +326,15 @@ class ApprovalDetail extends Component {
                 </View>
                 {this.renderPickerToggle({
                   key: 'unit',
-                  value: this.state.selectedUnit
+                  value: this.state.selectedUnit,
+                  onPress: () => {
+                    this.setState({
+                      pickers: {
+                        ...this.state.pickers,
+                        unit: option.units.map(label => ({ label, value: label }))
+                      }
+                    })
+                  }
                 })}
               </View> : null
             }
@@ -309,13 +343,16 @@ class ApprovalDetail extends Component {
       );
     }
 
-    renderPickerToggle({ key, value }) {
+    renderPickerToggle({ key, value, onPress }) {
       return (
         <TouchableOpacity
           ref={key}
           key={key}
           style={styles.selectFld}
-          onPress={() => this.showPicker(key)}>
+          onPress={() => {
+            onPress && onPress();
+            this.showPicker(key);
+          }}>
           <Text style={styles.selectTextFld}>{value}</Text>
           <Text style={styles.selectArrow}>{'>'}</Text>
         </TouchableOpacity>
@@ -336,10 +373,10 @@ class ApprovalDetail extends Component {
             <ScrollView style={styles.picker} contentContainerStyle={styles.pickerContainerStyle}>
               {items.map(item => (
                 <TouchableOpacity
-                  key={item.value}
+                  key={item.item ? item.item.id : item.value}
                   style={styles.pickerItem}
                   onPress={() => {
-                    onChange && onChange(item.value);
+                    onChange && onChange(item);
                     this.hidePicker(key);
                   }}>
                   <Text style={styles.pickerItemText}>{item.label}</Text>
@@ -362,6 +399,9 @@ class ApprovalDetail extends Component {
     }
 
     render() {
+      if (this.state.showSpinner)
+        return <View><Spinner visible={true} /></View>;
+
       var totalLow = this.state.fairLow;
       var totalHigh = this.state.fairHigh;
       return (
@@ -412,30 +452,68 @@ class ApprovalDetail extends Component {
           {this.renderPicker({
             key: 'part',
             items: this.state.pickers.part,
-            onChange: selectedPart => this.setState({ selectedPart })
+            onChange: a => this.setState({
+              selectedOrderServiceOptionId: a.item.id,
+              selectedPart: a.value,
+              selectedQuantity: a.item.quantity,
+              selectedPosition: a.item.position,
+              selectedUnit: a.item.unit
+            })
           })}
 
           {this.renderPicker({
             key: 'quantity',
             items: this.state.pickers.quantity,
-            onChange: selectedQuantity => this.setState({ selectedQuantity })
+            onChange: a => this.setState({ selectedQuantity: a.value })
           })}
 
           {this.renderPicker({
             key: 'position',
             items: this.state.pickers.position,
-            onChange: selectedPosition => this.setState({ selectedPosition })
+            onChange: a => this.setState({ selectedPosition: a.value })
           })}
 
           {this.renderPicker({
             key: 'unit',
             items: this.state.pickers.unit,
-            onChange: selectedQuantity => this.setState({ selectedQuantity })
+            onChange: a => this.setState({ selectedQuantity: a.value })
           })}
 
         </View>
       );
     }
+
+    async updatePart() {
+      if (!this.props.isLoggedIn)
+        return;
+
+      this.setState({ showSpinner: true });
+
+      let response = await putJSON(
+        UPDATE_ORDER_SERVICE_URL.replace('?', this.state.orderId),
+        {
+          order_service_option_item_id: this.state.selectedOrderServiceOptionId,
+          quantity: this.state.selectedQuantity,
+          position: this.state.selectedPosition || undefined,
+          unit_name: this.state.selectedUnit || undefined,
+          selected: true
+        },
+        { 'Authorization': this.props.authentication_token }
+      );
+
+      this.setState({ showSpinner: false });
+
+      if (response.error) {
+        Alert.alert('Error', response.error)
+      } else {
+        let routes = this.props.navigator.getCurrentRoutes();
+        let index = findLastIndex(routes, { indent: 'Approvals' });
+        let newRoute = { indent: 'Approvals' };
+        this.props.navigator.replaceAtIndex(newRoute, index);
+        this.props.navigator.popToRoute(newRoute);
+      }
+    }
+
     createPartsRow = (part, i) => <Part key={i} part={part} partDetail={this.state.partDetail} laborLow={this.state.laborLow} laborHigh={this.state.laborHigh} partLow={this.state.partLow} partHigh={this.state.partHigh} fairLow={this.state.fairLow} fairHigh={this.state.fairHigh}/>;
     createFluidsRow = (fluid, i) => <Fluid key={i} fluid={fluid} fluidDetail={this.state.fluidDetail} fluidType={this.state.fluidType} />;
 }

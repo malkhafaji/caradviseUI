@@ -486,6 +486,7 @@ var Service = React.createClass({
         indent:'ApprovalDetail',
         passProps:{
           category:this.props.service.id,
+          orderId:this.props.service.order_id,
           miles:this.props.miles,
           name:this.props.service.name,
           comments:this.props.service.shopComments,
