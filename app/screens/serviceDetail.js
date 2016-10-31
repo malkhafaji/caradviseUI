@@ -138,7 +138,7 @@ class ServiceDetail extends Component {
 
       if (this.state.selectedOption) {
         let serviceOptions = cache.get('serviceDetail-serviceOptions') || {};
-        let type = this.state.selectedOption.option_type == 0 ? 'part' : 'fluid';
+        let type = this.state.selectedOption.option_type == 0 ? 'parts' : 'fluids';
 
         serviceOptions[this.state.selectedOption.service_id] = {
           [type]: [{
