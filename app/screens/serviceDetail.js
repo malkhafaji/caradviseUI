@@ -36,6 +36,19 @@ class ServiceDetail extends Component {
       };
     }
 
+    renderOil()
+    {
+        if (this.state.name == "Oil Change") {
+            return (
+              <View style={styles.oilContainer}>
+                <Text style={styles.oilHd}>Your Recommended Oil:</Text>
+                <View style={styles.oilType}><Text style={styles.oilTypeTxt}>{this.props.oilType}</Text></View>
+              </View>
+            );
+        } else {
+            return null;
+        }
+    }
     renderWhat()
     {
         if (this.state.whatIsIt) {
@@ -137,6 +150,8 @@ class ServiceDetail extends Component {
                   </View>
 
               </View>
+
+              {this.renderOil()}
 
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.addService()}>
@@ -267,6 +282,23 @@ var styles = StyleSheet.create({
     height: 40,
     marginTop: 15,
   },
+  oilContainer: {
+    width: width,
+    backgroundColor: '#fff',
+    marginTop: 5,
+    padding: 10,
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#0099ff'
+  },
+  oilHd: {
+    color: '#0099ff',
+    fontSize: 12
+  },
+  oilTypeTxt: {
+    color: '#0099ff',
+    fontWeight: 'bold'
+  },
   whatContainer: {
     backgroundColor: '#EFEFEF',
     width: width,
@@ -289,6 +321,7 @@ function mapStateToProps(state) {
     isLoggedIn: !!user.authentication_token,
     authentication_token: user.authentication_token,
     vehicleId : user.vehicles[0].id,
+    oilType : user.vehicles[0].oil_type_name,
   };
 }
 
