@@ -109,12 +109,17 @@ async createOrder()
 {
   this.setState({ isLoading: true });
 
-  let services = flatMap(this.state.services, a => a.service_id || a.app_services.map(b => b.service_id));
+  let services = flatMap(this.state.services, a => a.service_id || a.app_services.map(b => b.service_id))
+    .map(service_id => ({
+      service_id,
+      ...((cache.get('serviceDetail-serviceOptions') || {})[service_id] || {})
+    }));
+
   let response = await postJSON(
     CREATE_ORDER_URL.replace('?', this.props.vehicleId),
     {
       shop_id: this.state.shop.id,
-      services: JSON.stringify(services.map(service_id => ({ service_id }))),
+      services: JSON.stringify(services),
       appointment_datetime: this.state.datetime
     },
     { 'Authorization': this.props.authentication_token }
@@ -126,6 +131,7 @@ async createOrder()
     Alert.alert('Error', response.error);
   } else {
     cache.remove('serviceRequest-fields');
+    cache.remove('serviceDetail-serviceOptions');
     this.props.navigator.push({ indent:'RequestSubmitted' })
   }
 }
