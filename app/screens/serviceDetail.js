@@ -31,14 +31,13 @@ class ServiceDetail extends Component {
       this.state = {
         id: passProps.category,
         name:passProps.name,
-        whatIsIt:passProps.whatIsIt,
-        whyDoThis:passProps.whyDoThis,
-        whatIf:passProps.whatIf,
-        factors:passProps.factors,
+        whatIsIt:service.service.what_is_this,
+        whyDoThis:service.service.why_do_this,
+        whatIf:service.service.what_if_decline,
+        factors:service.service.factors_to_consider,
         service:passProps.service,
-        serviceOptions: service ?
-          service.service.service_options
-            .map(a => ({ ...a, service_id: service.service_id })) : [],
+        serviceOptions: service.service.service_options
+            .map(a => ({ ...a, service_id: service.service_id })),
         selectedOption: null,
         selectedOptionItem: null,
         selectedPart: '',
