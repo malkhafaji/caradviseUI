@@ -167,15 +167,19 @@ class SelectMaintenance extends Component {
   async createOrder() {
     this.setState({ isLoading: true });
 
+    let services = this.state.selectedServiceIds.concat(
+      flatMap(this.state.addedServices, a => a.app_services.map(b => b.service_id))
+    ).map(service_id => ({
+      service_id,
+      ...((cache.get('serviceDetail-serviceOptions') || {})[service_id] || {})
+    }));
+
     let selectShopFields = cache.get('selectShop-fields');
     let response = await postJSON(
       CREATE_ORDER_URL.replace('?', this.props.vehicleId),
       {
         shop_id: selectShopFields.shop.id,
-        services: JSON.stringify([].concat(
-          this.state.selectedServiceIds,
-          flatMap(this.state.addedServices, a => a.app_services.map(b => b.service_id))
-        ).map(service_id => ({ service_id }))),
+        services: JSON.stringify(services),
         appointment_datetime: ''
       },
       { 'Authorization': this.props.authentication_token }
@@ -190,6 +194,7 @@ class SelectMaintenance extends Component {
       cache.remove('selectMaintenance-selectedServiceIds');
       cache.remove('selectMaintenance-services');
       cache.remove('selectMaintenance-addedServices');
+      cache.remove('serviceDetail-serviceOptions');
       this.props.navigator.replace({ indent: 'SelectShopDone' });
     }
   }
