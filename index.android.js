@@ -284,7 +284,7 @@ class caradviseui extends Component {
         )
       default:
         return (
-          <Text>EPIC FAIL</Text>
+          <Text>OOPS! Sorry about that. Please restart your app and try again.</Text>
         )
     }
   }
