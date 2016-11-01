@@ -95,7 +95,7 @@ class ApprovalDetail extends Component {
         if (this.state.name == "Oil Change") {
             return (
               <View style={styles.oilContainer}>
-                <Text style={styles.oilHd}>Recommended Oil:</Text>
+                <Text style={styles.oilHd}>Your Recommended Oil:</Text>
                 <View style={styles.oilType}><Text style={styles.oilTypeTxt}>{this.props.oilType}</Text></View>
               </View>
             );
@@ -837,14 +837,14 @@ var styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: '#0099ff'
+    borderColor: '#002d5e'
   },
   oilHd: {
-    color: '#0099ff',
+    color: '#002d5e',
     fontSize: 12
   },
   oilTypeTxt: {
-    color: '#0099ff',
+    color: '#002d5e',
     fontWeight: 'bold'
   },
   whatContainer: {
@@ -880,7 +880,7 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   partOptionsHeader: {
-    backgroundColor: '#0099FF',
+    backgroundColor: '#002d5e',
     alignItems: 'center',
     padding: 5
   },

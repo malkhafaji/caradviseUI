@@ -138,7 +138,7 @@ class ServiceDetail extends Component {
 
       if (this.state.selectedOption) {
         let serviceOptions = cache.get('serviceDetail-serviceOptions') || {};
-        let type = this.state.selectedOption.option_type == 0 ? 'parts' : 'fluids';
+        let type = this.state.selectedOption.option_type == 0 ? 'parts' : 'parts';
 
         serviceOptions[this.state.selectedOption.service_id] = {
           [type]: [{
@@ -505,14 +505,14 @@ var styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: '#0099ff'
+    borderColor: '#002d5e'
   },
   oilHd: {
-    color: '#0099ff',
+    color: '#002d5e',
     fontSize: 12
   },
   oilTypeTxt: {
-    color: '#0099ff',
+    color: '#002d5e',
     fontWeight: 'bold'
   },
   whatContainer: {
@@ -536,7 +536,7 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   partOptionsHeader: {
-    backgroundColor: '#0099FF',
+    backgroundColor: '#002d5e',
     alignItems: 'center',
     padding: 5
   },
