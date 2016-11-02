@@ -294,15 +294,19 @@ class ApprovalDetail extends Component {
             })}
           </View>
           <View style={styles.partOptionsSelectOptions}>
-            <View style={styles.partOptionsSelectQuantity}>
-              <View style={styles.partOptionsSelectLabel}>
-                <Text style={styles.partOptionsSelectLabelText}>Quantity: </Text>
+
+            { this.state.name != "Oil Change" ? (
+              <View style={styles.partOptionsSelectQuantity}>
+                <View style={styles.partOptionsSelectLabel}>
+                  <Text style={styles.partOptionsSelectLabelText}>Quantity: </Text>
+                </View>
+                {this.renderPickerToggle({
+                  key: 'quantity',
+                  value: this.state.selectedQuantity || '1'
+                })}
               </View>
-              {this.renderPickerToggle({
-                key: 'quantity',
-                value: this.state.selectedQuantity || '1'
-              })}
-            </View>
+            ) : null }
+
             { (option.positions || []).length > 0 ?
               <View style={styles.partOptionsSelectPosition}>
                 <View style={styles.partOptionsSelectLabel}>

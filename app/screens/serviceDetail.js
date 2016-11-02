@@ -281,6 +281,8 @@ class ServiceDetail extends Component {
             })}
           </View>
           <View style={styles.partOptionsSelectOptions}>
+
+            { this.state.name != "Oil Change" ? (
             <View style={styles.partOptionsSelectQuantity}>
               <View style={styles.partOptionsSelectLabel}>
                 <Text style={styles.partOptionsSelectLabelText}>Quantity: </Text>
@@ -290,6 +292,8 @@ class ServiceDetail extends Component {
                 value: this.state.selectedQuantity || 1
               })}
             </View>
+            ) : null }
+
             { (option.positions || []).length > 0 ?
               <View style={styles.partOptionsSelectPosition}>
                 <View style={styles.partOptionsSelectLabel}>
