@@ -92,7 +92,7 @@ class MaintenanceHistory extends Component {
             <Text style={styles.serviceDate}>Total: ${Number(order.post_tax_total).toFixed(2)}</Text>
           </View>
         </View>
-        {order.orders_services.map((service, index) => this.renderService(service, index))}
+        {order.order_services.map((service, index) => this.renderService(service, index))}
       </View>
     );
   }
