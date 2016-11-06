@@ -38,12 +38,7 @@ class ServiceDetail extends Component {
         service:passProps.service,
         serviceOptions: service.service.service_options
             .map(a => ({ ...a, service_id: service.service_id })),
-        selectedOption: null,
-        selectedOptionItem: null,
-        selectedPart: '',
-        selectedQuantity: '',
-        selectedPosition: '',
-        selectedUnit: '',
+        selectedOptions: {},
         pickers: {
           part: [],
           quantity: [{ label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 }, { label: '4', value: 4 }],
@@ -136,18 +131,20 @@ class ServiceDetail extends Component {
         cache.set('selectMaintenance-addedServices', services);
       }
 
-      if (this.state.selectedOption) {
+      let selectedOptions = this.state.selectedOptions;
+      let selectedOptionIds = Object.keys(selectedOptions).filter(id => !!selectedOptions.item_id);
+      if (selectedOptionIds.length > 0) {
         let serviceOptions = cache.get('serviceDetail-serviceOptions') || {};
-        let type = this.state.selectedOption.option_type == 0 ? 'parts' : 'parts';
+        let { service_id } = this.state.serviceOptions[0];
 
-        serviceOptions[this.state.selectedOption.service_id] = {
-          [type]: [{
-            service_option_id: this.state.selectedOption.id,
-            service_option_item_id: this.state.selectedOptionItem.id,
-            quantity: this.state.selectedQuantity,
-            position: this.state.selectedPosition || undefined,
-            unit_name: this.state.selectedUnit || undefined
-          }]
+        serviceOptions[service_id] = {
+          parts: selectedOptionIds.map(id => ({
+            service_option_id: id,
+            service_option_item_id: selectedOptions[id].item_id,
+            quantity: selectedOptions[id].quantity,
+            position: selectedOptions[id].position || undefined,
+            unit_name: selectedOptions[id].unit || undefined
+          }))
         };
 
         cache.set('serviceDetail-serviceOptions', serviceOptions);
@@ -214,31 +211,60 @@ class ServiceDetail extends Component {
               key: 'part',
               items: this.state.pickers.part,
               onChange: a => this.setState({
-                selectedOption: a.option,
-                selectedOptionItem: a.option_item,
-                selectedPart: a.value,
-                selectedQuantity: this.state.selectedQuantity || 1,
-                selectedPosition: this.state.selectedPosition || (a.option.positions ? a.option.positions[0] : ''),
-                selectedUnit: this.state.selectedUnit || (a.option.units ? a.option.units[0] : '')
+                selectedOptions: {
+                  ...this.state.selectedOptions,
+                  [a.option.id]: {
+                    quantity: 1,
+                    position: a.option.positions ? a.option.positions[0] : '',
+                    unit: a.option.units ? a.option.units[0] : '',
+                    ...(this.state.selectedOptions[a.option.id] || {}),
+                    item_id: a.option_item.id,
+                    part: a.value
+                  }
+                }
               })
             })}
 
             {this.renderPicker({
               key: 'quantity',
               items: this.state.pickers.quantity,
-              onChange: a => this.setState({ selectedQuantity: a.value })
+              onChange: a => this.setState({
+                selectedOptions: {
+                  ...this.state.selectedOptions,
+                  [a.option.id]: {
+                    ...(this.state.selectedOptions[a.option.id] || {}),
+                    quantity: a.value
+                  }
+                }
+              })
             })}
 
             {this.renderPicker({
               key: 'position',
               items: this.state.pickers.position,
-              onChange: a => this.setState({ selectedPosition: a.value })
+              onChange: a => this.setState({
+                selectedOptions: {
+                  ...this.state.selectedOptions,
+                  [a.option.id]: {
+                    ...(this.state.selectedOptions[a.option.id] || {}),
+                    position: a.value
+                  }
+                }
+              })
             })}
 
             {this.renderPicker({
               key: 'unit',
               items: this.state.pickers.unit,
-              onChange: a => this.setState({ selectedQuantity: a.value })
+              onChange: a => this.setState({
+                selectedOptions: {
+                  ...this.state.selectedOptions,
+                  [a.option.id]: {
+                    ...(this.state.selectedOptions[a.option.id] || {}),
+                    unit: a.value
+                  }
+                }
+              })
             })}
           </View>
         );
@@ -256,6 +282,8 @@ class ServiceDetail extends Component {
     }
 
     renderServiceOptionItem(option) {
+      let selectedOption = this.state.selectedOptions[option.id] || {};
+
       return (
         <View key={option.id} style={styles.partOptionsContainer}>
           <View style={styles.partOptionsHeader}>
@@ -266,7 +294,7 @@ class ServiceDetail extends Component {
           <View style={styles.partOptionsSelectPart}>
             {this.renderPickerToggle({
               key: 'part',
-              value: this.state.selectedPart || `Select ${option.option_type == 0 ? 'Part' : 'Fluid'}`,
+              value: selectedOption.part || `Select ${option.option_type == 0 ? 'Part' : 'Fluid'}`,
               onPress: () => {
                 this.setState({
                   pickers: {
@@ -289,7 +317,15 @@ class ServiceDetail extends Component {
               </View>
               {this.renderPickerToggle({
                 key: 'quantity',
-                value: this.state.selectedQuantity || 1
+                value: selectedOption.quantity || 1,
+                onPress: () => {
+                  this.setState({
+                    pickers: {
+                      ...this.state.pickers,
+                      quantity: [1,2,3,4].map(label => ({ label, value: label, option }))
+                    }
+                  })
+                }
               })}
             </View>
             ) : null }
@@ -301,12 +337,12 @@ class ServiceDetail extends Component {
                 </View>
                 {this.renderPickerToggle({
                   key: 'position',
-                  value: this.state.selectedPosition || option.positions[0],
+                  value: selectedOption.position || option.positions[0],
                   onPress: () => {
                     this.setState({
                       pickers: {
                         ...this.state.pickers,
-                        position: option.positions.map(label => ({ label, value: label }))
+                        position: option.positions.map(label => ({ label, value: label, option }))
                       }
                     })
                   }
@@ -320,12 +356,12 @@ class ServiceDetail extends Component {
                 </View>
                 {this.renderPickerToggle({
                   key: 'unit',
-                  value: this.state.selectedUnit || option.units[0],
+                  value: selectedOption.unit || option.units[0],
                   onPress: () => {
                     this.setState({
                       pickers: {
                         ...this.state.pickers,
-                        unit: option.units.map(label => ({ label, value: label }))
+                        unit: option.units.map(label => ({ label, value: label, option }))
                       }
                     })
                   }
