@@ -101,7 +101,12 @@ render() {
           {this.state.shops.map(shop => (
             <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
               <View style={styles.serviceRow}>
-                <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}{shop.address_line1}, {shop.city} ({shop.distance.toFixed(2)} miles away)</Text>
+                <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city} ({shop.distance.toFixed(2)} miles away)</Text></Text>
+                <View>
+                  <Image
+                    source={require('../../../images/stars.png')}
+                    style={styles.stars} />
+                </View>
               </View>
             </TouchableOpacity>
           ))}
@@ -189,6 +194,15 @@ var styles = StyleSheet.create({
     color: '#002d5e',
     alignItems: 'center',
   },
+  address: {
+    fontSize: 12
+  },
+  stars: {
+    width: 75,
+    height: 15,
+    marginTop: 15,
+    marginRight: 10
+  }
 });
 
 function mapStateToProps(state) {

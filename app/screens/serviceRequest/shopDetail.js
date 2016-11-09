@@ -72,6 +72,11 @@ render() {
 
           <View style={styles.shopInfoContainer}>
             <Text style={styles.shopInfo}><Text style={styles.textBig}>{this.state.name}</Text>{'\n'}{`${this.state.address_line1}`}{'\n'}{`${this.state.city}, ${this.state.state} ${this.state.zip}`}</Text>
+            <View>
+              <Image
+                source={require('../../../images/stars.png')}
+                style={styles.stars} />
+            </View>
           </View>
 
           <View style={styles.bookShop}>
@@ -158,6 +163,12 @@ var styles = StyleSheet.create({
     marginLeft: 10,
     color: '#002d5e',
     alignItems: 'center',
+  },
+  stars: {
+    width: 75,
+    height: 15,
+    marginTop: 5,
+    marginRight: 10
   },
   btnBook: {
     width: 300,

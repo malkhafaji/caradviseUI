@@ -22,6 +22,14 @@ var width = Dimensions.get('window').width - 20;
 
 class RequestSubmitted extends Component {
 
+  constructor(props) {
+    super(props);
+    var passProps = this.props.navigator._navigationContext._currentRoute.passProps;
+    this.state = {
+      datetime: passProps.datetime
+    };
+  }
+
 render() {
     return (
       <View style={styles.base}>
@@ -34,7 +42,12 @@ render() {
           <Text style={styles.textHd}>Service Request Confirmation</Text>
 
           <View style={styles.shopInfoContainer}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>Your service request has been submitted!</Text>{'\n'}{'\n'}You will be notified as soon as the shop has reviewed and responded to your request.</Text>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>Your service request has been submitted!</Text>{'\n'}{'\n'}You will be notified as soon as the shop has reviewed and responded to your request.{'\n'}{'\n'}<Text style={styles.textBld}>Your service is scheduled for:</Text>{'\n'}{this.state.datetime}{'\n'}{'\n'}
+            <Image
+              resizeMode={'contain'}
+              source={require('../../../images/guarantee.png')}
+              style={styles.guarantee} />
+            </Text>
           </View>
 
           <View style={styles.bookShop}>
@@ -90,6 +103,10 @@ var styles = StyleSheet.create({
   shopInfo: {
     textAlign: 'center',
     color: '#002d5e',
+  },
+  guarantee: {
+    width: 139,
+    height: 19
   },
   btnDone: {
     width: 149,

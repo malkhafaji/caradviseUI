@@ -132,7 +132,7 @@ async createOrder()
   } else {
     cache.remove('serviceRequest-fields');
     cache.remove('serviceDetail-serviceOptions');
-    this.props.navigator.push({ indent:'RequestSubmitted' })
+    this.props.navigator.push({ indent:'RequestSubmitted', passProps: { datetime: this.state.datetime }})
   }
 }
 
@@ -177,22 +177,20 @@ renderServices(services) {
           <Text style={styles.textHd}>Recommended Services ({this.props.miles} miles)</Text>
           {maintenanceServices.length ?
             maintenanceServices.map(this.createServiceRow) :
-            <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No recommended services</Text></View></View>}
+            null}
 
-          <Text style={styles.textHd}>Saved Services</Text>
           {savedServices.length ?
             savedServices.map(this.createServiceRow) :
-            <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No saved services</Text></View></View>}
+            null}
 
-          <Text style={styles.textHd}>Added Services</Text>
           {addedServices.length ?
             addedServices.map(this.createServiceRow) :
-            <View style={styles.noServicesBg}><View style={styles.noServicesContainer}><Text style={styles.noServices}>No added services</Text></View></View>}
+            null}
 
           <View style={styles.rowAddService}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices', passProps: { returnTo: 'ServiceRequest' } })}>
               <Image
-                source={require('../../../images/btn-add-service.png')}
+                source={require('../../../images/btn-addService.png')}
                 style={styles.btnAddService} />
             </TouchableOpacity>
           </View>
@@ -221,10 +219,16 @@ renderServices(services) {
             onDateChange={(datetime) => {this.setState({datetime: datetime});}}
           />
 
+          {!this.state.shop || !this.state.datetime ? (
+            <Image
+              source={require('../../../images/btn-requestAppointment-grey.png')}
+              style={styles.btnRequest} />
+          ) : null }
+
           {this.state.shop && this.state.services && this.state.datetime &&
           <TouchableOpacity onPress={() => this.createOrder()}>
             <Image
-              source={require('../../../images/btn-submitServiceRequest.png')}
+              source={require('../../../images/btn-requestAppointment.png')}
               style={styles.btnRequest} />
           </TouchableOpacity>}
 
@@ -290,7 +294,7 @@ render: function() {
       <TouchableOpacity onPress={() => this.props.onRemove(this.props.service)}>
         <View style={styles.deleteContainer}>
           <Image
-            source={require('../../../images/btn-delete.png')}
+            source={require('../../../images/btn-delete-circle.png')}
             style={styles.btnDelete} />
         </View>
       </TouchableOpacity>
@@ -338,7 +342,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     width: width,
     borderWidth: 2,
-    borderColor: '#002d5e',
+    borderColor: '#efefef',
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
@@ -424,8 +428,8 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   btnDelete: {
-    width: 15,
-    height: 15,
+    width: 25,
+    height: 28,
     marginTop: 10,
     marginBottom: 10,
     marginRight: 10,
@@ -434,8 +438,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnAddService: {
-    width: 110,
-    height: 10,
+    width: 149,
+    height: 30,
     margin: 20,
   },
   btnRequest: {
