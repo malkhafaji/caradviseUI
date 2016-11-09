@@ -306,7 +306,7 @@ class caradviseui extends Component {
         )
       default:
         return (
-          <Text>OOPS! Sorry about that. Please restart your app and try again.</Text>
+          <Text>OOPS! Something went wrong. Is there a CarAdvise for apps?</Text>
         )
     }
   }
