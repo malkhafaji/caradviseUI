@@ -75,7 +75,7 @@ class SelectMaintenance extends Component {
         <TopBar navigator={this.props.navigator} />
         <ScrollView style={styles.scrollView}>
         <View style={styles.formContainer}>
-          <Text style={styles.textStep}>Based on your mileage, the following maintenance is highly recommended. Please select the work you would like to get done.</Text>
+          <Text style={styles.textStep}>Based on your mileage, the following maintenance is highly recommended. Please select the work you would like to get a quote for.</Text>
           <View style={styles.maintenanceHd}>
             <Text style={styles.maintenanceTxt}>{this.props.miles} MILES</Text>
           </View>
@@ -227,8 +227,8 @@ var styles = StyleSheet.create({
     marginBottom: 30,
     color: '#002d5e',
     fontSize: 16,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
     textAlign: 'center'
   },
   maintenanceHd: {
