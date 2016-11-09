@@ -55,20 +55,20 @@ class SelectShopDone extends Component {
           <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile.</Text>
 
           <View style={styles.fields}>
-            <Text style={styles.fieldLbl}>How many miles do you drive per month?</Text>
+            <Text style={styles.fieldLbl}>How many miles do you drive <Text style={styles.textBld}>per month</Text>?{'\n'}<Text style={styles.text12}>(Average is 1,000-1,500 miles per month)</Text></Text>
             {this._renderPickerToggle({
               key: 'miles_per_month',
               value: this.state.fields.miles_per_month.value || this.state.fields.miles_per_month.name,
               isInvalid: this.state.fields.miles_per_month.invalid
             })}
-            <Text style={styles.fieldLbl}>What type of driving do you do the most?</Text>
+            <Text style={styles.fieldLbl}>What <Text style={styles.textBld}>type of driving</Text> do you do the most?</Text>
             {this._renderPickerToggle({
               key: 'type_of_driving',
               value: this.state.fields.type_of_driving.value || this.state.fields.type_of_driving.name,
               isInvalid: this.state.fields.type_of_driving.invalid
             })}
             <View style={styles.labelContainer}>
-              <Text style={styles.fieldLbl}>Did you purchase your car new or used?</Text>
+              <Text style={styles.fieldLbl}>Did you <Text style={styles.textBld}>purchase</Text> your car new or used?</Text>
             </View>
             {this._renderPickerToggle({
               key: 'used_or_new',
@@ -260,8 +260,7 @@ var styles = StyleSheet.create({
   fieldLbl: {
     color: '#002d5e',
     width: fldWidth,
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 14,
     textAlign: 'left'
   },
   textFld: {
@@ -341,6 +340,12 @@ var styles = StyleSheet.create({
   invalidFld: {
     borderWidth: 1,
     borderColor: 'red'
+  },
+  text12: {
+    fontSize: 12
+  },
+  textBld: {
+    fontWeight: 'bold'
   }
 });
 
