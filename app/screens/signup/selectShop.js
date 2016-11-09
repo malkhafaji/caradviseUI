@@ -119,6 +119,13 @@ class SelectShop extends Component {
             </TouchableOpacity>
           </View>
 
+          <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'VehicleNumber' })}>
+            <Image
+              resizeMode='contain'
+              source={require('../../../images/btn-vehicleNumber.png')}
+              style={styles.btn} />
+          </TouchableOpacity>
+
           {this.state.isLoading && <ActivityIndicator color="#002d5e" />}
 
           {this.state.shops.map(shop => (
@@ -128,13 +135,6 @@ class SelectShop extends Component {
               </View>
             </TouchableOpacity>
           ))}
-
-          <TouchableOpacity onPress={() => this.props.navigator.push({ indent: 'VehicleNumber' })}>
-            <Image
-              resizeMode='contain'
-              source={require('../../../images/btn-notListed.png')}
-              style={styles.btn} />
-          </TouchableOpacity>
 
         </View>
         </ScrollView>
@@ -201,7 +201,7 @@ var styles = StyleSheet.create({
   searchShop: {
     flexDirection: 'row',
     marginTop: 30,
-    marginBottom: 15,
+    marginBottom: 5,
   },
   searchFld: {
     width: fldWidth,
@@ -231,8 +231,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn: {
-    width: 190,
-    marginTop: 10
+    width: 190
   }
 });
 
