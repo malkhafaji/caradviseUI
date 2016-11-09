@@ -110,7 +110,7 @@ class SelectMaintenance extends Component {
           <View style={styles.rowAddService}>
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices', passProps: { returnTo: 'SelectMaintenance' } })}>
               <Image
-                source={require('../../../images/btn-add-service.png')}
+                source={require('../../../images/btn-addService.png')}
                 style={styles.btnAddService} />
             </TouchableOpacity>
           </View>
@@ -272,7 +272,7 @@ var styles = StyleSheet.create({
     marginRight: 5
   },
   btnCol: {
-    marginTop: 20
+    marginTop: 10
   },
   btn: {
     width: 190,
@@ -296,9 +296,9 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   btnAddService: {
-    width: 110,
-    height: 10,
-    margin: 20,
+    width: 145,
+    height: 29,
+    marginTop: 20,
   },
   serviceRow: {
     flex: 1,
