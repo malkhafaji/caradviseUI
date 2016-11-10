@@ -20,7 +20,7 @@ import { putJSON } from '../../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
 
-var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/update_order_service';
+var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_service';
 
 class ApprovalGroupDetail extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class ApprovalGroupDetail extends Component {
     this.setState({ showSpinner: true });
 
     let response = await putJSON(
-      UPDATE_URL,
+      UPDATE_URL.replace('?', this.props.vehicleId),
       { order_service_id: service.id, status },
       { 'Authorization': this.props.authentication_token }
     );
@@ -336,7 +336,8 @@ function mapStateToProps(state) {
   let user = state.user || {};
   return {
     isLoggedIn: !!user.authentication_token,
-    authentication_token: user.authentication_token
+    authentication_token: user.authentication_token,
+    vehicleId: user.vehicles ? user.vehicles[0].id : null
   };
 }
 

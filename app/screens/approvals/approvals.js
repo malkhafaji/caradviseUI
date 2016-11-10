@@ -405,7 +405,7 @@ class Approvals extends Component {
         );
     }
 
-    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} orderStatus={this.state.orderStatus} authentication_token={this.props.authentication_token} approvals={this}/>;
+    createServiceRow = (service, i) => <Service key={i} vehicleId={this.props.vehicleId} service={service} nav={this.props.navigator} isLoggedIn={this.props.isLoggedIn} orderStatus={this.state.orderStatus} authentication_token={this.props.authentication_token} approvals={this}/>;
 }
 
 var Service = React.createClass({
