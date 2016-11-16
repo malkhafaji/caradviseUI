@@ -170,7 +170,7 @@ class Miles extends Component {
           let models = cache.get('vehicleDetails-models') || [];
           let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
           data.model_id = model.key;
-          data.model = model.originalValue;
+          data.model = model.value;
 
           let engines = cache.get('vehicleDetails-engines') || [];
           let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
