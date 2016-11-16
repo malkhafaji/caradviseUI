@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import cache from '../../utils/cache';
 import { getJSON } from '../../utils/fetch';
-import { sortBy, range } from 'lodash';
+import { sortBy, range, uniqBy } from 'lodash';
 
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
@@ -38,6 +38,8 @@ class VehicleDetails extends Component {
         hide_models: true,
         loading_models: false,
         models: cache.get('vehicleDetails-models') || [],
+        hide_sub_models: true,
+        sub_models: cache.get('vehicleDetails-sub_models') || [],
         hide_engines: true,
         loading_engines: false,
         engines: cache.get('vehicleDetails-engines') || [],
@@ -45,6 +47,7 @@ class VehicleDetails extends Component {
           year: { name: 'Select Year', value: '', invalid: false, validators: ['_isPresent'] },
           make: { name: 'Select Make', value: '', invalid: false, validators: ['_isPresent'] },
           model: { name: 'Select Model', value: '', invalid: false, validators: ['_isPresent'] },
+          sub_model: { name: 'Select Sub Model', value: '', invalid: false, validators: ['_isPresent'] },
           engine: { name: 'Select Engine', value: '', invalid: false, validators: ['_isPresent'] },
           miles: { name: 'How many miles?', value: '', invalid: false, validators: ['_isPresent'] }
         }, cache.get('vehicleDetails-fields') || {})
@@ -82,6 +85,13 @@ class VehicleDetails extends Component {
                 value: this.state.fields.model.value || this.state.fields.model.name,
                 isDisabled: this.state.loading_models,
                 isInvalid: this.state.fields.model.invalid
+              })}
+
+              {this._renderPickerToggle({
+                key: 'sub_model',
+                value: this.state.fields.sub_model.value || this.state.fields.sub_model.name,
+                isDisabled: false,
+                isInvalid: this.state.fields.sub_model.invalid
               })}
 
               {this._renderPickerToggle({
@@ -142,6 +152,22 @@ class VehicleDetails extends Component {
             items: this.state.models,
             isHidden: this.state.hide_models,
             emptyMessage: 'Please select a make first',
+            onClose: () => this.setState({
+              engines: [],
+              fields: {
+                ...this.state.fields,
+                sub_model: { ...this.state.fields.sub_model, value: '', invalid: false },
+                engine: { ...this.state.fields.engine, value: '', invalid: false }
+              }
+            }, () => cache.set('vehicleDetails-fields', this.state.fields))
+          })}
+
+          {this._renderPicker({
+            key: 'sub_model',
+            value: this.state.fields.sub_model.value,
+            items: this.state.sub_models.filter(a => a.model === this.state.fields.model.value),
+            isHidden: this.state.hide_sub_models,
+            emptyMessage: 'Please select a model first',
             onClose: () => this._fetchEngines()
           })}
 
@@ -263,16 +289,19 @@ class VehicleDetails extends Component {
         makes.unshift({ key: '0', label: 'Select make', value: '' });
         cache.set('vehicleDetails-makes', makes);
         cache.remove('vehicleDetails-models');
+        cache.remove('vehicleDetails-sub_models');
         cache.remove('vehicleDetails-engines');
 
         this.setState({
           makes,
           models: [],
+          sub_models: [],
           engines: [],
           fields: {
             ...(this.state.fields),
             make: { ...(this.state.fields.make), value: '', invalid: false },
             model: { ...(this.state.fields.model), value: '', invalid: false },
+            sub_model: { ...(this.state.fields.sub_model), value: '', invalid: false },
             engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
         }, () => cache.set('vehicleDetails-fields', this.state.fields));
@@ -295,27 +324,34 @@ class VehicleDetails extends Component {
       if (response.error) {
         Alert.alert('Error', response.error);
       } else if (response.result) {
-        const models = response.result.vehicles.map(vehicle => {
-          return {
-            key: vehicle.model_id,
-            subKey: vehicle.sub_model_id,
-            label: `${vehicle.model} ${vehicle.sub_model}`,
-            value: `${vehicle.model} ${vehicle.sub_model}`,
-            originalValue: vehicle.model
-          };
-        });
+        const models = response.result.vehicles.map(vehicle => ({
+          key: vehicle.model_id,
+          label: vehicle.model,
+          value: vehicle.model
+        }));
+        const sub_models = response.result.vehicles.map(vehicle => ({
+          key: vehicle.sub_model_id,
+          label: vehicle.sub_model,
+          value: vehicle.sub_model,
+          model: vehicle.model
+        }));
 
+        models = uniqBy(models, 'key');
         models = sortBy(models, ({ label }) => label.toLowerCase());
+        sub_models = sortBy(sub_models, ({ label }) => label.toLowerCase());
         models.unshift({ key: '0', label: 'Select model', value: '' });
         cache.set('vehicleDetails-models', models);
+        cache.set('vehicleDetails-sub_models', sub_models);
         cache.remove('vehicleDetails-engines');
 
         this.setState({
           models,
+          sub_models,
           engines: [],
           fields: {
             ...(this.state.fields),
             model: { ...(this.state.fields.model), value: '', invalid: false },
+            sub_model: { ...(this.state.fields.sub_model), value: '', invalid: false },
             engine: { ...(this.state.fields.engine), value: '', invalid: false }
           }
         }, () => cache.set('vehicleDetails-fields', this.state.fields));
@@ -326,16 +362,20 @@ class VehicleDetails extends Component {
       let year = this.state.fields.year.value;
       let make = this.state.fields.make.value;
       let model = this.state.fields.model.value;
-      if (!year || !make || !model) return;
+      let sub_model = this.state.fields.sub_model.value;
+      if (!year || !make || !model || !sub_model) return;
 
       make = this.state.makes.find(({ value }) => value === make) || {};
       let make_id = make.key;
       if (!make_id) return;
 
+      sub_model = this.state.sub_models.find(a => a.value === sub_model && a.model === model) || {};
+      let sub_model_id = sub_model.key;
+      if (!sub_model_id) return;
+
       model = this.state.models.find(({ value }) => value === model) || {};
       let model_id = model.key;
-      let sub_model_id = model.subKey;
-      if (!model_id || !sub_model_id) return;
+      if (!model_id) return;
 
       this.setState({ loadingEngines: true });
       let response = await getJSON(BY_MODEL_AND_SUB_MODEL_URL, { year, make_id, model_id, sub_model_id });
