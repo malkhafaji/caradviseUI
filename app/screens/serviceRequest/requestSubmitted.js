@@ -42,12 +42,15 @@ render() {
           <Text style={styles.textHd}>Service Request Confirmation</Text>
 
           <View style={styles.shopInfoContainer}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>Your service request has been submitted!</Text>{'\n'}{'\n'}You will be notified as soon as the shop has reviewed and responded to your request.{'\n'}{'\n'}<Text style={styles.textBld}>Your service is scheduled for:</Text>{'\n'}{this.state.datetime}{'\n'}{'\n'}
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>Your service request has been submitted!</Text>{'\n'}{'\n'}You will be notified as soon as the shop has reviewed and responded to your request.</Text>
+            <View style={styles.timeContainer}>
+              <Text style={styles.timeText}><Text style={styles.textBld}>Your service is scheduled for:</Text>{'\n'}{this.state.datetime}</Text>
+            </View>
+            <Text style={styles.guaranteeText}>We gaurantee our shops are within the CarAdvise fair price range.</Text>
             <Image
               resizeMode={'contain'}
               source={require('../../../images/guarantee.png')}
               style={styles.guarantee} />
-            </Text>
           </View>
 
           <View style={styles.bookShop}>
@@ -104,9 +107,29 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#002d5e',
   },
+  timeContainer: {
+    borderWidth: 1,
+    borderColor: '#002d5e',
+    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 50,
+    paddingRight: 50,
+    marginTop: 20,
+    marginBottom: 20
+  },
+  timeText: {
+    textAlign: 'center',
+    color: '#002d5e'
+  },
+  guaranteeText: {
+    textAlign: 'center',
+    color: '#002d5e'
+  },
   guarantee: {
-    width: 139,
-    height: 19
+    width: 167,
+    height: 47,
+    marginTop: 10
   },
   btnDone: {
     width: 149,
