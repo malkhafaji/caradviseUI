@@ -83,6 +83,14 @@ class SelectShopDone extends Component {
                   style={styles.btnNext} />
               </TouchableOpacity>
             </View>
+            <View style={styles.btnRow}>
+              <TouchableOpacity onPress={() => this._onClickSubmit()}>
+                <Image
+                  resizeMode='contain'
+                  source={require('../../../images/btn-skip.png')}
+                  style={styles.btnNext} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
