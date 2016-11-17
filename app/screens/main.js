@@ -66,15 +66,6 @@ class Main extends Component {
                 source={require('../../images/img-vehicle.png')}
                 style={styles.vehicle} />
 
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Maintenance' })}>
-                <View style={styles.btnRow}>
-                  <Image
-                    resizeMode={'contain'}
-                    source={require('../../images/btn-view-maintenance.png')}
-                    style={styles.btnMain} />
-                </View>
-              </TouchableOpacity>
-
               <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'ServiceRequest' })}>
                 <View style={styles.btnRow}>
                   <Image
@@ -91,6 +82,15 @@ class Main extends Component {
                     source={this.state.hasActiveOrders ?
                       require('../../images/btn-services-alert.png') :
                       require('../../images/btn-services.png')}
+                    style={styles.btnMain} />
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'Maintenance' })}>
+                <View style={styles.btnRow}>
+                  <Image
+                    resizeMode={'contain'}
+                    source={require('../../images/btn-view-maintenance.png')}
                     style={styles.btnMain} />
                 </View>
               </TouchableOpacity>
