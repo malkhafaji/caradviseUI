@@ -152,6 +152,15 @@ renderServices(services) {
 
           <Text style={styles.textHd}>Book a Shop</Text>
 
+          <View style={styles.stepContainer}>
+            <View style={styles.dotContainer}>
+              <Image
+                source={require('../../../images/dot1.png')}
+                style={styles.dot} />
+            </View>
+            <Text style={styles.stepText}>SELECT A CAR REPAIR SHOP</Text>
+          </View>
+
           {this.state.shop &&
           <View style={styles.selectedShop}>
             <Text style={styles.shopInfo}><Text style={styles.textBld}>{this.state.shop.name} - {this.state.shop.city}</Text>{'\n'}{`${this.state.shop.address_line1}`}</Text>
@@ -169,12 +178,20 @@ renderServices(services) {
             <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
               <Image
                 resizeMode={'contain'}
-                source={require('../../../images/btn-selectshop.png')}
+                source={require('../../../images/btn-browseShops.png')}
                 style={styles.btnSelectShop} />
             </TouchableOpacity>
           </View>}
 
-          <Text style={styles.textHd}>Recommended Services ({this.props.miles} miles)</Text>
+          <View style={styles.stepContainer}>
+            <View style={styles.dotContainer}>
+              <Image
+                source={require('../../../images/dot2.png')}
+                style={styles.dot} />
+            </View>
+            <Text style={styles.stepText}>SELECT SERVICES</Text>
+          </View>
+
           {maintenanceServices.length ?
             maintenanceServices.map(this.createServiceRow) :
             null}
@@ -195,8 +212,17 @@ renderServices(services) {
             </TouchableOpacity>
           </View>
 
+          <View style={styles.stepContainer}>
+            <View style={styles.dotContainer}>
+              <Image
+                source={require('../../../images/dot3.png')}
+                style={styles.dot} />
+            </View>
+            <Text style={styles.stepText}>SCHEDULE A TIME</Text>
+          </View>
+
           <DatePicker
-            style={{width: 200}}
+            style={styles.selectTime}
             date={this.state.datetime}
             mode="datetime"
             placeholder="SELECT DATE & TIME"
@@ -231,6 +257,15 @@ renderServices(services) {
               source={require('../../../images/btn-requestAppointment.png')}
               style={styles.btnRequest} />
           </TouchableOpacity>}
+
+          <View style={styles.guaranteeContainer}>
+            <Text style={styles.guaranteeText}>No unnecessary work will be quoted or performed. All work done within our fair price, or we will pay the difference. Every repair guaranteed for 12 Months, 12,000 miles.</Text>
+          </View>
+          <View style={styles.guaranteeBadge}>
+            <Image
+              source={require('../../../images/guarantee.png')}
+              style={styles.guarantee} />
+          </View>
 
         </View>
         </ScrollView>
@@ -334,9 +369,31 @@ var styles = StyleSheet.create({
   textBld: {
     fontWeight: 'bold',
   },
-  btnSelectShop: {
+  stepContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#002d5e',
     width: width,
-    height: 130,
+    padding: 10,
+    alignItems: 'flex-start',
+    marginBottom: 5
+  },
+  dot: {
+    width: 25,
+    height: 25,
+    marginRight: 10
+  },
+  stepText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    marginTop: 2
+  },
+  btnSelectShop: {
+    width: 149,
+    height: 30,
+    marginTop: 10,
+    marginBottom: 15
   },
   selectedShop: {
     flexDirection: 'row',
@@ -346,6 +403,7 @@ var styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 15
   },
   shopInfo: {
     flex: 4,
@@ -440,13 +498,17 @@ var styles = StyleSheet.create({
   btnAddService: {
     width: 149,
     height: 30,
-    margin: 20,
+    margin: 15,
+  },
+  selectTime: {
+    width: 200,
+    marginTop: 10
   },
   btnRequest: {
-    width: 300,
+    width: 280,
     height: 40,
     marginTop: 20,
-    marginBottom: 50,
+    marginBottom: 20,
   },
   bookIt: {
     alignItems: 'center',
@@ -454,6 +516,22 @@ var styles = StyleSheet.create({
   btnCheckout: {
     width: 300,
     height: 40,
+  },
+  guaranteeContainer: {
+    borderWidth: 1,
+    borderColor: '#999',
+    padding: 10
+  },
+  guaranteeText: {
+    color: '#999',
+    fontSize: 11
+  },
+  guaranteeBadge: {
+    marginTop: 15
+  },
+  guarantee: {
+    width: 167,
+    height: 47
   },
 });
 
