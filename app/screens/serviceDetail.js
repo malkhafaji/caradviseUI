@@ -294,7 +294,7 @@ class ServiceDetail extends Component {
           <View style={styles.partOptionsSelectPart}>
             {this.renderPickerToggle({
               key: 'part',
-              value: selectedOption.part || `Select ${option.option_type == 0 ? 'Part' : 'Fluid'}`,
+              value: selectedOption.part || `${this.state.name == 'Oil Change' ? this.props.oilType : 'Select Option'}`,
               onPress: () => {
                 this.setState({
                   pickers: {
