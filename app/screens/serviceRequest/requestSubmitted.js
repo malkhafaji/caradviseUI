@@ -46,7 +46,6 @@ render() {
             <View style={styles.timeContainer}>
               <Text style={styles.timeText}><Text style={styles.textBld}>Your service is scheduled for:</Text>{'\n'}{this.state.datetime}</Text>
             </View>
-            <Text style={styles.guaranteeText}>We gaurantee our shops are within the CarAdvise fair price range.</Text>
             <Image
               resizeMode={'contain'}
               source={require('../../../images/guarantee.png')}
