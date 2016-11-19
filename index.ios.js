@@ -21,6 +21,7 @@ var SelectMaintenance = require('./app/screens/signup/selectMaintenance');
 var NotAtShopDone = require('./app/screens/signup/NotAtShopDone');
 var NotListed = require('./app/screens/signup/notListed');
 var AddServices = require('./app/screens/addServices');
+var ServiceOptions = require('./app/screens/serviceOptions');
 var ServiceDetail = require('./app/screens/serviceDetail');
 var ServiceRequest = require('./app/screens/serviceRequest/serviceRequest');
 var ServiceRequestDetail = require('./app/screens/serviceRequest/serviceRequestDetail');
@@ -219,6 +220,10 @@ class caradviseui extends Component {
       case 'AddServices':
         return (
           <AddServices {...globalNavigatorProps} />
+        )
+      case 'ServiceOptions':
+        return (
+          <ServiceOptions {...globalNavigatorProps} />
         )
       case 'ServiceDetail':
         return (

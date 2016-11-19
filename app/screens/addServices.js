@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../utils/cache';
-import { chain, includes } from 'lodash';
+import { chain, includes, flatMap } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -39,10 +39,6 @@ class AddServices extends Component {
     componentDidMount() {
       if (!this.state.services)
         this.getServices();
-    }
-
-    componentWillUnmount() {
-      cache.remove('addServices-returnTo');
     }
 
     isAlreadyAdded(service) {
@@ -135,17 +131,51 @@ var Service = React.createClass({
               }
             });
           } else {
-            this.props.nav.push({
-              indent: 'ServiceDetail',
-              passProps: {
-                name:this.props.service.name,
-                whatIsIt:this.props.service.what_is_this,
-                whatIf:this.props.service.what_if_decline,
-                whyDoThis:this.props.service.why_do_this,
-                factors:this.props.service.factors_to_consider,
-                service:this.props.service
+            let service = this.props.service.app_services[0];
+            let options = flatMap(service.service.service_options, option => {
+              let options = [];
+
+              if (option.positions) {
+                options.push({
+                  option_id: option.id,
+                  key: 'position',
+                  selected: null,
+                  values: option.positions.map(label => ({ label, value: label }))
+                });
               }
+
+              options.push({
+                option_id: option.id,
+                key: 'service_option_item_id',
+                selected: null,
+                values: option.service_option_items.map(a => ({ label: a.name, value: a.id }))
+              });
+
+              return options;
             });
+
+            if (options.length) {
+              this.props.nav.push({
+                indent: 'ServiceOptions',
+                passProps: {
+                  service: this.props.service,
+                  optionIndex: 0,
+                  options
+                }
+              });
+            } else {
+              this.props.nav.push({
+                indent: 'ServiceDetail',
+                passProps: {
+                  name: this.props.service.name,
+                  whatIsIt: this.props.service.what_is_this,
+                  whatIf: this.props.service.what_if_decline,
+                  whyDoThis: this.props.service.why_do_this,
+                  factors: this.props.service.factors_to_consider,
+                  service: this.props.service
+                }
+              });
+            }
           }
         }}>
         <Text style={styles.servicesItem}>{this.props.service.name}</Text>

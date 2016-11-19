@@ -16,7 +16,7 @@ import {
   LayoutAnimation
 } from 'react-native';
 import { connect } from 'react-redux';
-import { findLastIndex } from 'lodash';
+import { findLastIndex, groupBy } from 'lodash';
 import cache from '../utils/cache';
 
 var width = Dimensions.get('window').width - 20;
@@ -36,6 +36,8 @@ class ServiceDetail extends Component {
         whatIf:service.service.what_if_decline,
         factors:service.service.factors_to_consider,
         service:passProps.service,
+        options:passProps.options,
+        serviceId:service.service_id,
         serviceOptions: service.service.service_options
             .map(a => ({ ...a, service_id: service.service_id })),
         selectedOptions: {},
@@ -121,9 +123,25 @@ class ServiceDetail extends Component {
     }
 
     addService() {
+      let options = this.state.options || [];
+      if (options.length > 0) {
+        let groupedOptions = groupBy(options, 'option_id');
+        let serviceOptions = cache.get('serviceDetail-serviceOptions') || {};
+
+        serviceOptions[this.state.serviceId] = {
+          parts: Object.keys(groupedOptions).map(service_option_id => {
+            let part = { service_option_id };
+            groupedOptions[service_option_id].forEach(a => part[a.key] = (a.selected || {}).value);
+            return part;
+          })
+        };
+
+        cache.set('serviceDetail-serviceOptions', serviceOptions);
+      }
+
       if (cache.get('serviceRequest-fields')) {
         const fields = cache.get('serviceRequest-fields');
-        fields.services.push({ ...this.state.service, status: 'ADDED' });
+        fields.services.push({ ...this.state.service, status: 'ADDED', name: this.getServiceName() });
         cache.set('serviceRequest-fields', fields);
       } else {
         const services = cache.get('selectMaintenance-addedServices') || [];
@@ -131,29 +149,26 @@ class ServiceDetail extends Component {
         cache.set('selectMaintenance-addedServices', services);
       }
 
-      let selectedOptions = this.state.selectedOptions;
-      let selectedOptionIds = Object.keys(selectedOptions).filter(id => !!selectedOptions.item_id);
-      if (selectedOptionIds.length > 0) {
-        let serviceOptions = cache.get('serviceDetail-serviceOptions') || {};
-        let { service_id } = this.state.serviceOptions[0];
-
-        serviceOptions[service_id] = {
-          parts: selectedOptionIds.map(id => ({
-            service_option_id: id,
-            service_option_item_id: selectedOptions[id].item_id,
-            quantity: selectedOptions[id].quantity,
-            position: selectedOptions[id].position || undefined,
-            unit_name: selectedOptions[id].unit || undefined
-          }))
-        };
-
-        cache.set('serviceDetail-serviceOptions', serviceOptions);
-      }
-
       const route = { indent: cache.get('addServices-returnTo') };
       const routes = this.props.navigator.getCurrentRoutes();
       this.props.navigator.replaceAtIndex(route, findLastIndex(routes, route));
       this.props.navigator.popToRoute(route);
+    }
+
+    getServiceName() {
+      let name = this.state.service.name || '';
+      let options = this.state.options || [];
+
+      options.forEach(option => {
+        if (!option.selected) return;
+
+        if (option.key === 'position')
+          name += ` (${option.selected.value})`;
+        else if (option.key === 'service_option_item_id')
+          name += ` - ${option.selected.label}`;
+      });
+
+      return name;
     }
 
     render() {
@@ -189,7 +204,7 @@ class ServiceDetail extends Component {
               </View>
 
               {this.renderOil()}
-              {this.renderServiceOptions()}
+              {/*this.renderServiceOptions()*/}
 
               <View style={styles.approveDecline}>
                 <TouchableOpacity onPress={() => this.addService()}>
@@ -207,7 +222,7 @@ class ServiceDetail extends Component {
             </View>
             </ScrollView>
 
-            {this.renderPicker({
+            {/*this.renderPicker({
               key: 'part',
               items: this.state.pickers.part,
               onChange: a => this.setState({
@@ -223,9 +238,9 @@ class ServiceDetail extends Component {
                   }
                 }
               })
-            })}
+            })*/}
 
-            {this.renderPicker({
+            {/*this.renderPicker({
               key: 'quantity',
               items: this.state.pickers.quantity,
               onChange: a => this.setState({
@@ -237,9 +252,9 @@ class ServiceDetail extends Component {
                   }
                 }
               })
-            })}
+            })*/}
 
-            {this.renderPicker({
+            {/*this.renderPicker({
               key: 'position',
               items: this.state.pickers.position,
               onChange: a => this.setState({
@@ -251,9 +266,9 @@ class ServiceDetail extends Component {
                   }
                 }
               })
-            })}
+            })*/}
 
-            {this.renderPicker({
+            {/*this.renderPicker({
               key: 'unit',
               items: this.state.pickers.unit,
               onChange: a => this.setState({
@@ -265,7 +280,7 @@ class ServiceDetail extends Component {
                   }
                 }
               })
-            })}
+            })*/}
           </View>
         );
     }
