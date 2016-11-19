@@ -14,6 +14,7 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
+import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../utils/cache';
 import { chain, includes, flatMap } from 'lodash';
@@ -111,7 +112,7 @@ class AddServices extends Component {
         );
     }
 
-    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator}  />;
+    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} oilType={this.props.oilType || ''} />;
 }
 
 var Service = React.createClass({
@@ -135,7 +136,7 @@ var Service = React.createClass({
             let options = flatMap(service.service.service_options, option => {
               let options = [];
 
-              if (option.positions) {
+              if ((option.positions || []).length) {
                 options.push({
                   option_id: option.id,
                   key: 'position',
@@ -144,12 +145,18 @@ var Service = React.createClass({
                 });
               }
 
-              options.push({
-                option_id: option.id,
-                key: 'service_option_item_id',
-                selected: null,
-                values: option.service_option_items.map(a => ({ label: a.name, value: a.id }))
-              });
+              if ((option.service_option_items || []).length) {
+                options.push({
+                  option_id: option.id,
+                  key: 'service_option_item_id',
+                  selected: null,
+                  values: option.service_option_items.map(a => ({
+                    label: a.name,
+                    value: a.id,
+                    subLabel: this.getRecommendedOil(option, a)
+                  }))
+                });
+              }
 
               return options;
             });
@@ -190,6 +197,11 @@ var Service = React.createClass({
       </TouchableOpacity>
 
     );
+  },
+  getRecommendedOil(option, option_item) {
+    if (option.option_type !== 1) return null;
+    if (option_item.name.toLowerCase() !== this.props.oilType.toLowerCase()) return null;
+    return '(This is your manufacturer recommended oil type)';
   }
 });
 
@@ -237,4 +249,11 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = AddServices;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    oilType: user.vehicles ? user.vehicles[0].oil_type_name : null
+  };
+}
+
+module.exports = connect(mapStateToProps)(AddServices);

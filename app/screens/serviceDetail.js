@@ -185,7 +185,7 @@ class ServiceDetail extends Component {
               <View style={styles.serviceList}>
 
                   <View style={styles.serviceRow}>
-                    <Text style={styles.serviceItem}>{this.state.name}</Text>
+                    <Text style={styles.serviceItem}>{this.getServiceName()}</Text>
 
                     {this.state.lowCost !== undefined && this.state.highCost !== undefined &&
                     <View style={styles.fairPriceContainer}>

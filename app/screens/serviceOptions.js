@@ -53,7 +53,12 @@ class ServiceOptions extends Component {
         style={styles.servicesList}
         onPress={() => this.selectOption(option)}
       >
-        <Text style={styles.servicesItem}>{option.label}</Text>
+        <View style={styles.servicesItem}>
+          <Text style={styles.servicesItemText}>{option.label}</Text>
+          {option.subLabel ?
+            <Text style={styles.servicesItemSubText}>{option.subLabel}</Text> : null}
+        </View>
+
         <View style={styles.arrowContainer}>
           <Text style={styles.arrow}>
             <Image
@@ -127,12 +132,18 @@ var styles = StyleSheet.create({
   },
   servicesItem: {
     flex: 3,
+  },
+  servicesItemText: {
     color: '#002d5e',
     fontSize: 16,
     fontWeight: 'bold',
   },
+  servicesItemSubText: {
+    color: '#002d5e',
+    fontSize: 12
+  },
   arrowContainer: {
-    flex: 1,
+
   },
   arrow: {
     textAlign: 'right',
