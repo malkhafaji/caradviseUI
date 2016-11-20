@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-datepicker';
 import cache from '../../utils/cache';
+import storage from '../../utils/storage';
 import { postJSON } from '../../utils/fetch';
 import { flatMap } from 'lodash';
 
@@ -46,6 +47,9 @@ constructor(props) {
 componentDidMount() {
   if (this.state.services === null)
     this.getMaintenance();
+
+  storage.get('caradvise:shop')
+    .then(shop => shop && this.setState({ shop }));
 }
 
 componentDidUpdate() {

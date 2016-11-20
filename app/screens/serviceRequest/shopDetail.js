@@ -19,6 +19,7 @@ import MapView, { Marker } from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { findLastIndex } from 'lodash';
 import cache from '../../utils/cache';
+import storage from '../../utils/storage';
 
 var fldWidth = Dimensions.get('window').width - 100;
 var width = Dimensions.get('window').width - 20;
@@ -41,16 +42,13 @@ constructor(props) {
 }
 
 bookShop() {
-  const fields = cache.get('serviceRequest-fields');
-  if (!fields) return;
-
-  fields.shop = { ...this.state };
-  cache.set('serviceRequest-fields', fields);
-
-  const route = { indent: 'ServiceRequest' };
-  const routes = this.props.navigator.getCurrentRoutes();
-  this.props.navigator.replaceAtIndex(route, findLastIndex(routes, route));
-  this.props.navigator.popToRoute(route);
+  storage.set('caradvise:shop', { ...this.state })
+    .then(() => {
+      const route = { indent: 'ServiceRequest' };
+      const routes = this.props.navigator.getCurrentRoutes();
+      this.props.navigator.replaceAtIndex(route, findLastIndex(routes, route));
+      this.props.navigator.popToRoute(route);
+    });
 }
 
 render() {

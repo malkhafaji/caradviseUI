@@ -144,6 +144,7 @@ class SelectShop extends Component {
 
   selectShop = shop => {
     cache.set('selectShop-fields', { shop });
+    storage.set('caradvise:shop', shop);
 
     let accountDetailsFields = cache.get('accountDetails-fields');
     let vehicleDetailsFields = cache.get('vehicleDetails-fields');

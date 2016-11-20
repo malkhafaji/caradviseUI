@@ -396,7 +396,11 @@ class VehicleDetails extends Component {
           engines,
           fields: {
             ...(this.state.fields),
-            engine: { ...(this.state.fields.engine), value: '', invalid: false }
+            engine: {
+              ...(this.state.fields.engine),
+              value: engines[1] ? engines[1].value : '',
+              invalid: false
+            }
           }
         }, () => cache.set('vehicleDetails-fields', this.state.fields));
       }
