@@ -295,27 +295,30 @@ render: function() {
 
       <TouchableOpacity
         style={styles.serviceContainer}
-        onPress={() => this.props.navigator.push({ indent:'ServiceRequestDetail',
-          passProps:{
-            name:this.props.service.name || this.props.service.literal_name,
-            fairLow:this.props.service.low_fair_cost,
-            fairHigh:this.props.service.high_fair_cost,
-            time:this.props.service.base_labor_time,
-            timeInterval:this.props.service.labor_time_interval,
-            intervalMile:this.props.service.interval_mile,
-            intervalMonth:this.props.service.interval_month,
-            laborLow:this.props.service.labor_low_cost,
-            laborHigh:this.props.service.labor_high_cost,
-            partLow:this.props.service.part_low_cost,
-            partHigh:this.props.service.part_high_cost,
-            whatIsIt:this.props.service.what_is_it,
-            whatIf:this.props.service.what_if_decline,
-            whyDoThis:this.props.service.why_do_this,
-            factors:this.props.service.factors_to_consider,
-            parts:this.props.service.motor_vehicle_service_parts,
-            partDetail:'',
-            partName:''
-          }})}>
+        onPress={() => {
+          let service = this.props.service.service || (this.props.service.app_services[0] || {}).service || {};
+          this.props.navigator.push({ indent:'ServiceRequestDetail',
+            passProps:{
+              name:this.props.service.name || this.props.service.literal_name,
+              fairLow:this.props.service.low_fair_cost,
+              fairHigh:this.props.service.high_fair_cost,
+              time:this.props.service.base_labor_time,
+              timeInterval:this.props.service.labor_time_interval,
+              intervalMile:this.props.service.interval_mile,
+              intervalMonth:this.props.service.interval_month,
+              laborLow:this.props.service.labor_low_cost,
+              laborHigh:this.props.service.labor_high_cost,
+              partLow:this.props.service.part_low_cost,
+              partHigh:this.props.service.part_high_cost,
+              whatIsIt:service.what_is_this,
+              whatIf:service.what_if_decline,
+              whyDoThis:service.why_do_this,
+              factors:service.factors_to_consider,
+              parts:this.props.service.motor_vehicle_service_parts,
+              partDetail:'',
+              partName:''
+            }});
+        }}>
           <Text style={styles.serviceItem}>{this.props.service.name || this.props.service.literal_name}</Text>
           {this.props.service.low_fair_cost !== undefined && this.props.service.high_fair_cost !== undefined &&
           <View style={styles.fairPriceContainer}>
