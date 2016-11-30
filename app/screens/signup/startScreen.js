@@ -16,7 +16,7 @@ class StartScreen extends Component {
 
     render() {
         return (
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
