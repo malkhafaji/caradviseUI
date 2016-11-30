@@ -41,7 +41,7 @@ async fetchShops() {
     { 'Authorization': this.props.authentication_token }
   );
 
-  let shops = response.result ? response.result : [];
+  let shops = response.result.shops ? response.result.shops : [];
   this.setState({ shops, isLoading: false });
 }
 
@@ -54,7 +54,7 @@ async fetchShopsByCoords({ latitude, longitude }) {
     { 'Authorization': this.props.authentication_token }
   );
 
-  let shops = response.result ? response.result : [];
+  let shops = response.result.shops ? response.result.shops : [];
   this.setState({ shops, isLoading: false });
 }
 

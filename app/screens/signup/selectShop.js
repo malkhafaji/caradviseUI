@@ -63,7 +63,7 @@ class SelectShop extends Component {
       { zip: this.state.zip }
     );
 
-    let shops = response.result ? response.result : [];
+    let shops = response.result.shops ? response.result.shops : [];
     this.setState({ shops, isLoading: false });
   }
 
@@ -75,7 +75,7 @@ class SelectShop extends Component {
       { latitude, longitude }
     );
 
-    let shops = response.result ? response.result : [];
+    let shops = response.result.shops ? response.result.shops : [];
     this.setState({ shops, isLoading: false });
   }
 
