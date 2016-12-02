@@ -26,22 +26,22 @@ class Intro extends Component {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <Image source={require('../../../images/intro-step1.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step1.png')} resizeMode='cover' style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../../images/intro-step2.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step2.png')} resizeMode='cover' style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../../images/intro-step3.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step3.png')} resizeMode='cover' style={styles.page}>
           {this._renderTopSection()}
         </Image>
-        <Image source={require('../../../images/intro-step4.png')} style={styles.page}>
+        <Image source={require('../../../images/intro-step4.png')} resizeMode='cover' style={styles.page}>
           {this._renderTopSection()}
         </Image>
         <TouchableOpacity onPress={() => {
           this.props.navigator.replacePreviousAndPop({ indent: this.props.isLoggedIn ? 'Main' : 'StartScreen' });
         }}>
-          <Image source={require('../../../images/intro-step5.png')} style={styles.page}>
+          <Image source={require('../../../images/intro-step5.png')} resizeMode='cover' style={styles.page}>
             {this._renderTopSection()}
           </Image>
         </TouchableOpacity>
@@ -53,7 +53,7 @@ class Intro extends Component {
     return (
       <View style={styles.section}>
         <TouchableOpacity onPress={() => this.props.navigator.pop()} style={styles.closeButton}>
-          <Image source={require('../../../images/icon-close-blue.png')} style={styles.close} />
+          <Image source={require('../../../images/icon-close-blue.png')} resizeMode='contain' style={styles.close} />
         </TouchableOpacity>
       </View>
     );
@@ -74,7 +74,6 @@ var styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get('window').width,
     height: null,
-    resizeMode: 'cover',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'stretch',
@@ -98,13 +97,11 @@ var styles = StyleSheet.create({
   close: {
     width: 15,
     height: 15,
-    marginTop: 5,
-    resizeMode: 'contain'
+    marginTop: 5
   },
   logo: {
     width: 200,
     height: 35,
-    resizeMode: 'cover',
     marginTop: 65
   },
   text: {
@@ -121,12 +118,10 @@ var styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   getStarted: {
-    width: 200,
-    resizeMode: 'contain',
+    width: 200
   },
   step: {
-    height: 12,
-    resizeMode: 'contain'
+    height: 12
   }
 });
 
