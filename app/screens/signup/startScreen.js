@@ -16,7 +16,7 @@ class StartScreen extends Component {
 
     render() {
         return (
-          <ScrollView keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
+          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
           <View style={styles.formContainer}>
             <Image
               resizeMode='cover'
@@ -44,6 +44,10 @@ class StartScreen extends Component {
 }
 
 var styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    backgroundColor: '#162c46'
+  },
   formContainer: {
     flex: 1,
     flexDirection: 'column',
