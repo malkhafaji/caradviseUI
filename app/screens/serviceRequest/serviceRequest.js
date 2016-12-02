@@ -262,14 +262,14 @@ renderServices(services) {
               style={styles.btnRequest} />
           </TouchableOpacity>}
 
-          <View style={styles.guaranteeContainer}>
+          {/*<View style={styles.guaranteeContainer}>
             <Text style={styles.guaranteeText}>No unnecessary work will be quoted or performed. All work done within our fair price, or we will pay the difference. Every repair guaranteed for 12 Months, 12,000 miles.</Text>
           </View>
           <View style={styles.guaranteeBadge}>
             <Image
               source={require('../../../images/guarantee.png')}
               style={styles.guarantee} />
-          </View>
+          </View>*/}
 
         </View>
         </ScrollView>
