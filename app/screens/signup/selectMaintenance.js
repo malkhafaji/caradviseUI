@@ -56,7 +56,7 @@ class SelectMaintenance extends Component {
             services = [
               { service_id: 108, name: 'Oil Change' },
               { service_id: 375, name: 'Tire Rotation' },
-              { service_id: 36, name: 'Cabin Air Filter' }
+              { service_id: 14, name: 'Engine Air Filter' }
             ];
           }
 
