@@ -47,18 +47,20 @@ class SelectMaintenance extends Component {
         .then((response) => response.json())
         .then((responseData) => {
           let services = [];
+          let defaultServices = [
+            { service_id: 108, name: 'Oil Change' },
+            { service_id: 375, name: 'Tire Rotation' },
+            { service_id: 14, name: 'Engine Air Filter' }
+          ];
 
           if (responseData.vehicles) {
             services = responseData.vehicles.filter(service => service.service_id);
           }
 
-          if (services.length === 0) {
-            services = [
-              { service_id: 108, name: 'Oil Change' },
-              { service_id: 375, name: 'Tire Rotation' },
-              { service_id: 14, name: 'Engine Air Filter' }
-            ];
-          }
+          defaultServices = defaultServices.filter(service => {
+            return services.every(s => s.service_id != service.service_id);
+          });
+          services.unshift(defaultServices);
 
           this.setState({ isLoading: false, services });
           cache.set('selectMaintenance-services', services);

@@ -34,6 +34,11 @@ constructor(props) {
   this.state = Object.assign({
     shop:null,
     services:null,
+    defaultServices: [
+      { id: 41, service_id: 108, name: 'Oil Change', status: 0 },
+      { id: 47, service_id: 375, name: 'Tire Rotation', status: 0 },
+      { id: 64, service_id: 14, name: 'Engine Air Filter', status: 0 }
+    ],
     total:0,
     visible: false,
     datetime: null,
@@ -69,8 +74,15 @@ getMaintenance() {
       .then((response) => response.json())
       .then((responseData) => {
         var total = 0;
+        var services = responseData.vehicles.filter(({ status, service_id }) => (status == 0 || status == 2) && service_id);
+        var defaultServices = this.state.defaultServices.filter(service => {
+          return services.every(s => s.service_id != service.service_id);
+        });
+
+        services.unshift(...defaultServices);
+
         this.setState({
-          services: responseData.vehicles.filter(({ status, service_id }) => (status == 0 || status == 2) && service_id),
+          services,
           total: "$" + total.toFixed(2)
         });
       })
@@ -296,7 +308,7 @@ render: function() {
       <TouchableOpacity
         style={styles.serviceContainer}
         onPress={() => {
-          let service = this.props.service.service || (this.props.service.app_services[0] || {}).service || {};
+          let service = this.props.service.service || ((this.props.service.app_services || [])[0] || {}).service || {};
           this.props.navigator.push({ indent:'ServiceRequestDetail',
             passProps:{
               name:this.props.service.name || this.props.service.literal_name,
