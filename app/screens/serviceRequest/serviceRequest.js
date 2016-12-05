@@ -274,6 +274,12 @@ renderServices(services) {
               style={styles.btnRequest} />
           </TouchableOpacity>}
 
+          {this.state.datetime ? (
+            <View style={styles.guaranteeContainer}>
+              <Text style={styles.guaranteeText}>Please allow up to 4 hours for CarAdvise to confirm your order.</Text>
+            </View>
+          ) : null }
+
           {/*<View style={styles.guaranteeContainer}>
             <Text style={styles.guaranteeText}>No unnecessary work will be quoted or performed. All work done within our fair price, or we will pay the difference. Every repair guaranteed for 12 Months, 12,000 miles.</Text>
           </View>
