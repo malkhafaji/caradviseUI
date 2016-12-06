@@ -60,7 +60,7 @@ class SelectMaintenance extends Component {
           defaultServices = defaultServices.filter(service => {
             return services.every(s => s.service_id != service.service_id);
           });
-          services.unshift(defaultServices);
+          services.unshift(...defaultServices);
 
           this.setState({ isLoading: false, services });
           cache.set('selectMaintenance-services', services);
