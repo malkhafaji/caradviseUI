@@ -101,7 +101,12 @@ render() {
           {this.state.shops.map(shop => (
             <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
               <View style={styles.serviceRow}>
-                <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city} ({shop.distance.toFixed(2)} miles away)</Text></Text>
+                <View>
+                  <Image
+                    source={require('../../../images/logo-firestone.png')}
+                    style={styles.shopLogo} />
+                </View>
+                <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city}{'\n'}</Text><Text style={styles.address}>{shop.distance.toFixed(2)} miles away</Text></Text>
                 <View>
                   <Image
                     source={require('../../../images/stars.png')}
@@ -185,6 +190,12 @@ var styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
     width: width,
     marginBottom: 3,
+  },
+  shopLogo: {
+    width: 35,
+    height: 35,
+    marginTop: 15,
+    marginLeft: 10
   },
   serviceItem: {
     flex: 5,
