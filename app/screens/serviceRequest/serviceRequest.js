@@ -20,7 +20,7 @@ import DatePicker from 'react-native-datepicker';
 import cache from '../../utils/cache';
 import storage from '../../utils/storage';
 import { postJSON } from '../../utils/fetch';
-import { flatMap } from 'lodash';
+import { flatMap, capitalize } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -31,11 +31,16 @@ class ServiceRequest extends Component {
 
 constructor(props) {
   super(props);
+
+  let oilServiceName = 'Oil Change';
+  if (props.oilType)
+    oilServiceName += ` - ${capitalize(props.oilType)}`;
+
   this.state = Object.assign({
     shop:null,
     services:null,
     defaultServices: [
-      { id: 41, service_id: 108, name: 'Oil Change', status: 0 },
+      { id: 41, service_id: 108, name: oilServiceName, status: 0 },
       { id: 47, service_id: 375, name: 'Tire Rotation', status: 0 },
       { id: 64, service_id: 14, name: 'Engine Air Filter', status: 0 }
     ],
@@ -84,10 +89,36 @@ getMaintenance() {
         this.setState({
           services,
           total: "$" + total.toFixed(2)
-        });
+        }, () => this.setupDefaultOilType());
       })
       .done();
   }
+}
+
+setupDefaultOilType() {
+  const oilType = this.props.oilType;
+  if (!oilType) return;
+
+  const oilService = this.state.services.find(s => s.service_id === 108);
+  if (!oilService) return;
+
+  const serviceOptions = cache.get('serviceDetail-serviceOptions') || {}
+  if (serviceOptions[oilService.service_id]) return;
+
+  const options = {
+    'EURO-SYNTHETIC': 1630,
+    'FULL-SYNTHETIC': 1629,
+    'SYNTHETIC-BLEND': 1628,
+    'CONVENTIONAL': 1627
+  }
+  const service_option_item_id = options[oilType]
+  if (!service_option_item_id) return;
+
+  serviceOptions[oilService.service_id] = {
+    parts: [{ service_option_id: '416', service_option_item_id }]
+  };
+
+  cache.set('serviceDetail-serviceOptions', serviceOptions);
 }
 
 render() {
@@ -567,6 +598,7 @@ function mapStateToProps(state) {
     authentication_token: user.authentication_token,
     vehicleId : user.vehicles[0].id,
     miles : user.vehicles[0].miles,
+    oilType: user.vehicles[0].oil_type_name
   };
 }
 

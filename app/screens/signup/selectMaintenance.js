@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../../utils/cache';
 import { postJSON } from '../../utils/fetch';
-import { flatMap } from 'lodash';
+import { flatMap, capitalize } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -47,8 +47,13 @@ class SelectMaintenance extends Component {
         .then((response) => response.json())
         .then((responseData) => {
           let services = [];
+
+          let oilServiceName = 'Oil Change';
+          if (this.props.oilType)
+            oilServiceName += ` - ${capitalize(this.props.oilType)}`;
+
           let defaultServices = [
-            { service_id: 108, name: 'Oil Change' },
+            { service_id: 108, name: oilServiceName },
             { service_id: 375, name: 'Tire Rotation' },
             { service_id: 14, name: 'Engine Air Filter' }
           ];
@@ -62,10 +67,36 @@ class SelectMaintenance extends Component {
           });
           services.unshift(...defaultServices);
 
-          this.setState({ isLoading: false, services });
+          this.setState({ isLoading: false, services }, () => this.setupDefaultOilType());
           cache.set('selectMaintenance-services', services);
         })
     }
+  }
+
+  setupDefaultOilType() {
+    const oilType = this.props.oilType;
+    if (!oilType) return;
+
+    const oilService = this.state.services.find(s => s.service_id === 108);
+    if (!oilService) return;
+
+    const serviceOptions = cache.get('serviceDetail-serviceOptions') || {}
+    if (serviceOptions[oilService.service_id]) return;
+
+    const options = {
+      'EURO-SYNTHETIC': 1630,
+      'FULL-SYNTHETIC': 1629,
+      'SYNTHETIC-BLEND': 1628,
+      'CONVENTIONAL': 1627
+    }
+    const service_option_item_id = options[oilType]
+    if (!service_option_item_id) return;
+
+    serviceOptions[oilService.service_id] = {
+      parts: [{ service_option_id: '416', service_option_item_id }]
+    };
+
+    cache.set('serviceDetail-serviceOptions', serviceOptions);
   }
 
   render() {
@@ -342,6 +373,7 @@ function mapStateToProps(state) {
     authentication_token: user.authentication_token,
     vehicleId : vehicle.id,
     miles : vehicle.miles,
+    oilType: user.vehicles[0].oil_type_name
   };
 }
 
