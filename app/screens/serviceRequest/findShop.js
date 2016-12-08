@@ -25,6 +25,16 @@ var width = Dimensions.get('window').width - 20;
 var FIND_SHOPS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_zip';
 var FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_coordinates';
 
+const LOGOS = {
+  'CarX': require('../../../images/logo-carx.png'),
+  'Firestone': require('../../../images/logo-firestone.png'),
+  'Jiffy Lube': require('../../../images/logo-jiffylube.png'),
+  'Meineke': require('../../../images/logo-meineke.png'),
+  'NTB': require('../../../images/logo-ntb.png'),
+  'Pep Boys': require('../../../images/logo-pepboys.png'),
+  'Sears': require('../../../images/logo-sears.png')
+}
+
 class FindShop extends Component {
 
 constructor(props) {
@@ -101,11 +111,13 @@ render() {
           {this.state.shops.map(shop => (
             <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
               <View style={styles.serviceRow}>
-                <View>
-                  <Image
-                    source={require('../../../images/logo-firestone.png')}
-                    style={styles.shopLogo} />
-                </View>
+                {LOGOS[shop.name] ?
+                  <View>
+                    <Image
+                      source={LOGOS[shop.name]}
+                      style={styles.shopLogo} />
+                  </View> : null
+                }
                 <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city}{'\n'}</Text><Text style={styles.address}>{shop.distance.toFixed(2)} miles away</Text></Text>
                 <View>
                   <Image
