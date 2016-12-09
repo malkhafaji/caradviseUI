@@ -108,25 +108,29 @@ render() {
 
           {this.state.isLoading && <ActivityIndicator color="#002d5e" />}
 
-          {this.state.shops.map(shop => (
-            <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
-              <View style={styles.serviceRow}>
-                {LOGOS[shop.name] ?
+          {this.state.shops.map(shop => {
+            const logo = Object.keys(LOGOS).find(logo => shop.name.indexOf(logo) >= 0)
+
+            return (
+              <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
+                <View style={styles.serviceRow}>
+                  {logo ?
+                    <View>
+                      <Image
+                        source={LOGOS[logo]}
+                        style={styles.shopLogo} />
+                    </View> : null
+                  }
+                  <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city}{'\n'}</Text><Text style={styles.address}>{shop.distance.toFixed(2)} miles away</Text></Text>
                   <View>
                     <Image
-                      source={LOGOS[shop.name]}
-                      style={styles.shopLogo} />
-                  </View> : null
-                }
-                <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city}{'\n'}</Text><Text style={styles.address}>{shop.distance.toFixed(2)} miles away</Text></Text>
-                <View>
-                  <Image
-                    source={require('../../../images/stars.png')}
-                    style={styles.stars} />
+                      source={require('../../../images/stars.png')}
+                      style={styles.stars} />
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            )
+          })}
 
         </View>
         </ScrollView>
