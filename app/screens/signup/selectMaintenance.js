@@ -58,9 +58,9 @@ class SelectMaintenance extends Component {
             { service_id: 14, name: 'Engine Air Filter' }
           ];
 
-          if (responseData.vehicles) {
+          {/* if (responseData.vehicles) {
             services = responseData.vehicles.filter(service => service.service_id);
-          }
+          } */}
 
           defaultServices = defaultServices.filter(service => {
             return services.every(s => s.service_id != service.service_id);
