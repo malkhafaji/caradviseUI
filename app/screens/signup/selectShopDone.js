@@ -51,7 +51,7 @@ class SelectShopDone extends Component {
       <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
-          <Text style={styles.textHd1}>Hang tight! The shop will send you a notification shortly.</Text>
+          <Text style={styles.textHd1}>Hang tight! The shop will send you a notification shortly when services are ready for your approval.</Text>
           <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile.</Text>
 
           <View style={styles.fields}>
