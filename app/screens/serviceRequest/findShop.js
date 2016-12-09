@@ -27,12 +27,14 @@ var FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.
 
 const LOGOS = {
   'CarX': require('../../../images/logo-carx.png'),
+  'Valvoline': require('../../../images/logo-valvoline.png'),
+  'Midas': require('../../../images/logo-midas.png'),
   'Firestone': require('../../../images/logo-firestone.png'),
   'Jiffy Lube': require('../../../images/logo-jiffylube.png'),
   'Meineke': require('../../../images/logo-meineke.png'),
-  'NTB': require('../../../images/logo-ntb.png'),
+  'Ntb': require('../../../images/logo-ntb.png'),
   'Pep Boys': require('../../../images/logo-pepboys.png'),
-  'Sears': require('../../../images/logo-sears.png')
+  'Sears Auto Center': require('../../../images/logo-sears.png')
 }
 
 class FindShop extends Component {
