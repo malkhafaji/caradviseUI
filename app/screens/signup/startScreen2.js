@@ -58,13 +58,18 @@ class StartScreen extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.setState({ isLoading: true });
 
     navigator.geolocation.getCurrentPosition(
-      position => this.fetchShopsByCoords(position.coords),
-      error => this.setState({ isLoading: false }),
+      position => this.mounted && this.fetchShopsByCoords(position.coords),
+      error => this.mounted && this.setState({ isLoading: false }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   async fetchShops() {
@@ -91,6 +96,8 @@ class StartScreen extends Component {
       FIND_SHOPS_BY_COORDINATES_URL,
       { latitude, longitude }
     );
+
+    if (!this.mounted) return;
 
     let shops = response.result && response.result.shops ? response.result.shops : [];
     this.setState({

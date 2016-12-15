@@ -64,7 +64,6 @@ class VehicleDetails extends Component {
           cache.remove('accountDetails-fields');
           cache.remove('vehicleDetails-fields');
           cache.remove('vin-fields');
-          cache.remove('selectShop-fields');
 
           this.props.navigator.immediatelyResetRouteStack([
             { indent: 'Main' },
