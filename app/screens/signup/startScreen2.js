@@ -191,10 +191,15 @@ class StartScreen extends Component {
       <View style={styles.shopDetail}>
         <View style={styles.shopDetailBox}>
           {logo ? <Image source={LOGOS[logo]} style={styles.shopLogo} /> : null}
-          <View>
+          <View style={styles.shopDetailLeft}>
             <Text style={styles.shopName}>{shop.name}</Text>
             <Text style={styles.shopAddress}>{shop.address_line1}</Text>
             <Text style={styles.shopDistance}>{Number(shop.distance).toFixed(1)} miles away</Text>
+          </View>
+          <View style={styles.shopDetailRight}>
+            <Image
+              source={require('../../../images/stars.png')}
+              style={styles.stars} />
           </View>
         </View>
         <TouchableOpacity onPress={() => {
@@ -321,6 +326,13 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'row'
   },
+  shopDetailLeft: {
+    flex: 2
+  },
+  shopDetailRight: {
+    flex: 1,
+    alignItems: 'flex-end'
+  },
   shopLogo: {
     width: 35,
     height: 35,
@@ -338,6 +350,12 @@ const styles = StyleSheet.create({
   shopDistance: {
     fontFamily: 'RobotoCondensed-Light',
     color: '#002d5e',
+  },
+  stars: {
+    width: 75,
+    height: 15,
+    marginTop: 15,
+    marginRight: 10
   },
   bookShopBtn: {
     width: 180,
