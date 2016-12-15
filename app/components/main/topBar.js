@@ -32,6 +32,9 @@ class topBar extends Component {
   }
 
   _renderBack() {
+    if (!this.props.navigator)
+      return null;
+
     return (
       <TouchableOpacity onPress={() => this.props.navigator.pop()}>
         <Image

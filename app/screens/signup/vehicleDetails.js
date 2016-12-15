@@ -18,6 +18,9 @@ import {
 import cache from '../../utils/cache';
 import { getJSON } from '../../utils/fetch';
 import { sortBy, range, uniqBy } from 'lodash';
+import { connect } from 'react-redux';
+import { signUp } from '../../actions/user';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
@@ -54,7 +57,27 @@ class VehicleDetails extends Component {
       };
     }
 
+    componentDidUpdate() {
+      if (this.props.isLoggedIn) {
+        let [currentRoute] = this.props.navigator.getCurrentRoutes().reverse();
+        if (currentRoute.indent === 'VehicleDetails') {
+          cache.remove('accountDetails-fields');
+          cache.remove('vehicleDetails-fields');
+          cache.remove('vin-fields');
+          cache.remove('selectShop-fields');
+
+          this.props.navigator.immediatelyResetRouteStack([
+            { indent: 'Main' },
+            { indent: 'SelectMaintenance' }
+          ]);
+        }
+      }
+    }
+
     render() {
+      if (this.props.isLoading)
+        return <Spinner visible={true} />;
+
       return (
         <View style={styles.base}>
           <ScrollView style={styles.scrollContainer} keyboardDismissMode='on-drag'>
@@ -409,7 +432,11 @@ class VehicleDetails extends Component {
     _onClickNext() {
       this._validateFields(() => {
         cache.remove('vin-fields');
-        this.props.navigator.push({ indent: 'AtShop' });
+        const { shop } = cache.get('selectShop-fields') || {};
+        if (shop)
+          this.signUp();
+        else
+          this.props.navigator.push({ indent: 'AtShop' });
       });
     }
 
@@ -421,6 +448,33 @@ class VehicleDetails extends Component {
     _hidePicker(type) {
       LayoutAnimation.easeInEaseOut();
       this.setState({ [`hide_${type}s`]: true });
+    }
+
+    signUp() {
+      let accountDetailsFields = cache.get('accountDetails-fields');
+      let vehicleDetailsFields = cache.get('vehicleDetails-fields');
+      let data = {
+        firstName: accountDetailsFields.firstName.value,
+        lastName: accountDetailsFields.lastName.value,
+        email: accountDetailsFields.email.value,
+        cellPhone: accountDetailsFields.cellPhone.value,
+        password: accountDetailsFields.password.value,
+        miles: vehicleDetailsFields.miles.value,
+        year: vehicleDetailsFields.year.value,
+        make: vehicleDetailsFields.make.value,
+        pushid: this.state.pushid
+      };
+
+      let models = cache.get('vehicleDetails-models') || [];
+      let model = models.find(({ value }) => value === vehicleDetailsFields.model.value) || {};
+      data.model_id = model.key;
+      data.model = model.value;
+
+      let engines = cache.get('vehicleDetails-engines') || [];
+      let engine = engines.find(({ value }) => value === vehicleDetailsFields.engine.value) || {};
+      data.vehicle_type_extension_engine_id = engine.key;
+
+      this.props.signUp(data);
     }
 }
 
@@ -531,4 +585,12 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = VehicleDetails;
+function mapStateToProps(state) {
+  let user = state.user || {};
+  return {
+    isLoggedIn: !!user.authentication_token,
+    isLoading: !!user.loading
+  };
+}
+
+module.exports = connect(mapStateToProps, { signUp })(VehicleDetails);
