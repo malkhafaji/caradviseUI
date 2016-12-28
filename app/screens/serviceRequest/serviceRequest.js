@@ -205,7 +205,36 @@ renderServices(services) {
                 source={require('../../../images/dot1.png')}
                 style={styles.dot} />
             </View>
-            <Text style={styles.stepText}>SELECT A CAR REPAIR SHOP</Text>
+            <Text style={styles.stepText}>SELECT SERVICES</Text>
+          </View>
+
+          {maintenanceServices.length ?
+            maintenanceServices.map(this.createServiceRow) :
+            null}
+
+          {savedServices.length ?
+            savedServices.map(this.createServiceRow) :
+            null}
+
+          {addedServices.length ?
+            addedServices.map(this.createServiceRow) :
+            null}
+
+          <View style={styles.rowAddService}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices', passProps: { returnTo: 'ServiceRequest' } })}>
+              <Image
+                source={require('../../../images/btn-addService.png')}
+                style={styles.btnAddService} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.stepContainer}>
+            <View style={styles.dotContainer}>
+              <Image
+                source={require('../../../images/dot2.png')}
+                style={styles.dot} />
+            </View>
+            <Text style={styles.stepText}>SELECT A REPAIR SHOP</Text>
           </View>
 
           {this.state.shop &&
@@ -229,35 +258,6 @@ renderServices(services) {
                 style={styles.btnSelectShop} />
             </TouchableOpacity>
           </View>}
-
-          <View style={styles.stepContainer}>
-            <View style={styles.dotContainer}>
-              <Image
-                source={require('../../../images/dot2.png')}
-                style={styles.dot} />
-            </View>
-            <Text style={styles.stepText}>SELECT SERVICES</Text>
-          </View>
-
-          {maintenanceServices.length ?
-            maintenanceServices.map(this.createServiceRow) :
-            null}
-
-          {savedServices.length ?
-            savedServices.map(this.createServiceRow) :
-            null}
-
-          {addedServices.length ?
-            addedServices.map(this.createServiceRow) :
-            null}
-
-          <View style={styles.rowAddService}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'AddServices', passProps: { returnTo: 'ServiceRequest' } })}>
-              <Image
-                source={require('../../../images/btn-addService.png')}
-                style={styles.btnAddService} />
-            </TouchableOpacity>
-          </View>
 
           <View style={styles.stepContainer}>
             <View style={styles.dotContainer}>
@@ -305,11 +305,9 @@ renderServices(services) {
               style={styles.btnRequest} />
           </TouchableOpacity>}
 
-          {this.state.datetime ? (
-            <View style={styles.guaranteeContainer}>
-              <Text style={styles.guaranteeText}>Please allow up to 4 hours for CarAdvise to confirm your order.</Text>
-            </View>
-          ) : null }
+          <View style={styles.guaranteeContainer}>
+            <Text style={styles.guaranteeText}>Prices and shop avialability are subject to change. Please allow up to 4 hours for CarAdvise to confirm your order.</Text>
+          </View>
 
           {/*<View style={styles.guaranteeContainer}>
             <Text style={styles.guaranteeText}>No unnecessary work will be quoted or performed. All work done within our fair price, or we will pay the difference. Every repair guaranteed for 12 Months, 12,000 miles.</Text>
