@@ -38,7 +38,7 @@ class ServiceOptions extends Component {
         <CarBar />
         <ScrollView>
           <View style={styles.servicesContainer}>
-            <Text style={styles.textHd}>Select Service</Text>
+            <Text style={styles.textHd}>Select Service Options</Text>
             {options.map(option => this.renderOption(option))}
           </View>
         </ScrollView>
