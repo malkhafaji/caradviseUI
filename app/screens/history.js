@@ -88,8 +88,8 @@ class MaintenanceHistory extends Component {
         <View style={styles.selectedShop}>
           <Text style={styles.shopInfo}><Text style={styles.textBld}>{order.shop.name}</Text>{'\n'}{order.shop.address}</Text>
           <View style={styles.dateContainer}>
-            <Text style={styles.serviceDate}>{formatDate(order.created)}</Text>
-            <Text style={styles.serviceDate}>Total: ${Number(order.post_tax_total).toFixed(2)}</Text>
+            <Text style={styles.serviceDate}><Text style={styles.textBld}>{formatDate(order.created)}</Text></Text>
+            <Text style={styles.serviceDate}>Total: ${Number(order.post_tax_total).toFixed(2)}{'\n'}(incl. tax/fees)</Text>
           </View>
         </View>
         {order.order_services.map((service, index) => this.renderService(service, index))}
