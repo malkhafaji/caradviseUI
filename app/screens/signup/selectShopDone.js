@@ -52,7 +52,7 @@ class SelectShopDone extends Component {
         <TopBar navigator={this.props.navigator} />
         <View style={styles.formContainer}>
           <Text style={styles.textHd1}>Hang tight! The shop will send you a notification shortly when services are ready for your approval.</Text>
-          <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile.</Text>
+          <Text style={styles.textHd2}>In the meantime, we have a few questions to complete your vehicle profile so we can send you maintenance reminders.</Text>
 
           <View style={styles.fields}>
             <Text style={styles.fieldLbl}>How many miles do you drive <Text style={styles.textBld}>per month</Text>?{'\n'}<Text style={styles.text12}>(Average is 1,000-1,500 miles per month)</Text></Text>
