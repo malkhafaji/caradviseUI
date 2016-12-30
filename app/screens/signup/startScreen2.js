@@ -166,16 +166,18 @@ class StartScreen extends Component {
           <Text style={styles.loginTextBold}>Book a shop today!</Text>
         </View>
         <View style={styles.loginBtnRow}>
+          <TouchableOpacity style={styles.loginTouchable} onPress={() => this.props.navigator.push({ indent:'AccountDetails' })}>
+            <Image
+              source={require('../../../images/btn-signup.png')}
+              style={styles.signupBtn}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.loginBtnRow}>
           <TouchableOpacity style={styles.loginTouchable} onPress={() => this.props.navigator.push({ indent:'Login' })}>
             <Image
               source={require('../../../images/map-btn-signin.png')}
-              style={styles.loginBtn}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginTouchable} onPress={() => this.props.navigator.push({ indent:'AccountDetails' })}>
-            <Image
-              source={require('../../../images/map-btn-signup.png')}
-              style={styles.loginBtn}
+              style={styles.signinBtn}
             />
           </TouchableOpacity>
         </View>
@@ -299,10 +301,23 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
-  loginBtn: {
+  signupBtn: {
     marginHorizontal: 5,
     flex: 1,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    width: 190,
+    height: 40,
+    marginTop: 15,
+    marginBottom: 10
+  },
+  signinBtn: {
+    marginHorizontal: 5,
+    flex: 1,
+    resizeMode: 'contain',
+    width: 36,
+    height: 12,
+    marginTop: 10,
+    marginBottom: 10
   },
   shopDetail: {
     position: 'absolute',
