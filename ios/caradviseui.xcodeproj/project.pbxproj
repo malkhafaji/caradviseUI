@@ -984,9 +984,10 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = caradviseui/CarAdvise.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 6Z5NN6R4T3;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1009,8 +1010,10 @@
 					"-ObjC",
 					"$(inherited)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caradvise.caradvise;
 				PRODUCT_NAME = CarAdvise;
 				PROVISIONING_PROFILE = "004b705d-125f-432a-8e96-4b28f25d4b90";
+				PROVISIONING_PROFILE_SPECIFIER = CarAdviseDistro;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -1024,8 +1027,9 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = caradviseui/CarAdvise.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: CarAdvise LLC (6Z5NN6R4T3)";
+				DEVELOPMENT_TEAM = 6Z5NN6R4T3;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1048,8 +1052,10 @@
 					"-ObjC",
 					"$(inherited)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caradvise.caradvise;
 				PRODUCT_NAME = CarAdvise;
 				PROVISIONING_PROFILE = "004b705d-125f-432a-8e96-4b28f25d4b90";
+				PROVISIONING_PROFILE_SPECIFIER = CarAdviseDistro;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
