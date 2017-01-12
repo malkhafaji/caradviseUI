@@ -21,7 +21,7 @@ import { chain, includes, flatMap } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/services/app_service_hierarchy';
+var MAINTENANCE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/services/app_service_hierarchy';
 
 class AddServices extends Component {
 

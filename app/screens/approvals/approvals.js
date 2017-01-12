@@ -24,9 +24,9 @@ import { partition, minBy, maxBy, sumBy } from 'lodash';
 var width = Dimensions.get('window').width - 20;
 var commentWidth = Dimensions.get('window').width - 40;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
-var UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_service';
-var BULK_UPDATE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_services';
+var MAINTENANCE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
+var UPDATE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_service';
+var BULK_UPDATE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_services';
 
 class Approvals extends Component {
 

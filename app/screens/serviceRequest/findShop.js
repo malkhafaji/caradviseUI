@@ -22,8 +22,8 @@ import { getJSON } from '../../utils/fetch';
 var fldWidth = Dimensions.get('window').width - 100;
 var width = Dimensions.get('window').width - 20;
 
-var FIND_SHOPS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_zip';
-var FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_coordinates';
+var FIND_SHOPS_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_zip';
+var FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_coordinates';
 
 const LOGOS = {
   'CarX': require('../../../images/logo-carx.png'),

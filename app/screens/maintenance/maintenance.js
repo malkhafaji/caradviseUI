@@ -24,9 +24,9 @@ import { findLastIndex, partition, minBy, maxBy } from 'lodash';
 var width = Dimensions.get('window').width - 20;
 var swiperHeight = Dimensions.get('window').height - 160;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/maintenance';
-var INTERVALS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/intervals';
-var SERVICES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/services_by_interval';
+var MAINTENANCE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/maintenance';
+var INTERVALS_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/intervals';
+var SERVICES_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/services_by_interval';
 
 function getUrl(url, vehicleId) {
   return url.replace('?', vehicleId);

@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { getJSON } from '../utils/fetch';
 
-var HISTORY_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/orders_history_by_vehicle_id';
+var HISTORY_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/orders/orders_history_by_vehicle_id';
 
 var width = Dimensions.get('window').width - 20;
 

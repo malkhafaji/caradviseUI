@@ -21,7 +21,7 @@ import { getJSON } from '../utils/fetch';
 
 var btnWidth = Dimensions.get('window').width - 40;
 
-var MAINTENANCE_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
+var MAINTENANCE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/?/most_recent_order';
 
 function getUrl(url, vehicleId) {
   return url.replace('?', vehicleId);

@@ -23,7 +23,7 @@ import { range } from 'lodash';
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
 
-var UPDATE_VEHICLE_PROPERTIES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/owner_vehicles/update_owner_vehicle_properties';
+var UPDATE_VEHICLE_PROPERTIES_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v1/owner_vehicles/update_owner_vehicle_properties';
 
 class NotAtShopDone extends Component {
 

@@ -19,7 +19,7 @@ import { postJSON } from '../../utils/fetch';
 
 var width = Dimensions.get('window').width - 20;
 
-var RATE_ORDER_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/rate_order';
+var RATE_ORDER_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/rate_order';
 
 class Rating extends Component {
 

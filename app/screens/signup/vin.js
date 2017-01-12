@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../../actions/user';
 
 var fldWidth = Dimensions.get('window').width - 40;
-const VIN_LOOKUP_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/search_by_vin';
+const VIN_LOOKUP_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/vehicles/search_by_vin';
 
 class Vin extends Component {
     constructor(props) {

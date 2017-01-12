@@ -16,8 +16,8 @@ import { getJSON } from '../../utils/fetch';
 import cache from '../../utils/cache';
 import storage from '../../utils/storage';
 
-const FIND_SHOPS_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_zip';
-const FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-52-34-200-111.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_coordinates';
+const FIND_SHOPS_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_zip';
+const FIND_SHOPS_BY_COORDINATES_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v1/shops/shops_by_coordinates';
 
 const LOGOS = {
   'CarX': require('../../../images/logo-carx.png'),
