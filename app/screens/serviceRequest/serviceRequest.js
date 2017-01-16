@@ -29,161 +29,161 @@ var CREATE_ORDER_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.co
 
 class ServiceRequest extends Component {
 
-constructor(props) {
-  super(props);
+  constructor(props) {
+    super(props);
 
-  let oilServiceName = 'Oil Change';
-  if (props.oilType)
-    oilServiceName += ` - ${capitalize(props.oilType)}`;
+    const oilServiceName = 'Oil Change';
+    if (props.oilType)
+      oilServiceName += ` - ${capitalize(props.oilType)}`;
 
-  this.state = Object.assign({
-    shop:null,
-    services:null,
-    defaultServices: [
-      { id: 41, service_id: 108, name: oilServiceName, status: 0 },
-      { id: 47, service_id: 375, name: 'Tire Rotation', status: 0 },
-      { id: 64, service_id: 14, name: 'Engine Air Filter', status: 0 }
-    ],
-    total:0,
-    visible: false,
-    datetime: null,
-    isLoading: false
-  }, cache.get('serviceRequest-fields') || {});
+    this.state = Object.assign({
+      shop:null,
+      services:null,
+      defaultServices: [
+        { id: 41, service_id: 108, name: oilServiceName, status: 0 },
+        { id: 47, service_id: 375, name: 'Tire Rotation', status: 0 },
+        { id: 64, service_id: 14, name: 'Engine Air Filter', status: 0 }
+      ],
+      total:0,
+      visible: false,
+      datetime: null,
+      isLoading: false
+    }, cache.get('serviceRequest-fields') || {});
 
-  this.removeService = this.removeService.bind(this);
-  this.createServiceRow = this.createServiceRow.bind(this);
-}
-
-componentDidMount() {
-  if (this.state.services === null)
-    this.getMaintenance();
-
-  storage.get('caradvise:shop')
-    .then(shop => shop && this.setState({ shop }));
-}
-
-componentDidUpdate() {
-  cache.set('serviceRequest-fields', this.state);
-}
-
-removeService(service) {
-  const services = [...this.state.services];
-  services.splice(services.indexOf(service), 1);
-  this.setState({ services });
-}
-
-getMaintenance() {
-  if(this.props.isLoggedIn && this.props.vehicleId)
-  {
-    fetch(MAINTENANCE_URL.replace("?", this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
-      .then((response) => response.json())
-      .then((responseData) => {
-        var total = 0;
-        var services = responseData.vehicles.filter(({ status, service_id }) => (status == 0 || status == 2) && service_id);
-        var defaultServices = this.state.defaultServices.filter(service => {
-          return services.every(s => s.service_id != service.service_id);
-        });
-
-        services.unshift(...defaultServices);
-
-        this.setState({
-          services,
-          total: "$" + total.toFixed(2)
-        }, () => this.setupDefaultOilType());
-      })
-      .done();
+    this.removeService = this.removeService.bind(this);
+    this.createServiceRow = this.createServiceRow.bind(this);
   }
-}
 
-setupDefaultOilType() {
-  const oilType = this.props.oilType;
-  if (!oilType) return;
+  componentDidMount() {
+    if (this.state.services === null)
+      this.getMaintenance();
 
-  const oilService = this.state.services.find(s => s.service_id === 108);
-  if (!oilService) return;
-
-  const serviceOptions = cache.get('serviceDetail-serviceOptions') || {}
-  if (serviceOptions[oilService.service_id]) return;
-
-  const options = {
-    'EURO-SYNTHETIC': 1630,
-    'FULL-SYNTHETIC': 1629,
-    'SYNTHETIC-BLEND': 1628,
-    'CONVENTIONAL': 1627
+    storage.get('caradvise:shop')
+      .then(shop => shop && this.setState({ shop }));
   }
-  const service_option_item_id = options[oilType]
-  if (!service_option_item_id) return;
 
-  serviceOptions[oilService.service_id] = {
-    parts: [{ service_option_id: '416', service_option_item_id }]
-  };
-
-  cache.set('serviceDetail-serviceOptions', serviceOptions);
-}
-
-render() {
-  if (!this.state.services || this.state.isLoading) {
-    return this.renderLoadingView();
+  componentDidUpdate() {
+    cache.set('serviceRequest-fields', this.state);
   }
-  var services = this.state.services;
-  return this.renderServices(services);
-}
 
-renderLoadingView() {
-  return (
-    <View>
-      <Spinner visible={true} />
-    </View>
-  );
-}
+  removeService(service) {
+    const services = [...this.state.services];
+    services.splice(services.indexOf(service), 1);
+    this.setState({ services });
+  }
 
-filterMaintenanceServices(service)
-{
-  return (service.status == 0 || service.status == 1 && service.service_type == 'Service');
-}
-
-filterSavedServices(service)
-{
-  return service.status == 2;
-}
-
-filterAddedServices(service)
-{
-  return service.status == 'ADDED';
-}
-
-async createOrder()
-{
-  this.setState({ isLoading: true });
-
-  let services = flatMap(this.state.services, a => a.service_id || a.app_services.map(b => b.service_id))
-    .map(service_id => ({
-      service_id,
-      ...((cache.get('serviceDetail-serviceOptions') || {})[service_id] || {})
-    }));
-
-  let response = await postJSON(
-    CREATE_ORDER_URL.replace('?', this.props.vehicleId),
+  getMaintenance() {
+    if(this.props.isLoggedIn && this.props.vehicleId)
     {
-      shop_id: this.state.shop.id,
-      services: JSON.stringify(services),
-      appointment_datetime: this.state.datetime
-    },
-    { 'Authorization': this.props.authentication_token }
-  )
+      fetch(MAINTENANCE_URL.replace('?', this.props.vehicleId), {headers: {'Authorization': this.props.authentication_token}})
+        .then((response) => response.json())
+        .then((responseData) => {
+          var total = 0;
+          var services = responseData.vehicles.filter(({ status, service_id }) => (status == 0 || status == 2) && service_id);
+          var defaultServices = this.state.defaultServices.filter(service => {
+            return services.every(s => s.service_id != service.service_id);
+          });
 
-  this.setState({ isLoading: false });
+          services.unshift(...defaultServices);
 
-  if (response.error) {
-    Alert.alert('Error', response.error);
-  } else {
-    cache.remove('serviceRequest-fields');
-    cache.remove('serviceDetail-serviceOptions');
-    this.props.navigator.push({ indent:'RequestSubmitted', passProps: { datetime: this.state.datetime }})
+          this.setState({
+            services,
+            total: '$' + total.toFixed(2)
+          }, () => this.setupDefaultOilType());
+        })
+        .done();
+    }
   }
-}
 
-renderServices(services) {
+  setupDefaultOilType() {
+    const oilType = this.props.oilType;
+    if (!oilType) return;
+
+    const oilService = this.state.services.find(s => s.service_id === 108);
+    if (!oilService) return;
+
+    const serviceOptions = cache.get('serviceDetail-serviceOptions') || {}
+    if (serviceOptions[oilService.service_id]) return;
+
+    const options = {
+      'EURO-SYNTHETIC': 1630,
+      'FULL-SYNTHETIC': 1629,
+      'SYNTHETIC-BLEND': 1628,
+      'CONVENTIONAL': 1627
+    }
+    const service_option_item_id = options[oilType]
+    if (!service_option_item_id) return;
+
+    serviceOptions[oilService.service_id] = {
+      parts: [{ service_option_id: '416', service_option_item_id }]
+    };
+
+    cache.set('serviceDetail-serviceOptions', serviceOptions);
+  }
+
+  render() {
+    if (!this.state.services || this.state.isLoading) {
+      return this.renderLoadingView();
+    }
+    var services = this.state.services;
+    return this.renderServices(services);
+  }
+
+  renderLoadingView() {
+    return (
+      <View>
+        <Spinner visible={true} />
+      </View>
+    );
+  }
+
+  filterMaintenanceServices(service)
+  {
+    return (service.status == 0 || service.status == 1 && service.service_type == 'Service');
+  }
+
+  filterSavedServices(service)
+  {
+    return service.status == 2;
+  }
+
+  filterAddedServices(service)
+  {
+    return service.status == 'ADDED';
+  }
+
+  async createOrder()
+  {
+    this.setState({ isLoading: true });
+
+    let services = flatMap(this.state.services, a => a.service_id || a.app_services.map(b => b.service_id))
+      .map(service_id => ({
+        service_id,
+        ...((cache.get('serviceDetail-serviceOptions') || {})[service_id] || {})
+      }));
+
+    let response = await postJSON(
+      CREATE_ORDER_URL.replace('?', this.props.vehicleId),
+      {
+        shop_id: this.state.shop.id,
+        services: JSON.stringify(services),
+        appointment_datetime: this.state.datetime
+      },
+      { 'Authorization': this.props.authentication_token }
+    )
+
+    this.setState({ isLoading: false });
+
+    if (response.error) {
+      Alert.alert('Error', response.error);
+    } else {
+      cache.remove('serviceRequest-fields');
+      cache.remove('serviceDetail-serviceOptions');
+      this.props.navigator.push({ indent:'RequestSubmitted', passProps: { datetime: this.state.datetime }})
+    }
+  }
+
+  renderServices(services) {
     var maintenanceServices = services.filter(this.filterMaintenanceServices.bind(this));
     var savedServices = services.filter(this.filterSavedServices.bind(this));
     var addedServices = services.filter(this.filterAddedServices.bind(this));
@@ -323,20 +323,20 @@ renderServices(services) {
       </View>
 
     );
-}
+  }
 
-createServiceRow(service, i) {
-  return <Service key={service.id} service={service} navigator={this.props.navigator} onRemove={this.removeService} />;
-}
+  createServiceRow(service, i) {
+    return <Service key={service.id} service={service} navigator={this.props.navigator} onRemove={this.removeService} />;
+  }
 
 }
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
-  return false;
-},
-render: function() {
-  return (
+    return false;
+  },
+  render: function() {
+    return (
 
     <View style={styles.serviceRow}>
 
