@@ -32,7 +32,7 @@ class ServiceRequest extends Component {
   constructor(props) {
     super(props);
 
-    const oilServiceName = 'Oil Change';
+    let oilServiceName = 'Oil Change';
     if (props.oilType)
       oilServiceName += ` - ${capitalize(props.oilType)}`;
 
