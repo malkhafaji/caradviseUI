@@ -283,6 +283,9 @@ class PaymentThanks extends Component {
                 <Text style={styles.thanksTxt}>Thanks for using CarAdvise!{'\n'}
                 You are all paid and can be on your way!</Text>
               </View>
+              <View style={styles.disclaimerContainer}>
+                <Text style={styles.disclaimerTxt}>Please note that on your credit card statement the transaction will show as: CARADVISE</Text>
+              </View>
 
               {services.map(this.createServiceRow)}
 
@@ -370,12 +373,25 @@ var styles = StyleSheet.create({
     width: width,
     borderWidth: 2,
     borderColor: '#002d5e',
-    marginBottom: 15,
+    marginBottom: 5,
   },
   thanksTxt: {
     margin: 10,
     fontSize: 14,
     color: '#002d5e',
+    fontWeight: 'bold',
+    fontFamily: 'RobotoCondensed-Light',
+    textAlign: 'center',
+  },
+  disclaimerContainer: {
+    width: width,
+    backgroundColor: '#ff0000',
+    marginBottom: 15,
+  },
+  disclaimerTxt: {
+    margin: 10,
+    fontSize: 12,
+    color: '#fff',
     fontWeight: 'bold',
     fontFamily: 'RobotoCondensed-Light',
     textAlign: 'center',
