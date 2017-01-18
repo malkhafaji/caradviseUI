@@ -39,11 +39,6 @@ class ServiceRequest extends Component {
     this.state = Object.assign({
       shop:null,
       services:null,
-      defaultServices: [
-        { id: 41, service_id: 108, name: oilServiceName, status: 0 },
-        { id: 47, service_id: 375, name: 'Tire Rotation', status: 0 },
-        { id: 64, service_id: 14, name: 'Engine Air Filter', status: 0 }
-      ],
       total:0,
       visible: false,
       datetime: null,
@@ -80,11 +75,6 @@ class ServiceRequest extends Component {
         .then((responseData) => {
           var total = 0;
           var services = responseData.vehicles.filter(({ status, service_id }) => (status == 0 || status == 2) && service_id);
-          var defaultServices = this.state.defaultServices.filter(service => {
-            return services.every(s => s.service_id != service.service_id);
-          });
-
-          services.unshift(...defaultServices);
 
           this.setState({
             services,
