@@ -441,7 +441,7 @@ class ApprovalDetail extends Component {
               </View>
 
               {this.renderOil()}
-              {this.renderOrderServiceOptions()}
+              {/*{this.renderOrderServiceOptions()}*/}
               {this.renderComments()}
               {this.renderParts()}
               {this.renderFluids()}
