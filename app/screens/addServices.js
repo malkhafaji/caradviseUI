@@ -154,7 +154,7 @@ var Service = React.createClass({
                   values: option.service_option_items.map(a => ({
                     label: a.name,
                     value: a.id,
-                    subLabel: this.getRecommendedOil(option, a)
+                    subLabel: this.getPartsSubLabel(option, a)
                   }))
                 });
               }
@@ -199,12 +199,22 @@ var Service = React.createClass({
 
     );
   },
-  getRecommendedOil(option, option_item) {
+  getPartsSubLabel(option, option_item) {
+    const optionItemName = option_item.name.toLowerCase();
+
+    if (SUB_LABELS[optionItemName])
+      return SUB_LABELS[optionItemName];
+
     if (option.option_type !== 1) return null;
-    if (option_item.name.toLowerCase() !== this.props.oilType.toLowerCase()) return null;
+    if (optionItemName !== this.props.oilType.toLowerCase()) return null;
     return '(This is your manufacturer recommended oil type)';
   }
 });
+
+const SUB_LABELS = {
+  'aftermarket': 'Aftermarket parts are not made by your vehicle\'s manufacturer and are usually less expensive.',
+  'oem': 'OEM parts are made by your vehicle\'s manufacturer.'
+};
 
 var styles = StyleSheet.create({
   base: {
