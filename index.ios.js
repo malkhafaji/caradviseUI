@@ -81,12 +81,12 @@ class caradviseui extends Component {
       this._listenForRefreshApprovals();
     });
 
-    storage.get('caradvise:opened').then(value => {
+    {/*storage.get('caradvise:opened').then(value => {
       if (!value) {
         storage.set('caradvise:opened', true);
         this.refs.appNavigator.push({ indent: 'Intro' });
       }
-    });
+    });*/}
 
     if(this.props.oneSignalId != undefined)
     {
