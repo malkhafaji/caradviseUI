@@ -174,6 +174,12 @@ class StartScreen extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.loginBtnRow}>
+          <TouchableOpacity style={styles.loginTouchable}>
+            <Image
+              source={require('../../../images/map-btn-video.png')}
+              style={styles.videoBtn}
+            />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.loginTouchable} onPress={() => this.props.navigator.push({ indent:'Login' })}>
             <Image
               source={require('../../../images/map-btn-signin.png')}
@@ -315,6 +321,15 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'contain',
     width: 36,
+    height: 12,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  videoBtn: {
+    marginHorizontal: 5,
+    flex: 1,
+    resizeMode: 'contain',
+    width: 105,
     height: 12,
     marginTop: 10,
     marginBottom: 10
