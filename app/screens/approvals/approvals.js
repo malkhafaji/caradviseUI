@@ -399,6 +399,12 @@ class Approvals extends Component {
               </View>*/}
 
               {this.renderCheckout()}
+
+              <View>
+                <Image
+                  source={require('../../../images/btn-call-caradvise.png')}
+                  style={styles.btnCallCarAdvise} />
+              </View>
             </View>
             </ScrollView>
           </View>
@@ -888,6 +894,11 @@ var styles = StyleSheet.create({
     width: 300,
     height: 40,
     marginTop: 10,
+  },
+  btnCallCarAdvise: {
+    width: 150,
+    height: 30,
+    marginTop: 20,
   },
 });
 
