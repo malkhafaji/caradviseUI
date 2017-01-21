@@ -31,7 +31,7 @@ class SideMenu extends Component {
           {this._renderItem({ text: 'SETTINGS', indent: 'Settings' })}
           {this._renderItem({ text: 'MAINTENANCE HISTORY', indent:  'MaintenanceHistory' })}
           {this._renderItem({ text: 'SAVED MAINTENANCE', indent:  'Saved' })}
-          {this._renderItem({ text: 'VIEW INTRO', indent: 'Intro' })}
+          {this._renderItem({ text: 'VIEW INTRO', indent: 'IntroVideo' })}
           <TouchableOpacity
             style={styles.item}
             disabled={this.props.isLoading}
