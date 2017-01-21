@@ -174,7 +174,7 @@ class StartScreen extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.loginBtnRow}>
-          <TouchableOpacity style={styles.loginTouchable}>
+          <TouchableOpacity style={styles.loginTouchable} onPress={() => this.props.navigator.push({ indent: 'IntroVideo' })}>
             <Image
               source={require('../../../images/map-btn-video.png')}
               style={styles.videoBtn}

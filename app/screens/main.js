@@ -13,11 +13,11 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  Linking,
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getJSON } from '../utils/fetch';
+import callPhone from '../utils/callPhone';
 
 var btnWidth = Dimensions.get('window').width - 40;
 
@@ -95,7 +95,7 @@ class Main extends Component {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => this._callPhone('18449238473')}>
+              <TouchableOpacity onPress={() => callPhone('18449238473')}>
                 <View style={styles.btnRow}>
                   <Image
                     resizeMode={'contain'}
@@ -108,17 +108,6 @@ class Main extends Component {
             </ScrollView>
           </View>
         );
-    }
-
-    _callPhone(number) {
-      let url = `tel:${number}`;
-
-      Linking.canOpenURL(url).then(supported => {
-        if (supported)
-          Linking.openURL(url);
-        else
-          Alert.alert(`Call ${number}`);
-      });
     }
 }
 

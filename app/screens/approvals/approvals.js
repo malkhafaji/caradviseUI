@@ -20,6 +20,7 @@ import {
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { partition, minBy, maxBy, sumBy } from 'lodash';
+import callPhone from '../../utils/callPhone';
 
 var width = Dimensions.get('window').width - 20;
 var commentWidth = Dimensions.get('window').width - 40;
@@ -400,11 +401,11 @@ class Approvals extends Component {
 
               {this.renderCheckout()}
 
-              <View>
+              <TouchableOpacity onPress={() => callPhone('18449238473')}>
                 <Image
                   source={require('../../../images/btn-call-caradvise.png')}
                   style={styles.btnCallCarAdvise} />
-              </View>
+              </TouchableOpacity>
             </View>
             </ScrollView>
           </View>

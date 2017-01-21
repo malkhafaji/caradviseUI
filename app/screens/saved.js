@@ -111,7 +111,7 @@ class Saved extends Component {
               <Text style={styles.textHd}>Saved Maintenance</Text>
 
               <View style={styles.maintenanceList}>
-              {savedServices.map(createServiceRow)}
+              {savedServices.map(this.createServiceRow)}
               </View>
 
               {/*
@@ -145,9 +145,9 @@ class Saved extends Component {
 
         );
     }
-}
 
-var createServiceRow = (service, i) => <Service key={i} service={service} />;
+    createServiceRow = (service, i) => <Service key={i} service={service} navigator={this.props.navigator} />;
+}
 
 var Service = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
@@ -155,7 +155,7 @@ var Service = React.createClass({
   },
   render: function() {
     return (
-      <View>
+      <TouchableOpacity onPress={this.openServiceDetails}>
         <View style={styles.maintenanceRow}>
           <Text style={styles.maintenanceItem}>{this.props.service.name}</Text>
           <View style={styles.fairPriceContainer}>
@@ -169,8 +169,33 @@ var Service = React.createClass({
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
+  },
+  openServiceDetails: function() {
+    let service = this.props.service.service || ((this.props.service.app_services || [])[0] || {}).service || {};
+    this.props.navigator.push({ indent:'ServiceRequestDetail',
+      passProps:{
+        name: this.props.service.name || this.props.service.literal_name,
+        fairLow: this.props.service.low_fair_cost,
+        fairHigh: this.props.service.high_fair_cost,
+        time: this.props.service.base_labor_time,
+        timeInterval: this.props.service.labor_time_interval,
+        intervalMile: this.props.service.interval_mile,
+        intervalMonth: this.props.service.interval_month,
+        laborLow: this.props.service.labor_low_cost,
+        laborHigh: this.props.service.labor_high_cost,
+        partLow: this.props.service.part_low_cost,
+        partHigh: this.props.service.part_high_cost,
+        whatIsIt: service.what_is_this,
+        whatIf: service.what_if_decline,
+        whyDoThis: service.why_do_this,
+        factors: service.factors_to_consider,
+        parts: this.props.service.motor_vehicle_service_parts,
+        partDetail: '',
+        partName: ''
+      }
+    });
   }
 });
 
