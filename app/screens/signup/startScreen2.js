@@ -320,18 +320,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     flex: 1,
     resizeMode: 'contain',
-    width: 36,
-    height: 12,
-    marginTop: 10,
+    width: 100,
+    height: 25,
+    marginTop: 5,
     marginBottom: 10
   },
   videoBtn: {
     marginHorizontal: 5,
-    flex: 1,
+    flex: 6,
     resizeMode: 'contain',
-    width: 105,
-    height: 12,
-    marginTop: 10,
+    width: 160,
+    height: 25,
+    marginLeft: 20,
+    marginTop: 5,
     marginBottom: 10
   },
   shopDetail: {
