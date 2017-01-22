@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../../actions/user';
 import cache from '../../utils/cache';
 import storage from '../../utils/storage';
+import KeyboardHandler from '../../components/keyboardHandler';
 
 var width = Dimensions.get('window').width - 30;
 var fldWidth = Dimensions.get('window').width - 30;
@@ -87,7 +88,7 @@ class AccountDetails extends Component {
 
     render() {
         return (
-          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode={'on-drag'}>
+          <KeyboardHandler ref='kh' offset={30} style={styles.scrollView} keyboardShouldPersistTaps={true} keyboardDismissMode='on-drag'>
           <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
 
@@ -116,6 +117,7 @@ class AccountDetails extends Component {
                   placeholder={this.state.fields.lastName.name}
                   autoCorrect={false}
                   value={this.state.fields.lastName.value}
+                  returnKeyType='next'
                   blurOnSubmit={false}
                   onSubmitEditing={() => this._focusNextField('email')}
                   onChangeText={value => this._onFieldChange('lastName', value)} />
@@ -130,6 +132,7 @@ class AccountDetails extends Component {
                 autoCapitalize='none'
                 autoCorrect={false}
                 value={this.state.fields.email.value}
+                returnKeyType='next'
                 blurOnSubmit={false}
                 onSubmitEditing={() => this._focusNextField('cellPhone')}
                 onChangeText={value => this._onFieldChange('email', value)} />
@@ -140,6 +143,7 @@ class AccountDetails extends Component {
                 placeholder={this.state.fields.cellPhone.name}
                 value={this.state.fields.cellPhone.value}
                 blurOnSubmit={false}
+                onFocus={() => this.refs.kh.inputFocused(this, 'cellPhone')}
                 onSubmitEditing={() => this._focusNextField('password')}
                 onChangeText={value => this._onFieldChange('cellPhone', value)} />
               <TextInput
@@ -151,6 +155,7 @@ class AccountDetails extends Component {
                 value={this.state.fields.password.value}
                 returnKeyType='next'
                 blurOnSubmit={false}
+                onFocus={() => this.refs.kh.inputFocused(this, 'password')}
                 onSubmitEditing={() => this._focusNextField('confirmPassword')}
                 onChangeText={value => this._onFieldChange('password', value)} />
               <TextInput
@@ -161,6 +166,7 @@ class AccountDetails extends Component {
                 secureTextEntry
                 value={this.state.fields.confirmPassword.value}
                 returnKeyType='done'
+                onFocus={() => this.refs.kh.inputFocused(this, 'confirmPassword')}
                 onChangeText={value => this._onFieldChange('confirmPassword', value)} />
 
               <View style={styles.checkboxContainer}>
@@ -187,7 +193,7 @@ class AccountDetails extends Component {
             </View>
 
           </View>
-          </ScrollView>
+          </KeyboardHandler>
         );
     }
 
@@ -273,7 +279,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 400,
   },
   textStep: {
     marginTop: 50,

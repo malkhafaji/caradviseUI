@@ -5,6 +5,7 @@ export default class PhoneInput extends Component {
   render() {
     return (
       <TextInput { ...this.props }
+        ref='input'
         keyboardType={'phone-pad'}
         onChangeText={ this.onChangeText }
       />
@@ -15,5 +16,9 @@ export default class PhoneInput extends Component {
     value = value.replace(/^(\d{3})(\d)/, '($1) $2');
     value = value.replace(/ (\d{3})(\d)/, " $1-$2");
     this.props.onChangeText(value);
+  }
+
+  focus() {
+    this.refs.input.focus();
   }
 }

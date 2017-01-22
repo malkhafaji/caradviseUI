@@ -21,6 +21,7 @@ import { sortBy, range, uniqBy } from 'lodash';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions/user';
 import Spinner from 'react-native-loading-spinner-overlay';
+import KeyboardHandler from '../../components/keyboardHandler';
 
 var { width, height } = Dimensions.get('window');
 var fldWidth = width - 40;
@@ -79,7 +80,7 @@ class VehicleDetails extends Component {
 
       return (
         <View style={styles.base}>
-          <ScrollView style={styles.scrollContainer} keyboardDismissMode='on-drag'>
+          <KeyboardHandler ref='kh' offset={30} style={styles.scrollContainer} keyboardDismissMode='on-drag'>
           <TopBar navigator={this.props.navigator} />
           <View style={styles.formContainer}>
 
@@ -130,6 +131,7 @@ class VehicleDetails extends Component {
                 placeholderTextColor={'#666'}
                 placeholder={this.state.fields.miles.name}
                 value={this.state.fields.miles.value}
+                onFocus={() => this.refs.kh.inputFocused(this, 'miles')}
                 onChangeText={value => this._onFieldChange('miles', value)}
                 onEndEditing={() => cache.set('vehicleDetails-fields', this.state.fields)} />
 
@@ -149,7 +151,7 @@ class VehicleDetails extends Component {
               </View>
             </View>
           </View>
-          </ScrollView>
+          </KeyboardHandler>
 
           {this._renderPicker({
             key: 'year',
@@ -526,7 +528,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 400,
+    marginBottom: 10,
   },
   textStep: {
     marginTop: 50,
