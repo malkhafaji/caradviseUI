@@ -36,6 +36,17 @@ const LOGOS = {
   'Pep Boys': require('../../../images/logo-pepboys.png'),
   'Sears Auto Center': require('../../../images/logo-sears.png')
 }
+const RATINGS = {
+  'CarX': require('../../../images/stars.png'),
+  'Valvoline': require('../../../images/stars-4.png'),
+  'Midas': require('../../../images/stars-4.png'),
+  'Firestone': require('../../../images/stars.png'),
+  'Jiffy Lube': require('../../../images/stars-4.png'),
+  'Meineke': require('../../../images/stars-4.png'),
+  'Ntb': require('../../../images/stars.png'),
+  'Pep Boys': require('../../../images/stars.png'),
+  'Sears Auto Center': require('../../../images/stars-4.png')
+}
 
 class FindShop extends Component {
 
@@ -112,6 +123,7 @@ render() {
 
           {this.state.shops.map(shop => {
             const logo = Object.keys(LOGOS).find(logo => shop.name.indexOf(logo) >= 0)
+            const rating = Object.keys(RATINGS).find(rating => shop.name.indexOf(rating) >= 0)
 
             return (
               <TouchableOpacity key={shop.id} onPress={() => this.props.navigator.push({ indent:'ShopDetail', passProps: { shop } })}>
@@ -126,7 +138,7 @@ render() {
                   <Text style={styles.serviceItem}><Text style={styles.textBld}>{shop.name}</Text>{'\n'}<Text style={styles.address}>{shop.address_line1}, {shop.city}{'\n'}</Text><Text style={styles.address}>{shop.distance.toFixed(2)} miles away</Text></Text>
                   <View>
                     <Image
-                      source={require('../../../images/stars.png')}
+                      source={RATINGS[rating]}
                       style={styles.stars} />
                   </View>
                 </View>
