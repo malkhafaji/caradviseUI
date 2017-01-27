@@ -207,7 +207,7 @@ class AccountDetails extends Component {
     }
 
     _isPasswordValid(value) {
-      return value.length >= 6;
+      return value.length >= 5;
     }
 
     _isPasswordMatched(value) {
