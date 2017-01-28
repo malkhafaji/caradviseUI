@@ -5,6 +5,7 @@ var CarBar = require('../components/main/carBar');
 import React from 'react';
 import {
   Text,
+  TextInput,
   View,
   Image,
   StyleSheet,
@@ -29,12 +30,15 @@ class AddServices extends Component {
       super(props);
       var passProps = this.props.navigator._navigationContext._currentRoute.passProps || {};
       this.state = {
-        services: passProps.services || null
+        services: passProps.services || null,
+        searchText: ''
       };
 
       if (passProps.returnTo) {
         cache.set('addServices-returnTo', passProps.returnTo);
       }
+
+      this.originalServices = passProps.services || [];
     }
 
     componentDidMount() {
@@ -75,8 +79,9 @@ class AddServices extends Component {
       fetch(MAINTENANCE_URL)
         .then((response) => response.json())
         .then((responseData) => {
+          this.originalServices = this.groupServices(responseData.services);
           this.setState({
-            services: this.groupServices(responseData.services)
+            services: this.originalServices
           });
         })
         .done();
@@ -106,6 +111,16 @@ class AddServices extends Component {
             <ScrollView>
             <View style={styles.servicesContainer}>
               <Text style={styles.textHd}>Select Service</Text>
+              <TextInput
+                returnKeyType='search'
+                placeholder='Search'
+                placeholderTextColor={'#666'}
+                selectTextOnFocus={true}
+                style={styles.searchFld}
+                value={this.state.searchText}
+                onChangeText={searchText => this.setState({ searchText })}
+                onSubmitEditing={() => this.searchServices()}
+              />
               {services.map(this.createServiceRow)}
             </View>
             </ScrollView>
@@ -113,7 +128,31 @@ class AddServices extends Component {
         );
     }
 
-    createServiceRow = (service, i) => <Service key={i} service={service} nav={this.props.navigator} oilType={this.props.oilType || ''} />;
+    createServiceRow = (service, i) => <Service key={`${service.name}-${i}`} service={service} nav={this.props.navigator} oilType={this.props.oilType || ''} />;
+
+    searchServices() {
+      const searchText = this.state.searchText.toLowerCase();
+
+      if (searchText) {
+        const services = [];
+
+        this.originalServices.forEach(service => {
+          if (service.name.toLowerCase().indexOf(searchText) >= 0) {
+            services.push(service);
+          }
+
+          if (service.services) {
+            services.push(...(service.services.filter(service => {
+              return service.name.toLowerCase().indexOf(searchText) >= 0;
+            })));
+          }
+        });
+
+        this.setState({ services });
+      } else {
+        this.setState({ services: this.originalServices });
+      }
+    }
 }
 
 var Service = React.createClass({
@@ -257,6 +296,17 @@ var styles = StyleSheet.create({
   arrowBlue: {
     width: 8,
     height: 13,
+  },
+  searchFld: {
+    alignSelf: 'center',
+    flex: 1,
+    width,
+    height: 40,
+    paddingHorizontal: 15,
+    marginBottom: 2,
+    borderWidth: 1,
+    borderColor: '#aaa',
+    backgroundColor: '#fff',
   },
 });
 
