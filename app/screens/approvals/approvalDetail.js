@@ -18,7 +18,7 @@ import {
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { putJSON } from '../../utils/fetch';
-import { findLastIndex } from 'lodash';
+import { findLastIndex, flatMap } from 'lodash';
 
 var UPDATE_ORDER_SERVICE_URL = 'http://ec2-35-167-170-216.us-west-2.compute.amazonaws.com:3000/api/v2/orders/?/update_order_service_option_item';
 
@@ -423,7 +423,7 @@ class ApprovalDetail extends Component {
             <View style={styles.maintenanceList}>
               <View>
                 <View style={styles.maintenanceRow}>
-                  <Text style={styles.maintenanceItem}>{this.state.name} {this.state.position}</Text>
+                  <Text style={styles.maintenanceItem}>{this.getServiceName()}</Text>
                   { totalLow || totalHigh ? (
                     <View style={styles.fairPriceContainer}>
                       <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -488,6 +488,19 @@ class ApprovalDetail extends Component {
 
         </View>
       );
+    }
+
+    getServiceName() {
+      let { name, position, orderServiceOptions } = this.state;
+      let options = flatMap(orderServiceOptions || [], o => o.order_service_option_items || []);
+      let option = options.find(o => o.quantity);
+
+      if (position)
+        name += ` ${position}`;
+      if (option)
+        name += ` (Qty. ${option.quantity})`;
+
+      return name;
     }
 
     async updatePart() {

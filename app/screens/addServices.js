@@ -18,7 +18,7 @@ import {
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../utils/cache';
-import { chain, includes, flatMap } from 'lodash';
+import { chain, includes, flatMap, uniqBy } from 'lodash';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -148,7 +148,7 @@ class AddServices extends Component {
           }
         });
 
-        this.setState({ services });
+        this.setState({ services: uniqBy(services, 'name') });
       } else {
         this.setState({ services: this.originalServices });
       }

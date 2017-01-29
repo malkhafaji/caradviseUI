@@ -266,6 +266,7 @@ class ServiceRequest extends Component {
             format="MM-DD-YYYY HH:mm"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
+            minuteInterval={15}
             customStyles={{
               dateIcon: {
                 position: 'absolute',

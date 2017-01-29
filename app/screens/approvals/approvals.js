@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { partition, minBy, maxBy, sumBy } from 'lodash';
+import { partition, minBy, maxBy, sumBy, flatMap } from 'lodash';
 import callPhone from '../../utils/callPhone';
 
 var width = Dimensions.get('window').width - 20;
@@ -531,7 +531,7 @@ var Service = React.createClass({
         <TouchableOpacity
           onPress={() => this.openDetail()}>
             <View style={styles.newServicesRow}>
-              <Text style={styles.newServiceItem}>{this.props.service.name}</Text>
+              <Text style={styles.newServiceItem}>{this.getServiceName()}</Text>
               { this.props.service.vehicle_service.low_fair_cost || this.props.service.vehicle_service.high_fair_cost ? (
                 <View style={styles.fairPriceContainer}>
                   <Text style={styles.fairPriceText}>FAIR PRICE</Text>
@@ -606,6 +606,14 @@ var Service = React.createClass({
     else {
       return null;
     }
+  },
+
+  getServiceName() {
+    let { service } = this.props;
+    let options = flatMap(service.order_service_options || [], o => o.order_service_option_items || []);
+    let option = options.find(o => o.quantity);
+
+    return option ? `${service.name} (Qty. ${option.quantity})` : service.name;
   }
 });
 
