@@ -123,6 +123,12 @@ class AccountDetails extends Component {
                   onChangeText={value => this._onFieldChange('lastName', value)} />
               </View>
               <View style={styles.fieldsCol}>
+              {this.state.fields.firstName.invalid ?
+                <Text style={styles.errorMsg}>First name is required.</Text> : null
+              }
+              {this.state.fields.lastName.invalid ?
+                <Text style={styles.errorMsg}>Last name is required.</Text> : null
+              }
               <TextInput
                 ref='email'
                 style={[styles.textFld, this.state.fields.email.invalid && styles.invalidFld]}
@@ -136,6 +142,9 @@ class AccountDetails extends Component {
                 blurOnSubmit={false}
                 onSubmitEditing={() => this._focusNextField('cellPhone')}
                 onChangeText={value => this._onFieldChange('email', value)} />
+              {this.state.fields.email.invalid ?
+                <Text style={styles.errorMsg}>Email is not valid.</Text> : null
+              }
               <PhoneInput
                 ref='cellPhone'
                 style={[styles.textFld, this.state.fields.cellPhone.invalid && styles.invalidFld]}
@@ -146,6 +155,9 @@ class AccountDetails extends Component {
                 onFocus={() => this.refs.kh.inputFocused(this, 'cellPhone')}
                 onSubmitEditing={() => this._focusNextField('password')}
                 onChangeText={value => this._onFieldChange('cellPhone', value)} />
+              {this.state.fields.cellPhone.invalid ?
+                <Text style={styles.errorMsg}>Cellphone is required.</Text> : null
+              }
               <TextInput
                 ref='password'
                 style={[styles.textFld, this.state.fields.password.invalid && styles.invalidFld]}
@@ -158,6 +170,9 @@ class AccountDetails extends Component {
                 onFocus={() => this.refs.kh.inputFocused(this, 'password')}
                 onSubmitEditing={() => this._focusNextField('confirmPassword')}
                 onChangeText={value => this._onFieldChange('password', value)} />
+              {this.state.fields.password.invalid ?
+                <Text style={styles.errorMsg}>Password should be more than 5 characters.</Text> : null
+              }
               <TextInput
                 ref='confirmPassword'
                 style={[styles.textFld, this.state.fields.confirmPassword.invalid && styles.invalidFld]}
@@ -168,6 +183,9 @@ class AccountDetails extends Component {
                 returnKeyType='done'
                 onFocus={() => this.refs.kh.inputFocused(this, 'confirmPassword')}
                 onChangeText={value => this._onFieldChange('confirmPassword', value)} />
+              {this.state.fields.confirmPassword.invalid ?
+                <Text style={styles.errorMsg}>Passwords don{"'"}t match.</Text> : null
+              }
 
               <View style={styles.checkboxContainer}>
                 <CheckBox
@@ -358,6 +376,14 @@ var styles = StyleSheet.create({
     textDecorationLine: 'underline',
     backgroundColor: 'transparent',
   },
+  errorMsg: {
+    color: 'white',
+    backgroundColor: 'red',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    width: fldWidth,
+    marginTop: 5,
+  }
 });
 
 function mapStateToProps(state) {
