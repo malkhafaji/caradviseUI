@@ -1012,8 +1012,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.caradvise.caradvisedev;
 				PRODUCT_NAME = TestApp;
-				PROVISIONING_PROFILE = "004b705d-125f-432a-8e96-4b28f25d4b90";
-				PROVISIONING_PROFILE_SPECIFIER = CarAdviseDistro;
+				PROVISIONING_PROFILE = "12415ec8-b872-4e52-a0ce-af490ebf5675";
+				PROVISIONING_PROFILE_SPECIFIER = CarAdviseDevApp;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -1054,8 +1054,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.caradvise.caradvisedev;
 				PRODUCT_NAME = TestApp;
-				PROVISIONING_PROFILE = "004b705d-125f-432a-8e96-4b28f25d4b90";
-				PROVISIONING_PROFILE_SPECIFIER = CarAdviseDistro;
+				PROVISIONING_PROFILE = "12415ec8-b872-4e52-a0ce-af490ebf5675";
+				PROVISIONING_PROFILE_SPECIFIER = CarAdviseDevApp;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
