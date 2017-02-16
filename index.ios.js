@@ -1,6 +1,6 @@
 'use strict';
 var StatusBarBackground = require('./app/components/statusBarBackground');
-var Main = require('./app/screens/main');
+var Main = require('./app/screens/main2');
 var Intro = require('./app/screens/signup/intro');
 var Approvals = require('./app/screens/approvals/approvals');
 var ApprovalDetail = require('./app/screens/approvals/approvalDetail');
