@@ -204,15 +204,9 @@ class Main extends Component {
   renderServices() {
     return (
       <ScrollView style={styles.body}>
-        <View style={styles.meterContainer}>
-          <Image
-            source={require('../../images/meter.png')}
-            style={styles.meter} />
-          <Text style={styles.meterText}>CarAdvise Maintenance Meter</Text>
-        </View>
         {this.renderAppointment()}
         <View style={styles.nextMaintenance}>
-          <Text style={styles.nextMaintenanceText}>Next Recommended Maintenance</Text>
+          <Text style={styles.nextMaintenanceText}>Scheduled Maintenance</Text>
         </View>
         <View style={styles.maintenanceContainer}>
           {this.state.services.map(service => (
@@ -243,13 +237,12 @@ class Main extends Component {
   }
 
   renderAppointment() {
-    if (this.state.shopTime && this.state.shopName) {
       const { date, time } = formatDateTime(this.state.shopTime);
 
       return (
         <View>
           <View style={styles.appointmentInfo}>
-            <Text style={styles.appointmentInfoText}>Your Scheduled Appointment</Text>
+            <Text style={styles.appointmentInfoText}>Appointment Details</Text>
           </View>
           <View style={styles.scheduledContainer}>
             <View style={styles.scheduledDate}>
@@ -269,17 +262,6 @@ class Main extends Component {
           </View>
         </View>
       );
-    } else {
-      return (
-        <View style={styles.btnBookContainer}>
-          <TouchableOpacity style={styles.btnBook} onPress={() => this.props.navigator.push({ indent:'ServiceRequest' })}>
-            <Image
-              source={require('../../images/btn-main-bookashop.png')}
-              style={styles.btnBookImg} />
-          </TouchableOpacity>
-        </View>
-      );
-    }
   }
 
   renderMap() {
