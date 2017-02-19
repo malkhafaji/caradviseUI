@@ -36,7 +36,15 @@ class topBar extends Component {
       return null;
 
     return (
-      <TouchableOpacity onPress={() => this.props.navigator.pop()}>
+      <TouchableOpacity onPress={() => {
+        const routes = this.props.navigator.getCurrentRoutes();
+        const prevRoute = routes[routes.length - 2];
+
+        if (prevRoute && prevRoute.indent === 'Main')
+          this.props.navigator.replacePreviousAndPop({ indent: 'Main' });
+        else
+          this.props.navigator.pop();
+      }}>
         <Image
           resizeMode="contain"
           source={require('../../../images/btn-back.png')}
