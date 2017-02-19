@@ -18,6 +18,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import cache from '../../utils/cache';
 import { postJSON } from '../../utils/fetch';
 import { flatMap, capitalize } from 'lodash';
+import DatePicker from 'react-native-datepicker';
 
 var width = Dimensions.get('window').width - 20;
 
@@ -29,6 +30,7 @@ class SelectMaintenance extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      datetime: null,
       services: cache.get('selectMaintenance-services') || [],
       addedServices: cache.get('selectMaintenance-addedServices') || [],
       selectedServiceIds: cache.get('selectMaintenance-selectedServiceIds') || []
@@ -148,6 +150,31 @@ class SelectMaintenance extends Component {
             </TouchableOpacity>
           </View>
 
+          <DatePicker
+            style={styles.selectTime}
+            date={this.state.datetime}
+            mode="datetime"
+            placeholder="SELECT DATE & TIME"
+            format="MM-DD-YYYY HH:mm"
+            confirmBtnText="Confirm"
+            cancelBtnText="Cancel"
+            minuteInterval={15}
+            customStyles={{
+              dateIcon: {
+                position: 'absolute',
+                left: 0,
+                top: 4,
+                marginLeft: 0
+              },
+              dateInput: {
+                marginLeft: 36,
+                borderColor: '#CCC',
+                borderWidth: 1,
+              }
+            }}
+            onDateChange={datetime => this.setState({ datetime })}
+          />
+
           <View style={styles.btnCol}>
             <TouchableOpacity onPress={() => this.createOrder()}>
               <Image
@@ -212,7 +239,8 @@ class SelectMaintenance extends Component {
       CREATE_ORDER_URL.replace('?', this.props.vehicleId),
       {
         shop_id: selectShopFields.shop.id,
-        services: JSON.stringify(services)
+        services: JSON.stringify(services),
+        appointment_datetime: this.state.datetime
       },
       { 'Authorization': this.props.authentication_token }
     );
@@ -361,6 +389,10 @@ var styles = StyleSheet.create({
     width: 15,
     height: 15,
     margin: 10,
+  },
+  selectTime: {
+    width: 200,
+    marginTop: 20
   },
 });
 

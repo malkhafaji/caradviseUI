@@ -102,15 +102,16 @@ class Main extends Component {
     let hasActiveOrders = ((response.result || {}).order || {}).status === 0;
 
     if (hasActiveOrders) {
+      let shopInfo = response.result.order.shop_info || {};
       this.setState({
         hasActiveOrders,
         view: 'services',
         services: response.result.order.order_services || [],
-        shopName: response.result.order.shop_info.name,
-        shopAddress: response.result.order.shop_info.address_line1,
-        shopCity: response.result.order.shop_info.city,
-        shopState: response.result.order.shop_info.state,
-        shopZip: response.result.order.shop_info.zip,
+        shopName: shopInfo.name,
+        shopAddress: shopInfo.address_line1,
+        shopCity: shopInfo.city,
+        shopState: shopInfo.state,
+        shopZip: shopInfo.zip,
         shopTime: response.result.order.appointment_datetime
       });
     } else {
@@ -242,7 +243,7 @@ class Main extends Component {
   }
 
   renderAppointment() {
-    if (this.state.shopTime) {
+    if (this.state.shopTime && this.state.shopName) {
       const { date, time } = formatDateTime(this.state.shopTime);
 
       return (
