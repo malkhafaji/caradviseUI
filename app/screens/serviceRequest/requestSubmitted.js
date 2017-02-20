@@ -53,7 +53,10 @@ render() {
           </View>
 
           <View style={styles.bookShop}>
-            <TouchableOpacity onPress={() => this.props.navigator.popToTop()}>
+            <TouchableOpacity onPress={() => {
+              this.props.navigator.replaceAtIndex({ indent: 'Main' }, 0);
+              this.props.navigator.popToTop();
+            }}>
               <Image
                 source={require('../../../images/btn-done.png')}
                 style={styles.btnDone} />
