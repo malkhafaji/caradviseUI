@@ -139,11 +139,14 @@ class ServiceDetail extends Component {
         cache.set('serviceDetail-serviceOptions', serviceOptions);
       }
 
-      if (cache.get('serviceRequest-fields')) {
+      let returnTo = cache.get('addServices-returnTo');
+
+
+      if (returnTo === 'ServiceRequest' && cache.get('serviceRequest-fields')) {
         const fields = cache.get('serviceRequest-fields');
         fields.services.push({ ...this.state.service, status: 'ADDED', name: this.getServiceName() });
         cache.set('serviceRequest-fields', fields);
-      } else {
+      } else if (returnTo === 'SelectMaintenance') {
         const services = cache.get('selectMaintenance-addedServices') || [];
         services.push({ ...this.state.service, status: 'ADDED' });
         cache.set('selectMaintenance-addedServices', services);
