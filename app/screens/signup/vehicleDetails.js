@@ -132,7 +132,10 @@ class VehicleDetails extends Component {
                 placeholder={this.state.fields.miles.name}
                 value={this.state.fields.miles.value}
                 onFocus={() => this.refs.kh.inputFocused(this, 'miles')}
-                onChangeText={value => this._onFieldChange('miles', value)}
+                onChangeText={(value) => {
+                 this._onFieldChange('miles', value);
+                 cache.set('vehicleDetails-fields', this.state.fields);
+                }}
                 onEndEditing={() => cache.set('vehicleDetails-fields', this.state.fields)} />
 
               <View style={styles.btnCol}>
