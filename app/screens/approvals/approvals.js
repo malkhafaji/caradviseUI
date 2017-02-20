@@ -191,7 +191,7 @@ class Approvals extends Component {
             var misc = (responseData.order != undefined) ? responseData.order.other_misc_fees : 0;
             var finalTotal = (responseData.order != undefined) ? responseData.order.post_tax_total : 0;
             var taxAmount = (responseData.order != undefined) ? responseData.order.tax_amount : 0;
-            var services = (responseData.order != undefined && orderStatus != 3) ? responseData.order.order_services : [];
+            var services = (responseData.order != undefined && orderStatus != 2 && orderStatus != 3 && finalTotal != 0) ? responseData.order.order_services : [];
             this.refreshServices(services, orderStatus, totalDiscount, couponDiscount, percentDiscount, caradviseDiscount, fees, taxAmount, finalTotal, misc, taxRate);
           })
           .done();
