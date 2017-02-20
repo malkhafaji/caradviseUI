@@ -225,7 +225,8 @@ class SelectShopDone extends Component {
       );
 
       cache.remove('selectShopDone-fields');
-      this.props.navigator.pop();
+      this.props.navigator.replaceAtIndex({ indent: 'Main' }, 0);
+      this.props.navigator.popToTop();
     });
   }
 }
