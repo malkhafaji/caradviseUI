@@ -189,6 +189,28 @@ class ServiceRequest extends Component {
 
           <Text style={styles.textHd}>Book a Shop</Text>
 
+          {this.state.shop &&
+          <View style={styles.selectedShop}>
+            <Text style={styles.shopInfo}><Text style={styles.textBld}>{this.state.shop.name} - {this.state.shop.city}</Text>{'\n'}{`${this.state.shop.address_line1}`}</Text>
+            <View style={styles.changeContainer}>
+              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
+                <Image
+                  source={require('../../../images/btn-change.png')}
+                  style={styles.btnChange} />
+              </TouchableOpacity>
+            </View>
+          </View>}
+
+          {!this.state.shop &&
+          <View style={styles.selectShop}>
+            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
+              <Image
+                resizeMode={'contain'}
+                source={require('../../../images/btn-browseShops.png')}
+                style={styles.btnSelectShop} />
+            </TouchableOpacity>
+          </View>}
+
           <View style={styles.stepContainer}>
             <View style={styles.dotContainer}>
               <Image
@@ -224,37 +246,6 @@ class ServiceRequest extends Component {
                 source={require('../../../images/dot2.png')}
                 style={styles.dot} />
             </View>
-            <Text style={styles.stepText}>SELECT A REPAIR SHOP</Text>
-          </View>
-
-          {this.state.shop &&
-          <View style={styles.selectedShop}>
-            <Text style={styles.shopInfo}><Text style={styles.textBld}>{this.state.shop.name} - {this.state.shop.city}</Text>{'\n'}{`${this.state.shop.address_line1}`}</Text>
-            <View style={styles.changeContainer}>
-              <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
-                <Image
-                  source={require('../../../images/btn-change.png')}
-                  style={styles.btnChange} />
-              </TouchableOpacity>
-            </View>
-          </View>}
-
-          {!this.state.shop &&
-          <View style={styles.selectShop}>
-            <TouchableOpacity onPress={() => this.props.navigator.push({ indent:'FindShop' })}>
-              <Image
-                resizeMode={'contain'}
-                source={require('../../../images/btn-browseShops.png')}
-                style={styles.btnSelectShop} />
-            </TouchableOpacity>
-          </View>}
-
-          <View style={styles.stepContainer}>
-            <View style={styles.dotContainer}>
-              <Image
-                source={require('../../../images/dot3.png')}
-                style={styles.dot} />
-            </View>
             <Text style={styles.stepText}>SCHEDULE A TIME</Text>
           </View>
 
@@ -282,6 +273,15 @@ class ServiceRequest extends Component {
             }}
             onDateChange={(datetime) => {this.setState({datetime: datetime});}}
           />
+
+          <View style={styles.stepContainer}>
+            <View style={styles.dotContainer}>
+              <Image
+                source={require('../../../images/dot3.png')}
+                style={styles.dot} />
+            </View>
+            <Text style={styles.stepText}>SUBMIT REQUEST</Text>
+          </View>
 
           {!this.state.shop || !this.state.datetime ? (
             <Image
@@ -547,13 +547,14 @@ var styles = StyleSheet.create({
   },
   selectTime: {
     width: 200,
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 15
   },
   btnRequest: {
     width: 280,
     height: 40,
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 15,
   },
   bookIt: {
     alignItems: 'center',
